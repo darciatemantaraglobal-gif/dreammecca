@@ -1,171 +1,162 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Calendar } from 'lucide-react';
 import { createWALink } from '@/lib/whatsapp';
 
-type Room = 'Quad' | 'Triple' | 'Double';
-
 interface Pkg {
-  badge: string;
-  name: string;
-  period: string;
-  days: string;
-  flights: string;
-  hotel_mecca: string;
-  hotel_madinah: string;
-  rooms: Record<Room, number>;
-  quota: string;
+  slug: string;
+  tier: 'Reguler' | 'Luxury';
+  title: string;
+  dateLabel: string;
+  duration: string;
+  flightType: string;
+  landing: string;
+  tags: string[];
+  priceFrom: number;
   featured: boolean;
 }
 
 const packages: Pkg[] = [
   {
-    badge: 'Reguler · 9 Hari',
-    name: 'Umroh Reguler Free Thoif',
-    period: 'GANTI: periode terdekat',
-    days: '9 Hari 7 Malam',
-    flights: 'Direct Saudia Airline / Garuda',
-    hotel_mecca: 'Maysan Al Masaher *4',
-    hotel_madinah: 'Golden Tulip Al Ansr *4',
-    rooms: { Quad: 33900000, Triple: 35900000, Double: 39900000 },
-    quota: 'Hubungi untuk sisa seat',
+    slug: 'reguler-9hari',
+    tier: 'Reguler',
+    title: 'Umroh Reguler Free Thoif',
+    dateLabel: 'GANTI: tanggal terdekat',
+    duration: '9 Hari',
+    flightType: 'Direct',
+    landing: 'Jeddah',
+    tags: ['Ziarah Thoif', 'Audio Hajj'],
+    priceFrom: 33900000,
     featured: false,
   },
   {
-    badge: 'Reguler · 12 Hari',
-    name: 'Umroh Reguler Free Thoif',
-    period: 'GANTI: periode terdekat',
-    days: '12 Hari 10 Malam',
-    flights: 'Direct Saudia Airline / Garuda',
-    hotel_mecca: 'Maysan Al Masaher *4',
-    hotel_madinah: 'Golden Tulip Al Ansr *4',
-    rooms: { Quad: 36900000, Triple: 38900000, Double: 43900000 },
-    quota: 'Hubungi untuk sisa seat',
+    slug: 'reguler-12hari',
+    tier: 'Reguler',
+    title: 'Umroh Reguler Free Thoif',
+    dateLabel: 'GANTI: tanggal terdekat',
+    duration: '12 Hari',
+    flightType: 'Direct',
+    landing: 'Jeddah',
+    tags: ['Ziarah Thoif', 'Unta + ATV'],
+    priceFrom: 36900000,
     featured: false,
   },
   {
-    badge: 'Luxury · 9 Hari',
-    name: 'Umroh Luxury Free Thoif',
-    period: 'GANTI: periode terdekat',
-    days: '9 Hari 7 Malam',
-    flights: 'Direct Saudia Airline / Garuda',
-    hotel_mecca: 'Pullman Zamzam / Setaraf *5',
-    hotel_madinah: 'Al Aqeq Al Madinah / Setaraf *5',
-    rooms: { Quad: 39900000, Triple: 43900000, Double: 47900000 },
-    quota: 'Hubungi untuk sisa seat',
+    slug: 'luxury-9hari',
+    tier: 'Luxury',
+    title: 'Umroh Luxury Free Thoif',
+    dateLabel: 'GANTI: tanggal terdekat',
+    duration: '9 Hari',
+    flightType: 'Direct',
+    landing: 'Jeddah',
+    tags: ['Ziarah Thoif', 'Unta + ATV', 'Audio Hajj'],
+    priceFrom: 39900000,
     featured: true,
   },
   {
-    badge: 'Luxury · 12 Hari',
-    name: 'Umroh Luxury Free Thoif',
-    period: 'GANTI: periode terdekat',
-    days: '12 Hari 10 Malam',
-    flights: 'Direct Saudia Airline / Garuda',
-    hotel_mecca: 'Pullman Zamzam / Setaraf *5',
-    hotel_madinah: 'Al Aqeq Al Madinah / Setaraf *5',
-    rooms: { Quad: 43900000, Triple: 48900000, Double: 53900000 },
-    quota: 'Hubungi untuk sisa seat',
+    slug: 'luxury-12hari',
+    tier: 'Luxury',
+    title: 'Umroh Luxury Free Thoif',
+    dateLabel: 'GANTI: tanggal terdekat',
+    duration: '12 Hari',
+    flightType: 'Direct',
+    landing: 'Jeddah',
+    tags: ['Ziarah Thoif', 'Unta + ATV', 'Audio Hajj'],
+    priceFrom: 43900000,
     featured: false,
   },
 ];
 
-const rooms: Room[] = ['Quad', 'Triple', 'Double'];
-
 function fmt(n: number) {
-  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+  return new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 }).format(n / 1000000);
 }
 
 function PackageCard({ pkg }: { pkg: Pkg }) {
-  const [room, setRoom] = useState<Room>('Quad');
-  const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.name} (${pkg.badge}). Boleh minta info lebih lengkap?`;
+  const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.title} (${pkg.tier}, ${pkg.duration}). Boleh minta info lebih lengkap?`;
 
   return (
     <div
-      className={`rounded-xl overflow-hidden flex flex-col transition-all duration-200${!pkg.featured ? ' hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(27,27,54,0.10)]' : ''}`}
+      className="rounded-xl overflow-hidden flex flex-col transition-all duration-200 hover:-translate-y-1"
       style={{
         border: pkg.featured ? '1px solid #1B1B36' : '1px solid rgba(27,27,54,0.10)',
         background: '#fff',
-        boxShadow: pkg.featured ? '0 16px 40px rgba(27,27,54,0.12)' : 'none',
+        boxShadow: pkg.featured ? '0 16px 40px rgba(27,27,54,0.12)' : '0 2px 8px rgba(27,27,54,0.04)',
       }}
     >
-      {/* Header */}
-      <div className="px-6 pt-6 pb-5" style={{ background: '#1B1B36', color: '#fff' }}>
-        <span
-          className="inline-block text-[11.5px] font-bold tracking-[0.04em] uppercase px-[10px] py-[5px] rounded-full mb-3"
-          style={{ background: 'rgba(255,255,255,0.14)' }}
-        >
-          {pkg.badge}
-        </span>
-        <div className="text-[20px] font-bold">{pkg.name}</div>
-        <div className="text-[13.5px] mt-[6px]" style={{ color: 'rgba(255,255,255,0.66)' }}>
-          {pkg.period}
-        </div>
-      </div>
-
-      {/* Body */}
-      <div className="px-6 py-[22px] flex-1 flex flex-col gap-4">
-        {[
-          { k: 'Durasi', v: pkg.days },
-          { k: 'Penerbangan', v: pkg.flights },
-          { k: 'Hotel Makkah', v: pkg.hotel_mecca },
-          { k: 'Hotel Madinah', v: pkg.hotel_madinah },
-        ].map(row => (
-          <div
-            key={row.k}
-            className="flex justify-between gap-3 text-[13.5px] pb-[10px]"
-            style={{ borderBottom: '1px dashed rgba(27,27,54,0.10)' }}
+      {/* Poster — rasio 4:5, di-upload manual */}
+      <div className="w-full relative" style={{ aspectRatio: '4/5', background: '#F4F4F7' }}>
+        <img
+          src={`/images/paket/poster-${pkg.slug}.jpg`}
+          alt={`Poster ${pkg.title} ${pkg.tier} ${pkg.duration}`}
+          className="w-full h-full object-cover"
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+          }}
+        />
+        {pkg.featured && (
+          <span
+            className="absolute top-3 left-3 text-[11px] font-bold uppercase tracking-[0.04em] px-[10px] py-[5px] rounded-full text-white"
+            style={{ background: '#1B1B36' }}
           >
-            <span style={{ color: '#6B6B85' }}>{row.k}</span>
-            <span className="font-semibold text-right" style={{ color: '#1B1B36' }}>{row.v}</span>
-          </div>
-        ))}
-
-        {/* Room toggle */}
-        <div>
-          <div className="text-[12.5px] font-bold uppercase tracking-[0.04em] mb-2" style={{ color: '#6B6B85' }}>
-            Tipe Kamar
-          </div>
-          <div className="flex gap-2">
-            {rooms.map(r => (
-              <button
-                key={r}
-                onClick={() => setRoom(r)}
-                className="flex-1 py-[10px] rounded-lg text-[13px] font-semibold border transition-all duration-150"
-                style={
-                  room === r
-                    ? { background: '#1B1B36', borderColor: '#1B1B36', color: '#fff' }
-                    : { background: '#fff', borderColor: 'rgba(27,27,54,0.10)', color: '#1B1B36' }
-                }
-              >
-                {r}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Price */}
-        <div>
-          <span className="text-[30px] font-extrabold" style={{ color: '#1B1B36' }}>
-            {fmt(pkg.rooms[room])}
+            Terpopuler
           </span>
-          <span className="text-[12.5px] font-medium ml-1" style={{ color: '#6B6B85' }}>
-            / jamaah · {room}
-          </span>
-          <div className="text-[12.5px] font-semibold mt-1" style={{ color: '#B5442E' }}>
-            {pkg.quota}
-          </div>
-        </div>
+        )}
       </div>
 
-      {/* Footer CTA */}
-      <div className="px-6 pb-6">
-        <a
-          href={createWALink(waMsg)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex justify-center items-center w-full py-[15px] rounded-lg font-bold text-[15px] no-underline hover:opacity-[0.88] transition-opacity"
-          style={{ background: '#1B1B36', color: '#fff' }}
-        >
-          Konsultasi Paket Ini
-        </a>
+      {/* Info terstruktur */}
+      <div className="px-5 pt-4 pb-5 flex-1 flex flex-col">
+        <div className="flex items-center gap-[6px] text-[13px] font-medium" style={{ color: '#6B6B85' }}>
+          <Calendar size={14} />
+          {pkg.dateLabel}
+        </div>
+
+        <h3 className="text-[17px] font-bold mt-[6px] leading-[1.3]" style={{ color: '#1B1B36' }}>
+          {pkg.title} <span style={{ color: '#6B6B85', fontWeight: 500 }}>· {pkg.tier}</span>
+        </h3>
+
+        <div className="flex gap-[6px] flex-wrap mt-[10px]">
+          {pkg.tags.map(tag => (
+            <span
+              key={tag}
+              className="text-[11.5px] font-semibold px-[10px] py-[4px] rounded-full"
+              style={{ border: '1px solid rgba(27,27,54,0.14)', color: '#1B1B36' }}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-[16px] flex flex-col gap-[8px]">
+          <div className="flex justify-between text-[13px]">
+            <span style={{ color: '#6B6B85' }}>Durasi</span>
+            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.duration}</span>
+          </div>
+          <div className="flex justify-between text-[13px]">
+            <span style={{ color: '#6B6B85' }}>Flight</span>
+            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.flightType}</span>
+          </div>
+          <div className="flex justify-between text-[13px]">
+            <span style={{ color: '#6B6B85' }}>Landing</span>
+            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.landing}</span>
+          </div>
+        </div>
+
+        <div className="mt-auto pt-[18px] flex items-end justify-between gap-3">
+          <div>
+            <div className="text-[11.5px]" style={{ color: '#6B6B85' }}>Harga Mulai</div>
+            <div className="text-[22px] font-extrabold" style={{ color: '#1B1B36' }}>
+              Rp {fmt(pkg.priceFrom)} Jt
+            </div>
+          </div>
+          <a
+            href={createWALink(waMsg)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center px-[22px] py-[12px] rounded-lg font-bold text-[13.5px] no-underline hover:opacity-[0.88] transition-opacity flex-none"
+            style={{ background: '#1B1B36', color: '#fff' }}
+          >
+            Booking
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -175,32 +166,22 @@ export default function Packages() {
   return (
     <section id="paket" className="px-[7vw] py-[88px] bg-white">
       <div className="max-w-[1180px] mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end gap-6 flex-wrap">
-          <div>
-            <span
-              className="text-[13px] font-bold tracking-[0.14em] uppercase"
-              style={{ color: '#6B6B85' }}
-            >
-              Paket Umroh
-            </span>
-            <h2
-              className="font-bold leading-[1.15] mt-[10px]"
-              style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
-            >
-              Pilihan Jadwal Umroh Terdekat
-            </h2>
-            <p
-              className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
-              style={{ color: '#6B6B85' }}
-            >
-              Harga sudah termasuk tiket pesawat, hotel, transportasi, manasik, dan perlengkapan. Pilih tipe kamar untuk melihat harga per jamaah.
-            </p>
-          </div>
-        </div>
+        <span className="text-[13px] font-bold tracking-[0.14em] uppercase" style={{ color: '#6B6B85' }}>
+          Paket Umroh
+        </span>
+        <h2
+          className="font-bold leading-[1.15] mt-[10px]"
+          style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
+        >
+          Jadwal Keberangkatan Terdekat, Seat Terbatas
+        </h2>
+        <p className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]" style={{ color: '#6B6B85' }}>
+          Harga sudah termasuk tiket pesawat, visa, hotel, transportasi, manasik, dan perlengkapan. Jangan sampai kehabisan seat.
+        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[24px] mt-[44px] items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[20px] mt-[44px] items-stretch">
           {packages.map(pkg => (
-            <PackageCard key={pkg.badge} pkg={pkg} />
+            <PackageCard key={pkg.slug} pkg={pkg} />
           ))}
         </div>
 
