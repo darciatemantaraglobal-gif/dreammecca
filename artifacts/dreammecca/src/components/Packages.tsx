@@ -67,7 +67,7 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
 
   return (
     <div
-      className="rounded-xl overflow-hidden flex flex-col"
+      className={`rounded-xl overflow-hidden flex flex-col transition-all duration-200${!pkg.featured ? ' hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(27,27,54,0.10)]' : ''}`}
       style={{
         border: pkg.featured ? '1px solid #1B1B36' : '1px solid rgba(27,27,54,0.10)',
         background: '#fff',

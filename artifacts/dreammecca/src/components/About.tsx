@@ -35,13 +35,13 @@ export default function About() {
             className="font-bold leading-[1.15] mt-[10px]"
             style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
           >
-            Perusahaan Travel Umroh Terpercaya Berbasis Jakarta Selatan
+            Travel Umroh Resmi, Berpengalaman Sejak 2014
           </h2>
           <p
             className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
             style={{ color: '#6B6B85' }}
           >
-            Dreammecca Tour &amp; Travel adalah penyelenggara ibadah Umroh resmi yang berkomitmen menghadirkan perjalanan ibadah yang aman, nyaman, dan sesuai tuntunan syariat. Setiap jamaah kami dampingi penuh — mulai dari persiapan dokumen, manasik, hingga kepulangan ke Indonesia.
+            Dreammecca Tour &amp; Travel adalah penyelenggara ibadah Umroh berizin resmi PPIU Kementerian Agama RI. Kami hadir untuk satu tujuan: memastikan setiap jamaah fokus beribadah dengan tenang — mulai dari pengurusan dokumen, manasik, keberangkatan, hingga kembali pulang ke Indonesia dengan selamat.
           </p>
 
           {/* Stats */}

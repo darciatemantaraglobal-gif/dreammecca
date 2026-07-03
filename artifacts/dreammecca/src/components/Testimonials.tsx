@@ -5,19 +5,19 @@ const testimonials = [
     initials: 'RH',
     name: 'Ratna Hidayati',
     meta: 'Kloter September 2025',
-    quote: 'Pelayanan sangat rapi dari awal daftar sampai pulang. Hotel dekat sekali dengan Masjidil Haram, sesuai janji.',
+    quote: 'Dari daftar sampai pulang, semuanya rapi dan sesuai jadwal. Hotelnya beneran dekat Masjidil Haram, persis seperti yang dijanjikan di awal.',
   },
   {
     initials: 'AF',
     name: 'Ahmad Fauzan',
     meta: 'Kloter Mei 2025',
-    quote: 'Pembimbingnya sabar dan jelas, manasiknya benar-benar membantu terutama untuk jamaah lansia seperti orang tua saya.',
+    quote: 'Pembimbingnya sabar banget jelasinnya, manasiknya kepakai betul di lapangan — orang tua saya yang sudah lansia jadi lebih siap dan tenang.',
   },
   {
     initials: 'SN',
     name: 'Siti Nuraini',
     meta: 'Kloter Januari 2025',
-    quote: 'Awalnya was-was karena banyak berita penipuan travel Umroh, tapi Dreammecca transparan soal izin dan itinerary sejak awal.',
+    quote: 'Jujur awalnya was-was, banyak berita penipuan travel Umroh akhir-akhir ini. Tapi Dreammecca transparan soal izin dan itinerary sejak konsultasi pertama.',
   },
 ];
 
@@ -46,11 +46,8 @@ export default function Testimonials() {
           {testimonials.map(t => (
             <div
               key={t.name}
-              className="rounded-xl p-[26px]"
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.14)',
-              }}
+              className="rounded-xl p-[26px] bg-[rgba(255,255,255,0.04)] transition-all duration-200 hover:-translate-y-1 hover:bg-[rgba(255,255,255,0.07)]"
+              style={{ border: '1px solid rgba(255,255,255,0.14)' }}
             >
               <div className="text-[13px] tracking-[2px] mb-[14px]" style={{ color: '#fff' }}>
                 ★★★★★

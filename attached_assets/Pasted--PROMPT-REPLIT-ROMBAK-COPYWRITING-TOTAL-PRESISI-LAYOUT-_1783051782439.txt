@@ -1,0 +1,267 @@
+# PROMPT REPLIT — ROMBAK COPYWRITING TOTAL + PRESISI LAYOUT DREAMMECCA
+
+Copy-paste ke Replit Agent chat di project Dreammecca yang sudah ada (versi Claude Design terbaru).
+
+---
+
+## KONTEKS
+
+Desain visual sudah final dan JANGAN diubah strukturnya (grid, spacing 88px antar section, max-width 1180px, sistem warna monokrom navy `#1B1B36`/`#292951` + putih). Fokus prompt ini ada di 3 hal: **(1) copywriting baru di semua section, (2) perbaikan beberapa inkonsistensi teknis/layout, (3) tambahan micro-interaction (hover) yang sekarang belum ada.** Jangan ubah apapun di luar yang diinstruksikan di sini.
+
+---
+
+## BAGIAN A — COPYWRITING BARU
+
+### A1. Navbar.tsx
+Ganti array `links` (baris 5-11) — TAMBAHKAN link Fasilitas yang hilang, urutkan sesuai urutan section aktual di halaman:
+```tsx
+const links = [
+  { name: 'Tentang', href: '#tentang' },
+  { name: 'Fasilitas', href: '#fasilitas' },
+  { name: 'Paket Umroh', href: '#paket' },
+  { name: 'Testimoni', href: '#testimoni' },
+  { name: 'FAQ', href: '#faq' },
+  { name: 'Kontak', href: '#kontak' },
+];
+```
+
+### A2. Hero.tsx
+**Baris 21** — headline utama, ganti jadi struktur bookend "berangkat→pulang berkah" yang lebih emosional dan mudah diingat:
+```tsx
+BERANGKAT<br />UMROH<br />PULANG<br />BERKAH
+```
+
+**Baris 28** — tagline italic, ganti jadi lebih spesifik/kredibel (menyebut legalitas eksplisit, bukan cuma klaim umum):
+```tsx
+/ Berizin Resmi Kemenag &middot; Dibimbing Sesuai Sunnah /
+```
+
+**Baris 74** — headline card, ganti:
+```tsx
+12 Tahun Dipercaya<br />Jamaah Indonesia
+```
+
+**Baris 77** — subteks card, ganti (menghubungkan ke stat "0 gagal berangkat" di section About untuk konsistensi klaim):
+```tsx
+Ribuan keberangkatan sejak 2014, nol kloter gagal berangkat.
+```
+
+**Baris 115-116** — heading stat pertama, ganti:
+```tsx
+Direct Flight, Maskapai<br />Ternama Dunia
+```
+
+**Baris 118-120** — subteks, ganti:
+```tsx
+Saudia Airlines, Garuda Indonesia &amp; FlyDubai — tanpa transit berlebih.
+```
+
+### A3. About.tsx
+**Baris 38** — H2, ganti jadi lebih presisi dan punya angka tahun konkret (lebih kredibel dari klaim generik):
+```tsx
+Travel Umroh Resmi, Berpengalaman Sejak 2014
+```
+
+**Baris 44** — body paragraf, ganti jadi lebih ringkas dan fokus ke satu janji utama:
+```tsx
+Dreammecca Tour &amp; Travel adalah penyelenggara ibadah Umroh berizin resmi PPIU Kementerian Agama RI. Kami hadir untuk satu tujuan: memastikan setiap jamaah fokus beribadah dengan tenang — mulai dari pengurusan dokumen, manasik, keberangkatan, hingga kembali pulang ke Indonesia dengan selamat.
+```
+
+Stats (baris 3-8) TIDAK diubah — angka 12+/8.500+/50+/0 sudah kuat dan konsisten dengan klaim di Hero.
+
+### A4. Facilities.tsx
+**Ganti seluruh array `facilities` (baris 3-44)** — copy dipertajam DAN icon diganti dari emoji ke Lucide (lihat Bagian B1 untuk alasan teknisnya):
+```tsx
+const facilities = [
+  {
+    icon: ShieldCheck,
+    title: 'Penyelenggara Resmi Ibadah Umroh',
+    desc: 'Berizin resmi PPIU Kementerian Agama RI, terdaftar dan diawasi langsung.',
+  },
+  {
+    icon: Plane,
+    title: 'Maskapai Internasional',
+    desc: 'Penerbangan langsung tanpa transit panjang, bersama maskapai ternama.',
+  },
+  {
+    icon: Building2,
+    title: 'Hotel Bintang 4–5 Pilihan',
+    desc: 'Lokasi dekat Masjidil Haram & Masjid Nabawi, kenyamanan terjaga.',
+  },
+  {
+    icon: Bus,
+    title: 'Transportasi Bus Ber-AC',
+    desc: 'Armada modern untuk seluruh rangkaian perjalanan ibadah Anda.',
+  },
+  {
+    icon: BookOpen,
+    title: 'Manasik Intensif',
+    desc: 'Pembekalan manasik sebelum keberangkatan, dibimbing langsung ustadz.',
+  },
+  {
+    icon: Briefcase,
+    title: 'Perlengkapan Umroh Lengkap',
+    desc: 'Koper, ihram, mukena, hingga kit kesehatan — sudah disiapkan.',
+  },
+  {
+    icon: Armchair,
+    title: 'Layanan Bandara Nyaman',
+    desc: 'Pendampingan penuh saat keberangkatan maupun kepulangan di Indonesia.',
+  },
+  {
+    icon: Users,
+    title: 'Pembimbing Bersertifikat',
+    desc: 'Didampingi ustadz dan muthawif berpengalaman, sesuai sunnah Nabi ﷺ.',
+  },
+];
+```
+
+### A5. Gallery.tsx
+Item names (baris 3-10) TIDAK perlu diubah, sudah jelas. Yang perlu diubah cuma implementasi gambarnya — lihat Bagian B2.
+
+### A6. Testimonials.tsx
+**Ganti isi `quote` di array `testimonials` (baris 3-22)** — dipertahankan nama/meta yang sama, quote diperhalus supaya terasa lebih natural seperti obrolan asli, bukan seperti copy marketing:
+
+```tsx
+const testimonials = [
+  {
+    initials: 'RH',
+    name: 'Ratna Hidayati',
+    meta: 'Kloter September 2025',
+    quote: 'Dari daftar sampai pulang, semuanya rapi dan sesuai jadwal. Hotelnya beneran dekat Masjidil Haram, persis seperti yang dijanjikan di awal.',
+  },
+  {
+    initials: 'AF',
+    name: 'Ahmad Fauzan',
+    meta: 'Kloter Mei 2025',
+    quote: 'Pembimbingnya sabar banget jelasinnya, manasiknya kepakai betul di lapangan — orang tua saya yang sudah lansia jadi lebih siap dan tenang.',
+  },
+  {
+    initials: 'SN',
+    name: 'Siti Nuraini',
+    meta: 'Kloter Januari 2025',
+    quote: 'Jujur awalnya was-was, banyak berita penipuan travel Umroh akhir-akhir ini. Tapi Dreammecca transparan soal izin dan itinerary sejak konsultasi pertama.',
+  },
+];
+```
+
+### A7. FAQ.tsx
+**Tambahkan 2 Q&A baru** ke array `faqs` (setelah baris 23, sebelum penutup array) — melengkapi pertanyaan penting yang masih hilang (vaksin dan durasi visa, dua hal yang paling sering ditanyakan calon jamaah):
+```tsx
+  {
+    q: 'Apakah wajib vaksin meningitis?',
+    a: 'Ya, vaksin meningitis adalah syarat wajib dari otoritas Arab Saudi untuk seluruh jamaah Umroh. Kami bantu arahkan ke fasilitas vaksinasi resmi terdekat.',
+  },
+  {
+    q: 'Berapa lama proses pembuatan visa?',
+    a: 'Proses visa Umroh biasanya memakan waktu 7–14 hari kerja setelah seluruh dokumen dan pelunasan lengkap kami terima.',
+  },
+```
+
+### A8-A10. Packages.tsx, FinalCTA.tsx, Footer.tsx, Legal.tsx, PartnerStrip.tsx
+Copy di komponen-komponen ini sudah presisi dan tidak perlu diubah — headline, subheadline, dan detail paket sudah jelas, spesifik, dan konsisten dengan nada bicara section lain. TIDAK ADA perubahan di file-file ini untuk Bagian A.
+
+---
+
+## BAGIAN B — PERBAIKAN TEKNIS & LAYOUT
+
+### B1. Facilities.tsx — ganti icon emoji jadi Lucide icon
+Emoji rendering tidak konsisten di berbagai OS/browser (device Android, iOS, Windows semua render beda) — untuk situs production yang presisi, ganti ke icon set yang konsisten.
+
+Tambahkan import di baris paling atas:
+```tsx
+import { ShieldCheck, Plane, Building2, Bus, BookOpen, Briefcase, Armchair, Users } from 'lucide-react';
+```
+
+Ganti render icon (baris ~79-83), dari:
+```tsx
+<div className="w-[38px] h-[38px] rounded-[10px] bg-white flex items-center justify-center mb-[16px] text-[18px]">
+  {f.icon}
+</div>
+```
+Jadi:
+```tsx
+<div className="w-[38px] h-[38px] rounded-[10px] bg-white flex items-center justify-center mb-[16px]">
+  <f.icon size={20} color="#1B1B36" strokeWidth={2} />
+</div>
+```
+(Array `facilities` sudah pakai referensi komponen icon, bukan string emoji — lihat Bagian A4 di atas.)
+
+### B2. Gallery.tsx — siapkan slot gambar asli, bukan cuma placeholder pattern
+Ganti div placeholder (baris ~38-51) supaya bisa menampilkan foto asli begitu di-upload, dengan fallback graceful kalau file belum ada:
+```tsx
+<div
+  className="rounded-xl overflow-hidden"
+  style={{ aspectRatio: '1/1', background: '#F4F4F7' }}
+>
+  <img
+    src={`/images/perlengkapan/${item.slug}.jpg`}
+    alt={item.name}
+    className="w-full h-full object-cover"
+    onError={(e) => {
+      e.currentTarget.style.display = 'none';
+      e.currentTarget.parentElement!.style.background =
+        'repeating-linear-gradient(135deg,rgba(27,27,54,0.045),rgba(27,27,54,0.045) 10px,rgba(27,27,54,0.08) 10px,rgba(27,27,54,0.08) 20px)';
+    }}
+  />
+</div>
+```
+Tambahkan field `slug` di array `items` (baris 3-10), contoh:
+```tsx
+const items = [
+  { name: 'Koper & Tas Umroh', slug: 'koper-tas' },
+  { name: 'Mukena & Ihram', slug: 'mukena-ihram' },
+  { name: 'Sajadah Travel', slug: 'sajadah-travel' },
+  { name: 'Buku Doa & Manasik', slug: 'buku-doa-manasik' },
+  { name: 'Seragam Kloter', slug: 'seragam-kloter' },
+  { name: 'Kit Kesehatan', slug: 'kit-kesehatan' },
+];
+```
+Buat folder `public/images/perlengkapan/` dengan file `README.txt` yang list 6 nama file di atas beserta rasio 1:1 yang dibutuhkan, supaya saya tinggal upload foto asli ke situ.
+
+### B3. Hapus file mati
+`MapSection.tsx` sudah tidak dipakai di manapun (sudah digabung ke dalam `FinalCTA.tsx`, dan tidak di-import di `Home.tsx`). Hapus file ini sepenuhnya supaya tidak ada dead code.
+
+### B4. Tambahkan hover state di card yang belum ada
+Beberapa card statis tanpa feedback visual saat di-hover — tambahkan transisi halus supaya situs terasa lebih hidup dan interaktif:
+
+**Facilities.tsx**, card fasilitas (baris ~71-77), tambahkan className:
+```tsx
+className="rounded-xl p-[26px_22px] transition-all duration-200 hover:-translate-y-1 hover:bg-[rgba(255,255,255,0.07)]"
+```
+
+**Testimonials.tsx**, card testimoni (baris ~47-53), tambahkan className serupa:
+```tsx
+className="rounded-xl p-[26px] transition-all duration-200 hover:-translate-y-1 hover:bg-[rgba(255,255,255,0.07)]"
+```
+
+**Packages.tsx**, card paket non-featured (baris ~69-76) — untuk card yang TIDAK featured saja (card featured sudah punya shadow elevated, jangan ditambah lagi), tambahkan hover border lebih gelap:
+```tsx
+className="rounded-xl overflow-hidden flex flex-col transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(27,27,54,0.10)]"
+```
+
+---
+
+## BAGIAN C — OPSIONAL (boleh dilewati kalau waktu terbatas)
+
+Saat ini semua warna (`#1B1B36`, `#292951`, `#6B6B85`, dll) di-hardcode langsung di setiap komponen sebagai inline style. Ini tidak masalah secara visual, tapi kalau suatu saat lo mau ganti warna brand lagi, harus cari-ganti manual di 13 file berbeda. Kalau mau lebih maintainable jangka panjang, bisa buat `src/lib/theme.ts`:
+```tsx
+export const COLORS = {
+  navy: '#1B1B36',
+  navyLight: '#292951',
+  gray: '#6B6B85',
+  white: '#FFFFFF',
+  urgent: '#B5442E',
+};
+```
+Lalu import dan pakai `COLORS.navy` dkk di semua komponen. Ini murni refactor teknis, tidak mengubah tampilan sama sekali — skip dulu kalau prioritas lo saat ini publish cepat, bisa dikerjakan belakangan.
+
+---
+
+## VERIFIKASI SETELAH SELESAI
+
+- Jalankan `npm run build`, pastikan tidak ada error (terutama import Lucide icon baru di Facilities.tsx)
+- Cek Navbar — pastikan link "Fasilitas" sudah muncul dan scroll ke section yang benar
+- Cek Facilities — pastikan 8 icon Lucide tampil rapi menggantikan emoji
+- Cek Gallery — pastikan fallback placeholder masih tampil dengan baik kalau foto belum di-upload (belum error/broken image icon)
+- Screenshot ulang semua section, baca semua copy baru sekali lagi dari atas ke bawah sebagai satu alur — pastikan nada bicaranya konsisten dari Hero sampai Footer

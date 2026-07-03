@@ -18,14 +18,14 @@ export default function Hero() {
             className="font-extrabold uppercase text-white leading-[0.88] tracking-[-0.025em]"
             style={{ fontSize: 'clamp(52px, 7vw, 92px)' }}
           >
-            BERANGKAT<br />UMROH<br />DENGAN<br />TENANG
+            BERANGKAT<br />UMROH<br />PULANG<br />BERKAH
           </h1>
 
           <p
             className="mt-[28px] text-[16px] font-medium italic"
             style={{ color: 'rgba(255,255,255,0.50)' }}
           >
-            / Terpercaya, Bersertifikat, Sesuai Sunnah /
+            / Berizin Resmi Kemenag &middot; Dibimbing Sesuai Sunnah /
           </p>
 
           <a
@@ -71,10 +71,10 @@ export default function Hero() {
                     className="font-bold leading-[1.2]"
                     style={{ fontSize: 'clamp(18px, 2vw, 22px)', color: '#1B1B36' }}
                   >
-                    Terpercaya &amp;<br />Berpengalaman
+                    12 Tahun Dipercaya<br />Jamaah Indonesia
                   </h2>
                   <p className="text-[13.5px] mt-[6px]" style={{ color: '#6B6B85' }}>
-                    12 tahun mendampingi jamaah umroh.
+                    Ribuan keberangkatan sejak 2014, nol kloter gagal berangkat.
                   </p>
                 </div>
 
@@ -113,10 +113,10 @@ export default function Hero() {
           style={{ background: '#292951', borderColor: 'rgba(255,255,255,0.12)' }}
         >
           <h3 className="font-bold text-white leading-[1.3] text-[18px]">
-            Kami gunakan maskapai<br />internasional terbaik!
+            Direct Flight, Maskapai<br />Ternama Dunia
           </h3>
           <p className="text-[13px] mt-[8px]" style={{ color: 'rgba(255,255,255,0.50)' }}>
-            Saudia Airlines, Garuda Indonesia, dan FlyDubai.
+            Saudia Airlines, Garuda Indonesia &amp; FlyDubai — tanpa transit berlebih.
           </p>
         </div>
 

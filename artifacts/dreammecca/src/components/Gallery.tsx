@@ -1,12 +1,12 @@
 import React from 'react';
 
 const items = [
-  { name: 'Koper & Tas Umroh' },
-  { name: 'Mukena & Ihram' },
-  { name: 'Sajadah Travel' },
-  { name: 'Buku Doa & Manasik' },
-  { name: 'Seragam Kloter' },
-  { name: 'Kit Kesehatan' },
+  { name: 'Koper & Tas Umroh', slug: 'koper-tas' },
+  { name: 'Mukena & Ihram', slug: 'mukena-ihram' },
+  { name: 'Sajadah Travel', slug: 'sajadah-travel' },
+  { name: 'Buku Doa & Manasik', slug: 'buku-doa-manasik' },
+  { name: 'Seragam Kloter', slug: 'seragam-kloter' },
+  { name: 'Kit Kesehatan', slug: 'kit-kesehatan' },
 ];
 
 export default function Gallery() {
@@ -36,18 +36,21 @@ export default function Gallery() {
           {items.map(item => (
             <figure key={item.name}>
               <div
-                className="rounded-xl flex items-center justify-center text-center"
-                style={{
-                  aspectRatio: '1/1',
-                  background: 'repeating-linear-gradient(135deg,rgba(27,27,54,0.045),rgba(27,27,54,0.045) 10px,rgba(27,27,54,0.08) 10px,rgba(27,27,54,0.08) 20px)',
-                }}
+                className="rounded-xl overflow-hidden"
+                style={{ aspectRatio: '1/1', background: '#F4F4F7' }}
               >
-                <span
-                  className="font-mono text-[11px] tracking-[0.03em] uppercase px-4"
-                  style={{ color: '#6B6B85' }}
-                >
-                  Foto {item.name}
-                </span>
+                <img
+                  src={`/images/perlengkapan/${item.slug}.jpg`}
+                  alt={item.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    if (e.currentTarget.parentElement) {
+                      e.currentTarget.parentElement.style.background =
+                        'repeating-linear-gradient(135deg,rgba(27,27,54,0.045),rgba(27,27,54,0.045) 10px,rgba(27,27,54,0.08) 10px,rgba(27,27,54,0.08) 20px)';
+                    }
+                  }}
+                />
               </div>
               <figcaption
                 className="mt-[10px] text-[13.5px] font-semibold"

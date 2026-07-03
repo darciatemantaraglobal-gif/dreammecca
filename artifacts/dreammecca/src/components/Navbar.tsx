@@ -4,6 +4,7 @@ import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
 
 const links = [
   { name: 'Tentang', href: '#tentang' },
+  { name: 'Fasilitas', href: '#fasilitas' },
   { name: 'Paket Umroh', href: '#paket' },
   { name: 'Testimoni', href: '#testimoni' },
   { name: 'FAQ', href: '#faq' },

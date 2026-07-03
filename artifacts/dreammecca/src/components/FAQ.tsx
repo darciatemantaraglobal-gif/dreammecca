@@ -21,6 +21,14 @@ const faqs = [
     q: 'Apakah ada pendampingan selama di Tanah Suci?',
     a: 'Ya, setiap kloter didampingi pembimbing dan tim muthawif dari keberangkatan hingga kepulangan ke Indonesia.',
   },
+  {
+    q: 'Apakah wajib vaksin meningitis?',
+    a: 'Ya, vaksin meningitis adalah syarat wajib dari otoritas Arab Saudi untuk seluruh jamaah Umroh. Kami bantu arahkan ke fasilitas vaksinasi resmi terdekat.',
+  },
+  {
+    q: 'Berapa lama proses pembuatan visa?',
+    a: 'Proses visa Umroh biasanya memakan waktu 7–14 hari kerja setelah seluruh dokumen dan pelunasan lengkap kami terima.',
+  },
 ];
 
 export default function FAQ() {
