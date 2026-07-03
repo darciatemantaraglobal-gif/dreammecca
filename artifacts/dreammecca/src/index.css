@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -41,10 +41,10 @@
   --color-destructive-border: var(--destructive-border);
 
   --font-sans: 'Plus Jakarta Sans', sans-serif;
-  --font-serif: 'Cormorant Garamond', serif;
+  --font-serif: 'DM Serif Display', serif;
 
-  --color-dream-navy: #1E1E72;
-  --color-dream-navy-light: #28289A;
+  --color-dream-navy: #0B0B18;
+  --color-dream-navy-light: #15142A;
   --color-dream-gold: #C9A455;
   --color-dream-gold-hover: #E0C077;
   --color-dream-cream: #F8F6F0;
@@ -82,16 +82,16 @@
   --popover-border: 45 15% 85%;
 
   --primary: 41 52% 56%; /* Gold */
-  --primary-foreground: 240 58% 28%; /* Royal blue text */
+  --primary-foreground: 240 37% 7%; /* Near-black text */
 
-  --secondary: 240 58% 28%; /* Royal blue */
+  --secondary: 240 37% 7%; /* Near-black */
   --secondary-foreground: 47 31% 94%; /* Light text */
 
   --muted: 45 15% 85%;
   --muted-foreground: 0 0% 40%;
 
   --accent: 41 52% 56%; /* Gold */
-  --accent-foreground: 240 58% 28%;
+  --accent-foreground: 240 37% 7%;
 
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
@@ -101,43 +101,37 @@
 
 .dark {
   /* Enforce Light theme mostly, but just in case provide dark fallbacks */
-  --background: 240 58% 28%; /* #1E1E72 */
+  --background: 240 37% 7%; /* #0B0B18 */
   --foreground: 47 31% 94%; /* #F5F3EC */
 
-  --border: 240 58% 32%;
-  --input: 240 58% 32%;
+  --border: 243 36% 18%;
+  --input: 243 36% 18%;
   --ring: 41 52% 56%;
 
-  --card: 240 59% 38%; /* #28289A */
+  --card: 243 36% 12%; /* #15142A */
   --card-foreground: 47 31% 94%;
-  --card-border: 240 58% 32%;
+  --card-border: 243 36% 18%;
 
-  --popover: 240 59% 38%;
+  --popover: 243 36% 12%;
   --popover-foreground: 47 31% 94%;
-  --popover-border: 240 58% 32%;
+  --popover-border: 243 36% 18%;
 
   --primary: 41 52% 56%;
-  --primary-foreground: 240 58% 28%;
+  --primary-foreground: 240 37% 7%;
 
   --secondary: 45 27% 95%; /* Cream */
-  --secondary-foreground: 240 58% 28%;
+  --secondary-foreground: 240 37% 7%;
 
-  --muted: 240 58% 32%;
-  --muted-foreground: 47 31% 70%;
+  --muted: 243 36% 18%;
+  --muted-foreground: 47 31% 65%;
 
   --accent: 41 52% 56%;
-  --accent-foreground: 240 58% 28%;
+  --accent-foreground: 240 37% 7%;
 
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
 }
 
-/* ── Islamic pattern photo background ─────────────────────────────── */
-.dream-bg {
-  background-image: url('/images/bg-pattern.png');
-  background-size: cover;
-  background-position: center;
-}
 
 @layer base {
   html {

@@ -201,7 +201,9 @@ export default function Packages() {
     "transition-colors duration-200 hover:border-dream-gold/60";
 
   return (
-    <section id="paket" className="dream-bg py-12 md:py-20 bg-dream-navy relative">
+    <section id="paket" className="py-12 md:py-20 bg-dream-navy relative">
+      {/* Hairline gold rule at top */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-dream-gold/30 to-transparent" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Header + filters */}

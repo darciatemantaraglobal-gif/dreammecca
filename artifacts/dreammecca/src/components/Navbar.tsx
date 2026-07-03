@@ -45,7 +45,7 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           scrolled || mobileMenuOpen
-            ? 'dream-bg bg-dream-navy shadow-lg py-3'
+            ? 'bg-dream-navy/95 backdrop-blur-md border-b border-dream-gold/15 shadow-xl py-3'
             : 'bg-transparent py-5'
         }`}
       >
@@ -138,7 +138,7 @@ export default function Navbar() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'tween', duration: 0.28, ease: [0.25, 0, 0.25, 1] }}
-            className="fixed top-0 right-0 bottom-0 w-4/5 max-w-sm z-50 dream-bg bg-dream-navy
+            className="fixed top-0 right-0 bottom-0 w-4/5 max-w-sm z-50 bg-dream-navy border-l border-dream-gold/15
                        flex flex-col pt-20 pb-8 px-6 md:hidden overflow-y-auto shadow-2xl"
           >
             {/* Thin gold accent on left edge */}

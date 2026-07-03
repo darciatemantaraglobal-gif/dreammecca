@@ -6,7 +6,7 @@ import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
 
 export default function FinalCTA() {
   return (
-    <section className="dream-bg py-12 md:py-20 bg-dream-navy relative overflow-hidden border-t border-dream-gold/15">
+    <section className="py-12 md:py-20 bg-dream-navy relative overflow-hidden border-t border-dream-gold/15">
 
       {/* Soft center glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
