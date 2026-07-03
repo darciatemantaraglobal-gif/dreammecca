@@ -1,0 +1,2 @@
+- [Express 5 req.params typing](express5-params-typing.md) — @types for Express 5 type req.params values as string|string[]; wrap with String() before passing to typed APIs like Drizzle's eq().
+- [New lib package + TS project references](ts-project-references-new-lib.md) — adding a new lib/* package to the workspace's tsconfig references requires composite+emitDeclarationOnly wiring and a `pnpm run typecheck:libs` build, or consumers fail with TS6305/TS6306.

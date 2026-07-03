@@ -5,7 +5,8 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { Package } from './package';
 
-export interface HealthStatus {
-  status: string;
-}
+export type UpdatePackage200 = {
+  package: Package;
+};

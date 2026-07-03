@@ -5,94 +5,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import StickyMobileCTA from '@/components/StickyMobileCTA';
 import { createWALink } from '@/lib/whatsapp';
-
-interface Departure {
-  dateLabel: string;
-  quota: string;
-}
-
-interface PackageType {
-  slug: string;
-  tier: 'Reguler' | 'Luxury';
-  duration: '9 Hari' | '12 Hari';
-  title: string;
-  hotelMecca: string;
-  hotelMadinah: string;
-  flightType: string;
-  landing: string;
-  tags: string[];
-  priceFrom: number;
-  departures: Departure[];
-}
-
-const packageTypes: PackageType[] = [
-  {
-    slug: 'reguler-9hari',
-    tier: 'Reguler',
-    duration: '9 Hari',
-    title: 'Umroh Reguler Free Thoif',
-    hotelMecca: 'Maysan Al Masaher *4',
-    hotelMadinah: 'Golden Tulip Al Ansr *4',
-    flightType: 'Direct',
-    landing: 'Jeddah',
-    tags: ['Ziarah Thoif', 'Audio Hajj'],
-    priceFrom: 33900000,
-    departures: [
-      { dateLabel: 'GANTI: tanggal 1', quota: 'Hubungi untuk sisa seat' },
-      { dateLabel: 'GANTI: tanggal 2', quota: 'Hubungi untuk sisa seat' },
-      { dateLabel: 'GANTI: tanggal 3', quota: 'Hubungi untuk sisa seat' },
-    ],
-  },
-  {
-    slug: 'reguler-12hari',
-    tier: 'Reguler',
-    duration: '12 Hari',
-    title: 'Umroh Reguler Free Thoif',
-    hotelMecca: 'Maysan Al Masaher *4',
-    hotelMadinah: 'Golden Tulip Al Ansr *4',
-    flightType: 'Direct',
-    landing: 'Jeddah',
-    tags: ['Ziarah Thoif', 'Unta + ATV'],
-    priceFrom: 36900000,
-    departures: [
-      { dateLabel: 'GANTI: tanggal 1', quota: 'Hubungi untuk sisa seat' },
-      { dateLabel: 'GANTI: tanggal 2', quota: 'Hubungi untuk sisa seat' },
-    ],
-  },
-  {
-    slug: 'luxury-9hari',
-    tier: 'Luxury',
-    duration: '9 Hari',
-    title: 'Umroh Luxury Free Thoif',
-    hotelMecca: 'Pullman Zamzam / Setaraf *5',
-    hotelMadinah: 'Al Aqeq Al Madinah / Setaraf *5',
-    flightType: 'Direct',
-    landing: 'Jeddah',
-    tags: ['Ziarah Thoif', 'Unta + ATV', 'Audio Hajj'],
-    priceFrom: 39900000,
-    departures: [
-      { dateLabel: 'GANTI: tanggal 1', quota: 'Hubungi untuk sisa seat' },
-      { dateLabel: 'GANTI: tanggal 2', quota: 'Hubungi untuk sisa seat' },
-      { dateLabel: 'GANTI: tanggal 3', quota: 'Hubungi untuk sisa seat' },
-    ],
-  },
-  {
-    slug: 'luxury-12hari',
-    tier: 'Luxury',
-    duration: '12 Hari',
-    title: 'Umroh Luxury Free Thoif',
-    hotelMecca: 'Pullman Zamzam / Setaraf *5',
-    hotelMadinah: 'Al Aqeq Al Madinah / Setaraf *5',
-    flightType: 'Direct',
-    landing: 'Jeddah',
-    tags: ['Ziarah Thoif', 'Unta + ATV', 'Audio Hajj'],
-    priceFrom: 43900000,
-    departures: [
-      { dateLabel: 'GANTI: tanggal 1', quota: 'Hubungi untuk sisa seat' },
-      { dateLabel: 'GANTI: tanggal 2', quota: 'Hubungi untuk sisa seat' },
-    ],
-  },
-];
+import { useListPublicPackages } from '@workspace/api-client-react';
+import type { Package as PackageType, Departure } from '@workspace/api-client-react';
 
 function fmt(n: number) {
   return new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 }).format(n / 1000000);
@@ -108,7 +22,7 @@ function DepartureCard({ pkg, dep }: { pkg: PackageType; dep: Departure }) {
     >
       <div className="w-full relative" style={{ aspectRatio: '4/5', background: '#F4F4F7' }}>
         <img
-          src={`/images/paket/poster-${pkg.slug}.jpg`}
+          src={pkg.posterUrl || `/images/paket/poster-${pkg.slug}.jpg`}
           alt={`Poster ${pkg.title} ${pkg.tier} ${pkg.duration}`}
           className="w-full h-full object-cover"
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
@@ -185,13 +99,15 @@ function DepartureCard({ pkg, dep }: { pkg: PackageType; dep: Departure }) {
 export default function PaketUmroh() {
   const [tierFilter, setTierFilter] = useState<'Semua' | 'Reguler' | 'Luxury'>('Semua');
   const [durFilter, setDurFilter] = useState<'Semua' | '9 Hari' | '12 Hari'>('Semua');
+  const { data, isLoading, isError } = useListPublicPackages();
+  const packageTypes = data?.packages ?? [];
 
   const cards = useMemo(() => {
     return packageTypes
       .filter(p => tierFilter === 'Semua' || p.tier === tierFilter)
       .filter(p => durFilter === 'Semua' || p.duration === durFilter)
       .flatMap(p => p.departures.map(dep => ({ pkg: p, dep })));
-  }, [tierFilter, durFilter]);
+  }, [packageTypes, tierFilter, durFilter]);
 
   return (
     <div style={{ background: '#fff' }} className="min-h-screen pb-16 md:pb-0">
@@ -271,7 +187,7 @@ export default function PaketUmroh() {
             ))}
           </div>
           <span className="ml-auto text-[13px]" style={{ color: '#6B6B85' }}>
-            {cards.length} jadwal tersedia
+            {isLoading ? 'Memuat...' : `${cards.length} jadwal tersedia`}
           </span>
         </div>
       </section>
@@ -279,7 +195,17 @@ export default function PaketUmroh() {
       {/* Grid hasil */}
       <section className="px-[7vw] py-[48px] bg-white">
         <div className="max-w-[1180px] mx-auto">
-          {cards.length === 0 ? (
+          {isLoading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[20px]">
+              {[0, 1, 2, 3].map(i => (
+                <div key={i} className="rounded-xl h-[420px] animate-pulse" style={{ background: '#F4F4F7' }} />
+              ))}
+            </div>
+          ) : isError ? (
+            <p className="text-center py-[60px]" style={{ color: '#6B6B85' }}>
+              Gagal memuat paket. Silakan refresh halaman atau hubungi kami langsung.
+            </p>
+          ) : cards.length === 0 ? (
             <p className="text-center py-[60px]" style={{ color: '#6B6B85' }}>
               Tidak ada paket yang cocok dengan filter ini. Coba filter lain atau hubungi kami langsung.
             </p>

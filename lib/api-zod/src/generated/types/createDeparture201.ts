@@ -5,7 +5,8 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { Departure } from './departure';
 
-export interface HealthStatus {
-  status: string;
-}
+export type CreateDeparture201 = {
+  departure: Departure;
+};

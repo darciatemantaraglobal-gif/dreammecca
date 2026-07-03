@@ -4,76 +4,15 @@ import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { Calendar } from 'lucide-react';
 import { createWALink } from '@/lib/whatsapp';
-
-interface Pkg {
-  slug: string;
-  tier: 'Reguler' | 'Luxury';
-  title: string;
-  dateLabel: string;
-  duration: string;
-  flightType: string;
-  landing: string;
-  tags: string[];
-  priceFrom: number;
-  featured: boolean;
-}
-
-const packages: Pkg[] = [
-  {
-    slug: 'reguler-9hari',
-    tier: 'Reguler',
-    title: 'Umroh Reguler Free Thoif',
-    dateLabel: 'GANTI: tanggal terdekat',
-    duration: '9 Hari',
-    flightType: 'Direct',
-    landing: 'Jeddah',
-    tags: ['Ziarah Thoif', 'Audio Hajj'],
-    priceFrom: 33900000,
-    featured: false,
-  },
-  {
-    slug: 'reguler-12hari',
-    tier: 'Reguler',
-    title: 'Umroh Reguler Free Thoif',
-    dateLabel: 'GANTI: tanggal terdekat',
-    duration: '12 Hari',
-    flightType: 'Direct',
-    landing: 'Jeddah',
-    tags: ['Ziarah Thoif', 'Unta + ATV'],
-    priceFrom: 36900000,
-    featured: false,
-  },
-  {
-    slug: 'luxury-9hari',
-    tier: 'Luxury',
-    title: 'Umroh Luxury Free Thoif',
-    dateLabel: 'GANTI: tanggal terdekat',
-    duration: '9 Hari',
-    flightType: 'Direct',
-    landing: 'Jeddah',
-    tags: ['Ziarah Thoif', 'Unta + ATV', 'Audio Hajj'],
-    priceFrom: 39900000,
-    featured: true,
-  },
-  {
-    slug: 'luxury-12hari',
-    tier: 'Luxury',
-    title: 'Umroh Luxury Free Thoif',
-    dateLabel: 'GANTI: tanggal terdekat',
-    duration: '12 Hari',
-    flightType: 'Direct',
-    landing: 'Jeddah',
-    tags: ['Ziarah Thoif', 'Unta + ATV', 'Audio Hajj'],
-    priceFrom: 43900000,
-    featured: false,
-  },
-];
+import { useListPublicPackages } from '@workspace/api-client-react';
+import type { Package as Pkg } from '@workspace/api-client-react';
 
 function fmt(n: number) {
   return new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 }).format(n / 1000000);
 }
 
 function PackageCard({ pkg }: { pkg: Pkg }) {
+  const dateLabel = pkg.departures[0]?.dateLabel ?? 'Hubungi kami untuk jadwal';
   const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.title} (${pkg.tier}, ${pkg.duration}). Boleh minta info lebih lengkap?`;
 
   return (
@@ -88,7 +27,7 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
       {/* Poster — rasio 4:5, di-upload manual */}
       <div className="w-full relative" style={{ aspectRatio: '4/5', background: '#F4F4F7' }}>
         <img
-          src={`/images/paket/poster-${pkg.slug}.jpg`}
+          src={pkg.posterUrl || `/images/paket/poster-${pkg.slug}.jpg`}
           alt={`Poster ${pkg.title} ${pkg.tier} ${pkg.duration}`}
           className="w-full h-full object-cover"
           onError={(e) => {
@@ -109,7 +48,7 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
       <div className="px-5 pt-4 pb-5 flex-1 flex flex-col">
         <div className="flex items-center gap-[6px] text-[13px] font-medium" style={{ color: '#6B6B85' }}>
           <Calendar size={14} />
-          {pkg.dateLabel}
+          {dateLabel}
         </div>
 
         <h3 className="text-[17px] font-bold mt-[6px] leading-[1.3]" style={{ color: '#1B1B36' }}>
@@ -166,6 +105,9 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
 }
 
 export default function Packages() {
+  const { data, isLoading, isError } = useListPublicPackages();
+  const packages = data?.packages ?? [];
+
   return (
     <section id="paket" className="px-[7vw] py-[88px] bg-white">
       <div className="max-w-[1180px] mx-auto">
@@ -189,19 +131,35 @@ export default function Packages() {
           </p>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={staggerContainer}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[20px] mt-[44px] items-stretch"
-        >
-          {packages.map(pkg => (
-            <motion.div key={pkg.slug} variants={fadeUp} className="flex flex-col">
-              <PackageCard pkg={pkg} />
-            </motion.div>
-          ))}
-        </motion.div>
+        {isLoading && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[20px] mt-[44px]">
+            {[0, 1, 2, 3].map(i => (
+              <div key={i} className="rounded-xl h-[420px] animate-pulse" style={{ background: '#F4F4F7' }} />
+            ))}
+          </div>
+        )}
+
+        {isError && (
+          <p className="text-center py-[40px] text-[14px]" style={{ color: '#6B6B85' }}>
+            Gagal memuat paket. Silakan refresh halaman atau hubungi kami langsung.
+          </p>
+        )}
+
+        {!isLoading && !isError && (
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[20px] mt-[44px] items-stretch"
+          >
+            {packages.map(pkg => (
+              <motion.div key={pkg.slug} variants={fadeUp} className="flex flex-col">
+                <PackageCard pkg={pkg} />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
 
         <p className="text-center text-[14px] mt-[32px]" style={{ color: '#6B6B85' }}>
           Dapatkan flash sale diskon sesuai syarat &amp; ketentuan yang berlaku — tanya tim kami untuk info promo terbaru.
