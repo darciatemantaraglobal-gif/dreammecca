@@ -41,7 +41,19 @@ export default function About() {
             className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
             style={{ color: '#6B6B85' }}
           >
-            Dreammecca Tour &amp; Travel adalah penyelenggara ibadah Umroh berizin resmi PPIU Kementerian Agama RI. Kami hadir untuk satu tujuan: memastikan setiap jamaah fokus beribadah dengan tenang — mulai dari pengurusan dokumen, manasik, keberangkatan, hingga kembali pulang ke Indonesia dengan selamat.
+            PT. Dream Mecca International adalah perusahaan travel umroh terpercaya yang berkomitmen memberikan pengalaman ibadah yang nyaman, aman, dan berkualitas tinggi.
+          </p>
+          <p
+            className="text-[17px] leading-[1.6] mt-[14px] max-w-[620px]"
+            style={{ color: '#6B6B85' }}
+          >
+            Dengan pengalaman luas dan dukungan tim profesional, kami memastikan setiap proses perjalanan umroh — mulai dari konsultasi, pengurusan dokumen, visa, hingga pendampingan di tanah suci — berjalan lancar dan sesuai standar resmi. Kami mengutamakan transparansi, keamanan, dan kepuasan jamaah dengan pelayanan personal yang responsif.
+          </p>
+          <p
+            className="text-[17px] leading-[1.6] mt-[14px] max-w-[620px]"
+            style={{ color: '#6B6B85' }}
+          >
+            Berbasis pada integritas dan regulasi pemerintah, kami siap mendampingi untuk mewujudkan impian ibadah umroh yang penuh berkah, mudah, dan khusyuk.
           </p>
 
           {/* Stats */}

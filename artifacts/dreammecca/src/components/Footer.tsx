@@ -16,7 +16,7 @@ export default function Footer() {
             className="text-[14px] mt-2 max-w-[420px] leading-[1.6]"
             style={{ color: 'rgba(255,255,255,0.55)' }}
           >
-            Dreammecca Tour &amp; Travel — penyelenggara ibadah Umroh resmi berizin Kementerian Agama RI, berbasis di Jakarta Selatan.
+            PT. Dream Mecca International — penyelenggara ibadah Umroh resmi berizin PPIU Kementerian Agama RI. Bersama kami, wujudkan perjalanan ibadah yang aman, nyaman, dan penuh berkah.
           </p>
           <p className="text-[13px] mt-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
             Jl. Durian No.9A 6, RT.6/RW.4, Jagakarsa, Kota Jakarta Selatan 12620
