@@ -51,6 +51,13 @@ export default function FinalCTA() {
               </p>
             </div>
             <div>
+              <h3 className="text-white font-bold text-[15px]">WhatsApp Admin</h3>
+              <p className="text-[14px] mt-1 leading-[1.6]" style={{ color: 'rgba(255,255,255,0.66)' }}>
+                +62 812-2574-0093<br />
+                <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Kak Alya Azizah</span>
+              </p>
+            </div>
+            <div>
               <h3 className="text-white font-bold text-[15px]">Email</h3>
               <p className="text-[14px] mt-1" style={{ color: 'rgba(255,255,255,0.66)' }}>
                 dreammecca@gmail.com
