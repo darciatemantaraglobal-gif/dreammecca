@@ -102,8 +102,8 @@ export default function About() {
               <div className="absolute inset-0 bg-gradient-to-t from-dream-navy/60 to-transparent" />
             </div>
 
-            {/* Floating quote badge */}
-            <div className="absolute -bottom-6 -left-4 md:-left-6 bg-dream-navy p-5 rounded-xl shadow-xl border-l-4 border-dream-gold max-w-[200px]">
+            {/* Floating quote badge — hidden on small mobile to avoid overflow/overlap */}
+            <div className="hidden sm:block absolute -bottom-6 -left-4 md:-left-6 bg-dream-navy p-5 rounded-xl shadow-xl border-l-4 border-dream-gold max-w-[200px]">
               <p className="text-white font-serif text-base leading-tight">
                 "Sebaik-baik perjalanan adalah menuju Rumah-Nya."
               </p>

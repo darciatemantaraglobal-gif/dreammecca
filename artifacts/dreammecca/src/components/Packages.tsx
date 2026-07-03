@@ -146,7 +146,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
             <button
               key={type}
               onClick={() => setRoom(type)}
-              className={`flex-1 text-xs py-1.5 rounded-md transition-all duration-200 font-medium ${
+              className={`flex-1 text-xs py-2.5 min-h-[44px] rounded-md transition-all duration-200 font-medium ${
                 room === type
                   ? 'bg-dream-gold text-dream-navy shadow-sm'
                   : 'text-dream-cream/55 hover:text-dream-cream/90'
@@ -170,7 +170,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
           )}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full block text-center bg-dream-gold hover:bg-dream-gold-hover text-dream-navy font-semibold py-3 rounded-lg transition-all duration-300 mt-auto hover:-translate-y-0.5 hover:shadow-md text-sm"
+          className="w-full block text-center bg-dream-gold hover:bg-dream-gold-hover text-dream-navy font-semibold py-3.5 min-h-[48px] rounded-lg transition-all duration-300 mt-auto hover:-translate-y-0.5 hover:shadow-md text-sm"
         >
           Konsultasi Paket Ini
         </a>
@@ -193,10 +193,12 @@ export default function Packages() {
     return true;
   });
 
+  // min-h-[48px] ensures ≥44px touch target on mobile (WCAG 2.5.5)
   const selectClass =
-    "bg-dream-navy-light border border-dream-gold/30 text-white rounded-lg px-4 py-2.5 text-sm " +
+    "bg-dream-navy-light border border-dream-gold/30 text-white rounded-lg px-4 py-3 text-sm " +
     "focus:outline-none focus:border-dream-gold focus:ring-1 focus:ring-dream-gold/30 " +
-    "flex-1 md:w-40 appearance-none cursor-pointer transition-colors duration-200 hover:border-dream-gold/60";
+    "flex-1 md:w-40 min-h-[48px] appearance-none cursor-pointer " +
+    "transition-colors duration-200 hover:border-dream-gold/60";
 
   return (
     <section id="paket" className="py-12 md:py-20 bg-dream-navy relative">

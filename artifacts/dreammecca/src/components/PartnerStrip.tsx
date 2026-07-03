@@ -1,48 +1,64 @@
 import React from 'react';
 
-export default function PartnerStrip() {
-  const partners = [
-    "Kemenag RI",
-    "Saudia Airlines",
-    "Garuda Indonesia",
-    "Makkah Hilton",
-    "Zamzam Tower",
-    "Bank BRI Syariah",
-    "BPIH",
-    "Madinah Hilton"
-  ];
+const partners = [
+  'Kemenag RI',
+  'Saudia Airlines',
+  'Garuda Indonesia',
+  'Makkah Hilton',
+  'Zamzam Tower',
+  'Bank BRI Syariah',
+  'BPIH',
+  'Madinah Hilton',
+];
 
+export default function PartnerStrip() {
   return (
-    <div className="bg-dream-cream py-8 border-b border-black/5 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 mb-6">
-        <h3 className="text-center text-sm font-medium text-dream-navy/60 uppercase tracking-wider">
-          Dipercaya & Bermitra Dengan
+    <div className="bg-dream-cream py-7 border-b border-black/5 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 mb-5">
+        <h3 className="text-center text-xs font-semibold text-dream-navy/50 uppercase tracking-widest">
+          Dipercaya &amp; Bermitra Dengan
         </h3>
       </div>
-      
-      <div className="relative flex overflow-hidden">
-        {/* We need two identical arrays to create seamless infinite loop */}
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...partners, ...partners].map((partner, index) => (
-            <div 
-              key={index}
-              className="mx-4 px-6 py-2 rounded-full border border-dream-navy/20 text-dream-navy font-semibold text-sm bg-white/50 backdrop-blur-sm"
+
+      {/*
+        Two identical rows so the marquee loops perfectly.
+        CSS animation only — no JS, no touch events needed.
+        Will-change: transform tells mobile GPU to composite this layer.
+      */}
+      <div
+        className="relative flex overflow-hidden"
+        aria-label="Daftar mitra Dreammecca"
+        aria-hidden="true"   /* decorative for accessibility */
+      >
+        <div
+          className="flex gap-4 animate-partner-marquee"
+          style={{ willChange: 'transform' }}
+        >
+          {[...partners, ...partners, ...partners].map((partner, i) => (
+            <div
+              key={i}
+              className="flex-shrink-0 px-5 py-2 rounded-full border border-dream-navy/15
+                         text-dream-navy/75 font-semibold text-sm bg-white/70 whitespace-nowrap
+                         select-none"
             >
               {partner}
             </div>
           ))}
         </div>
       </div>
-      
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes marquee {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes partnerMarquee {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-33.333%); }
         }
-        .animate-marquee {
-          animation: marquee 30s linear infinite;
+        .animate-partner-marquee {
+          animation: partnerMarquee 28s linear infinite;
         }
-      `}} />
+        @media (prefers-reduced-motion: reduce) {
+          .animate-partner-marquee { animation: none; }
+        }
+      ` }} />
     </div>
   );
 }

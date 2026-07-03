@@ -15,7 +15,7 @@ import StickyMobileCTA from '@/components/StickyMobileCTA';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-dream-cream text-dream-navy font-sans selection:bg-dream-gold selection:text-dream-navy">
+    <div className="min-h-screen bg-dream-cream text-dream-navy font-sans selection:bg-dream-gold selection:text-dream-navy pb-20 md:pb-0">
       <Navbar />
       <Hero />
       <PartnerStrip />
