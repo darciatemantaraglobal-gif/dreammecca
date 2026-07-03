@@ -6,15 +6,7 @@ import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
 
 export default function FinalCTA() {
   return (
-    <section className="py-12 md:py-20 bg-dream-navy relative overflow-hidden border-t border-dream-gold/15">
-      {/* Islamic dot-grid pattern background */}
-      <div
-        className="absolute inset-0 opacity-[0.12] pointer-events-none"
-        style={{
-          backgroundImage: `radial-gradient(circle, #C9A455 1.5px, transparent 1.5px)`,
-          backgroundSize: '28px 28px',
-        }}
-      />
+    <section className="dream-bg py-12 md:py-20 bg-dream-navy relative overflow-hidden border-t border-dream-gold/15">
 
       {/* Soft center glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

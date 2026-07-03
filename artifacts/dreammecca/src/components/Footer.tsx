@@ -3,7 +3,7 @@ import { Instagram, Facebook, Youtube } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-dream-navy pt-16 pb-8 border-t border-dream-gold">
+    <footer className="dream-bg bg-dream-navy pt-16 pb-8 border-t border-dream-gold">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           
@@ -54,7 +54,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-dream-cream/40 text-sm text-center md:text-left">
+          <p className="text-dream-cream/60 text-sm text-center md:text-left">
             © {new Date().getFullYear()} Dreammecca Tour & Travel. All rights reserved.
           </p>
         </div>

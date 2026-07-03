@@ -11,7 +11,7 @@ export default function Hero() {
   // No JS play() call needed — avoids unnecessary error on mobile browsers.
 
   return (
-    <div className="relative min-h-[100dvh] flex items-center justify-center bg-dream-navy overflow-hidden">
+    <div className="dream-bg relative min-h-[100dvh] flex items-center justify-center bg-dream-navy overflow-hidden">
       {/* Background: video with image poster fallback */}
       <div className="absolute inset-0 z-0">
         <video
@@ -34,7 +34,7 @@ export default function Hero() {
         {/* Radial depth layer — subtle centre glow behind the linear overlay */}
         <div
           className="absolute inset-0 pointer-events-none opacity-30"
-          style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 50%, #2E2E62 0%, #222252 100%)' }}
+          style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 50%, #28289A 0%, #1E1E72 100%)' }}
           aria-hidden="true"
         />
 

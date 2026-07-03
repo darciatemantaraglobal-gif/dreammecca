@@ -43,8 +43,8 @@
   --font-sans: 'Plus Jakarta Sans', sans-serif;
   --font-serif: 'Cormorant Garamond', serif;
 
-  --color-dream-navy: #222252;
-  --color-dream-navy-light: #2E2E62;
+  --color-dream-navy: #1E1E72;
+  --color-dream-navy-light: #28289A;
   --color-dream-gold: #C9A455;
   --color-dream-gold-hover: #E0C077;
   --color-dream-cream: #F8F6F0;
@@ -82,16 +82,16 @@
   --popover-border: 45 15% 85%;
 
   --primary: 41 52% 56%; /* Gold */
-  --primary-foreground: 240 41% 23%; /* Indigo text */
+  --primary-foreground: 240 58% 28%; /* Royal blue text */
 
-  --secondary: 240 41% 23%; /* Indigo */
+  --secondary: 240 58% 28%; /* Royal blue */
   --secondary-foreground: 47 31% 94%; /* Light text */
 
   --muted: 45 15% 85%;
   --muted-foreground: 0 0% 40%;
 
   --accent: 41 52% 56%; /* Gold */
-  --accent-foreground: 240 41% 23%;
+  --accent-foreground: 240 58% 28%;
 
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
@@ -101,35 +101,42 @@
 
 .dark {
   /* Enforce Light theme mostly, but just in case provide dark fallbacks */
-  --background: 240 41% 23%; /* #222252 */
+  --background: 240 58% 28%; /* #1E1E72 */
   --foreground: 47 31% 94%; /* #F5F3EC */
 
-  --border: 240 51% 25%;
-  --input: 240 51% 25%;
+  --border: 240 58% 32%;
+  --input: 240 58% 32%;
   --ring: 41 52% 56%;
 
-  --card: 240 36% 28%; /* #2E2E62 */
+  --card: 240 59% 38%; /* #28289A */
   --card-foreground: 47 31% 94%;
-  --card-border: 240 51% 25%;
+  --card-border: 240 58% 32%;
 
-  --popover: 240 36% 28%;
+  --popover: 240 59% 38%;
   --popover-foreground: 47 31% 94%;
-  --popover-border: 240 51% 25%;
+  --popover-border: 240 58% 32%;
 
   --primary: 41 52% 56%;
-  --primary-foreground: 240 41% 23%;
+  --primary-foreground: 240 58% 28%;
 
   --secondary: 45 27% 95%; /* Cream */
-  --secondary-foreground: 240 41% 23%;
+  --secondary-foreground: 240 58% 28%;
 
-  --muted: 240 51% 25%;
+  --muted: 240 58% 32%;
   --muted-foreground: 47 31% 70%;
 
   --accent: 41 52% 56%;
-  --accent-foreground: 240 41% 23%;
+  --accent-foreground: 240 58% 28%;
 
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
+}
+
+/* ── Islamic pattern photo background ─────────────────────────────── */
+.dream-bg {
+  background-image: url('/images/bg-pattern.png');
+  background-size: cover;
+  background-position: center;
 }
 
 @layer base {
