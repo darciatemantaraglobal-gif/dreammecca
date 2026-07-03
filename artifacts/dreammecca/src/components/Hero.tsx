@@ -21,14 +21,14 @@ export default function Hero() {
           loop
           playsInline
           preload="none"          /* mobile-friendly: don't load any data until playback */
-          poster="/images/hero.jpg"
+          poster="/images/hero/hero-1.jpg"
           className="absolute inset-0 w-full h-full object-cover"
           aria-hidden="true"
           width="1920"             /* explicit dimensions prevent CLS */
           height="1080"
         >
           {/* Replace src with your actual Kaabah video: public/videos/hero.mp4 */}
-          <source src="/videos/hero.mp4" type="video/mp4" />
+          <source src="/videos/hero-1.mp4" type="video/mp4" />
         </video>
 
         {/* Gradient overlay — legibility over both image and video */}

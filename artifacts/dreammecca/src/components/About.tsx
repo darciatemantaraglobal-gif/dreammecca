@@ -95,8 +95,8 @@ export default function About() {
 
             <div className="relative rounded-xl overflow-hidden shadow-2xl aspect-[4/5]">
               <img
-                src="/images/about.jpg"
-                alt="Masjid Nabawi"
+                src="/images/kaabah/kaabah-1.jpg"
+                alt="Suasana di dalam Masjid Nabawi Madinah Al-Munawwarah, destinasi ibadah Umroh bersama Dreammecca Tour & Travel"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-dream-navy/60 to-transparent" />

@@ -9,14 +9,14 @@ const testimonials = [
     city: "Jakarta Selatan",
     package: "Paket Reguler Ramadan",
     quote: "Alhamdulillah, perjalanan umroh kami sangat lancar. Pembimbing sangat sabar dan profesional. Akan rekomendasikan Dreammecca ke keluarga kami.",
-    avatar: "/images/avatar-2.jpg",
+    avatar: "/images/testimoni/testimoni-1.jpg",
   },
   {
     name: "Ibu Siti Rahayu",
     city: "Surabaya",
     package: "Paket Premium Plus",
     quote: "Hotelnya dekat sekali dengan Masjidil Haram. Pelayanan dari Dreammecca dari awal sampai pulang sangat memuaskan. Terima kasih!",
-    avatar: "/images/avatar-1.jpg",
+    avatar: "/images/testimoni/testimoni-2.jpg",
   },
   {
     name: "Bapak Hendra Wijaya",
@@ -97,7 +97,7 @@ export default function Testimonials() {
                 {testi.avatar ? (
                   <img
                     src={testi.avatar}
-                    alt={testi.name}
+                    alt={`Foto jamaah ${testi.name} dari ${testi.city}, testimoni perjalanan Umroh bersama Dreammecca`}
                     className="w-12 h-12 rounded-full object-cover flex-shrink-0"
                   />
                 ) : (
