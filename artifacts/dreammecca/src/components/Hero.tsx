@@ -58,7 +58,7 @@ export default function Hero() {
             className="font-extrabold text-white leading-[0.98] tracking-[-0.02em] mt-[18px]"
             style={{ fontSize: 'clamp(44px, 6vw, 76px)' }}
           >
-            Dream Mecca<br />Tour &amp; Travel
+            Dreammecca<br />Tour &amp; Travel
           </h1>
 
           <p
