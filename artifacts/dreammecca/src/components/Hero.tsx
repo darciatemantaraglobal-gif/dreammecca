@@ -1,7 +1,27 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { fadeUp } from '@/lib/animations';
+import { Plane, ShieldCheck, Users } from 'lucide-react';
+import { fadeUp, staggerContainer } from '@/lib/animations';
 import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
+
+const trustItems = [
+  {
+    icon: Plane,
+    title: 'Direct Flight, Maskapai Ternama',
+    desc: 'Saudia Airlines, Garuda Indonesia & FlyDubai — tanpa transit berlebih.',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'PPIU Resmi',
+    desc: 'Berizin resmi Kementerian Agama RI, diawasi langsung.',
+  },
+  {
+    icon: Users,
+    title: 'Melayani Sejak 2025',
+    desc: 'Dipercaya jamaah dari berbagai kota di Indonesia.',
+    link: true,
+  },
+];
 
 export default function Hero() {
   const waLink = createWALink(DEFAULT_MESSAGE);
@@ -136,85 +156,48 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* ── Bottom 3-col stats strip ── */}
-      <div
-        className="max-w-[1180px] mx-auto mt-[56px] grid grid-cols-1 md:grid-cols-3"
-        style={{ borderTop: '1px solid rgba(255,255,255,0.12)' }}
+      {/* ── Bottom 3-col trust strip ── */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={staggerContainer}
+        className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-[16px] mt-[64px]"
       >
-        {/* 1 — Dark accent card */}
-        <div
-          className="p-[28px_30px] border-b md:border-b-0 md:border-r"
-          style={{ background: '#292951', borderColor: 'rgba(255,255,255,0.12)' }}
-        >
-          <h3 className="font-bold text-white leading-[1.3] text-[18px]">
-            Direct Flight, Maskapai<br />Ternama Dunia
-          </h3>
-          <p className="text-[13px] mt-[8px]" style={{ color: 'rgba(255,255,255,0.50)' }}>
-            Saudia Airlines, Garuda Indonesia &amp; FlyDubai — tanpa transit berlebih.
-          </p>
-        </div>
-
-        {/* 2 — Avatar stack + stat */}
-        <div
-          className="p-[28px_30px] flex flex-col gap-[12px] border-b md:border-b-0 md:border-r"
-          style={{ borderColor: 'rgba(255,255,255,0.12)' }}
-        >
-          <div className="flex items-center">
-            <img
-              src="/images/avatar-1.jpg"
-              alt=""
-              aria-hidden="true"
-              className="w-9 h-9 rounded-full object-cover"
-              style={{ border: '2px solid #1B1B36' }}
-            />
-            <img
-              src="/images/avatar-2.jpg"
-              alt=""
-              aria-hidden="true"
-              className="w-9 h-9 rounded-full object-cover -ml-3"
-              style={{ border: '2px solid #1B1B36' }}
-            />
-            <span
-              className="text-[12.5px] font-medium ml-[10px]"
-              style={{ color: 'rgba(255,255,255,0.50)' }}
-            >
-              Dipercaya jamaah dari berbagai kota
-            </span>
-          </div>
-          <div>
-            <span
-              className="font-extrabold italic text-white leading-none"
-              style={{ fontSize: 'clamp(36px, 4vw, 48px)' }}
-            >
-              PPIU
-            </span>
-            <p className="text-[13px] mt-[6px]" style={{ color: 'rgba(255,255,255,0.50)' }}>
-              Berizin resmi Kementerian Agama RI
-            </p>
-          </div>
-        </div>
-
-        {/* 3 — Bold right text */}
-        <div className="p-[28px_30px]">
-          <h3
-            className="font-extrabold uppercase text-white leading-[1.1] tracking-[-0.01em]"
-            style={{ fontSize: 'clamp(18px, 2.2vw, 26px)' }}
-          >
-            MEMBERANGKATKAN<br />JAMAAH UMROH<br />SEJAK 2025
-          </h3>
-          <a
-            href="#paket"
-            className="inline-block mt-[16px] text-[12.5px] font-bold uppercase tracking-[0.07em] no-underline"
+        {trustItems.map((item) => (
+          <motion.div
+            key={item.title}
+            variants={fadeUp}
+            className="rounded-2xl p-[28px]"
             style={{
-              color: 'rgba(255,255,255,0.65)',
-              borderBottom: '1px solid rgba(255,255,255,0.35)',
-              paddingBottom: '2px',
+              background: 'rgba(255,255,255,0.035)',
+              border: '1px solid rgba(255,255,255,0.08)',
             }}
           >
-            Lihat Paket
-          </a>
-        </div>
-      </div>
+            <div
+              className="w-[44px] h-[44px] rounded-full flex items-center justify-center mb-[18px]"
+              style={{ background: 'rgba(255,255,255,0.08)' }}
+            >
+              <item.icon size={20} color="#fff" strokeWidth={1.75} />
+            </div>
+            <h3 className="text-[17px] font-bold leading-[1.3]" style={{ color: '#fff' }}>
+              {item.title}
+            </h3>
+            <p className="text-[14px] leading-[1.55] mt-[8px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              {item.desc}
+            </p>
+            {item.link && (
+              <a
+                href="#paket"
+                className="inline-flex items-center gap-[6px] text-[13px] font-bold uppercase tracking-[0.04em] mt-[16px] no-underline hover:opacity-75 transition-opacity"
+                style={{ color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: '2px' }}
+              >
+                Lihat Paket
+              </a>
+            )}
+          </motion.div>
+        ))}
+      </motion.div>
     </section>
   );
 }
