@@ -1,0 +1,174 @@
+# PROMPT REPLIT AGENT — LANDING PAGE DREAMMECCA TOUR & TRAVEL
+
+Copy-paste seluruh isi di bawah ini ke Replit Agent chat.
+
+---
+
+## KONTEKS PROJECT
+
+Buatkan landing page marketing untuk **Dreammecca Tour & Travel**, agen perjalanan Umroh berbasis di Jakarta Selatan. Target audiens: calon jamaah Umroh (25-55 tahun) yang mencari paket Umroh terpercaya, mayoritas traffic dari iklan Facebook/Instagram dan pencarian Google. Landing page harus terasa **premium, terpercaya, dan islami** — bukan seperti landing page startup tech.
+
+## STACK TEKNIS
+
+- **Next.js 14** (App Router, TypeScript)
+- **Tailwind CSS** untuk styling
+- **Framer Motion** untuk animasi (subtle, jangan berlebihan)
+- **shadcn/ui** untuk komponen dasar (accordion, card, button, dialog)
+- **next/image** untuk semua gambar (wajib, jangan pakai `<img>` biasa)
+- **Lucide React** untuk icon set
+- Deploy target: Vercel
+
+Install dependencies di awal:
+```bash
+npx create-next-app@latest dreammecca --typescript --tailwind --app --no-src-dir
+cd dreammecca
+npx shadcn@latest init
+npm install framer-motion lucide-react
+```
+
+## DESIGN SYSTEM
+
+**Palet warna** (evoke premium + islami, bukan tech/startup):
+- Navy dasar: `#0B1330` (background gelap, hero, footer)
+- Navy sekunder: `#141B3D` (card di atas background gelap)
+- Gold accent: `#C9A455` (CTA, highlight, border aktif)
+- Gold terang (hover): `#E0C077`
+- Cream/off-white: `#F8F6F0` (background section terang)
+- Teks gelap: `#1A1A1A`
+- Teks di atas navy: `#F5F3EC`
+
+**Tipografi:**
+- Heading: `Fraunces` (Google Fonts) — serif elegan, kesan premium travel, weight 500-600
+- Body: `Inter` — weight 400-500
+- Jangan pakai font tech/geometric seperti Space Grotesk di sini — beda brand identity dari project SaaS lo yang lain
+
+**Prinsip visual:**
+- Border radius konsisten: 12px untuk card, 8px untuk button
+- Shadow subtle, jangan neon/glow
+- Animasi masuk on-scroll pakai Framer Motion `whileInView`, durasi 0.4-0.6s, jangan bouncy
+- Spacing generous antar section (min 80px vertical padding di desktop, 48px di mobile)
+- Semua CTA utama pakai warna gold solid dengan teks navy gelap (kontras tinggi, jangan ghost button untuk primary CTA)
+
+## STRUKTUR HALAMAN
+
+### 1. Navbar (sticky, transparent → solid on scroll)
+- Logo Dreammecca kiri
+- Menu: Tentang, Fasilitas, Paket Umroh, Testimoni, FAQ, Kontak (smooth scroll ke anchor)
+- CTA kanan: tombol "Konsultasi Gratis" (gold, redirect ke WhatsApp dengan pesan pre-filled: "Assalamualaikum, saya ingin konsultasi paket Umroh Dreammecca")
+- Mobile: hamburger menu slide-in dari kanan
+
+### 2. Hero Section
+- Full-bleed background: video Kaabah (autoplay, muted, loop) dengan overlay gradient navy 60% opacity di atasnya biar teks kebaca
+- Headline besar (Fraunces, 48-64px desktop): "Wujudkan Panggilan Suci ke Tanah Haram" (atau copy serupa yang emosional, bukan generic)
+- Subheadline: "Perjalanan Umroh nyaman, aman, dan penuh berkah bersama pembimbing berpengalaman"
+- Dua CTA: "Konsultasi Gratis" (gold, primary) + "Lihat Paket Umroh" (outline putih, scroll ke section paket)
+- Trust bar kecil di bawah hero (bukan di section terpisah): logo Kemenag/PPIU, logo maskapai partner (Saudia, Garuda), "Terdaftar Resmi Kemenag RI" dengan icon shield/check
+- Scroll indicator halus di bagian bawah
+
+### 3. Partner/Trust Logo Strip
+- Row logo maskapai & mitra (yang sudah ada di layout asli), tapi jadikan carousel infinite-scroll halus (marquee), bukan static grid — kesannya lebih dinamis dan credible
+
+### 4. Tentang Dreammecca
+- Layout dua kolom: teks kiri, foto Kaabah kanan (bukan placeholder abu-abu, real image)
+- Tambahkan **3 stat card** di bawah teks: "X+ Jamaah Diberangkatkan", "X Tahun Pengalaman", "4.9/5 Rating Jamaah" — angka besar dengan counter animation on-scroll
+- Copy tentang perusahaan: legal, transparan, berpengalaman (sesuai draft asli, tapi rapikan grammar)
+
+### 5. Fasilitas & Layanan Unggulan
+- Grid 4 kolom desktop / 2 kolom tablet / 1 kolom mobile
+- 8 item dari layout asli: Penyelenggara Resmi, Maskapai Internasional, Hotel Bintang 4-5, Transportasi Bus, Manasik Eksklusif, Perlengkapan Eksklusif, Ruang Tunggu Nyaman, Full Bimbingan
+- Setiap card: icon (Lucide, warna gold), judul, deskripsi singkat, subtle hover lift effect (translateY -4px + shadow)
+
+### 6. Perlengkapan Eksklusif
+- Ganti box gelap kosong di layout asli dengan **image gallery/carousel** menampilkan item perlengkapan (koper, mukena, ihram, tas, dll)
+- Layout: horizontal scroll carousel di mobile, grid 4 kolom di desktop
+- Setiap item ada label singkat
+
+### 7. Paket Umroh Terdekat (bagian paling penting untuk konversi)
+- **Tambahkan filter bar** di atas grid: dropdown "Bulan Keberangkatan" dan "Range Budget" (client-side filter, tidak perlu backend)
+- Card paket redesign:
+  - Badge di pojok kanan atas: "Populer" atau "Sisa X Seat" (urgency, gold badge)
+  - Foto destinasi/hotel di atas card (bukan placeholder)
+  - Nama paket, durasi, periode keberangkatan
+  - Info maskapai & hotel (icon + text, bukan paragraf)
+  - 3 opsi harga (Quad/Triple/Double) sebagai tab/toggle, bukan tiga angka sekaligus — user pilih tipe kamar dulu baru lihat harga relevan
+  - CTA "Konsultasi Paket Ini" dengan WhatsApp deep link yang include nama paket di pesan pre-filled
+- Tampilkan 6 paket dengan tombol "Lihat Paket Lainnya" (load more, jangan render semua sekaligus)
+
+### 8. Testimoni Jamaah (SECTION BARU, tidak ada di layout asli — WAJIB ADA)
+- Carousel/grid testimoni dengan foto jamaah, nama, paket yang diambil, rating bintang, dan kutipan singkat
+- Kalau ada video testimoni, sediakan slot untuk embed video card
+- Ini krusial untuk industri travel Umroh karena kepercayaan adalah faktor konversi #1
+
+### 9. FAQ (SECTION BARU — WAJIB ADA)
+- Accordion (shadcn/ui accordion component) menjawab pertanyaan umum:
+  - Bagaimana proses pendaftaran?
+  - Apa saja yang termasuk dalam paket?
+  - Bagaimana kebijakan pembatalan/refund?
+  - Apakah ada cicilan pembayaran?
+  - Dokumen apa saja yang diperlukan?
+  - Apakah vaksin meningitis wajib?
+- Style minimal, satu kolom, max-width terbatas biar mudah dibaca
+
+### 10. CTA Section Final (sebelum footer)
+- Background navy solid dengan pattern geometris islami halus (opacity rendah) sebagai dekorasi
+- Headline ajakan kuat + tombol WhatsApp besar
+- Opsional: countdown/urgency ke keberangkatan terdekat
+
+### 11. Google Maps
+- Embed Google Maps interaktif dengan pin lokasi kantor (bukan cuma judul teks seperti layout asli)
+
+### 12. Footer
+- Logo, alamat lengkap, email, nomor telepon/WA
+- Social media icons (Instagram, Facebook, TikTok — sesuai layout asli)
+- Nomor izin PPIU/Kemenag (tambahkan, penting untuk legalitas)
+- Copyright line
+
+### 13. Sticky Mobile CTA Bar (WAJIB, tidak ada di layout asli)
+- Muncul fixed di bottom screen khusus mobile (hidden di desktop)
+- Dua tombol: "Telepon" dan "WhatsApp" side-by-side
+- Muncul setelah user scroll melewati hero (pakai scroll listener atau Intersection Observer)
+
+## DETAIL TEKNIS TAMBAHAN
+
+- **SEO**: setiap halaman punya proper `metadata` export (title, description, OG image) di Next.js App Router. Title: "Dreammecca Tour & Travel — Paket Umroh Terpercaya & Berkah"
+- **Performance**: lazy load semua image di bawah fold pakai `next/image` dengan `loading="lazy"`, video hero pakai `preload="metadata"`
+- **Accessibility**: semua tombol punya `aria-label`, kontras warna gold-on-navy dicek AA compliant, form/accordion keyboard-navigable
+- **Responsive breakpoints**: mobile-first, test di 375px, 768px, 1024px, 1440px
+- **WhatsApp integration**: semua CTA WhatsApp pakai format `https://wa.me/62XXXXXXXXXX?text=` dengan pesan ter-encode sesuai context tombol (paket spesifik vs general inquiry)
+- **Animasi**: gunakan Framer Motion `variants` yang reusable, satu file `lib/animations.ts` untuk fade-up, stagger children, dll — jangan inline animation object di setiap komponen
+
+## STRUKTUR FILE YANG DIHARAPKAN
+
+```
+app/
+  layout.tsx
+  page.tsx
+  globals.css
+components/
+  Navbar.tsx
+  Hero.tsx
+  PartnerStrip.tsx
+  About.tsx
+  Facilities.tsx
+  Gallery.tsx
+  PackageFilter.tsx
+  PackageCard.tsx
+  Testimonials.tsx
+  FAQ.tsx
+  FinalCTA.tsx
+  Footer.tsx
+  StickyMobileCTA.tsx
+  ui/ (shadcn components)
+lib/
+  animations.ts
+  whatsapp.ts (helper untuk generate WA deep link)
+public/
+  images/ (placeholder folder, gue akan upload foto asli nanti)
+```
+
+## CATATAN PENTING BUAT AGENT
+
+- Gunakan data dummy/placeholder yang realistis untuk paket, testimoni, dan stat angka — nanti gue ganti dengan data asli
+- Jangan hardcode nomor WhatsApp, taruh di `lib/whatsapp.ts` sebagai konstanta biar gampang diganti
+- Prioritaskan clean component structure, bukan semua logic di satu file `page.tsx`
+- Test build (`npm run build`) sebelum selesai, pastikan tidak ada error TypeScript

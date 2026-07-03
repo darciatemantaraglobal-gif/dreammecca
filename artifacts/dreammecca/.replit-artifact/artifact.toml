@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Dreammecca Tour & Travel"
+version = "1.0.0"
+id = "artifacts/dreammecca"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19726
+
+[services.development]
+run = "pnpm --filter @workspace/dreammecca run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dreammecca", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/dreammecca/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19726"
+BASE_PATH = "/"
