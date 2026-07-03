@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 
 const stats = [
-  { num: '12+', lbl: 'Tahun pengalaman' },
-  { num: '8.500+', lbl: 'Jamaah diberangkatkan' },
-  { num: '50+', lbl: 'Kloter per tahun' },
-  { num: '0', lbl: 'Gagal berangkat' },
+  { num: 'PPIU', lbl: 'Berizin Resmi Kemenag RI' },
+  { num: '2025', lbl: 'Tahun Mulai Beroperasi' },
+  { num: '100%', lbl: 'Dibimbing Ustadz Bersertifikat' },
+  { num: 'Sunnah', lbl: 'Sesuai Syariat & Sunnah Nabi ﷺ' },
 ];
 
 export default function About() {
@@ -47,7 +47,7 @@ export default function About() {
             className="font-bold leading-[1.15] mt-[10px]"
             style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
           >
-            Travel Umroh Resmi, Berpengalaman Sejak 2014
+            Travel Umroh Resmi, Melayani Sejak 2025
           </h2>
           <p
             className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"

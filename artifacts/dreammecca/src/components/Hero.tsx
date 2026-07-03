@@ -98,10 +98,10 @@ export default function Hero() {
                     className="font-bold leading-[1.2]"
                     style={{ fontSize: 'clamp(18px, 2vw, 22px)', color: '#1B1B36' }}
                   >
-                    12 Tahun Dipercaya<br />Jamaah Indonesia
+                    Berizin Resmi,<br />Siap Melayani Anda
                   </h2>
                   <p className="text-[13.5px] mt-[6px]" style={{ color: '#6B6B85' }}>
-                    Ribuan keberangkatan sejak 2014, nol kloter gagal berangkat.
+                    Sudah memberangkatkan banyak jamaah sejak 2025, dengan bimbingan penuh dari awal hingga pulang.
                   </p>
                 </div>
 
@@ -118,7 +118,7 @@ export default function Hero() {
             </div>
 
             {/* Card video — bleeds to bottom */}
-            <div className="w-full overflow-hidden" style={{ aspectRatio: '16/9' }}>
+            <div className="w-full" style={{ aspectRatio: '16 / 9', overflow: 'hidden' }}>
               <video
                 autoPlay
                 muted
@@ -126,7 +126,8 @@ export default function Hero() {
                 playsInline
                 preload="metadata"
                 poster="/images/kaabah/kaabah-1.jpg"
-                className="w-full h-full object-cover"
+                className="w-full h-full block"
+                style={{ objectFit: 'cover' }}
               >
                 <source src="/videos/hero-card.mp4" type="video/mp4" />
               </video>
@@ -177,7 +178,7 @@ export default function Hero() {
               className="text-[12.5px] font-medium ml-[10px]"
               style={{ color: 'rgba(255,255,255,0.50)' }}
             >
-              dan ribuan jamaah lainnya
+              Dipercaya jamaah dari berbagai kota
             </span>
           </div>
           <div>
@@ -185,10 +186,10 @@ export default function Hero() {
               className="font-extrabold italic text-white leading-none"
               style={{ fontSize: 'clamp(36px, 4vw, 48px)' }}
             >
-              8.500+
+              PPIU
             </span>
             <p className="text-[13px] mt-[6px]" style={{ color: 'rgba(255,255,255,0.50)' }}>
-              Jamaah diberangkatkan
+              Berizin resmi Kementerian Agama RI
             </p>
           </div>
         </div>
@@ -199,7 +200,7 @@ export default function Hero() {
             className="font-extrabold uppercase text-white leading-[1.1] tracking-[-0.01em]"
             style={{ fontSize: 'clamp(18px, 2.2vw, 26px)' }}
           >
-            12+ TAHUN<br />MELAYANI JAMAAH<br />UMROH INDONESIA
+            MEMBERANGKATKAN<br />JAMAAH UMROH<br />SEJAK 2025
           </h3>
           <a
             href="#paket"

@@ -1,0 +1,102 @@
+# PROMPT REPLIT — FIX RASIO VIDEO HERO + HAPUS KLAIM ANGKA YANG TIDAK AKURAT
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## BAGIAN A — Fix rasio video/gambar kartu Hero jadi 16:9 yang benar
+
+Container video di kartu Hero sepertinya belum benar-benar 16:9 (dari screenshot terlihat lebih ke arah portrait/kotak). Cari di `Hero.tsx` bagian video/gambar kartu, dan pastikan strukturnya PERSIS begini (width 100% eksplisit + aspect-ratio di container, bukan di elemen media-nya):
+
+```tsx
+<div className="w-full" style={{ aspectRatio: '16 / 9', overflow: 'hidden' }}>
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
+    poster="/images/kaabah/kaabah-1.jpg"
+    className="w-full h-full block"
+    style={{ objectFit: 'cover' }}
+  >
+    <source src="/videos/hero-card.mp4" type="video/mp4" />
+  </video>
+</div>
+```
+Perhatikan: `className="w-full h-full block"` (bukan cuma `object-cover` dari Tailwind) — kadang class Tailwind `object-cover` tidak jalan optimal kalau parent-nya tidak punya height eksplisit, makanya di sini `objectFit` ditulis langsung di `style` supaya pasti ke-apply. Cek juga parent div dari container ini TIDAK punya `height` fixed lain yang bentrok (misal dari `aspect-square` atau class lain yang tertinggal).
+
+## BAGIAN B — Hapus semua klaim angka yang tidak akurat, ganti jadi lebih realistis
+
+Beberapa angka ("12 tahun", "8.500+ jamaah", "50+ kloter") yang ada di halaman sekarang itu CONTOH placeholder, bukan data asli — perlu diganti supaya tidak jadi klaim yang bisa dianggap menyesatkan. Perusahaan baru mulai beroperasi sejak 2025.
+
+### Hero.tsx — kartu kanan (baris ~74-77)
+```tsx
+/* SEBELUM */
+12 Tahun Dipercaya<br />Jamaah Indonesia
+...
+Ribuan keberangkatan sejak 2014, nol kloter gagal berangkat.
+
+/* SESUDAH */
+Berizin Resmi,<br />Siap Melayani Anda
+...
+Sudah memberangkatkan banyak jamaah sejak 2025, dengan bimbingan penuh dari awal hingga pulang.
+```
+
+### Hero.tsx — strip statistik bawah (3 kotak)
+
+Kotak pertama ("Direct Flight, Maskapai Ternama Dunia") TIDAK berubah, itu klaim faktual soal maskapai partner, aman dipertahankan.
+
+Kotak kedua (baris berisi avatar stack + angka besar), ganti dari:
+```tsx
+/* SEBELUM */
+<div>...avatar stack...</div>
+<span>dan ribuan jamaah lainnya</span>
+<div className="text-[...]">8.500+</div>
+<p>Jamaah diberangkatkan</p>
+
+/* SESUDAH — ganti jadi badge legalitas, bukan angka jamaah */
+<div>...avatar stack tetap ada, boleh dipertahankan sebagai elemen visual...</div>
+<span>Dipercaya jamaah dari berbagai kota</span>
+<div className="text-[...] font-extrabold">PPIU</div>
+<p>Berizin resmi Kementerian Agama RI</p>
+```
+
+Kotak ketiga (baris ~118-120), ganti dari:
+```tsx
+/* SEBELUM */
+12+ TAHUN<br />MELAYANI JAMAAH<br />UMROH INDONESIA
+
+/* SESUDAH */
+MEMBERANGKATKAN<br />JAMAAH UMROH<br />SEJAK 2025
+```
+Link "LIHAT PAKET" di bawahnya TIDAK berubah.
+
+### About.tsx — H2 (baris ~38)
+```tsx
+/* SEBELUM */
+Travel Umroh Resmi, Berpengalaman Sejak 2014
+
+/* SESUDAH */
+Travel Umroh Resmi, Melayani Sejak 2025
+```
+
+### About.tsx — 4 kotak statistik (baris 3-8 di bagian atas file)
+
+Ganti seluruh array `stats` dari angka fabrikasi jadi klaim yang benar-benar bisa dipertanggungjawabkan:
+```tsx
+const stats = [
+  { value: 'PPIU', label: 'Berizin Resmi Kemenag RI' },
+  { value: '2025', label: 'Tahun Mulai Beroperasi' },
+  { value: '100%', label: 'Dibimbing Ustadz Bersertifikat' },
+  { value: 'Sunnah', label: 'Sesuai Syariat & Sunnah Nabi ﷺ' },
+];
+```
+Format render 4 kotak ini (angka besar + label kecil di bawahnya) TIDAK perlu diubah strukturnya, cuma isi datanya yang diganti — jadi tidak perlu sentuh JSX render-nya, cukup ganti array `stats`.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek kartu Hero — video/gambar sekarang harus benar-benar terlihat 16:9 (lebar, pendek), bukan portrait
+- Cek seluruh halaman (Hero, About) sekali lagi dari atas — pastikan TIDAK ada lagi angka jamaah/tahun yang terkesan sudah lama beroperasi/melayani ribuan orang, semua klaim sekarang jujur dan sesuai kenyataan (berdiri 2025)
+- Baca ulang flow copy-nya — pastikan meski tanpa angka besar, section ini tetap terasa meyakinkan (fokus ke legalitas PPIU, bimbingan sesuai sunnah, dan komitmen pelayanan — bukan ke jumlah/lama beroperasi)
