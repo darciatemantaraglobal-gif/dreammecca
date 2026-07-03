@@ -1,0 +1,359 @@
+# PROMPT REPLIT (2/2) — ADMIN PANEL + DATABASE SUPABASE UNTUK KELOLA PAKET
+
+Copy-paste ke Replit Agent chat. Jalankan SETELAH prompt Vercel (1/2) selesai. Ini mengganti data paket yang sekarang hardcoded di kode jadi disimpan di database, dan menambahkan halaman admin buat kelola paket tanpa perlu edit kode setiap kali ada perubahan.
+
+**Sebelum mulai**, siapkan dulu:
+1. Buat project baru di supabase.com (gratis)
+2. Ambil `Project URL` dan `anon public key` dari Settings → API
+3. Tambahkan sebagai environment variable di Replit (Secrets) DAN nanti juga di Vercel (Settings → Environment Variables):
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+
+---
+
+## BAGIAN A — Setup database (jalankan di Supabase SQL Editor)
+
+```sql
+create table packages (
+  id uuid primary key default gen_random_uuid(),
+  slug text unique not null,
+  tier text not null check (tier in ('Reguler','Luxury')),
+  duration text not null,
+  title text not null,
+  hotel_mecca text not null,
+  hotel_madinah text not null,
+  flight_type text not null default 'Direct',
+  landing text not null default 'Jeddah',
+  tags text[] not null default '{}',
+  price_from bigint not null,
+  poster_url text,
+  featured boolean not null default false,
+  is_active boolean not null default true,
+  sort_order int not null default 0,
+  created_at timestamptz not null default now()
+);
+
+create table departures (
+  id uuid primary key default gen_random_uuid(),
+  package_id uuid not null references packages(id) on delete cascade,
+  date_label text not null,
+  quota_label text not null default 'Hubungi untuk sisa seat',
+  is_active boolean not null default true,
+  sort_order int not null default 0,
+  created_at timestamptz not null default now()
+);
+
+alter table packages enable row level security;
+alter table departures enable row level security;
+
+create policy "Public read active packages"
+  on packages for select
+  using (is_active = true);
+
+create policy "Public read active departures"
+  on departures for select
+  using (is_active = true);
+
+create policy "Authenticated manage packages"
+  on packages for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
+create policy "Authenticated manage departures"
+  on departures for all
+  using (auth.role() = 'authenticated')
+  with check (auth.role() = 'authenticated');
+
+insert into storage.buckets (id, name, public)
+values ('posters', 'posters', true)
+on conflict (id) do nothing;
+
+create policy "Public read poster images"
+  on storage.objects for select
+  using (bucket_id = 'posters');
+
+create policy "Authenticated upload poster images"
+  on storage.objects for insert
+  with check (bucket_id = 'posters' and auth.role() = 'authenticated');
+
+create policy "Authenticated update poster images"
+  on storage.objects for update
+  using (bucket_id = 'posters' and auth.role() = 'authenticated');
+
+create policy "Authenticated delete poster images"
+  on storage.objects for delete
+  using (bucket_id = 'posters' and auth.role() = 'authenticated');
+```
+
+Setelah tabel dibuat, isi 4 baris data awal dari data yang sekarang hardcoded (sesuaikan `date_label` di tabel departures dengan jadwal riil yang sudah lo dapat dari tim Dreammecca):
+
+```sql
+insert into packages (slug, tier, duration, title, hotel_mecca, hotel_madinah, tags, price_from, featured, sort_order) values
+('reguler-9hari', 'Reguler', '9 Hari', 'Umroh Reguler Free Thoif', 'Maysan Al Masaher *4', 'Golden Tulip Al Ansr *4', array['Ziarah Thoif','Audio Hajj'], 33900000, false, 1),
+('reguler-12hari', 'Reguler', '12 Hari', 'Umroh Reguler Free Thoif', 'Maysan Al Masaher *4', 'Golden Tulip Al Ansr *4', array['Ziarah Thoif','Unta + ATV'], 36900000, false, 2),
+('luxury-9hari', 'Luxury', '9 Hari', 'Umroh Luxury Free Thoif', 'Pullman Zamzam / Setaraf *5', 'Al Aqeq Al Madinah / Setaraf *5', array['Ziarah Thoif','Unta + ATV','Audio Hajj'], 39900000, true, 3),
+('luxury-12hari', 'Luxury', '12 Hari', 'Umroh Luxury Free Thoif', 'Pullman Zamzam / Setaraf *5', 'Al Aqeq Al Madinah / Setaraf *5', array['Ziarah Thoif','Unta + ATV','Audio Hajj'], 43900000, false, 4);
+```
+
+Buat akun admin lewat Supabase Dashboard → Authentication → Add User (isi email dan password lo sendiri, ini yang dipakai login ke `/admin` nanti).
+
+## BAGIAN B — Install dependency & setup client Supabase
+
+```bash
+npm install @supabase/supabase-js
+```
+
+Buat file `src/lib/supabase.ts`:
+```tsx
+import { createClient } from '@supabase/supabase-js';
+
+const url = import.meta.env.VITE_SUPABASE_URL;
+const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!url || !anonKey) {
+  console.error('Supabase env vars belum diset. Cek VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY.');
+}
+
+export const supabase = createClient(url, anonKey);
+
+export interface Departure {
+  id: string;
+  package_id: string;
+  date_label: string;
+  quota_label: string;
+  is_active: boolean;
+  sort_order: number;
+}
+
+export interface Package {
+  id: string;
+  slug: string;
+  tier: 'Reguler' | 'Luxury';
+  duration: string;
+  title: string;
+  hotel_mecca: string;
+  hotel_madinah: string;
+  flight_type: string;
+  landing: string;
+  tags: string[];
+  price_from: number;
+  poster_url: string | null;
+  featured: boolean;
+  is_active: boolean;
+  sort_order: number;
+  departures?: Departure[];
+}
+```
+
+## BAGIAN C — Ganti Packages.tsx (homepage) dan PaketUmroh.tsx pakai data dari Supabase
+
+Di **kedua file** (`Packages.tsx` dan `pages/PaketUmroh.tsx`), hapus array hardcoded `packages`/`packageTypes`, ganti dengan fetch pakai TanStack Query (sudah terpasang di project):
+
+```tsx
+import { useQuery } from '@tanstack/react-query';
+import { supabase, Package } from '@/lib/supabase';
+
+function usePackages() {
+  return useQuery({
+    queryKey: ['packages'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*, departures(*)')
+        .eq('is_active', true)
+        .order('sort_order');
+      if (error) throw error;
+      return data as Package[];
+    },
+  });
+}
+```
+
+Di komponen `Packages` (homepage) dan `PaketUmroh` (halaman penuh), panggil `const { data: packages, isLoading } = usePackages();` lalu render loading state sederhana kalau `isLoading` (skeleton card abu-abu atau teks "Memuat paket..."), dan gunakan `packages` sebagai pengganti array hardcoded di `.map()`. Poster image sekarang ambil dari `pkg.poster_url` (bisa null kalau belum diupload — pertahankan fallback graceful yang sudah ada).
+
+## BAGIAN D — Halaman Admin
+
+### D1. `src/lib/useAdminAuth.ts`
+```tsx
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
+import type { Session } from '@supabase/supabase-js';
+
+export function useAdminAuth() {
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setLoading(false);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, sess) => setSession(sess));
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  return { session, loading };
+}
+```
+
+### D2. `src/pages/AdminLogin.tsx`
+```tsx
+import React, { useState } from 'react';
+import { useLocation } from 'wouter';
+import { supabase } from '@/lib/supabase';
+
+export default function AdminLogin() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [, navigate] = useLocation();
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) { setError('Email atau password salah.'); return; }
+    navigate('/admin');
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center" style={{ background: '#1B1B36' }}>
+      <form onSubmit={handleLogin} className="bg-white rounded-xl p-8 w-full max-w-[380px]">
+        <h1 className="text-[20px] font-bold mb-6" style={{ color: '#1B1B36' }}>Admin Dreammecca</h1>
+        <input
+          type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)}
+          className="w-full mb-3 px-4 py-3 rounded-lg border text-[14px]" style={{ borderColor: 'rgba(27,27,54,0.15)' }} required
+        />
+        <input
+          type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}
+          className="w-full mb-4 px-4 py-3 rounded-lg border text-[14px]" style={{ borderColor: 'rgba(27,27,54,0.15)' }} required
+        />
+        {error && <p className="text-[13px] mb-3" style={{ color: '#B5442E' }}>{error}</p>}
+        <button type="submit" className="w-full py-3 rounded-lg font-bold text-[14px] text-white" style={{ background: '#1B1B36' }}>
+          Masuk
+        </button>
+      </form>
+    </div>
+  );
+}
+```
+
+### D3. `src/pages/AdminDashboard.tsx`
+
+Halaman utama admin — list semua paket, tambah/edit/hapus, kelola tanggal keberangkatan per paket, upload poster. Karena ini tool internal (bukan halaman publik), styling dibuat fungsional dan rapi tapi tidak perlu se-detail landing page.
+
+```tsx
+import React, { useState } from 'react';
+import { useLocation } from 'wouter';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { supabase, Package } from '@/lib/supabase';
+import { useAdminAuth } from '@/lib/useAdminAuth';
+
+export default function AdminDashboard() {
+  const { session, loading } = useAdminAuth();
+  const [, navigate] = useLocation();
+  const queryClient = useQueryClient();
+  const [editing, setEditing] = useState<Package | null>(null);
+
+  const { data: packages } = useQuery({
+    queryKey: ['admin-packages'],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('packages').select('*, departures(*)').order('sort_order');
+      if (error) throw error;
+      return data as Package[];
+    },
+    enabled: !!session,
+  });
+
+  if (loading) return <div className="p-8">Memuat...</div>;
+  if (!session) { navigate('/admin/login'); return null; }
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    navigate('/admin/login');
+  }
+
+  async function toggleActive(pkg: Package) {
+    await supabase.from('packages').update({ is_active: !pkg.is_active }).eq('id', pkg.id);
+    queryClient.invalidateQueries({ queryKey: ['admin-packages'] });
+  }
+
+  async function deletePackage(id: string) {
+    if (!confirm('Yakin hapus paket ini beserta semua tanggal keberangkatannya?')) return;
+    await supabase.from('packages').delete().eq('id', id);
+    queryClient.invalidateQueries({ queryKey: ['admin-packages'] });
+  }
+
+  return (
+    <div className="min-h-screen p-8" style={{ background: '#F4F4F7' }}>
+      <div className="flex justify-between items-center mb-6 max-w-[1000px] mx-auto">
+        <h1 className="text-[22px] font-bold" style={{ color: '#1B1B36' }}>Kelola Paket Umroh</h1>
+        <div className="flex gap-3">
+          <button onClick={() => setEditing({} as Package)} className="px-4 py-2 rounded-lg text-white font-semibold text-[14px]" style={{ background: '#1B1B36' }}>
+            + Tambah Paket
+          </button>
+          <button onClick={handleLogout} className="px-4 py-2 rounded-lg font-semibold text-[14px]" style={{ border: '1px solid rgba(27,27,54,0.2)', color: '#1B1B36' }}>
+            Keluar
+          </button>
+        </div>
+      </div>
+
+      <div className="max-w-[1000px] mx-auto flex flex-col gap-3">
+        {packages?.map(pkg => (
+          <div key={pkg.id} className="bg-white rounded-xl p-4 flex justify-between items-center">
+            <div>
+              <div className="font-bold text-[15px]" style={{ color: '#1B1B36' }}>
+                {pkg.title} — {pkg.tier} · {pkg.duration} {!pkg.is_active && <span style={{ color: '#B5442E' }}>(nonaktif)</span>}
+              </div>
+              <div className="text-[13px] mt-1" style={{ color: '#6B6B85' }}>
+                Rp {(pkg.price_from / 1000000).toFixed(1)} Jt · {pkg.departures?.length || 0} jadwal keberangkatan
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => setEditing(pkg)} className="px-3 py-2 rounded-lg text-[13px] font-semibold" style={{ border: '1px solid rgba(27,27,54,0.2)', color: '#1B1B36' }}>
+                Edit
+              </button>
+              <button onClick={() => toggleActive(pkg)} className="px-3 py-2 rounded-lg text-[13px] font-semibold" style={{ border: '1px solid rgba(27,27,54,0.2)', color: '#1B1B36' }}>
+                {pkg.is_active ? 'Nonaktifkan' : 'Aktifkan'}
+              </button>
+              <button onClick={() => deletePackage(pkg.id)} className="px-3 py-2 rounded-lg text-[13px] font-semibold" style={{ border: '1px solid rgba(181,68,46,0.3)', color: '#B5442E' }}>
+                Hapus
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {editing && (
+        <PackageEditModal
+          pkg={editing}
+          onClose={() => setEditing(null)}
+          onSaved={() => { setEditing(null); queryClient.invalidateQueries({ queryKey: ['admin-packages'] }); }}
+        />
+      )}
+    </div>
+  );
+}
+```
+
+Minta Replit Agent membuat komponen `PackageEditModal` (dipanggil di atas) sebagai form modal berisi: input semua field paket (title, tier dropdown, duration, hotel_mecca, hotel_madinah, tags sebagai input dipisah koma, price_from angka, featured checkbox), file input untuk upload poster (pakai `supabase.storage.from('posters').upload()`, lalu simpan public URL hasil upload ke field `poster_url`), dan sub-form untuk tambah/hapus baris `departures` (date_label + quota_label) terkait paket tersebut — simpan/update semuanya lewat `supabase.from('packages').upsert()` dan `supabase.from('departures').upsert()`/`.delete()`.
+
+## BAGIAN E — Tambahkan route admin di App.tsx
+
+```tsx
+import AdminLogin from '@/pages/AdminLogin';
+import AdminDashboard from '@/pages/AdminDashboard';
+
+// tambahkan di dalam <Switch>:
+<Route path="/admin/login" component={AdminLogin} />
+<Route path="/admin" component={AdminDashboard} />
+```
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek `/admin/login` bisa login pakai akun yang dibuat di Supabase Dashboard
+- Cek `/admin` menampilkan 4 paket awal, bisa tambah/edit/hapus/nonaktifkan
+- Cek homepage dan `/paket-umroh` menampilkan data yang SAMA dengan yang ada di database (bukan lagi hardcoded) — coba ubah harga lewat admin, refresh homepage, harga harus berubah
+- **Sebelum deploy ke Vercel**: tambahkan `VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY` di Vercel → Settings → Environment Variables, kalau tidak halaman akan blank/error karena Supabase client gagal terbentuk
+- Jangan lupa ganti password akun admin ke yang kuat, dan JANGAN commit anon key atau URL Supabase langsung di kode — selalu lewat environment variable

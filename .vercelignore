@@ -1,0 +1,8 @@
+.replit
+replit.nix
+.config/
+.upm/
+artifacts/api-server
+artifacts/mockup-sandbox
+.local/
+.agents/

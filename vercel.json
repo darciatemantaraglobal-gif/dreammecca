@@ -1,0 +1,8 @@
+{
+  "buildCommand": "pnpm install && pnpm --filter @workspace/dreammecca run build",
+  "outputDirectory": "artifacts/dreammecca/dist/public",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

@@ -1,0 +1,92 @@
+# PROMPT REPLIT (1/2) — SIAPKAN PROJECT UNTUK DEPLOY DI VERCEL
+
+Copy-paste ke Replit Agent chat. Ini bagian pertama, khusus supaya project bisa jalan mulus setelah di-deploy ke Vercel — belum termasuk admin panel (lihat prompt kedua).
+
+---
+
+## KONTEKS
+
+Project ini dibangun di Replit dengan beberapa konfigurasi yang spesifik ke environment Replit (base path dari env var, plugin Cartographer/Dev Banner). Vercel butuh setup yang sedikit berbeda: SPA routing rewrite (supaya `/paket-umroh` tidak 404 saat diakses langsung), build command yang benar, dan tanpa plugin khusus Replit yang bisa bikin build gagal.
+
+## 1. Buat file `vercel.json` di root project
+
+```json
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/public",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+```
+Rewrite rule ini WAJIB ada — karena routing halaman (`/`, `/paket-umroh`, nanti `/admin`) ditangani client-side oleh Wouter, bukan oleh server. Tanpa rewrite ini, refresh halaman di `/paket-umroh` akan menampilkan 404 dari Vercel karena secara literal tidak ada file `paket-umroh.html` di server.
+
+## 2. Bersihkan `vite.config.ts` dari konfigurasi khusus Replit
+
+Cari dan HAPUS baris-baris yang merujuk ke plugin Replit (biasanya bernama seperti `cartographerPlugin`, `devBannerPlugin`, atau import dari `@replit/vite-plugin-*`) — plugin ini cuma jalan di environment Replit dan bisa bikin build gagal di Vercel karena package-nya tidak ter-resolve. Contoh pola yang perlu dihapus:
+```tsx
+/* HAPUS blok seperti ini kalau ada */
+import cartographer from '@replit/vite-plugin-cartographer';
+...
+plugins: [react(), cartographer(), devBanner()],
+
+/* GANTI jadi cukup */
+plugins: [react()],
+```
+
+Cari juga referensi ke `process.env.BASE_PATH` atau `process.env.PORT` yang dipakai untuk Replit multi-artifact routing — untuk Vercel, base path harus selalu `/` (root domain), jadi sederhanakan:
+```tsx
+/* SEBELUM (kalau ada pola begini) */
+base: process.env.BASE_PATH || '/',
+
+/* SESUDAH */
+base: '/',
+```
+
+Pastikan bagian `resolve.alias` (untuk `@` dan `@assets`) TETAP ada, itu tidak spesifik Replit dan masih dibutuhkan.
+
+## 3. Cek `package.json` — pastikan script build benar
+
+Pastikan ada script berikut (biasanya sudah ada dari scaffold Vite, cuma dobel-cek):
+```json
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview"
+}
+```
+
+## 4. Update `App.tsx` — hapus base path dari WouterRouter
+
+```tsx
+/* SEBELUM */
+<WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+
+/* SESUDAH */
+<WouterRouter>
+```
+Base path itu juga kebutuhan spesifik Replit multi-artifact hosting, tidak diperlukan di Vercel yang di-deploy sebagai domain sendiri.
+
+## 5. Tambahkan `.vercelignore` (opsional tapi disarankan)
+
+```
+.replit
+replit.nix
+.config/
+.upm/
+```
+Supaya file-file konfigurasi Replit tidak ikut ke-upload ke Vercel (tidak masalah kalau ikut, tapi lebih bersih tanpa itu).
+
+## LANGKAH DEPLOY (dilakukan di luar Replit, di dashboard Vercel)
+
+1. Push project ini ke GitHub repo (kalau belum, Replit punya fitur "Connect to GitHub" di menu Version Control)
+2. Buka vercel.com → New Project → Import repo GitHub tersebut
+3. Vercel otomatis detect framework Vite dari `vercel.json` — pastikan Build Command dan Output Directory sesuai (`npm run build` dan `dist/public`)
+4. Deploy — setelah selesai, cek semua route (`/`, `/paket-umroh`) bisa diakses langsung via URL tanpa 404, termasuk setelah refresh browser
+
+## VERIFIKASI DI REPLIT SEBELUM PUSH
+
+- Jalankan `npm run build` secara lokal, pastikan sukses tanpa error dan tidak butuh plugin Replit
+- Jalankan `npm run preview`, cek semua halaman jalan normal
+- Pastikan tidak ada import yang masih merujuk ke package `@replit/*` di seluruh codebase (`grep -r "@replit" src/` untuk double-check)
