@@ -1,0 +1,56 @@
+# PROMPT REPLIT — PATTERN TIDAK MUNCUL DI CURVE DIVIDER (MASIH FLAT SOLID)
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+Curve divider sekarang tampil sebagai bentuk lengkung yang benar, TAPI isinya flat warna solid navy, bukan pattern bertekstur seperti section di sekitarnya. Tolong cek dan perbaiki dengan urutan berikut:
+
+## 1. Cek apakah file pattern benar-benar ter-load di elemen divider
+
+Buka DevTools browser (F12) → Elements → cari elemen div `SectionDivider` yang bermasalah → cek tab Computed/Styles, apakah `background-image` benar-benar mengarah ke `url(/images/patterns/geometric-navy.jpg)` dan statusnya ter-load (bukan broken/404). Kalau network tab menunjukkan file itu gagal di-fetch (404), berarti path salah — cek ulang apakah file `geometric-navy.jpg` benar-benar ada persis di `public/images/patterns/`.
+
+## 2. Kemungkinan penyebab utama — urutan CSS property di objek style React
+
+Di `SectionDivider.tsx`, pastikan urutan penulisan `background-image` dan properti `mask` TIDAK saling menimpa. Kadang React inline style yang digabung dari spread object (`...maskStyle`) bisa membuat property tertentu ke-override kalau ada nama key yang sama tanpa disadari. Tulis ulang objek style-nya jadi eksplisit satu objek (tidak di-spread dari variable terpisah) supaya lebih mudah dipastikan urutannya benar:
+
+```tsx
+import React from 'react';
+
+interface SectionDividerProps {
+  overlayColor: string;
+}
+
+export default function SectionDivider({ overlayColor }: SectionDividerProps) {
+  return (
+    <div
+      className="w-full h-[44px] md:h-[64px]"
+      style={{
+        backgroundImage: `linear-gradient(180deg, rgba(${overlayColor},0.55), rgba(${overlayColor},0.65)), url("/images/patterns/geometric-navy.jpg")`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
+        WebkitMaskImage: 'url("/images/patterns/curve-mask.svg")',
+        maskImage: 'url("/images/patterns/curve-mask.svg")',
+        WebkitMaskSize: '100% 100%',
+        maskSize: '100% 100%',
+        WebkitMaskRepeat: 'no-repeat',
+        maskRepeat: 'no-repeat',
+        WebkitMaskPosition: 'center',
+        maskPosition: 'center',
+      }}
+    />
+  );
+}
+```
+Perubahan dari sebelumnya: URL gambar sekarang dibungkus tanda kutip ganda `url("...")` (kadang browser rewel kalau tidak ada quote di dalam template literal), dan semua properti ditulis eksplisit dalam satu objek (bukan di-spread dari variable terpisah) supaya tidak ada resiko property saling menimpa secara tidak sengaja.
+
+## 3. Kalau masih belum muncul juga — cek dengan cara paling dasar
+
+Sebagai tes debug cepat, sementara HAPUS baris `maskImage`/`WebkitMaskImage` dari style di atas (biarkan cuma `backgroundImage` dkk), lalu build ulang dan lihat: apakah div sekarang tampil sebagai KOTAK PERSEGI (bukan lengkung) tapi BERPATTERN? Kalau iya, berarti masalahnya murni di bagian mask, bukan di background image — laporkan hasil tes ini supaya saya bisa kasih fix yang lebih spesifik ke bagian mask-nya. Kalau kotaknya juga TETAP flat solid tanpa pattern, berarti masalahnya di background-image/path file, bukan di mask.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Screenshot ulang area curve divider — pattern geometris harus terlihat jelas di dalam bentuk lengkung tersebut, menyatu dengan section di atas dan bawahnya
+- Kalau setelah semua langkah di atas masih flat solid, jalankan tes debug di poin 3 dan kirim hasilnya (screenshot + kotak persegi vs lengkung) supaya saya bisa diagnosa lebih presisi
