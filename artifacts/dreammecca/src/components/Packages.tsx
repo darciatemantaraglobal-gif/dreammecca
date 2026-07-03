@@ -18,39 +18,51 @@ interface Pkg {
 
 const packages: Pkg[] = [
   {
-    badge: 'Reguler',
-    name: 'Paket Umroh Reguler',
-    period: 'Sep – Okt 2025',
+    badge: 'Reguler · 9 Hari',
+    name: 'Umroh Reguler Free Thoif',
+    period: 'GANTI: periode terdekat',
     days: '9 Hari 7 Malam',
-    flights: 'Saudia Airlines / Garuda Indonesia',
-    hotel_mecca: 'Hotel Setaraf Bintang 4',
-    hotel_madinah: 'Hotel Setaraf Bintang 4',
-    rooms: { Quad: 29500000, Triple: 34500000, Double: 42000000 },
-    quota: 'Sisa 12 seat',
+    flights: 'Direct Saudia Airline / Garuda',
+    hotel_mecca: 'Maysan Al Masaher *4',
+    hotel_madinah: 'Golden Tulip Al Ansr *4',
+    rooms: { Quad: 33900000, Triple: 35900000, Double: 39900000 },
+    quota: 'Hubungi untuk sisa seat',
     featured: false,
   },
   {
-    badge: 'Plus',
-    name: 'Paket Umroh Plus',
-    period: 'Nov – Des 2025',
-    days: '10 Hari 8 Malam',
-    flights: 'Saudia Airlines / FlyDubai',
-    hotel_mecca: 'Hotel Bintang 4 Azka Makkah',
-    hotel_madinah: 'Hotel Bintang 4 Wahid Madinah',
-    rooms: { Quad: 34500000, Triple: 40000000, Double: 49000000 },
-    quota: 'Sisa 8 seat',
+    badge: 'Reguler · 12 Hari',
+    name: 'Umroh Reguler Free Thoif',
+    period: 'GANTI: periode terdekat',
+    days: '12 Hari 10 Malam',
+    flights: 'Direct Saudia Airline / Garuda',
+    hotel_mecca: 'Maysan Al Masaher *4',
+    hotel_madinah: 'Golden Tulip Al Ansr *4',
+    rooms: { Quad: 36900000, Triple: 38900000, Double: 43900000 },
+    quota: 'Hubungi untuk sisa seat',
+    featured: false,
+  },
+  {
+    badge: 'Luxury · 9 Hari',
+    name: 'Umroh Luxury Free Thoif',
+    period: 'GANTI: periode terdekat',
+    days: '9 Hari 7 Malam',
+    flights: 'Direct Saudia Airline / Garuda',
+    hotel_mecca: 'Pullman Zamzam / Setaraf *5',
+    hotel_madinah: 'Al Aqeq Al Madinah / Setaraf *5',
+    rooms: { Quad: 39900000, Triple: 43900000, Double: 47900000 },
+    quota: 'Hubungi untuk sisa seat',
     featured: true,
   },
   {
-    badge: 'Ramadan',
-    name: 'Paket Umroh Ramadan',
-    period: 'Feb – Mar 2026',
+    badge: 'Luxury · 12 Hari',
+    name: 'Umroh Luxury Free Thoif',
+    period: 'GANTI: periode terdekat',
     days: '12 Hari 10 Malam',
-    flights: 'Saudia Airlines',
-    hotel_mecca: 'Hotel Bintang 5 Swissotel Makkah',
-    hotel_madinah: 'Hotel Bintang 4 Madinah',
-    rooms: { Quad: 44500000, Triple: 51000000, Double: 63000000 },
-    quota: 'Sisa 5 seat',
+    flights: 'Direct Saudia Airline / Garuda',
+    hotel_mecca: 'Pullman Zamzam / Setaraf *5',
+    hotel_madinah: 'Al Aqeq Al Madinah / Setaraf *5',
+    rooms: { Quad: 43900000, Triple: 48900000, Double: 53900000 },
+    quota: 'Hubungi untuk sisa seat',
     featured: false,
   },
 ];
@@ -63,7 +75,7 @@ function fmt(n: number) {
 
 function PackageCard({ pkg }: { pkg: Pkg }) {
   const [room, setRoom] = useState<Room>('Quad');
-  const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.name} (${pkg.period}). Boleh minta info lebih lengkap?`;
+  const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.name} (${pkg.badge}). Boleh minta info lebih lengkap?`;
 
   return (
     <div
@@ -186,11 +198,15 @@ export default function Packages() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-[24px] mt-[44px] items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[24px] mt-[44px] items-start">
           {packages.map(pkg => (
-            <PackageCard key={pkg.name} pkg={pkg} />
+            <PackageCard key={pkg.badge} pkg={pkg} />
           ))}
         </div>
+
+        <p className="text-center text-[14px] mt-[32px]" style={{ color: '#6B6B85' }}>
+          Dapatkan flash sale diskon sesuai syarat &amp; ketentuan yang berlaku — tanya tim kami untuk info promo terbaru.
+        </p>
       </div>
     </section>
   );

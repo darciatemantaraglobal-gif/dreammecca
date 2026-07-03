@@ -45,8 +45,8 @@ export default function FinalCTA() {
             <div>
               <h3 className="text-white font-bold text-[15px]">Alamat Kantor</h3>
               <p className="text-[14px] mt-1 leading-[1.6]" style={{ color: 'rgba(255,255,255,0.66)' }}>
-                Jl. Durian Raya, Jagakarsa,<br />
-                Jakarta Selatan, DKI Jakarta
+                Jl. Durian No.9A 6, RT.6/RW.4, Jagakarsa,<br />
+                Kec. Jagakarsa, Kota Jakarta Selatan, DKI Jakarta 12620
               </p>
             </div>
             <div>

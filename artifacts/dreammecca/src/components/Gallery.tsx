@@ -1,12 +1,17 @@
 import React from 'react';
 
 const items = [
-  { name: 'Koper & Tas Umroh', slug: 'koper-tas' },
-  { name: 'Mukena & Ihram', slug: 'mukena-ihram' },
-  { name: 'Sajadah Travel', slug: 'sajadah-travel' },
-  { name: 'Buku Doa & Manasik', slug: 'buku-doa-manasik' },
-  { name: 'Seragam Kloter', slug: 'seragam-kloter' },
-  { name: 'Kit Kesehatan', slug: 'kit-kesehatan' },
+  { name: 'Kain Ihram', slug: 'kain-ihram', note: 'Official Dreammecca' },
+  { name: 'Siskopatuh', slug: 'siskopatuh', note: 'Resmi Kemenag' },
+  { name: 'Tas Serut', slug: 'tas-serut', note: 'Parasut Premium' },
+  { name: 'Tumbler', slug: 'tumbler', note: 'Official Dreammecca' },
+  { name: 'Cover Paspor', slug: 'cover-paspor', note: 'Official Dreammecca' },
+  { name: 'Payung', slug: 'payung', note: 'Official Dreammecca' },
+  { name: 'Buku Panduan', slug: 'buku-panduan', note: 'Mudah & Lengkap' },
+  { name: 'Lanyard', slug: 'lanyard', note: 'Official Dreammecca' },
+  { name: 'Souvenir', slug: 'souvenir', note: 'Official Dreammecca' },
+  { name: 'Paper Bag', slug: 'paper-bag', note: 'Official Dreammecca' },
+  { name: 'Koper', slug: 'koper', note: 'Official Dreammecca' },
 ];
 
 export default function Gallery() {
@@ -32,7 +37,7 @@ export default function Gallery() {
           Setiap jamaah mendapat perlengkapan ibadah lengkap sebelum keberangkatan — siap pakai, tanpa perlu membeli sendiri.
         </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-[20px] mt-[48px]">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-[20px] mt-[48px]">
           {items.map(item => (
             <figure key={item.name}>
               <div
@@ -52,12 +57,12 @@ export default function Gallery() {
                   }}
                 />
               </div>
-              <figcaption
-                className="mt-[10px] text-[13.5px] font-semibold"
-                style={{ color: '#1B1B36' }}
-              >
+              <figcaption className="mt-[10px] text-[13.5px] font-semibold" style={{ color: '#1B1B36' }}>
                 {item.name}
               </figcaption>
+              <p className="text-[11.5px] mt-[2px]" style={{ color: '#6B6B85' }}>
+                {item.note}
+              </p>
             </figure>
           ))}
         </div>

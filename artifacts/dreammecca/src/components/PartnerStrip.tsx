@@ -3,10 +3,12 @@ import React from 'react';
 const partners = [
   'Saudia Airlines',
   'Garuda Indonesia',
-  'FlyDubai',
+  'Emirates',
+  'Etihad Airways',
+  'Qatar Airways',
+  'Turkish Airlines',
   'Kementerian Agama RI',
   'HIMPUH',
-  'PPIU Resmi',
 ];
 
 export default function PartnerStrip() {

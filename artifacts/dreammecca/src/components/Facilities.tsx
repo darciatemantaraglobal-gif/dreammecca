@@ -1,48 +1,58 @@
 import React from 'react';
-import { ShieldCheck, Plane, Building2, Bus, BookOpen, Briefcase, Armchair, Users } from 'lucide-react';
+import { FileCheck, HeartHandshake, GraduationCap, Building2, Car, Armchair, Stamp, Camera, Plane, Briefcase } from 'lucide-react';
 
 type FacilityIcon = React.ComponentType<{ size?: number; color?: string; strokeWidth?: number }>;
 
 const facilities: { icon: FacilityIcon; title: string; desc: string }[] = [
   {
-    icon: ShieldCheck,
-    title: 'Penyelenggara Resmi Ibadah Umroh',
-    desc: 'Berizin resmi PPIU Kementerian Agama RI, terdaftar dan diawasi langsung.',
+    icon: FileCheck,
+    title: 'Transparansi Biaya',
+    desc: 'Setiap biaya dijelaskan rinci dan terbuka sejak awal, tanpa biaya tersembunyi.',
   },
   {
-    icon: Plane,
-    title: 'Maskapai Internasional',
-    desc: 'Penerbangan langsung tanpa transit panjang, bersama maskapai ternama.',
+    icon: HeartHandshake,
+    title: 'Ibadah Lebih Personal & Khusyuk',
+    desc: 'Perjalanan dirancang agar Bapak/Ibu beribadah dengan tenang dan penuh kekhusyukan.',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Bimbingan Ustadz Profesional',
+    desc: 'Didampingi ustadz lulusan Al-Azhar Cairo dan Universitas Islam Madinah.',
   },
   {
     icon: Building2,
-    title: 'Hotel Bintang 4–5 Pilihan',
-    desc: 'Lokasi dekat Masjidil Haram & Masjid Nabawi, kenyamanan terjaga.',
+    title: 'Hotel Bintang 4 & 5',
+    desc: 'Lokasi strategis, dekat dengan Masjidil Haram dan Masjid Nabawi.',
   },
   {
-    icon: Bus,
-    title: 'Transportasi Bus Ber-AC',
-    desc: 'Armada modern untuk seluruh rangkaian perjalanan ibadah Anda.',
+    icon: Car,
+    title: 'Transportasi Nyaman & Aman',
+    desc: 'Bekerja sama dengan penyedia transportasi terpercaya di Arab Saudi.',
   },
   {
-    icon: BookOpen,
-    title: 'Manasik Intensif',
-    desc: 'Pembekalan manasik sebelum keberangkatan, dibimbing langsung ustadz.',
+    icon: Armchair,
+    title: 'Lounge Bandara',
+    desc: 'Fasilitas lounge saat keberangkatan & kepulangan, termasuk air zamzam 5 liter.',
+  },
+  {
+    icon: Stamp,
+    title: 'Visa Umroh Gratis',
+    desc: 'Seluruh proses visa diurus penuh oleh tim kami, tanpa biaya tambahan.',
+  },
+  {
+    icon: Camera,
+    title: 'Fotografer Profesional',
+    desc: 'Momen ibadah Bapak/Ibu didokumentasikan tim fotografer selama perjalanan.',
+  },
+  {
+    icon: Plane,
+    title: 'Maskapai Berstandar Internasional',
+    desc: 'Saudia, Garuda, Emirates, Etihad, Qatar Airways & Turkish Airlines.',
   },
   {
     icon: Briefcase,
     title: 'Perlengkapan Umroh Lengkap',
-    desc: 'Koper, ihram, mukena, hingga kit kesehatan — sudah disiapkan.',
-  },
-  {
-    icon: Armchair,
-    title: 'Layanan Bandara Nyaman',
-    desc: 'Pendampingan penuh saat keberangkatan maupun kepulangan di Indonesia.',
-  },
-  {
-    icon: Users,
-    title: 'Pembimbing Bersertifikat',
-    desc: 'Didampingi ustadz dan muthawif berpengalaman, sesuai sunnah Nabi ﷺ.',
+    desc: 'Seluruh perlengkapan ibadah sudah termasuk, tanpa biaya tambahan.',
   },
 ];
 

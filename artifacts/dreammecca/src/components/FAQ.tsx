@@ -3,31 +3,31 @@ import React, { useState } from 'react';
 const faqs = [
   {
     q: 'Apakah Dreammecca berizin resmi?',
-    a: 'Ya. Dreammecca terdaftar sebagai Penyelenggara Perjalanan Ibadah Umroh (PPIU) resmi di Kementerian Agama RI dan merupakan anggota HIMPUH.',
+    a: 'Ya. Dreammecca (PT. Dream Mecca International) terdaftar sebagai Penyelenggara Perjalanan Ibadah Umroh (PPIU) resmi di Kementerian Agama RI dan merupakan anggota HIMPUH.',
   },
   {
-    q: 'Bagaimana sistem pembayaran dan cicilan?',
-    a: 'Pembayaran dapat dilakukan bertahap dengan DP awal, dan pelunasan sebelum keberangkatan sesuai jadwal yang disepakati dalam kontrak.',
+    q: 'Berapa uang muka (DP) dan kapan pelunasan?',
+    a: 'Pendaftaran disertai DP Rp 10.000.000 per jamaah. Pelunasan wajib dilakukan paling lambat 30-35 hari sebelum keberangkatan (H-30), sesuai jadwal yang disepakati.',
+  },
+  {
+    q: 'Dokumen apa saja yang perlu disiapkan?',
+    a: 'Paspor asli (berlaku minimal 10 bulan sebelum kedaluwarsa, minimal 2 suku kata pada nama), fotokopi KTP & KK, buku nikah bagi pasangan suami-istri, pas foto 4x6 terbaru, dan sertifikat vaksin. Tim kami bantu pengecekan dokumen sebelum pendaftaran final.',
   },
   {
     q: 'Apa saja yang termasuk dalam harga paket?',
-    a: 'Harga sudah termasuk tiket pesawat, hotel, transportasi darat, manasik, perlengkapan Umroh, dan pembimbing selama perjalanan.',
+    a: 'Harga sudah termasuk tiket pesawat PP, visa umroh, hotel, transportasi bus, makan fullboard 3x sehari, manasik, perlengkapan umroh, tour leader dan muthawif berpengalaman, asuransi perjalanan, hingga air zamzam 5 liter.',
   },
   {
     q: 'Bagaimana jika ingin reschedule atau membatalkan?',
-    a: 'Kami memiliki kebijakan reschedule dan pembatalan tertulis dalam kontrak, dijelaskan detail saat konsultasi awal.',
+    a: 'Reschedule tanggal/program dapat dilakukan dengan pemberitahuan minimal 40 hari sebelum keberangkatan. Untuk pembatalan berlaku biaya pembatalan bertingkat sesuai kedekatan tanggal keberangkatan — detail lengkap dijelaskan saat konsultasi dan tertulis dalam kontrak.',
   },
   {
     q: 'Apakah ada pendampingan selama di Tanah Suci?',
-    a: 'Ya, setiap kloter didampingi pembimbing dan tim muthawif dari keberangkatan hingga kepulangan ke Indonesia.',
+    a: 'Ya, setiap kloter didampingi tour leader berlisensi dan muthawif alumni Timur Tengah, dari keberangkatan hingga kepulangan ke Indonesia.',
   },
   {
     q: 'Apakah wajib vaksin meningitis?',
-    a: 'Ya, vaksin meningitis adalah syarat wajib dari otoritas Arab Saudi untuk seluruh jamaah Umroh. Kami bantu arahkan ke fasilitas vaksinasi resmi terdekat.',
-  },
-  {
-    q: 'Berapa lama proses pembuatan visa?',
-    a: 'Proses visa Umroh biasanya memakan waktu 7–14 hari kerja setelah seluruh dokumen dan pelunasan lengkap kami terima.',
+    a: 'Ya, vaksin meningitis adalah syarat wajib dari otoritas Arab Saudi. Biaya vaksin tidak termasuk dalam harga paket dan menjadi tanggungan jamaah secara terpisah.',
   },
 ];
 

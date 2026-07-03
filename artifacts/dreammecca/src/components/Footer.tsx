@@ -18,6 +18,9 @@ export default function Footer() {
           >
             Dreammecca Tour &amp; Travel — penyelenggara ibadah Umroh resmi berizin Kementerian Agama RI, berbasis di Jakarta Selatan.
           </p>
+          <p className="text-[13px] mt-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            Jl. Durian No.9A 6, RT.6/RW.4, Jagakarsa, Kota Jakarta Selatan 12620
+          </p>
         </div>
         <a
           href={waLink}
@@ -38,9 +41,14 @@ export default function Footer() {
         <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
           © 2026 Dreammecca Tour &amp; Travel. All rights reserved.
         </span>
-        <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
-          dreammecca@gmail.com
-        </span>
+        <div className="flex items-center gap-4">
+          <a href="/syarat-ketentuan" className="text-[12px] hover:text-white transition-colors" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            Syarat &amp; Ketentuan
+          </a>
+          <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
+            dreammecca@gmail.com
+          </span>
+        </div>
       </div>
     </footer>
   );
