@@ -1,0 +1,76 @@
+# PROMPT REPLIT — DIVIDER CURVE PAKAI PATTERN ASLI (BUKAN WARNA SOLID)
+
+Sebelum paste ke Replit: upload file `curve-mask.svg` (yang saya kirim) ke folder `public/images/patterns/`.
+
+Lalu copy-paste ke Replit Agent chat:
+
+---
+
+## KONTEKS
+
+`SectionDivider.tsx` sekarang cuma nge-fill kurva dengan warna solid, padahal section di bawahnya sudah pakai background pattern bertekstur. Ganti pendekatannya: kurva ini nampilin PATTERN yang sama persis (background-image + gradient overlay yang sama dengan section di bawahnya), dibentuk jadi kurva pakai CSS `mask-image` yang mereferensi file SVG (bukan `fill` di dalam SVG kayak sebelumnya). Dengan cara ini kurvanya otomatis "menyambung" sempurna secara visual ke section di bawahnya, karena sumber gambarnya sama persis.
+
+## GANTI ISI `src/components/SectionDivider.tsx` TOTAL
+
+```tsx
+import React from 'react';
+
+interface SectionDividerProps {
+  overlayColor: string; // format: '41,41,81' (rgb tanpa rgba wrapper) — sesuaikan dengan overlay section di bawahnya
+}
+
+export default function SectionDivider({ overlayColor }: SectionDividerProps) {
+  const maskStyle: React.CSSProperties = {
+    WebkitMaskImage: 'url(/images/patterns/curve-mask.svg)',
+    maskImage: 'url(/images/patterns/curve-mask.svg)',
+    WebkitMaskSize: '100% 100%',
+    maskSize: '100% 100%',
+    WebkitMaskRepeat: 'no-repeat',
+    maskRepeat: 'no-repeat',
+  };
+
+  return (
+    <div
+      className="w-full h-[44px] md:h-[64px]"
+      style={{
+        backgroundImage: `linear-gradient(180deg, rgba(${overlayColor},0.55), rgba(${overlayColor},0.65)), url(/images/patterns/geometric-navy.jpg)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        ...maskStyle,
+      }}
+    />
+  );
+}
+```
+
+## UPDATE PEMANGGILAN DI `Home.tsx`
+
+Ganti prop `color` jadi `overlayColor`, dan sesuaikan nilainya dengan overlay warna section YANG DI BAWAHNYA (bukan hex biasa lagi, tapi format rgb dipisah koma tanpa spasi):
+
+```tsx
+<Hero />
+<SectionDivider overlayColor="27,27,54" />   {/* menuju PartnerStrip putih, tapi divider ini masih nunjukin pattern Hero */}
+<PartnerStrip />
+<About />
+<SectionDivider overlayColor="41,41,81" />   {/* menuju Facilities (navy-light) */}
+<Facilities />
+<SectionDivider overlayColor="41,41,81" />   {/* keluar dari Facilities menuju Gallery putih */}
+<Gallery />
+<Packages />
+<Testimonials />
+<SectionDivider overlayColor="27,27,54" />   {/* keluar dari Testimonials menuju Legal putih */}
+<Legal />
+<FAQ />
+<SectionDivider overlayColor="41,41,81" />   {/* menuju FinalCTA (navy-light) */}
+<FinalCTA />
+<Footer />
+```
+
+Catatan: warna overlay yang dipakai di tiap divider harus PERSIS SAMA dengan warna overlay yang dipakai di section navy terdekat (Hero/Testimonials/Footer pakai `27,27,54`, Facilities/FinalCTA pakai `41,41,81`) — supaya pattern di kurva dan pattern di section beneran menyatu tanpa ada garis batas yang kelihatan.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek `mask-image` benar-benar didukung dan ke-render — kalau browser lama/tertentu tidak support (jarang terjadi di browser modern), fallback-nya kurva akan tampil sebagai kotak biasa tanpa lengkung, bukan error/hilang total, jadi aman
+- Screenshot ulang tiap titik transisi — pastikan pattern di kurva terlihat MENYATU dengan pattern section di bawahnya, tidak ada lagi kesan "sambungan warna solid" seperti sebelumnya
+- Cek di Safari (baik desktop maupun iOS) secara khusus, karena `mask-image` butuh prefix `-webkit-` yang sudah dimasukkan di kode di atas, tapi tetap worth di-double-check
