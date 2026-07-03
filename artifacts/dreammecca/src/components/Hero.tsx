@@ -7,7 +7,12 @@ export default function Hero() {
   return (
     <section
       className="relative overflow-hidden px-[7vw] pt-[64px]"
-      style={{ background: '#1B1B36' }}
+      style={{
+        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url(/images/patterns/geometric-navy.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundColor: '#1B1B36',
+      }}
     >
       {/* ── Main 2-col grid ── */}
       <div className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] gap-[40px] items-start">

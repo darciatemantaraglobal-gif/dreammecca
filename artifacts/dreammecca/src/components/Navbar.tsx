@@ -18,7 +18,13 @@ export default function Navbar() {
   return (
     <nav
       className="sticky top-0 z-50 flex items-center justify-between px-[7vw] py-[18px]"
-      style={{ background: '#1B1B36', borderBottom: '1px solid rgba(255,255,255,0.14)' }}
+      style={{
+        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.95), rgba(27,27,54,0.97)), url(/images/patterns/geometric-navy.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundColor: '#1B1B36',
+        borderBottom: '1px solid rgba(255,255,255,0.14)',
+      }}
     >
       <a
         href="#"
@@ -71,7 +77,13 @@ export default function Navbar() {
       {open && (
         <div
           className="absolute top-full left-0 right-0 flex flex-col px-[7vw] pb-6 pt-4 gap-5"
-          style={{ background: '#1B1B36', borderBottom: '1px solid rgba(255,255,255,0.14)' }}
+          style={{
+            backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.95), rgba(27,27,54,0.97)), url(/images/patterns/geometric-navy.jpg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center top',
+            backgroundColor: '#1B1B36',
+            borderBottom: '1px solid rgba(255,255,255,0.14)',
+          }}
         >
           {links.map(l => (
             <a

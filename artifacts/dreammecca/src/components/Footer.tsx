@@ -5,7 +5,13 @@ export default function Footer() {
   const waLink = createWALink(DEFAULT_MESSAGE);
 
   return (
-    <footer style={{ background: '#1B1B36', borderTop: '1px solid rgba(255,255,255,0.14)' }}>
+    <footer style={{
+      backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.92), rgba(27,27,54,0.96)), url(/images/patterns/geometric-navy.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center bottom',
+      backgroundColor: '#1B1B36',
+      borderTop: '1px solid rgba(255,255,255,0.14)',
+    }}>
       {/* Top row */}
       <div
         className="max-w-[1180px] mx-auto px-[7vw] py-[44px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"

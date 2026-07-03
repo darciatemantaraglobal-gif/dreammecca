@@ -26,7 +26,12 @@ export default function Testimonials() {
     <section
       id="testimoni"
       className="px-[7vw] py-[88px]"
-      style={{ background: '#1B1B36' }}
+      style={{
+        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url(/images/patterns/geometric-navy.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundColor: '#1B1B36',
+      }}
     >
       <div className="max-w-[1180px] mx-auto">
         <span

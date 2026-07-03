@@ -5,7 +5,12 @@ export default function FinalCTA() {
   const waLink = createWALink(DEFAULT_MESSAGE);
 
   return (
-    <section id="kontak" className="px-[7vw] py-[88px]" style={{ background: '#292951' }}>
+    <section id="kontak" className="px-[7vw] py-[88px]" style={{
+      backgroundImage: 'linear-gradient(180deg, rgba(41,41,81,0.90), rgba(41,41,81,0.95)), url(/images/patterns/geometric-navy.jpg)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundColor: '#292951',
+    }}>
       <div
         className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-[56px] items-center"
       >
