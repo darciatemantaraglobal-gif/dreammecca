@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'wouter';
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { Calendar } from 'lucide-react';
@@ -205,6 +206,16 @@ export default function Packages() {
         <p className="text-center text-[14px] mt-[32px]" style={{ color: '#6B6B85' }}>
           Dapatkan flash sale diskon sesuai syarat &amp; ketentuan yang berlaku — tanya tim kami untuk info promo terbaru.
         </p>
+
+        <div className="flex justify-center mt-[24px]">
+          <Link
+            href="/paket-umroh"
+            className="inline-flex items-center gap-[8px] px-[24px] py-[13px] rounded-lg font-bold text-[14px] no-underline hover:opacity-[0.85] transition-opacity"
+            style={{ border: '1.5px solid #1B1B36', color: '#1B1B36' }}
+          >
+            Lihat Semua Paket &amp; Jadwal →
+          </Link>
+        </div>
       </div>
     </section>
   );
