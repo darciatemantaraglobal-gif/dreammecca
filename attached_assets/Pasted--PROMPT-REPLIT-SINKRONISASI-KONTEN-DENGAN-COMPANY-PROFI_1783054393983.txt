@@ -1,0 +1,275 @@
+# PROMPT REPLIT — SINKRONISASI KONTEN DENGAN COMPANY PROFILE RESMI
+
+Copy-paste ke Replit Agent chat. Prompt ini menyamakan semua data faktual di landing page dengan company profile resmi Dreammecca — fasilitas, perlengkapan, partner maskapai, alamat, dan syarat pendaftaran.
+
+**PENTING dibaca dulu**: jadwal keberangkatan di company profile (Sep–Des 2025) sudah lewat per hari ini. Semua tanggal di Bagian A3 pakai placeholder yang HARUS diganti manual dengan jadwal riil begitu tersedia — jangan publish dengan tanggal placeholder ini.
+
+---
+
+## BAGIAN A1 — Facilities.tsx: ganti ke 10 fasilitas asli dari comprof
+
+Ganti seluruh array `facilities` — comprof punya 10 item dengan deskripsi lebih kuat dari yang di landing page sekarang (yang cuma 8 item generik):
+
+```tsx
+const facilities = [
+  {
+    icon: FileCheck,
+    title: 'Transparansi Biaya',
+    desc: 'Setiap biaya dijelaskan rinci dan terbuka sejak awal, tanpa biaya tersembunyi.',
+  },
+  {
+    icon: HeartHandshake,
+    title: 'Ibadah Lebih Personal & Khusyuk',
+    desc: 'Perjalanan dirancang agar Bapak/Ibu beribadah dengan tenang dan penuh kekhusyukan.',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Bimbingan Ustadz Profesional',
+    desc: 'Didampingi ustadz lulusan Al-Azhar Cairo dan Universitas Islam Madinah.',
+  },
+  {
+    icon: Building2,
+    title: 'Hotel Bintang 4 & 5',
+    desc: 'Lokasi strategis, dekat dengan Masjidil Haram dan Masjid Nabawi.',
+  },
+  {
+    icon: Car,
+    title: 'Transportasi Nyaman & Aman',
+    desc: 'Bekerja sama dengan penyedia transportasi terpercaya di Arab Saudi.',
+  },
+  {
+    icon: Armchair,
+    title: 'Lounge Bandara',
+    desc: 'Fasilitas lounge saat keberangkatan & kepulangan, termasuk air zamzam 5 liter.',
+  },
+  {
+    icon: Stamp,
+    title: 'Visa Umroh Gratis',
+    desc: 'Seluruh proses visa diurus penuh oleh tim kami, tanpa biaya tambahan.',
+  },
+  {
+    icon: Camera,
+    title: 'Fotografer Profesional',
+    desc: 'Momen ibadah Bapak/Ibu didokumentasikan tim fotografer selama perjalanan.',
+  },
+  {
+    icon: Plane,
+    title: 'Maskapai Berstandar Internasional',
+    desc: 'Saudia, Garuda, Emirates, Etihad, Qatar Airways & Turkish Airlines.',
+  },
+  {
+    icon: Briefcase,
+    title: 'Perlengkapan Umroh Lengkap',
+    desc: 'Seluruh perlengkapan ibadah sudah termasuk, tanpa biaya tambahan.',
+  },
+];
+```
+
+Update import icon di baris paling atas:
+```tsx
+import { FileCheck, HeartHandshake, GraduationCap, Building2, Car, Armchair, Stamp, Camera, Plane, Briefcase } from 'lucide-react';
+```
+
+Karena sekarang 10 item (bukan 8), grid `md:grid-cols-4` akan menyisakan baris terakhir dengan 2 card saja — itu wajar dan tidak perlu diubah, biarkan wrap alami.
+
+## BAGIAN A2 — Gallery.tsx: ganti ke 11 perlengkapan asli dari comprof
+
+Ganti array `items` — ini daftar merchandise ASLI yang tertulis di comprof, ganti total dari 6 item generik sebelumnya:
+
+```tsx
+const items = [
+  { name: 'Kain Ihram', slug: 'kain-ihram', note: 'Official Dreammecca' },
+  { name: 'Siskopatuh', slug: 'siskopatuh', note: 'Resmi Kemenag' },
+  { name: 'Tas Serut', slug: 'tas-serut', note: 'Parasut Premium' },
+  { name: 'Tumbler', slug: 'tumbler', note: 'Official Dreammecca' },
+  { name: 'Cover Paspor', slug: 'cover-paspor', note: 'Official Dreammecca' },
+  { name: 'Payung', slug: 'payung', note: 'Official Dreammecca' },
+  { name: 'Buku Panduan', slug: 'buku-panduan', note: 'Mudah & Lengkap' },
+  { name: 'Lanyard', slug: 'lanyard', note: 'Official Dreammecca' },
+  { name: 'Souvenir', slug: 'souvenir', note: 'Official Dreammecca' },
+  { name: 'Paper Bag', slug: 'paper-bag', note: 'Official Dreammecca' },
+  { name: 'Koper', slug: 'koper', note: 'Official Dreammecca' },
+];
+```
+
+Tambahkan render `note` di bawah `figcaption` nama item (baris ~52-57), jadi tiap item menampilkan sub-label seperti di comprof:
+```tsx
+<figcaption className="mt-[10px] text-[13.5px] font-semibold" style={{ color: '#1B1B36' }}>
+  {item.name}
+</figcaption>
+<p className="text-[11.5px] mt-[2px]" style={{ color: '#6B6B85' }}>
+  {item.note}
+</p>
+```
+
+Ubah grid dari `grid-cols-2 md:grid-cols-3` jadi `grid-cols-2 md:grid-cols-4` supaya 11 item tersusun lebih rapi (3 baris: 4+4+3).
+
+## BAGIAN A3 — Packages.tsx: sesuaikan struktur harga dengan REGULER vs LUXURY
+
+Ini perubahan paling signifikan. Comprof menunjukkan Dreammecca sebenarnya punya **2 tier produk** (Reguler dan Luxury) × **2 durasi** (9 Hari dan 12 Hari) — bukan 3 paket berbeda nama seperti yang ada sekarang. Data hotel dan harga di comprof:
+
+| Tier | Durasi | Hotel Makkah | Hotel Madinah |
+|---|---|---|---|
+| Reguler | 9 & 12 hari | Maysan Al Masaher *4 | Golden Tulip Al Ansr *4 |
+| Luxury | 9 & 12 hari | Pullman Zamzam / Setaraf *5 | Al Aqeq Al Madinah / Setaraf *5 |
+
+Ganti seluruh isi array `packages` jadi struktur ini (**TANGGAL DI BAWAH INI PLACEHOLDER — WAJIB DIGANTI dengan jadwal riil dari tim Dreammecca sebelum publish**, harga sudah sesuai comprof asli untuk kombinasi tier+durasi ini):
+
+```tsx
+const packages: Pkg[] = [
+  {
+    badge: 'Reguler · 9 Hari',
+    name: 'Umroh Reguler Free Thoif',
+    period: 'GANTI: periode terdekat', // contoh format comprof: "September 2025"
+    days: '9 Hari 7 Malam',
+    flights: 'Direct Saudia Airline / Garuda',
+    hotel_mecca: 'Maysan Al Masaher *4',
+    hotel_madinah: 'Golden Tulip Al Ansr *4',
+    rooms: { Quad: 33900000, Triple: 35900000, Double: 39900000 },
+    quota: 'Hubungi untuk sisa seat',
+    featured: false,
+  },
+  {
+    badge: 'Reguler · 12 Hari',
+    name: 'Umroh Reguler Free Thoif',
+    period: 'GANTI: periode terdekat',
+    days: '12 Hari 10 Malam',
+    flights: 'Direct Saudia Airline / Garuda',
+    hotel_mecca: 'Maysan Al Masaher *4',
+    hotel_madinah: 'Golden Tulip Al Ansr *4',
+    rooms: { Quad: 36900000, Triple: 38900000, Double: 43900000 },
+    quota: 'Hubungi untuk sisa seat',
+    featured: false,
+  },
+  {
+    badge: 'Luxury · 9 Hari',
+    name: 'Umroh Luxury Free Thoif',
+    period: 'GANTI: periode terdekat',
+    days: '9 Hari 7 Malam',
+    flights: 'Direct Saudia Airline / Garuda',
+    hotel_mecca: 'Pullman Zamzam / Setaraf *5',
+    hotel_madinah: 'Al Aqeq Al Madinah / Setaraf *5',
+    rooms: { Quad: 39900000, Triple: 43900000, Double: 47900000 },
+    quota: 'Hubungi untuk sisa seat',
+    featured: true,
+  },
+  {
+    badge: 'Luxury · 12 Hari',
+    name: 'Umroh Luxury Free Thoif',
+    period: 'GANTI: periode terdekat',
+    days: '12 Hari 10 Malam',
+    flights: 'Direct Saudia Airline / Garuda',
+    hotel_mecca: 'Pullman Zamzam / Setaraf *5',
+    hotel_madinah: 'Al Aqeq Al Madinah / Setaraf *5',
+    rooms: { Quad: 43900000, Triple: 48900000, Double: 53900000 },
+    quota: 'Hubungi untuk sisa seat',
+    featured: false,
+  },
+];
+```
+
+Catatan tambahan:
+- Field `quota` diubah dari angka statis ("Sisa 12 seat") jadi "Hubungi untuk sisa seat" — karena comprof tidak mencantumkan data real-time seat, jangan pajang angka yang tidak bisa diverifikasi/di-update otomatis (itu justru rawan dianggap manipulatif kalau ternyata tidak akurat). Kalau lo punya sistem update manual rutin, boleh dikembalikan ke angka spesifik asal benar-benar di-maintain.
+- Grid `md:grid-cols-3` (baris ~189) ganti jadi `md:grid-cols-2 lg:grid-cols-4` supaya 4 kombinasi tier×durasi ini muat rapi dalam satu baris di desktop.
+- Tambahkan baris kecil di bawah grid paket, sesuai catatan "Flash Sale" yang berulang di comprof:
+```tsx
+<p className="text-center text-[14px] mt-[32px]" style={{ color: '#6B6B85' }}>
+  Dapatkan flash sale diskon sesuai syarat & ketentuan yang berlaku — tanya tim kami untuk info promo terbaru.
+</p>
+```
+
+## BAGIAN A4 — PartnerStrip.tsx: lengkapi daftar maskapai sesuai comprof
+
+Comprof menyebutkan 6 pilihan maskapai (bukan 3 seperti sekarang), ganti array `partners`:
+```tsx
+const partners = [
+  'Saudia Airlines',
+  'Garuda Indonesia',
+  'Emirates',
+  'Etihad Airways',
+  'Qatar Airways',
+  'Turkish Airlines',
+  'Kementerian Agama RI',
+  'HIMPUH',
+];
+```
+
+## BAGIAN A5 — Alamat lengkap: sinkronkan di semua tempat
+
+Alamat di landing page sekarang tidak lengkap (tanpa nomor rumah dan kode pos). Ganti di **FinalCTA.tsx** (baris ~48-49):
+```tsx
+Jl. Durian No.9A 6, RT.6/RW.4, Jagakarsa,<br />
+Kec. Jagakarsa, Kota Jakarta Selatan, DKI Jakarta 12620
+```
+
+Dan di **Footer.tsx**, tambahkan alamat lengkap yang sebelumnya tidak ada sama sekali di footer (baris ~19, setelah kalimat deskripsi perusahaan):
+```tsx
+<p className="text-[13px] mt-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
+  Jl. Durian No.9A 6, RT.6/RW.4, Jagakarsa, Kota Jakarta Selatan 12620
+</p>
+```
+
+## BAGIAN B — FAQ.tsx: perbaiki jawaban dengan data presisi dari comprof
+
+Ganti jawaban (bukan pertanyaan) untuk FAQ yang sudah ada supaya sesuai data riil, dan tambahkan 1 FAQ baru soal dokumen pendaftaran:
+
+```tsx
+const faqs = [
+  {
+    q: 'Apakah Dreammecca berizin resmi?',
+    a: 'Ya. Dreammecca (PT. Dream Mecca International) terdaftar sebagai Penyelenggara Perjalanan Ibadah Umroh (PPIU) resmi di Kementerian Agama RI dan merupakan anggota HIMPUH.',
+  },
+  {
+    q: 'Berapa uang muka (DP) dan kapan pelunasan?',
+    a: 'Pendaftaran disertai DP Rp 10.000.000 per jamaah. Pelunasan wajib dilakukan paling lambat 30-35 hari sebelum keberangkatan (H-30), sesuai jadwal yang disepakati.',
+  },
+  {
+    q: 'Dokumen apa saja yang perlu disiapkan?',
+    a: 'Paspor asli (berlaku minimal 10 bulan sebelum kedaluwarsa, minimal 2 suku kata pada nama), fotokopi KTP & KK, buku nikah bagi pasangan suami-istri, pas foto 4x6 terbaru, dan sertifikat vaksin. Tim kami bantu pengecekan dokumen sebelum pendaftaran final.',
+  },
+  {
+    q: 'Apa saja yang termasuk dalam harga paket?',
+    a: 'Harga sudah termasuk tiket pesawat PP, visa umroh, hotel, transportasi bus, makan fullboard 3x sehari, manasik, perlengkapan umroh, tour leader dan muthawif berpengalaman, asuransi perjalanan, hingga air zamzam 5 liter.',
+  },
+  {
+    q: 'Bagaimana jika ingin reschedule atau membatalkan?',
+    a: 'Reschedule tanggal/program dapat dilakukan dengan pemberitahuan minimal 40 hari sebelum keberangkatan. Untuk pembatalan berlaku biaya pembatalan bertingkat sesuai kedekatan tanggal keberangkatan — detail lengkap dijelaskan saat konsultasi dan tertulis dalam kontrak.',
+  },
+  {
+    q: 'Apakah ada pendampingan selama di Tanah Suci?',
+    a: 'Ya, setiap kloter didampingi tour leader berlisensi dan muthawif alumni Timur Tengah, dari keberangkatan hingga kepulangan ke Indonesia.',
+  },
+  {
+    q: 'Apakah wajib vaksin meningitis?',
+    a: 'Ya, vaksin meningitis adalah syarat wajib dari otoritas Arab Saudi. Biaya vaksin tidak termasuk dalam harga paket dan menjadi tanggungan jamaah secara terpisah.',
+  },
+];
+```
+
+## BAGIAN C — Rekomendasi struktural: halaman Syarat & Ketentuan terpisah
+
+Comprof punya syarat & ketentuan yang panjang dan detail secara hukum (force majeure, kondisi lapangan, tabel biaya pembatalan bertingkat, tanggung jawab penerbangan, dll) — ini PENTING secara legal tapi terlalu padat untuk ditaruh di landing page utama (bisa bikin orang kabur sebelum sampai CTA).
+
+**Rekomendasi**: buat halaman terpisah `/syarat-ketentuan` (route baru, bisa pakai React Router atau file statis), isi dengan seluruh teks syarat & ketentuan dari comprof (Pembiayaan & Pelunasan, Penerbangan & Transportasi, Force Majeure, Kondisi Lapangan, Ketentuan Pembatalan dengan tabel persentase biaya, Ketentuan Reschedule, Ketentuan Umum). Lalu tambahkan link kecil di Footer.tsx:
+```tsx
+<a href="/syarat-ketentuan" className="text-[12px] hover:text-white transition-colors" style={{ color: 'rgba(255,255,255,0.4)' }}>
+  Syarat & Ketentuan
+</a>
+```
+
+Saya bisa buatkan draft lengkap halaman ini di prompt terpisah kalau lo mau — teksnya panjang, lebih baik nggak digabung ke prompt ini supaya nggak kepanjangan dan gampang salah paste.
+
+## BAGIAN D — TIDAK diimplementasikan (perlu keputusan lo dulu)
+
+- **Nomor rekening BCA**: comprof mencantumkan rekening pembayaran langsung. Saya sengaja TIDAK menaruh ini di landing page publik karena rawan disalahgunakan (situs kloningan dengan rekening palsu adalah modus penipuan travel Umroh yang umum). Praktik lebih aman: rekening resmi hanya diberikan lewat WhatsApp setelah konsultasi/invoice, bukan tertera terbuka di halaman publik. Kalau lo tetap mau menampilkannya di website (misal di halaman Syarat & Ketentuan yang butuh login/khusus jamaah terdaftar), kasih tau saya.
+- **Tanggal keberangkatan riil**: seperti disebut di atas, semua tanggal di Bagian A3 masih placeholder. Begitu ada jadwal terbaru dari tim Dreammecca, kirim ke saya dan saya bantu susun ulang prompt untuk isi tanggal yang benar.
+
+---
+
+## VERIFIKASI SETELAH SELESAI
+
+- Jalankan `npm run build`, pastikan tidak ada error import icon baru
+- Cek Packages — pastikan 4 card (Reguler 9H, Reguler 12H, Luxury 9H, Luxury 12H) tampil dengan benar, badge tier jelas beda
+- Cek Gallery — 11 item perlengkapan tampil dengan note di bawah nama
+- Cek Facilities — 10 card fasilitas dengan icon baru tampil rapi meski jumlahnya ganjil di baris terakhir
+- **Jangan publish ke production sebelum tanggal placeholder di Packages.tsx diganti tanggal riil**
