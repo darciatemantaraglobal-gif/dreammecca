@@ -1,0 +1,42 @@
+# PROMPT REPLIT — FIX 16:9 (TEKNIK LEBIH KUAT) + GANTI KE GAMBAR DUMMY
+
+Sebelum paste ke Replit: upload file `hero-video-dummy.jpg` (yang saya kirim, sudah pas rasio 16:9 1600x900, gradient navy + ikon play) ke folder `public/images/kaabah/`, ganti/timpa nama file jadi `kaabah-1.jpg` (supaya tidak perlu ubah referensi path di kode).
+
+Lalu copy-paste ke Replit Agent chat:
+
+---
+
+## KONTEKS
+
+Rasio 16:9 yang di-set sebelumnya masih belum kepaksa dengan benar — kemungkinan besar karena parent container (flex/grid card di sekitarnya) ikut mempengaruhi tinggi elemen, dan `aspect-ratio` CSS gampang kalah kalau ada height dari elemen lain di sekitarnya. Ganti pakai teknik `padding-top` percentage — ini cara klasik yang jauh lebih kebal terhadap constraint dari parent manapun, dipakai luas sebelum `aspect-ratio` CSS didukung browser modern.
+
+## GANTI DI Hero.tsx
+
+Cari container video/gambar kartu (yang berisi `<video>` atau sebelumnya `<img>` foto Nabawi), ganti total strukturnya jadi:
+
+```tsx
+<div className="w-full relative" style={{ paddingTop: '56.25%', overflow: 'hidden' }}>
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
+    poster="/images/kaabah/kaabah-1.jpg"
+    className="absolute inset-0 w-full h-full"
+    style={{ objectFit: 'cover', display: 'block' }}
+  >
+    <source src="/videos/hero-card.mp4" type="video/mp4" />
+  </video>
+</div>
+```
+
+Penjelasan teknik: `paddingTop: '56.25%'` itu hasil dari 9/16 = 0.5625 — trik CSS lama di mana padding-top dalam persen dihitung berdasarkan LEBAR elemen (bukan tinggi), jadi otomatis menghasilkan tinggi = 56.25% dari lebar = rasio 16:9 pas, TIDAK PEDULI apapun yang terjadi di parent container. Video di dalamnya di-`position: absolute` supaya mengisi penuh box yang sudah dibentuk oleh padding-top tadi.
+
+## VERIFIKASI SETELAH SELESAI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek kartu Hero — sekarang HARUS terlihat jelas horizontal/landscape (lebar jauh lebih besar dari tinggi), bukan portrait/kotak seperti sebelumnya
+- Cek gambar dummy (gradient navy + ikon play + teks "VIDEO PREVIEW — DUMMY PLACEHOLDER") tampil dengan benar sebagai poster sementara
+- Cek di beberapa lebar layar berbeda (mobile, tablet, desktop) — rasio 16:9 harus konsisten di semua ukuran, karena teknik padding-top ini persentase, otomatis menyesuaikan lebar container
+- Begitu video asli (`hero-card.mp4`) di-upload ke `public/videos/`, otomatis menggantikan gambar dummy tanpa perlu ubah kode lagi

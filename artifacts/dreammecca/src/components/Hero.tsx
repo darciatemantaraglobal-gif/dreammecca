@@ -138,7 +138,7 @@ export default function Hero() {
             </div>
 
             {/* Card video — bleeds to bottom */}
-            <div className="w-full" style={{ aspectRatio: '16 / 9', overflow: 'hidden' }}>
+            <div className="w-full relative" style={{ paddingTop: '56.25%', overflow: 'hidden' }}>
               <video
                 autoPlay
                 muted
@@ -146,8 +146,8 @@ export default function Hero() {
                 playsInline
                 preload="metadata"
                 poster="/images/kaabah/kaabah-1.jpg"
-                className="w-full h-full block"
-                style={{ objectFit: 'cover' }}
+                className="absolute inset-0 w-full h-full"
+                style={{ objectFit: 'cover', display: 'block' }}
               >
                 <source src="/videos/hero-card.mp4" type="video/mp4" />
               </video>
