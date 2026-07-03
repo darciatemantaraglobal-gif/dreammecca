@@ -1,0 +1,52 @@
+# PROMPT REPLIT — GANTI GAMBAR KARTU HERO JADI VIDEO
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+Di `Hero.tsx`, cari bagian "Card image — bleeds to bottom" (sekitar baris 93-100):
+
+```tsx
+{/* Card image — bleeds to bottom */}
+<div className="w-full overflow-hidden" style={{ aspectRatio: '16/9' }}>
+  <img
+    src="/images/kaabah/kaabah-1.jpg"
+    alt="Ka'bah — Dreammecca"
+    className="w-full h-full object-cover"
+  />
+</div>
+```
+
+Ganti jadi:
+
+```tsx
+{/* Card video — bleeds to bottom */}
+<div className="w-full overflow-hidden" style={{ aspectRatio: '16/9' }}>
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    preload="metadata"
+    poster="/images/kaabah/kaabah-1.jpg"
+    className="w-full h-full object-cover"
+  >
+    <source src="/videos/hero-card.mp4" type="video/mp4" />
+  </video>
+</div>
+```
+
+Catatan:
+- `poster` tetap pakai foto Kaabah yang sudah ada sebagai fallback — jadi kalau video belum di-upload atau gagal load, kartu tetap tampil foto, bukan kotak kosong/broken.
+- `muted` wajib ada supaya `autoPlay` diizinkan browser (termasuk Safari iOS yang paling ketat soal autoplay).
+- `preload="metadata"` dipakai (bukan `"auto"`) supaya tidak download seluruh video di awal — cukup ambil dimensi/thumbnail dulu, video baru full-load saat mulai diputar. Ini penting karena section ini di atas fold (langsung kelihatan begitu halaman dibuka), jadi jangan sampai bikin loading awal jadi berat.
+- Video idealnya pendek (5-10 detik, loop-able tanpa terasa "patah" di sambungan), silent (tanpa audio yang perlu didengar karena `muted`), dan file size dikompres di bawah 3-5MB supaya tetap ringan meski di koneksi mobile.
+
+Upload file video ke `public/videos/hero-card.mp4` — begitu file ada di situ, otomatis muncul menggantikan foto statis tanpa perlu ubah kode lagi.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek di browser: video autoplay & loop mulus tanpa jeda
+- Cek di HP (terutama Safari iOS) — pastikan video benar-benar autoplay, bukan cuma tampil poster diam
+- Kalau video belum di-upload, pastikan foto Kaabah tetap tampil sebagai fallback, bukan kotak hitam/error

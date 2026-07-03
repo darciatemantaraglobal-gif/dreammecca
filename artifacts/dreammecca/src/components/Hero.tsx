@@ -90,13 +90,19 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Card image — bleeds to bottom */}
+            {/* Card video — bleeds to bottom */}
             <div className="w-full overflow-hidden" style={{ aspectRatio: '16/9' }}>
-              <img
-                src="/images/kaabah/kaabah-1.jpg"
-                alt="Ka'bah — Dreammecca"
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/images/kaabah/kaabah-1.jpg"
                 className="w-full h-full object-cover"
-              />
+              >
+                <source src="/videos/hero-card.mp4" type="video/mp4" />
+              </video>
             </div>
           </div>
         </div>
