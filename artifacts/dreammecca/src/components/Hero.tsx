@@ -8,7 +8,7 @@ const trustItems = [
   {
     icon: Plane,
     title: 'Direct Flight, Maskapai Ternama',
-    desc: 'Saudia Airlines, Garuda Indonesia & FlyDubai — tanpa transit berlebih.',
+    desc: 'Saudia Airlines, Garuda Indonesia & FlyDubai, tanpa transit berlebih.',
   },
   {
     icon: ShieldCheck,
@@ -65,7 +65,7 @@ export default function Hero() {
             className="mt-[28px] text-[16px] leading-[1.6] max-w-[440px]"
             style={{ color: 'rgba(255,255,255,0.66)' }}
           >
-            Berizin resmi PPIU Kementerian Agama RI. Kami hadir memastikan perjalanan ibadah Umroh Anda — dari konsultasi, dokumen, visa, hingga pendampingan di Tanah Suci — berjalan lancar dan penuh kekhusyukan.
+            Berizin resmi PPIU Kementerian Agama RI. Kami hadir memastikan perjalanan ibadah Umroh Anda, dari konsultasi, dokumen, visa, hingga pendampingan di Tanah Suci, berjalan lancar dan penuh kekhusyukan.
           </p>
 
           <a

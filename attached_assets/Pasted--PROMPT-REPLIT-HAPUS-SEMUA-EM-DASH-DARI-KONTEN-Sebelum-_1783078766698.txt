@@ -1,0 +1,81 @@
+# PROMPT REPLIT — HAPUS SEMUA EM DASH DARI KONTEN
+
+Sebelum paste ke Replit: ganti file `public/images/kaabah/kaabah-1.jpg` dengan `hero-video-dummy-v2.jpg` yang saya kirim (versi tanpa em dash di teksnya).
+
+Lalu copy-paste ke Replit Agent chat:
+
+---
+
+## LANGKAH 1 — Cari semua em dash yang masih tersisa
+
+Jalankan di terminal Replit untuk cek semua file yang masih mengandung karakter em dash (—):
+```bash
+grep -rn "—" src/
+```
+Review satu per satu hasilnya — JANGAN dihapus begitu saja (menghapus tanpa ganti bisa bikin dua kalimat nempel jadi rusak gramatikal), tapi diganti dengan tanda baca yang natural sesuai konteks kalimatnya (titik, koma, atau restrukturisasi kalimat).
+
+## LANGKAH 2 — Ganti instance yang sudah diketahui ada di konten berikut
+
+### Hero.tsx — paragraf deskripsi di bawah headline
+```
+SEBELUM:
+Berizin resmi PPIU Kementerian Agama RI. Kami hadir memastikan perjalanan ibadah Umroh Anda — dari konsultasi, dokumen, visa, hingga pendampingan di Tanah Suci — berjalan lancar dan penuh kekhusyukan.
+
+SESUDAH:
+Berizin resmi PPIU Kementerian Agama RI. Kami hadir memastikan perjalanan ibadah Umroh Anda, dari konsultasi, dokumen, visa, hingga pendampingan di Tanah Suci, berjalan lancar dan penuh kekhusyukan.
+```
+
+### Hero.tsx — trust bar, item "Direct Flight"
+```
+SEBELUM:
+Saudia Airlines, Garuda Indonesia & FlyDubai — tanpa transit berlebih.
+
+SESUDAH:
+Saudia Airlines, Garuda Indonesia & FlyDubai, tanpa transit berlebih.
+```
+
+### About.tsx — paragraf body (kalau masih ada versi ini)
+```
+SEBELUM:
+...Kami hadir untuk satu tujuan: memastikan setiap jamaah fokus beribadah dengan tenang — mulai dari pengurusan dokumen, manasik, keberangkatan, hingga kembali pulang ke Indonesia dengan selamat.
+
+SESUDAH:
+...Kami hadir untuk satu tujuan: memastikan setiap jamaah fokus beribadah dengan tenang, mulai dari pengurusan dokumen, manasik, keberangkatan, hingga kembali pulang ke Indonesia dengan selamat.
+```
+
+### Testimonials.tsx — quote Ahmad Fauzan
+```
+SEBELUM:
+Pembimbingnya sabar banget jelasinnya, manasiknya kepakai betul di lapangan — orang tua saya yang sudah lansia jadi lebih siap dan tenang.
+
+SESUDAH:
+Pembimbingnya sabar banget jelasinnya, dan manasiknya kepakai betul di lapangan. Orang tua saya yang sudah lansia jadi lebih siap dan tenang.
+```
+
+### FAQ.tsx — jawaban soal reschedule/pembatalan
+```
+SEBELUM:
+...Untuk pembatalan berlaku biaya pembatalan bertingkat sesuai kedekatan tanggal keberangkatan — detail lengkap dijelaskan saat konsultasi dan tertulis dalam kontrak.
+
+SESUDAH:
+...Untuk pembatalan berlaku biaya pembatalan bertingkat sesuai kedekatan tanggal keberangkatan. Detail lengkap dijelaskan saat konsultasi dan tertulis dalam kontrak.
+```
+
+### FinalCTA.tsx — subheadline
+```
+SEBELUM:
+Konsultasikan kebutuhan Umroh Anda tanpa biaya — kami bantu pilih jadwal, kamar, dan cara pembayaran yang sesuai.
+
+SESUDAH:
+Konsultasikan kebutuhan Umroh Anda tanpa biaya, kami bantu pilih jadwal, kamar, dan cara pembayaran yang sesuai.
+```
+
+## LANGKAH 3 — Cek juga file yang belum pernah saya audit em dash-nya
+
+Cek isi `Legal.tsx`, `Gallery.tsx`, `PaketUmroh.tsx`, dan `AdminDashboard.tsx` (kalau sudah dibuat) — kemungkinan ada em dash yang belum ke-cover di daftar di atas karena bagian ini belum pernah saya tulis ulang teksnya secara eksplisit.
+
+## VERIFIKASI
+
+- Jalankan `grep -rn "—" src/` lagi setelah semua perubahan, pastikan hasilnya KOSONG (tidak ada match sama sekali)
+- Jalankan `npm run build`, pastikan tidak ada error
+- Baca ulang beberapa kalimat yang diganti, pastikan masih mengalir natural dan tidak terasa dipotong paksa

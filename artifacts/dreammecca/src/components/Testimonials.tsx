@@ -13,7 +13,7 @@ const testimonials = [
     initials: 'AF',
     name: 'Ahmad Fauzan',
     meta: 'Kloter Mei 2025',
-    quote: 'Pembimbingnya sabar banget jelasinnya, manasiknya kepakai betul di lapangan — orang tua saya yang sudah lansia jadi lebih siap dan tenang.',
+    quote: 'Pembimbingnya sabar banget jelasinnya, dan manasiknya kepakai betul di lapangan. Orang tua saya yang sudah lansia jadi lebih siap dan tenang.',
   },
   {
     initials: 'SN',

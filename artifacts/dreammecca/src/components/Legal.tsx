@@ -5,7 +5,7 @@ import { fadeUp, staggerContainer } from '@/lib/animations';
 const points = [
   {
     title: 'Izin PPIU Kemenag RI',
-    desc: 'Terdaftar resmi sebagai Penyelenggara Perjalanan Ibadah Umroh — nomor izin dapat diverifikasi di Kementerian Agama.',
+    desc: 'Terdaftar resmi sebagai Penyelenggara Perjalanan Ibadah Umroh. Nomor izin dapat diverifikasi di Kementerian Agama.',
   },
   {
     title: 'Anggota HIMPUH',
@@ -17,7 +17,7 @@ const points = [
   },
   {
     title: 'Kantor Fisik di Jakarta Selatan',
-    desc: 'Kantor dapat dikunjungi langsung — bukan travel online tanpa alamat jelas.',
+    desc: 'Kantor dapat dikunjungi langsung, bukan travel online tanpa alamat jelas.',
   },
 ];
 
@@ -56,7 +56,7 @@ export default function Legal() {
             className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
             style={{ color: '#6B6B85' }}
           >
-            Industri Umroh rawan penipuan — karena itu kami transparan soal legalitas kami. Jangan ragu memverifikasi izin kami langsung ke Kementerian Agama RI.
+            Industri Umroh rawan penipuan, karena itu kami transparan soal legalitas kami. Jangan ragu memverifikasi izin kami langsung ke Kementerian Agama RI.
           </p>
         </motion.div>
 

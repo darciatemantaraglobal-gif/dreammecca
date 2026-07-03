@@ -42,7 +42,7 @@ export default function Gallery() {
             className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
             style={{ color: '#6B6B85' }}
           >
-            Setiap jamaah mendapat perlengkapan ibadah lengkap sebelum keberangkatan — siap pakai, tanpa perlu membeli sendiri.
+            Setiap jamaah mendapat perlengkapan ibadah lengkap sebelum keberangkatan, siap pakai, tanpa perlu membeli sendiri.
           </p>
         </motion.div>
 

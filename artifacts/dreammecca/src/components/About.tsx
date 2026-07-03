@@ -59,7 +59,7 @@ export default function About() {
             className="text-[17px] leading-[1.6] mt-[14px] max-w-[620px]"
             style={{ color: '#6B6B85' }}
           >
-            Dengan pengalaman luas dan dukungan tim profesional, kami memastikan setiap proses perjalanan umroh — mulai dari konsultasi, pengurusan dokumen, visa, hingga pendampingan di tanah suci — berjalan lancar dan sesuai standar resmi. Kami mengutamakan transparansi, keamanan, dan kepuasan jamaah dengan pelayanan personal yang responsif.
+            Dengan pengalaman luas dan dukungan tim profesional, kami memastikan setiap proses perjalanan umroh, mulai dari konsultasi, pengurusan dokumen, visa, hingga pendampingan di tanah suci, berjalan lancar dan sesuai standar resmi. Kami mengutamakan transparansi, keamanan, dan kepuasan jamaah dengan pelayanan personal yang responsif.
           </p>
           <p
             className="text-[17px] leading-[1.6] mt-[14px] max-w-[620px]"

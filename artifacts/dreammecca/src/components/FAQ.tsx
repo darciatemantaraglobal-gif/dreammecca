@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     q: 'Bagaimana jika ingin reschedule atau membatalkan?',
-    a: 'Reschedule tanggal/program dapat dilakukan dengan pemberitahuan minimal 40 hari sebelum keberangkatan. Untuk pembatalan berlaku biaya pembatalan bertingkat sesuai kedekatan tanggal keberangkatan — detail lengkap dijelaskan saat konsultasi dan tertulis dalam kontrak.',
+    a: 'Reschedule tanggal/program dapat dilakukan dengan pemberitahuan minimal 40 hari sebelum keberangkatan. Untuk pembatalan berlaku biaya pembatalan bertingkat sesuai kedekatan tanggal keberangkatan. Detail lengkap dijelaskan saat konsultasi dan tertulis dalam kontrak.',
   },
   {
     q: 'Apakah ada pendampingan selama di Tanah Suci?',

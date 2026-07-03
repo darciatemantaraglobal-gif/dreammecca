@@ -30,7 +30,7 @@ export default function Navbar() {
         href="#"
         onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
         className="flex items-center no-underline"
-        aria-label="Dreammecca — kembali ke atas"
+        aria-label="Dreammecca, kembali ke atas"
       >
         <img
           src="/images/logo.png"

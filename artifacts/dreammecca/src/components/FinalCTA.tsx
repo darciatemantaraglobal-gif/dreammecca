@@ -32,7 +32,7 @@ export default function FinalCTA() {
             className="text-[17px] leading-[1.6] mt-[16px]"
             style={{ color: 'rgba(255,255,255,0.66)' }}
           >
-            Konsultasikan kebutuhan Umroh Anda tanpa biaya — kami bantu pilih jadwal, kamar, dan cara pembayaran yang sesuai.
+            Konsultasikan kebutuhan Umroh Anda tanpa biaya, kami bantu pilih jadwal, kamar, dan cara pembayaran yang sesuai.
           </p>
 
           <div className="mt-[28px]">

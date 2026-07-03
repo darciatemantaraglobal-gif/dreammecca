@@ -14,7 +14,7 @@ const sections = [
   {
     title: 'Penerbangan & Transportasi',
     content: [
-      'Penerbangan menggunakan maskapai berstandar internasional: Saudia Airlines, Garuda Indonesia, Emirates, Etihad Airways, Qatar Airways, atau Turkish Airlines — sesuai ketersediaan dan paket yang dipilih.',
+      'Penerbangan menggunakan maskapai berstandar internasional: Saudia Airlines, Garuda Indonesia, Emirates, Etihad Airways, Qatar Airways, atau Turkish Airlines, sesuai ketersediaan dan paket yang dipilih.',
       'Jadwal penerbangan dapat berubah sesuai kebijakan maskapai. Dreammecca tidak bertanggung jawab atas keterlambatan, pembatalan, atau perubahan jadwal yang dikeluarkan oleh pihak maskapai.',
       'Transportasi darat di Arab Saudi menggunakan bus ber-AC bersama penyedia terpercaya dan berlisensi.',
       'Bagasi mengikuti ketentuan masing-masing maskapai. Kelebihan bagasi menjadi tanggung jawab jamaah.',
@@ -98,7 +98,7 @@ export default function SyaratKetentuan() {
             Syarat &amp; Ketentuan
           </h1>
           <p className="text-[16px] mt-[12px] leading-[1.6]" style={{ color: 'rgba(255,255,255,0.66)' }}>
-            PT. Dream Mecca International — berlaku untuk seluruh paket perjalanan ibadah Umroh Dreammecca.
+            PT. Dream Mecca International, berlaku untuk seluruh paket perjalanan ibadah Umroh Dreammecca.
           </p>
         </div>
       </div>

@@ -422,7 +422,7 @@ export default function AdminDashboard() {
             <div className="flex justify-between items-center">
               <div>
                 <div className="font-bold text-[15px]" style={{ color: '#1B1B36' }}>
-                  {pkg.title} — {pkg.tier} · {pkg.duration}{' '}
+                  {pkg.title} · {pkg.tier} · {pkg.duration}{' '}
                   {!pkg.isActive && <span style={{ color: '#B5442E' }}>(nonaktif)</span>}
                 </div>
                 <div className="text-[13px] mt-1" style={{ color: '#6B6B85' }}>

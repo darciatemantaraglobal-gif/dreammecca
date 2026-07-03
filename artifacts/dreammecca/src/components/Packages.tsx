@@ -162,7 +162,7 @@ export default function Packages() {
         )}
 
         <p className="text-center text-[14px] mt-[32px]" style={{ color: '#6B6B85' }}>
-          Dapatkan flash sale diskon sesuai syarat &amp; ketentuan yang berlaku — tanya tim kami untuk info promo terbaru.
+          Dapatkan flash sale diskon sesuai syarat &amp; ketentuan yang berlaku. Tanya tim kami untuk info promo terbaru.
         </p>
 
         <div className="flex justify-center mt-[24px]">
