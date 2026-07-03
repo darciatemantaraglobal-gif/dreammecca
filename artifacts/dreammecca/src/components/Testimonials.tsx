@@ -1,118 +1,78 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
-import { fadeUp, staggerContainer } from '@/lib/animations';
 
 const testimonials = [
   {
-    name: "Bapak Ahmad Fauzi",
-    city: "Jakarta Selatan",
-    package: "Paket Reguler Ramadan",
-    quote: "Alhamdulillah, perjalanan umroh kami sangat lancar. Pembimbing sangat sabar dan profesional. Akan rekomendasikan Dreammecca ke keluarga kami.",
-    avatar: "/images/testimoni/testimoni-1.jpg",
+    initials: 'RH',
+    name: 'Ratna Hidayati',
+    meta: 'Kloter September 2025',
+    quote: 'Pelayanan sangat rapi dari awal daftar sampai pulang. Hotel dekat sekali dengan Masjidil Haram, sesuai janji.',
   },
   {
-    name: "Ibu Siti Rahayu",
-    city: "Surabaya",
-    package: "Paket Premium Plus",
-    quote: "Hotelnya dekat sekali dengan Masjidil Haram. Pelayanan dari Dreammecca dari awal sampai pulang sangat memuaskan. Terima kasih!",
-    avatar: "/images/testimoni/testimoni-2.jpg",
+    initials: 'AF',
+    name: 'Ahmad Fauzan',
+    meta: 'Kloter Mei 2025',
+    quote: 'Pembimbingnya sabar dan jelas, manasiknya benar-benar membantu terutama untuk jamaah lansia seperti orang tua saya.',
   },
   {
-    name: "Bapak Hendra Wijaya",
-    city: "Bandung",
-    package: "Paket VIP Dzulhijjah",
-    quote: "Ini umroh pertama saya dan saya sangat puas. Semua kebutuhan terpenuhi, bahkan lebih dari yang dijanjikan. Insya Allah mau umroh lagi dengan Dreammecca.",
-  },
-  {
-    name: "Ibu Fatimah Zahra",
-    city: "Medan",
-    package: "Paket Reguler Syawal",
-    quote: "Proses pendaftaran mudah, transparan, dan tidak ada biaya tersembunyi. Sangat recommended untuk keluarga yang baru mau umroh!",
-  },
-  {
-    name: "Bapak Rizki Pratama",
-    city: "Makassar",
-    package: "Paket Ekonomi Syawal",
-    quote: "Paket ekonomi tapi kualitas bintang 4. Luar biasa! Pembimbing selalu sigap dan membantu.",
-  },
-  {
-    name: "Ibu Nuraini",
-    city: "Semarang",
-    package: "Paket Reguler Ramadan",
-    quote: "Pengalaman ibadah yang tak terlupakan. Dreammecca benar-benar amanah. Jazakumullahu khairan.",
+    initials: 'SN',
+    name: 'Siti Nuraini',
+    meta: 'Kloter Januari 2025',
+    quote: 'Awalnya was-was karena banyak berita penipuan travel Umroh, tapi Dreammecca transparan soal izin dan itinerary sejak awal.',
   },
 ];
 
-function InitialsAvatar({ name }: { name: string }) {
-  const initials = name.split(' ').slice(-2).map((n) => n[0]).join('').toUpperCase();
-  return (
-    <div className="w-12 h-12 rounded-full bg-dream-gold text-dream-navy flex items-center justify-center font-serif font-bold text-base flex-shrink-0">
-      {initials}
-    </div>
-  );
-}
-
 export default function Testimonials() {
   return (
-    <section id="testimoni" className="py-12 md:py-20 bg-dream-cream">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif text-dream-navy">
-            Kata <span className="text-dream-gold">Jamaah Kami</span>
-          </h2>
-          <p className="mt-4 text-dream-navy/60 max-w-2xl mx-auto font-light">
-            Ribuan jamaah telah mempercayakan perjalanan sucinya bersama Dreammecca.
-          </p>
-        </div>
-
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+    <section
+      id="testimoni"
+      className="px-[7vw] py-[88px]"
+      style={{ background: '#1B1B36' }}
+    >
+      <div className="max-w-[1180px] mx-auto">
+        <span
+          className="text-[13px] font-bold tracking-[0.14em] uppercase"
+          style={{ color: 'rgba(255,255,255,0.55)' }}
         >
-          {testimonials.map((testi, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              className="bg-white p-6 rounded-xl shadow-sm border border-black/5 flex flex-col h-full
-                         hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+          Testimoni Jamaah
+        </span>
+        <h2
+          className="font-bold leading-[1.15] mt-[10px] text-white"
+          style={{ fontSize: 'clamp(28px,3.6vw,42px)' }}
+        >
+          Cerita dari Mereka yang Sudah Berangkat
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[24px] mt-[48px]">
+          {testimonials.map(t => (
+            <div
+              key={t.name}
+              className="rounded-xl p-[26px]"
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.14)',
+              }}
             >
-              {/* Stars */}
-              <div className="flex gap-0.5 mb-4">
-                {[...Array(5)].map((_, s) => (
-                  <Star key={s} className="w-4 h-4 fill-dream-gold text-dream-gold" />
-                ))}
+              <div className="text-[13px] tracking-[2px] mb-[14px]" style={{ color: '#fff' }}>
+                ★★★★★
               </div>
-
-              {/* Quote */}
-              <p className="text-dream-navy/75 italic flex-grow mb-5 text-sm leading-relaxed">
-                "{testi.quote}"
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-3 pt-4 border-t border-dream-cream mt-auto">
-                {testi.avatar ? (
-                  <img
-                    src={testi.avatar}
-                    alt={`Foto jamaah ${testi.name} dari ${testi.city}, testimoni perjalanan Umroh bersama Dreammecca`}
-                    className="w-12 h-12 rounded-full object-cover flex-shrink-0"
-                  />
-                ) : (
-                  <InitialsAvatar name={testi.name} />
-                )}
-                <div className="min-w-0">
-                  <div className="font-semibold text-dream-navy text-sm truncate">{testi.name}</div>
-                  <div className="text-xs text-dream-navy/50 truncate">
-                    {testi.city} &bull; {testi.package}
+              <p className="text-[14.5px] leading-[1.65] text-white">"{t.quote}"</p>
+              <div className="flex items-center gap-3 mt-[20px]">
+                <div
+                  className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-[14px] text-white flex-none"
+                  style={{ background: 'rgba(255,255,255,0.12)' }}
+                >
+                  {t.initials}
+                </div>
+                <div>
+                  <div className="text-[13.5px] font-bold text-white">{t.name}</div>
+                  <div className="text-[12px]" style={{ color: 'rgba(255,255,255,0.66)' }}>
+                    {t.meta}
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

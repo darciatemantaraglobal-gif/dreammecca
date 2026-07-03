@@ -1,71 +1,82 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { MessageCircle } from 'lucide-react';
-import { fadeUp, staggerContainer } from '@/lib/animations';
 import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
 
 export default function FinalCTA() {
+  const waLink = createWALink(DEFAULT_MESSAGE);
+
   return (
-    <section className="py-12 md:py-20 bg-dream-navy relative overflow-hidden border-t border-dream-gold/15">
-
-      {/* Soft center glow */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[600px] h-[400px] rounded-full bg-dream-gold/5 blur-3xl" />
-      </div>
-
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <motion.div
-            variants={fadeUp}
-            className="inline-block px-4 py-1.5 rounded-full bg-dream-gold/10 border border-dream-gold/20 text-dream-gold font-semibold text-xs tracking-wider mb-8"
+    <section id="kontak" className="px-[7vw] py-[88px]" style={{ background: '#292951' }}>
+      <div
+        className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-[56px] items-center"
+      >
+        {/* Left: contact info */}
+        <div>
+          <span
+            className="text-[13px] font-bold tracking-[0.14em] uppercase"
+            style={{ color: 'rgba(255,255,255,0.55)' }}
           >
-            DAFTAR SEKARANG
-          </motion.div>
+            Konsultasi Gratis
+          </span>
+          <h2
+            className="font-bold leading-[1.15] mt-[10px] text-white"
+            style={{ fontSize: 'clamp(28px,3.6vw,42px)' }}
+          >
+            Siap Berangkat? Tim Kami Siap Membantu
+          </h2>
+          <p
+            className="text-[17px] leading-[1.6] mt-[16px]"
+            style={{ color: 'rgba(255,255,255,0.66)' }}
+          >
+            Konsultasikan kebutuhan Umroh Anda tanpa biaya — kami bantu pilih jadwal, kamar, dan cara pembayaran yang sesuai.
+          </p>
 
-          <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-serif text-white mb-5 leading-tight">
-            Siap Memulai Perjalanan{' '}
-            <span className="text-dream-gold">Suci Anda?</span>
-          </motion.h2>
-
-          <motion.p variants={fadeUp} className="text-base md:text-lg text-dream-cream/75 font-light mb-10 max-w-2xl mx-auto leading-relaxed">
-            Konsultasi gratis dengan tim kami. Kami siap membantu merencanakan dan mewujudkan ibadah Umroh impian Anda dengan nyaman dan aman.
-          </motion.p>
-
-          <motion.div variants={fadeUp}>
+          <div className="mt-[28px]">
             <a
-              href={createWALink(DEFAULT_MESSAGE)}
+              href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 bg-dream-gold hover:bg-dream-gold-hover
-                         text-dream-navy font-semibold px-8 py-4 rounded-lg
-                         transition-all duration-300 text-base md:text-lg
-                         shadow-[0_0_24px_rgba(201,164,85,0.25)] hover:shadow-[0_0_36px_rgba(201,164,85,0.4)]
-                         hover:-translate-y-0.5 group"
+              className="inline-flex items-center bg-white text-[#1B1B36] font-bold text-[15px] px-[26px] py-[15px] rounded-lg hover:opacity-[0.88] transition-opacity no-underline"
             >
-              <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
-              Konsultasi Gratis via WhatsApp
+              Chat via WhatsApp
             </a>
-          </motion.div>
+          </div>
 
-          <motion.div
-            variants={fadeUp}
-            className="mt-8 flex items-center justify-center gap-2 text-sm text-dream-cream/65"
-          >
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500" />
-            </span>
-            <span>
-              Kursi terbatas! Paket Ramadan 2026 tersisa{' '}
-              <strong className="text-white font-semibold">8 seat</strong>
-            </span>
-          </motion.div>
-        </motion.div>
+          <div className="flex flex-col sm:flex-row gap-6 mt-[40px]">
+            <div>
+              <h3 className="text-white font-bold text-[15px]">Alamat Kantor</h3>
+              <p className="text-[14px] mt-1 leading-[1.6]" style={{ color: 'rgba(255,255,255,0.66)' }}>
+                Jl. Durian Raya, Jagakarsa,<br />
+                Jakarta Selatan, DKI Jakarta
+              </p>
+            </div>
+            <div>
+              <h3 className="text-white font-bold text-[15px]">Email</h3>
+              <p className="text-[14px] mt-1" style={{ color: 'rgba(255,255,255,0.66)' }}>
+                dreammecca@gmail.com
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Google Maps embed */}
+        <div
+          className="rounded-xl overflow-hidden w-full"
+          style={{
+            aspectRatio: '4/3',
+            border: '1px solid rgba(255,255,255,0.14)',
+          }}
+        >
+          <iframe
+            title="Lokasi Kantor Dreammecca"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.0!2d106.8311!3d-6.3500!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ed5b5a42eb0d%3A0x9d8c4eb5e5f11234!2sJagakarsa%2C%20Jakarta%20Selatan!5e0!3m2!1sid!2sid!4v1234567890"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
       </div>
     </section>
   );

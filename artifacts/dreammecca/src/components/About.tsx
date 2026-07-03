@@ -1,115 +1,58 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { fadeUp } from '@/lib/animations';
+import React from 'react';
 
-function AnimatedCounter({ value, label, suffix = "" }: { value: number; label: string; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-
-  useEffect(() => {
-    if (!isInView) return;
-    let start = 0;
-    const end = value;
-    if (value % 1 !== 0) {
-      const timer = setInterval(() => {
-        start += 0.1;
-        if (start >= end) { setCount(end); clearInterval(timer); }
-        else setCount(Number(start.toFixed(1)));
-      }, 40);
-      return () => clearInterval(timer);
-    } else {
-      const step = Math.ceil(end / 50);
-      const timer = setInterval(() => {
-        start += step;
-        if (start >= end) { setCount(end); clearInterval(timer); }
-        else setCount(start);
-      }, 40);
-      return () => clearInterval(timer);
-    }
-  }, [value, isInView]);
-
-  return (
-    <div ref={ref} className="text-center p-4 bg-white rounded-xl shadow-sm border border-dream-cream/80">
-      <div className="text-3xl md:text-4xl font-serif font-bold text-dream-gold mb-1">
-        {count.toLocaleString('id-ID')}{suffix}
-      </div>
-      <div className="text-xs md:text-sm text-dream-navy/60 font-medium">{label}</div>
-    </div>
-  );
-}
+const stats = [
+  { num: '12+', lbl: 'Tahun pengalaman' },
+  { num: '8.500+', lbl: 'Jamaah diberangkatkan' },
+  { num: '50+', lbl: 'Kloter per tahun' },
+  { num: '0', lbl: 'Gagal berangkat' },
+];
 
 export default function About() {
   return (
-    <section id="tentang" className="py-12 md:py-20 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
+    <section id="tentang" className="px-[7vw] py-[88px] bg-white">
+      <div className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-[0.85fr_1.15fr] gap-[64px] items-center">
+        {/* Left: photo */}
+        <div
+          className="rounded-xl overflow-hidden"
+          style={{ aspectRatio: '1/1' }}
+        >
+          <img
+            src="/images/about.jpg"
+            alt="Tim Dreammecca"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-          {/* Text column */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={fadeUp}
-            className="order-2 lg:order-1"
+        {/* Right: text */}
+        <div>
+          <span
+            className="text-[13px] font-bold tracking-[0.14em] uppercase"
+            style={{ color: '#6B6B85' }}
           >
-            <div className="inline-block px-4 py-1.5 rounded-full bg-dream-cream text-dream-gold font-semibold text-xs tracking-wider mb-6">
-              TENTANG KAMI
-            </div>
-
-            <h2 className="text-3xl md:text-4xl font-serif text-dream-navy mb-6 leading-tight">
-              Perjalanan Berkesan,{' '}
-              <br />
-              <span className="text-dream-gold">Ibadah Bermakna</span>
-            </h2>
-
-            <div className="space-y-4 text-dream-navy/70 mb-10 text-lg font-light leading-relaxed">
-              <p>
-                Didirikan sejak 2012, Dreammecca hadir sebagai sahabat setia dalam merajut mimpi suci Anda
-                menuju Baitullah. Kami memahami bahwa Umroh bukan sekadar perjalanan fisik, melainkan
-                perjalanan spiritual yang mendalam.
-              </p>
-              <p>
-                Sebagai penyelenggara resmi yang terdaftar di Kementerian Agama RI, kami berkomitmen
-                memberikan pelayanan sepenuh hati, fasilitas premium, dan bimbingan ibadah yang sesuai
-                sunnah — memastikan Anda dapat beribadah dengan tenang, khusyuk, dan paripurna.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              <AnimatedCounter value={5000} label="Jamaah Diberangkatkan" suffix="+" />
-              <AnimatedCounter value={12} label="Tahun Pengalaman" />
-              <AnimatedCounter value={4.9} label="Rating Jamaah" suffix="/5" />
-            </div>
-          </motion.div>
-
-          {/* Image column */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="order-1 lg:order-2 relative"
+            Tentang Kami
+          </span>
+          <h2
+            className="font-bold leading-[1.15] mt-[10px]"
+            style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
           >
-            <div className="absolute -inset-4 bg-dream-cream rounded-2xl transform rotate-3 -z-10" />
+            Perusahaan Travel Umroh Terpercaya Berbasis Jakarta Selatan
+          </h2>
+          <p
+            className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
+            style={{ color: '#6B6B85' }}
+          >
+            Dreammecca Tour &amp; Travel adalah penyelenggara ibadah Umroh resmi yang berkomitmen menghadirkan perjalanan ibadah yang aman, nyaman, dan sesuai tuntunan syariat. Setiap jamaah kami dampingi penuh — mulai dari persiapan dokumen, manasik, hingga kepulangan ke Indonesia.
+          </p>
 
-            <div className="relative rounded-xl overflow-hidden shadow-2xl aspect-[4/5]">
-              <img
-                src="/images/kaabah/kaabah-1.jpg"
-                alt="Suasana di dalam Masjid Nabawi Madinah Al-Munawwarah, destinasi ibadah Umroh bersama Dreammecca Tour & Travel"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-dream-navy/60 to-transparent" />
-            </div>
-
-            {/* Floating quote badge — hidden on small mobile to avoid overflow/overlap */}
-            <div className="hidden sm:block absolute -bottom-6 -left-4 md:-left-6 bg-dream-navy p-5 rounded-xl shadow-xl border-l-4 border-dream-gold max-w-[200px]">
-              <p className="text-white font-serif text-base leading-tight">
-                "Sebaik-baik perjalanan adalah menuju Rumah-Nya."
-              </p>
-            </div>
-          </motion.div>
-
+          {/* Stats */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-[24px] mt-[40px]">
+            {stats.map(s => (
+              <div key={s.lbl} style={{ borderTop: '2px solid #1B1B36', paddingTop: '14px' }}>
+                <div className="text-[30px] font-extrabold" style={{ color: '#1B1B36' }}>{s.num}</div>
+                <div className="text-[13px] mt-[4px]" style={{ color: '#6B6B85' }}>{s.lbl}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

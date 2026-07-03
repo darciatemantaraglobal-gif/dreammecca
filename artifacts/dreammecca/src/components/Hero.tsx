@@ -1,123 +1,89 @@
-import React, { useRef } from 'react';
-import { motion } from 'framer-motion';
-import { ShieldCheck, Plane, Star } from 'lucide-react';
-import { fadeUp, staggerContainer } from '@/lib/animations';
+import React from 'react';
 import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
 
 export default function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const waLink = createWALink(DEFAULT_MESSAGE);
 
   return (
-    <div className="relative min-h-[100dvh] flex items-end justify-center bg-dream-navy overflow-hidden">
-      {/* Background video / image */}
-      <div className="absolute inset-0 z-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          poster="/images/hero/hero-1.jpg"
-          className="absolute inset-0 w-full h-full object-cover"
-          aria-hidden="true"
-          width="1920"
-          height="1080"
-        >
-          <source src="/videos/hero-1.mp4" type="video/mp4" />
-        </video>
-
-        {/* Simple bottom-heavy gradient — photo breathes at top */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10" />
-      </div>
-
-      {/* Content — sits at the bottom of the hero */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-14 sm:pb-20">
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          animate="visible"
-          className="max-w-4xl"
-        >
-          {/* Label */}
-          <motion.div variants={fadeUp} className="mb-5">
-            <span className="inline-block border border-dream-gold/50 text-dream-gold text-xs font-semibold tracking-widest px-4 py-1.5 uppercase">
-              Penyelenggara Umroh Resmi Kemenag RI
-            </span>
-          </motion.div>
-
-          {/* Headline */}
-          <motion.h1
-            variants={fadeUp}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl
-                       font-serif text-white leading-[1.05] mb-6"
+    <section
+      className="px-[7vw] py-16 md:py-[72px] relative overflow-hidden"
+      style={{ background: '#1B1B36' }}
+    >
+      <div className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-[1.05fr_0.95fr] gap-[56px] items-center relative z-[1]">
+        {/* Left: text */}
+        <div>
+          <span
+            className="text-[13px] font-bold tracking-[0.14em] uppercase"
+            style={{ color: 'rgba(255,255,255,0.55)' }}
           >
-            Wujudkan Panggilan<br />
-            Suci ke{' '}
-            <em className="not-italic text-dream-gold">Tanah Haram</em>
-          </motion.h1>
+            Travel Umroh Resmi · Jakarta Selatan
+          </span>
 
-          <motion.p
-            variants={fadeUp}
-            className="text-base sm:text-lg text-white/65 mb-10 max-w-xl font-light leading-relaxed"
+          <h1
+            className="font-extrabold leading-[1.08] mt-[18px]"
+            style={{ fontSize: 'clamp(34px,5vw,58px)', color: '#fff' }}
           >
-            Perjalanan Umroh nyaman, aman, dan penuh berkah bersama
-            pembimbing berpengalaman sejak 2012.
-          </motion.p>
+            Berangkat Umroh dengan Tenang, Terbimbing Sesuai Sunnah
+          </h1>
+
+          <p
+            className="text-[18px] leading-[1.6] mt-[20px] max-w-[520px]"
+            style={{ color: 'rgba(255,255,255,0.66)' }}
+          >
+            Dreammecca mendampingi perjalanan ibadah Anda dari konsultasi, manasik, hingga pulang ke tanah air — dengan hotel bintang 4, penerbangan langsung, dan pembimbing bersertifikat.
+          </p>
 
           {/* CTAs */}
-          <motion.div
-            variants={fadeUp}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4
-                       w-full max-w-sm sm:max-w-none"
-          >
+          <div className="flex gap-[14px] mt-[32px] flex-wrap">
             <a
-              href={createWALink(DEFAULT_MESSAGE)}
+              href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-dream-gold hover:bg-dream-gold-hover text-dream-navy font-semibold
-                         px-8 py-4 transition-all duration-300 text-base
-                         shadow-[0_0_32px_rgba(201,164,85,0.35)] hover:shadow-[0_0_48px_rgba(201,164,85,0.55)]
-                         min-h-[52px] flex items-center justify-center"
+              className="inline-flex items-center gap-2 bg-white text-[#1B1B36] font-bold text-[15px] px-[26px] py-[15px] rounded-lg hover:opacity-[0.88] transition-opacity no-underline"
             >
-              Konsultasi Gratis
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="9" fill="#1B1B36" />
+                <path d="M6 10.2l2.6 2.6L14.4 7" stroke="#fff" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Konsultasi Gratis via WhatsApp
             </a>
             <a
               href="#paket"
-              className="bg-transparent hover:bg-white/8 border border-white/30 text-white
-                         font-medium px-8 py-4 transition-all duration-300 text-base
-                         min-h-[52px] flex items-center justify-center"
+              className="inline-flex items-center bg-transparent text-white font-bold text-[15px] px-[26px] py-[15px] rounded-lg hover:opacity-[0.88] transition-opacity no-underline"
+              style={{ border: '1px solid rgba(255,255,255,0.35)' }}
             >
-              Lihat Paket Umroh
+              Lihat Paket &amp; Harga
             </a>
-          </motion.div>
-        </motion.div>
+          </div>
 
-        {/* Trust bar — hairline gold rule + icons */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mt-14 pt-6 border-t border-white/10
-                     flex flex-wrap items-center gap-x-8 gap-y-3 sm:gap-x-10"
+          {/* Trust stats */}
+          <div className="flex gap-[26px] mt-[44px] flex-wrap">
+            {[
+              { num: '12+', lbl: 'Tahun beroperasi' },
+              { num: '8.500+', lbl: 'Jamaah diberangkatkan' },
+              { num: '4.9/5', lbl: 'Rating jamaah' },
+              { num: 'PPIU', lbl: 'Izin resmi Kemenag RI' },
+            ].map(item => (
+              <div key={item.lbl} className="flex flex-col gap-[2px]">
+                <span className="text-[24px] font-extrabold text-white">{item.num}</span>
+                <span className="text-[12.5px]" style={{ color: 'rgba(255,255,255,0.66)' }}>{item.lbl}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: Kaabah photo */}
+        <div
+          className="hidden md:block rounded-xl overflow-hidden"
+          style={{ aspectRatio: '4/5', border: '1px solid rgba(255,255,255,0.14)' }}
         >
-          {[
-            { Icon: ShieldCheck, text: 'Terdaftar Resmi Kemenag RI' },
-            { Icon: Plane,       text: 'Saudia Airlines & Garuda' },
-            { Icon: Star,        text: '4.9/5 Rating Jamaah', fill: true },
-          ].map(({ Icon, text, fill }) => (
-            <div key={text} className="flex items-center gap-2">
-              <Icon
-                className={`text-dream-gold flex-shrink-0 ${fill ? 'fill-dream-gold' : ''}`}
-                size={16}
-              />
-              <span className="text-xs sm:text-sm text-white/55 font-medium whitespace-nowrap">
-                {text}
-              </span>
-            </div>
-          ))}
-        </motion.div>
+          <img
+            src="/images/kaabah/kaabah-1.jpg"
+            alt="Ka'bah — jamaah Dreammecca"
+            className="w-full h-full object-cover"
+          />
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

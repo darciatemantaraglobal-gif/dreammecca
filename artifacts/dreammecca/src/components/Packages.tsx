@@ -1,250 +1,196 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Plane, Building2, Calendar, Moon } from 'lucide-react';
-import { fadeUp, staggerContainer } from '@/lib/animations';
 import { createWALink } from '@/lib/whatsapp';
 
-type RoomType = 'Quad' | 'Triple' | 'Double';
+type Room = 'Quad' | 'Triple' | 'Double';
 
-interface Package {
-  id: string;
+interface Pkg {
+  badge: string;
   name: string;
-  duration: string;
-  month: string;
-  airline: string;
-  hotel: string;
-  prices: Record<RoomType, number>;
-  badge?: { text: string; color: 'gold' | 'red' };
+  period: string;
+  days: string;
+  flights: string;
+  hotel_mecca: string;
+  hotel_madinah: string;
+  rooms: Record<Room, number>;
+  quota: string;
+  featured: boolean;
 }
 
-const packages: Package[] = [
+const packages: Pkg[] = [
   {
-    id: "p1",
-    name: "Paket Reguler Ramadan",
-    duration: "12 Hari",
-    month: "Februari 2026",
-    airline: "Saudia Airlines",
-    hotel: "Hotel Ajyad",
-    prices: { Quad: 32500000, Triple: 36000000, Double: 42000000 },
-    badge: { text: "Populer", color: "gold" },
+    badge: 'Reguler',
+    name: 'Paket Umroh Reguler',
+    period: 'Sep – Okt 2025',
+    days: '9 Hari 7 Malam',
+    flights: 'Saudia Airlines / Garuda Indonesia',
+    hotel_mecca: 'Hotel Setaraf Bintang 4',
+    hotel_madinah: 'Hotel Setaraf Bintang 4',
+    rooms: { Quad: 29500000, Triple: 34500000, Double: 42000000 },
+    quota: 'Sisa 12 seat',
+    featured: false,
   },
   {
-    id: "p2",
-    name: "Paket Premium Ramadan Plus",
-    duration: "15 Hari",
-    month: "Februari 2026",
-    airline: "Garuda Indonesia",
-    hotel: "Makkah Hilton",
-    prices: { Quad: 45000000, Triple: 51000000, Double: 58000000 },
-    badge: { text: "Sisa 4 Seat", color: "red" },
+    badge: 'Plus',
+    name: 'Paket Umroh Plus',
+    period: 'Nov – Des 2025',
+    days: '10 Hari 8 Malam',
+    flights: 'Saudia Airlines / FlyDubai',
+    hotel_mecca: 'Hotel Bintang 4 Azka Makkah',
+    hotel_madinah: 'Hotel Bintang 4 Wahid Madinah',
+    rooms: { Quad: 34500000, Triple: 40000000, Double: 49000000 },
+    quota: 'Sisa 8 seat',
+    featured: true,
   },
   {
-    id: "p3",
-    name: "Paket Ekonomi Syawal",
-    duration: "9 Hari",
-    month: "Mei 2026",
-    airline: "Saudia Airlines",
-    hotel: "Hotel Rawda",
-    prices: { Quad: 25000000, Triple: 28000000, Double: 33000000 },
-  },
-  {
-    id: "p4",
-    name: "Paket Reguler Syawal",
-    duration: "12 Hari",
-    month: "Mei 2026",
-    airline: "Garuda Indonesia",
-    hotel: "Zamzam Tower",
-    prices: { Quad: 35000000, Triple: 39000000, Double: 45000000 },
-    badge: { text: "Populer", color: "gold" },
-  },
-  {
-    id: "p5",
-    name: "Paket VIP Dzulhijjah",
-    duration: "12 Hari",
-    month: "Juni 2026",
-    airline: "Saudia Airlines",
-    hotel: "Hilton Madinah",
-    prices: { Quad: 55000000, Triple: 62000000, Double: 72000000 },
-    badge: { text: "Sisa 2 Seat", color: "red" },
-  },
-  {
-    id: "p6",
-    name: "Paket Plus Madinah Extended",
-    duration: "15 Hari",
-    month: "Juli 2026",
-    airline: "Garuda Indonesia",
-    hotel: "Pullman ZamZam",
-    prices: { Quad: 48000000, Triple: 54000000, Double: 62000000 },
+    badge: 'Ramadan',
+    name: 'Paket Umroh Ramadan',
+    period: 'Feb – Mar 2026',
+    days: '12 Hari 10 Malam',
+    flights: 'Saudia Airlines',
+    hotel_mecca: 'Hotel Bintang 5 Swissotel Makkah',
+    hotel_madinah: 'Hotel Bintang 4 Madinah',
+    rooms: { Quad: 44500000, Triple: 51000000, Double: 63000000 },
+    quota: 'Sisa 5 seat',
+    featured: false,
   },
 ];
 
-function PackageCard({ pkg }: { pkg: Package }) {
-  const [room, setRoom] = useState<RoomType>('Quad');
-  const formatPrice = (price: number) =>
-    new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(price);
+const rooms: Room[] = ['Quad', 'Triple', 'Double'];
+
+function fmt(n: number) {
+  return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+}
+
+function PackageCard({ pkg }: { pkg: Pkg }) {
+  const [room, setRoom] = useState<Room>('Quad');
+  const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.name} (${pkg.period}). Boleh minta info lebih lengkap?`;
 
   return (
-    <motion.div
-      variants={fadeUp}
-      className="bg-dream-navy-light rounded-xl overflow-hidden border border-white/8
-                 hover:border-dream-gold/40 hover:-translate-y-1
-                 hover:shadow-[0_12px_32px_rgba(201,164,85,0.12)]
-                 transition-all duration-300 flex flex-col h-full"
+    <div
+      className="rounded-xl overflow-hidden flex flex-col"
+      style={{
+        border: pkg.featured ? '1px solid #1B1B36' : '1px solid rgba(27,27,54,0.10)',
+        background: '#fff',
+        boxShadow: pkg.featured ? '0 16px 40px rgba(27,27,54,0.12)' : 'none',
+      }}
     >
-      {/* Card header graphic */}
-      <div className="h-28 relative bg-gradient-to-br from-dream-navy to-dream-navy-light flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-15"
-          style={{
-            backgroundImage:
-              'linear-gradient(45deg,#C9A455 25%,transparent 25%,transparent 75%,#C9A455 75%),linear-gradient(45deg,#C9A455 25%,transparent 25%,transparent 75%,#C9A455 75%)',
-            backgroundSize: '20px 20px',
-            backgroundPosition: '0 0,10px 10px',
-          }}
-        />
-        <Moon className="text-dream-gold opacity-40 relative z-10" size={44} />
-
-        {pkg.badge && (
-          <div
-            className={`absolute top-3 right-3 text-xs font-bold px-3 py-1 rounded-lg z-20 shadow-md
-              ${pkg.badge.color === 'gold'
-                ? 'bg-dream-gold text-dream-navy'
-                : 'bg-red-500 text-white animate-pulse'}`}
-          >
-            {pkg.badge.text}
-          </div>
-        )}
+      {/* Header */}
+      <div className="px-6 pt-6 pb-5" style={{ background: '#1B1B36', color: '#fff' }}>
+        <span
+          className="inline-block text-[11.5px] font-bold tracking-[0.04em] uppercase px-[10px] py-[5px] rounded-full mb-3"
+          style={{ background: 'rgba(255,255,255,0.14)' }}
+        >
+          {pkg.badge}
+        </span>
+        <div className="text-[20px] font-bold">{pkg.name}</div>
+        <div className="text-[13.5px] mt-[6px]" style={{ color: 'rgba(255,255,255,0.66)' }}>
+          {pkg.period}
+        </div>
       </div>
 
-      <div className="p-5 flex-grow flex flex-col">
-        <h3 className="font-serif text-lg text-white leading-snug mb-2">{pkg.name}</h3>
+      {/* Body */}
+      <div className="px-6 py-[22px] flex-1 flex flex-col gap-4">
+        {[
+          { k: 'Durasi', v: pkg.days },
+          { k: 'Penerbangan', v: pkg.flights },
+          { k: 'Hotel Makkah', v: pkg.hotel_mecca },
+          { k: 'Hotel Madinah', v: pkg.hotel_madinah },
+        ].map(row => (
+          <div
+            key={row.k}
+            className="flex justify-between gap-3 text-[13.5px] pb-[10px]"
+            style={{ borderBottom: '1px dashed rgba(27,27,54,0.10)' }}
+          >
+            <span style={{ color: '#6B6B85' }}>{row.k}</span>
+            <span className="font-semibold text-right" style={{ color: '#1B1B36' }}>{row.v}</span>
+          </div>
+        ))}
 
-        <div className="flex gap-2 mb-5 flex-wrap">
-          <span className="inline-flex items-center text-xs text-dream-cream/80 bg-white/5 px-2.5 py-1 rounded-lg">
-            <Calendar className="w-3 h-3 mr-1.5 text-dream-gold" />
-            {pkg.duration}
+        {/* Room toggle */}
+        <div>
+          <div className="text-[12.5px] font-bold uppercase tracking-[0.04em] mb-2" style={{ color: '#6B6B85' }}>
+            Tipe Kamar
+          </div>
+          <div className="flex gap-2">
+            {rooms.map(r => (
+              <button
+                key={r}
+                onClick={() => setRoom(r)}
+                className="flex-1 py-[10px] rounded-lg text-[13px] font-semibold border transition-all duration-150"
+                style={
+                  room === r
+                    ? { background: '#1B1B36', borderColor: '#1B1B36', color: '#fff' }
+                    : { background: '#fff', borderColor: 'rgba(27,27,54,0.10)', color: '#1B1B36' }
+                }
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Price */}
+        <div>
+          <span className="text-[30px] font-extrabold" style={{ color: '#1B1B36' }}>
+            {fmt(pkg.rooms[room])}
           </span>
-          <span className="inline-flex items-center text-xs text-dream-cream/80 bg-white/5 px-2.5 py-1 rounded-lg">
-            {pkg.month}
+          <span className="text-[12.5px] font-medium ml-1" style={{ color: '#6B6B85' }}>
+            / jamaah · {room}
           </span>
-        </div>
-
-        <div className="space-y-2.5 mb-5 flex-grow">
-          <div className="flex items-center text-sm text-dream-cream/75">
-            <Plane className="w-3.5 h-3.5 mr-2.5 text-dream-gold flex-shrink-0" />
-            {pkg.airline}
-          </div>
-          <div className="flex items-center text-sm text-dream-cream/75">
-            <Building2 className="w-3.5 h-3.5 mr-2.5 text-dream-gold flex-shrink-0" />
-            {pkg.hotel}
+          <div className="text-[12.5px] font-semibold mt-1" style={{ color: '#B5442E' }}>
+            {pkg.quota}
           </div>
         </div>
+      </div>
 
-        {/* Room type toggle */}
-        <div className="bg-dream-navy rounded-lg p-1 flex mb-4 gap-0.5">
-          {(['Quad', 'Triple', 'Double'] as RoomType[]).map((type) => (
-            <button
-              key={type}
-              onClick={() => setRoom(type)}
-              className={`flex-1 text-xs py-2.5 min-h-[44px] rounded-md transition-all duration-200 font-medium ${
-                room === type
-                  ? 'bg-dream-gold text-dream-navy shadow-sm'
-                  : 'text-dream-cream/55 hover:text-dream-cream/90'
-              }`}
-            >
-              {type}
-            </button>
-          ))}
-        </div>
-
-        <div className="mb-5">
-          <div className="text-xs text-dream-cream/55 mb-1">Harga per pax ({room})</div>
-          <div className="text-2xl font-bold text-dream-gold tracking-tight">
-            {formatPrice(pkg.prices[room])}
-          </div>
-        </div>
-
+      {/* Footer CTA */}
+      <div className="px-6 pb-6">
         <a
-          href={createWALink(
-            `Assalamualaikum, saya ingin konsultasi mengenai ${pkg.name} untuk bulan ${pkg.month}`
-          )}
+          href={createWALink(waMsg)}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full block text-center bg-dream-gold hover:bg-dream-gold-hover text-dream-navy font-semibold py-3.5 min-h-[48px] rounded-lg transition-all duration-300 mt-auto hover:-translate-y-0.5 hover:shadow-md text-sm"
+          className="flex justify-center items-center w-full py-[15px] rounded-lg font-bold text-[15px] no-underline hover:opacity-[0.88] transition-opacity"
+          style={{ background: '#1B1B36', color: '#fff' }}
         >
           Konsultasi Paket Ini
         </a>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function Packages() {
-  const [filterMonth, setFilterMonth] = useState('Semua Bulan');
-  const [filterBudget, setFilterBudget] = useState('Semua Budget');
-
-  const months = ['Semua Bulan', ...Array.from(new Set(packages.map((p) => p.month)))];
-
-  const filteredPackages = packages.filter((p) => {
-    if (filterMonth !== 'Semua Bulan' && p.month !== filterMonth) return false;
-    if (filterBudget === 'Di bawah 30 Juta') return p.prices.Quad < 30000000;
-    if (filterBudget === '30 - 45 Juta') return p.prices.Quad >= 30000000 && p.prices.Quad <= 45000000;
-    if (filterBudget === 'Di atas 45 Juta') return p.prices.Quad > 45000000;
-    return true;
-  });
-
-  // min-h-[48px] ensures ≥44px touch target on mobile (WCAG 2.5.5)
-  const selectClass =
-    "bg-dream-navy-light border border-dream-gold/30 text-white rounded-lg px-4 py-3 text-sm " +
-    "focus:outline-none focus:border-dream-gold focus:ring-1 focus:ring-dream-gold/30 " +
-    "flex-1 md:w-40 min-h-[48px] appearance-none cursor-pointer " +
-    "transition-colors duration-200 hover:border-dream-gold/60";
-
   return (
-    <section id="paket" className="py-12 md:py-20 bg-dream-navy relative">
-      {/* Hairline gold rule at top */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-dream-gold/30 to-transparent" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
-        {/* Header + filters */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-10 md:mb-14 gap-6">
+    <section id="paket" className="px-[7vw] py-[88px] bg-white">
+      <div className="max-w-[1180px] mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-end gap-6 flex-wrap">
           <div>
-            <h2 className="text-3xl md:text-4xl font-serif text-white mb-3">
-              Paket Umroh <span className="text-dream-gold">Terdekat</span>
+            <span
+              className="text-[13px] font-bold tracking-[0.14em] uppercase"
+              style={{ color: '#6B6B85' }}
+            >
+              Paket Umroh
+            </span>
+            <h2
+              className="font-bold leading-[1.15] mt-[10px]"
+              style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
+            >
+              Pilihan Jadwal Umroh Terdekat
             </h2>
-            <p className="text-dream-cream/65 max-w-xl font-light text-sm md:text-base">
-              Pilih paket yang sesuai dengan rencana dan kenyamanan Anda. Harga jujur tanpa biaya tersembunyi.
+            <p
+              className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
+              style={{ color: '#6B6B85' }}
+            >
+              Harga sudah termasuk tiket pesawat, hotel, transportasi, manasik, dan perlengkapan. Pilih tipe kamar untuk melihat harga per jamaah.
             </p>
-          </div>
-
-          <div className="flex gap-3 w-full md:w-auto">
-            <select value={filterMonth} onChange={(e) => setFilterMonth(e.target.value)} className={selectClass}>
-              {months.map((m) => <option key={m} value={m}>{m}</option>)}
-            </select>
-            <select value={filterBudget} onChange={(e) => setFilterBudget(e.target.value)} className={selectClass + " md:w-48"}>
-              <option value="Semua Budget">Semua Budget</option>
-              <option value="Di bawah 30 Juta">Di bawah 30 Juta</option>
-              <option value="30 - 45 Juta">30 - 45 Juta</option>
-              <option value="Di atas 45 Juta">Di atas 45 Juta</option>
-            </select>
           </div>
         </div>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
-        >
-          {filteredPackages.length > 0 ? (
-            filteredPackages.map((pkg) => <PackageCard key={pkg.id} pkg={pkg} />)
-          ) : (
-            <div className="col-span-full py-16 text-center text-dream-cream/50">
-              Tidak ada paket yang sesuai dengan filter yang dipilih.
-            </div>
-          )}
-        </motion.div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[24px] mt-[44px] items-start">
+          {packages.map(pkg => (
+            <PackageCard key={pkg.name} pkg={pkg} />
+          ))}
+        </div>
       </div>
     </section>
   );

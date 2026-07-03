@@ -1,107 +1,96 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Shield, Plane, Building2, Bus, BookOpen, Package, Coffee, Users } from 'lucide-react';
-import { fadeUp, staggerContainer } from '@/lib/animations';
 
 const facilities = [
   {
-    icon: Shield,
-    title: "Penyelenggara Resmi",
-    desc: "Terdaftar dan diawasi oleh Kemenag RI sebagai PPIU resmi",
+    icon: '🏛️',
+    title: 'Penyelenggara Resmi Ibadah Umroh',
+    desc: 'Berizin resmi PPIU dari Kementerian Agama RI, terdaftar dan diawasi.',
   },
   {
-    icon: Plane,
-    title: "Maskapai Internasional",
-    desc: "Penerbangan direct dengan Saudia Airlines & Garuda Indonesia",
+    icon: '✈️',
+    title: 'Maskapai Internasional',
+    desc: 'Penerbangan langsung setaraf internasional, tanpa transit panjang.',
   },
   {
-    icon: Building2,
-    title: "Hotel Bintang 4-5",
-    desc: "Akomodasi premium terdekat dengan Masjidil Haram dan Nabawi",
+    icon: '🏨',
+    title: 'Hotel Bintang 4 Terbaik',
+    desc: 'Jarak dekat Masjidil Haram & Masjid Nabawi, fasilitas nyaman.',
   },
   {
-    icon: Bus,
-    title: "Transportasi Bus",
-    desc: "AC bus mewah dan nyaman untuk mobilisasi seluruh rangkaian ibadah",
+    icon: '🚌',
+    title: 'Transportasi Bus Terbaru',
+    desc: 'Armada bus ber-AC untuk seluruh rangkaian perjalanan ibadah.',
   },
   {
-    icon: BookOpen,
-    title: "Manasik Eksklusif",
-    desc: "Pembekalan manasik intensif bersama ustadz berpengalaman",
+    icon: '📖',
+    title: 'Manasik Eksklusif',
+    desc: 'Pembekalan manasik intensif sebelum keberangkatan.',
   },
   {
-    icon: Package,
-    title: "Perlengkapan Eksklusif",
-    desc: "Koper, mukena/ihram, tas, dan perlengkapan Umroh berkualitas",
+    icon: '🎒',
+    title: 'Perlengkapan Eksklusif',
+    desc: 'Perlengkapan Umroh terlengkap dan berkualitas untuk tiap jamaah.',
   },
   {
-    icon: Coffee,
-    title: "Ruang Tunggu Nyaman",
-    desc: "Lounge eksklusif di bandara dengan fasilitas lengkap",
+    icon: '🛋️',
+    title: 'Ruang Tunggu Nyaman',
+    desc: 'Fasilitas keberangkatan & kepulangan di bandara Indonesia.',
   },
   {
-    icon: Users,
-    title: "Full Bimbingan",
-    desc: "Pembimbing berdedikasi mendampingi seluruh rangkaian ibadah",
+    icon: '🤝',
+    title: 'Full Bimbingan',
+    desc: 'Didampingi pembimbing bersertifikat, sesuai sunnah Nabi ﷺ.',
   },
 ];
 
 export default function Facilities() {
   return (
-    <section id="fasilitas" className="py-12 md:py-20 bg-dream-navy relative overflow-hidden">
-      {/* Soft ambient glows */}
-      {/* Hairline gold rule at top */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-dream-gold/30 to-transparent" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-10 md:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-dream-gold/40 text-dream-gold font-semibold text-xs tracking-wider mb-6"
-          >
-            FASILITAS & LAYANAN
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1, duration: 0.5, ease: "easeOut" }}
-            className="text-3xl md:text-4xl font-serif text-dream-cream"
-          >
-            Pelayanan Premium untuk{' '}
-            <br className="hidden md:block" />
-            <span className="text-dream-gold">Kenyamanan Ibadah Anda</span>
-          </motion.h2>
-        </div>
-
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
+    <section id="fasilitas" className="px-[7vw] py-[88px]" style={{ background: '#292951' }}>
+      <div className="max-w-[1180px] mx-auto">
+        <span
+          className="text-[13px] font-bold tracking-[0.14em] uppercase"
+          style={{ color: 'rgba(255,255,255,0.55)' }}
         >
-          {facilities.map((item, index) => (
-            <motion.div
-              key={index}
-              variants={fadeUp}
-              className="bg-dream-navy-light p-6 rounded-xl border border-white/5
-                         hover:border-dream-gold/50 hover:-translate-y-1
-                         hover:shadow-[0_8px_24px_rgba(201,164,85,0.15)]
-                         transition-all duration-300 group cursor-default"
+          Fasilitas &amp; Layanan
+        </span>
+        <h2
+          className="font-bold leading-[1.15] mt-[10px] text-white"
+          style={{ fontSize: 'clamp(28px,3.6vw,42px)' }}
+        >
+          Semua Kebutuhan Ibadah, Kami Siapkan
+        </h2>
+        <p
+          className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
+          style={{ color: 'rgba(255,255,255,0.66)' }}
+        >
+          Layanan menyeluruh yang dirancang agar jamaah fokus beribadah, bukan mengurus logistik.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[20px] mt-[48px]">
+          {facilities.map(f => (
+            <div
+              key={f.title}
+              className="rounded-xl p-[26px_22px]"
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.14)',
+              }}
             >
-              <div className="w-12 h-12 bg-dream-navy rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                <item.icon className="text-dream-gold" size={22} />
+              <div
+                className="w-[38px] h-[38px] rounded-[10px] bg-white flex items-center justify-center mb-[16px] text-[18px]"
+              >
+                {f.icon}
               </div>
-              <h3 className="text-base font-semibold text-dream-cream mb-2">{item.title}</h3>
-              <p className="text-sm text-dream-cream/75 leading-relaxed font-light">{item.desc}</p>
-            </motion.div>
+              <h3 className="text-white font-bold text-[16px] leading-[1.3]">{f.title}</h3>
+              <p
+                className="text-[14px] mt-[8px] leading-[1.55]"
+                style={{ color: 'rgba(255,255,255,0.66)' }}
+              >
+                {f.desc}
+              </p>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,80 +1,64 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Luggage, PersonStanding, Briefcase, Book, Star, Heart } from 'lucide-react';
 
-const equipments = [
-  { icon: Luggage,        title: 'Koper Berkualitas', desc: 'Koper premium 24 inch dengan kunci TSA' },
-  { icon: PersonStanding, title: 'Baju Ihram',        desc: 'Kain ihram putih berkualitas tinggi' },
-  { icon: Briefcase,      title: 'Tas Selempang',     desc: 'Tas multifungsi eksklusif Dreammecca' },
-  { icon: Book,           title: 'Buku Panduan',      desc: 'Panduan ibadah lengkap & doa-doa' },
-  { icon: Star,           title: 'Sajadah Portable',  desc: 'Sajadah lipat berkualitas premium' },
-  { icon: Heart,          title: 'Lainnya',           desc: 'Masker, sandal, dll termasuk dalam paket' },
+const items = [
+  { name: 'Koper & Tas Umroh' },
+  { name: 'Mukena & Ihram' },
+  { name: 'Sajadah Travel' },
+  { name: 'Buku Doa & Manasik' },
+  { name: 'Seragam Kloter' },
+  { name: 'Kit Kesehatan' },
 ];
 
 export default function Gallery() {
   return (
-    <section id="perlengkapan" className="py-12 md:py-20 bg-dream-cream">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif text-dream-navy">
-            Perlengkapan <span className="text-dream-gold">Eksklusif Kami</span>
-          </h2>
-          <p className="mt-4 text-dream-navy/60 max-w-2xl mx-auto font-light text-sm sm:text-base">
-            Setiap jamaah mendapatkan set perlengkapan eksklusif untuk menunjang kenyamanan ibadah dari tanah air hingga kembali lagi.
-          </p>
-        </div>
-
-        {/*
-          Mobile: horizontal scroll carousel with snap
-          Desktop (md+): 3-col grid; Desktop lg+: 6-col grid
-        */}
-        <div
-          className="flex gap-4 overflow-x-auto pb-4
-                     md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:pb-0
-                     lg:grid-cols-6
-                     snap-x snap-mandatory
-                     scroll-pl-4 md:scroll-pl-0"
-          style={{ WebkitOverflowScrolling: 'touch' }}
+    <section className="px-[7vw] py-[88px] bg-white">
+      <div className="max-w-[1180px] mx-auto">
+        <span
+          className="text-[13px] font-bold tracking-[0.14em] uppercase"
+          style={{ color: '#6B6B85' }}
         >
-          {equipments.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ delay: index * 0.08, duration: 0.45, ease: 'easeOut' }}
-              /* each card: fixed 72% of viewport on mobile, full column on desktop */
-              className="min-w-[72vw] sm:min-w-[240px] md:min-w-0 flex-shrink-0
-                         snap-start first:ml-0"
-            >
+          Perlengkapan Jamaah
+        </span>
+        <h2
+          className="font-bold leading-[1.15] mt-[10px]"
+          style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
+        >
+          Perlengkapan Eksklusif, Terlengkap &amp; Berkualitas
+        </h2>
+        <p
+          className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
+          style={{ color: '#6B6B85' }}
+        >
+          Setiap jamaah mendapat perlengkapan ibadah lengkap sebelum keberangkatan — siap pakai, tanpa perlu membeli sendiri.
+        </p>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-[20px] mt-[48px]">
+          {items.map(item => (
+            <figure key={item.name}>
               <div
-                className="bg-white rounded-xl p-5 sm:p-6 h-full border border-black/5 shadow-sm
-                           hover:shadow-lg hover:-translate-y-1
-                           transition-all duration-300 flex flex-col items-center text-center group"
+                className="rounded-xl flex items-center justify-center text-center"
+                style={{
+                  aspectRatio: '1/1',
+                  background: 'repeating-linear-gradient(135deg,rgba(27,27,54,0.045),rgba(27,27,54,0.045) 10px,rgba(27,27,54,0.08) 10px,rgba(27,27,54,0.08) 20px)',
+                }}
               >
-                <div className="w-14 h-14 mb-4 rounded-full bg-gradient-to-br from-dream-navy to-dream-navy-light
-                               flex items-center justify-center
-                               group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                  <item.icon className="text-dream-gold" size={24} aria-hidden="true" />
-                </div>
-                <h3 className="text-sm sm:text-base font-semibold text-dream-navy mb-1">{item.title}</h3>
-                <p className="text-xs sm:text-sm text-dream-navy/55 font-light leading-snug">{item.desc}</p>
+                <span
+                  className="font-mono text-[11px] tracking-[0.03em] uppercase px-4"
+                  style={{ color: '#6B6B85' }}
+                >
+                  Foto {item.name}
+                </span>
               </div>
-            </motion.div>
+              <figcaption
+                className="mt-[10px] text-[13.5px] font-semibold"
+                style={{ color: '#1B1B36' }}
+              >
+                {item.name}
+              </figcaption>
+            </figure>
           ))}
         </div>
-
-        {/* Swipe hint — only visible on mobile */}
-        <p className="mt-4 text-center text-xs text-dream-navy/40 md:hidden">
-          Geser untuk melihat semua &rarr;
-        </p>
       </div>
-
-      <style dangerouslySetInnerHTML={{ __html: `
-        /* hide scrollbar but keep scrolling */
-        #perlengkapan .snap-x::-webkit-scrollbar { display: none; }
-        #perlengkapan .snap-x { -ms-overflow-style: none; scrollbar-width: none; }
-      ` }} />
     </section>
   );
 }
