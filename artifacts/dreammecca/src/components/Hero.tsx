@@ -14,18 +14,25 @@ export default function Hero() {
 
         {/* LEFT: giant stacked headline */}
         <div className="flex flex-col">
+          <p
+            className="text-[13px] font-bold tracking-[0.18em] uppercase"
+            style={{ color: 'rgba(255,255,255,0.50)' }}
+          >
+            Penyelenggara Ibadah Umroh Resmi
+          </p>
+
           <h1
-            className="font-extrabold uppercase text-white leading-[0.88] tracking-[-0.025em]"
+            className="font-extrabold uppercase text-white leading-[0.88] tracking-[-0.025em] mt-[18px]"
             style={{ fontSize: 'clamp(52px, 7vw, 92px)' }}
           >
-            BERANGKAT<br />UMROH<br />PULANG<br />BERKAH
+            DREAM<br />MECCA<br />TOUR &amp;<br />TRAVEL
           </h1>
 
           <p
-            className="mt-[28px] text-[16px] font-medium italic"
-            style={{ color: 'rgba(255,255,255,0.50)' }}
+            className="mt-[28px] text-[16px] leading-[1.6] max-w-[440px]"
+            style={{ color: 'rgba(255,255,255,0.66)' }}
           >
-            / Berizin Resmi Kemenag &middot; Dibimbing Sesuai Sunnah /
+            Berizin resmi PPIU Kementerian Agama RI. Kami hadir memastikan perjalanan ibadah Umroh Anda — dari konsultasi, dokumen, visa, hingga pendampingan di Tanah Suci — berjalan lancar dan penuh kekhusyukan.
           </p>
 
           <a

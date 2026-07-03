@@ -1,0 +1,100 @@
+# PROMPT REPLIT — TERAPKAN BACKGROUND PATTERN GEOMETRIS DI SECTION NAVY
+
+Sebelum paste ke Replit: upload file `pattern-bg.jpg` (yang saya kirim, sudah dikompres dari 2.9MB jadi ~119KB) ke folder `public/images/patterns/` di project, kasih nama `geometric-navy.jpg`.
+
+Lalu copy-paste prompt ini ke Replit Agent chat:
+
+---
+
+## KONTEKS
+
+Ganti background solid navy (`#1B1B36`) di beberapa section jadi pakai gambar pattern geometris (`/images/patterns/geometric-navy.jpg`) yang sudah di-upload, supaya ada tekstur — tapi tetap kasih overlay gradient navy transparan di atasnya supaya kontras teks putih tidak berkurang (soalnya pattern image punya area yang lebih terang di beberapa titik, kalau ditumpuk teks putih langsung tanpa overlay bisa jadi kurang kebaca).
+
+Section yang dipakaikan pattern ini: **Hero, Facilities, Testimonials, FinalCTA, Footer, Navbar**. Section putih (About, Gallery, Packages, FAQ, Legal) TIDAK berubah, biarkan tetap putih polos.
+
+## PERUBAHAN PER FILE
+
+Untuk setiap file di bawah, cari `style={{ background: '#1B1B36' }}` atau `style={{ background: '#292951' }}` pada elemen section utama, dan ganti jadi pola ini (sesuaikan warna overlay-nya: pakai rgba dari warna asli section tersebut supaya sub-brand section tetap konsisten):
+
+### Hero.tsx (baris ~10)
+```tsx
+/* SEBELUM */
+style={{ background: '#1B1B36' }}
+
+/* SESUDAH */
+style={{
+  backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url(/images/patterns/geometric-navy.jpg)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center top',
+  backgroundColor: '#1B1B36',
+}}
+```
+
+### Facilities.tsx (baris ~48)
+```tsx
+/* SEBELUM */
+style={{ background: '#292951' }}
+
+/* SESUDAH */
+style={{
+  backgroundImage: 'linear-gradient(180deg, rgba(41,41,81,0.90), rgba(41,41,81,0.95)), url(/images/patterns/geometric-navy.jpg)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundColor: '#292951',
+}}
+```
+
+### Testimonials.tsx (baris ~29)
+```tsx
+/* SESUDAH — pola sama seperti Hero.tsx */
+style={{
+  backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url(/images/patterns/geometric-navy.jpg)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundColor: '#1B1B36',
+}}
+```
+
+### FinalCTA.tsx (baris ~8)
+```tsx
+/* SESUDAH — pola sama seperti Facilities.tsx */
+style={{
+  backgroundImage: 'linear-gradient(180deg, rgba(41,41,81,0.90), rgba(41,41,81,0.95)), url(/images/patterns/geometric-navy.jpg)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundColor: '#292951',
+}}
+```
+
+### Footer.tsx (baris ~8)
+```tsx
+/* SESUDAH */
+style={{
+  backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.92), rgba(27,27,54,0.96)), url(/images/patterns/geometric-navy.jpg)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center bottom',
+  backgroundColor: '#1B1B36',
+  borderTop: '1px solid rgba(255,255,255,0.14)',
+}}
+```
+(Overlay Footer dibuat sedikit lebih pekat/gelap karena section ini kecil, supaya pattern tidak terlalu ramai mengganggu teks copyright yang kecil.)
+
+### Navbar.tsx (baris ~20)
+```tsx
+/* SESUDAH — overlay paling pekat karena navbar sticky dan harus paling gampang dibaca */
+style={{
+  backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.95), rgba(27,27,54,0.97)), url(/images/patterns/geometric-navy.jpg)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center top',
+  backgroundColor: '#1B1B36',
+  borderBottom: '1px solid rgba(255,255,255,0.14)',
+}}
+```
+Terapkan juga di dropdown menu mobile (bagian bawah file, elemen dengan `background: '#1B1B36'` di dalam blok `{open && (...)}`).
+
+## VERIFIKASI SETELAH SELESAI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek semua 6 section — pattern harus terlihat halus di background, tidak dominan/ramai, dan teks putih tetap kebaca jelas di semua section
+- Cek loading speed — pastikan gambar pattern (119KB) tidak bikin section-section itu kerasa lambat muncul, terutama Hero yang di atas fold
+- Cek konsistensi — pattern position antar section idealnya terlihat "menyambung" secara visual saat di-scroll, bukan terasa seperti potongan acak (kalau kerasa random, bisa disesuaikan `backgroundPosition` per section)
