@@ -19,7 +19,7 @@ export default function Footer() {
             PT. Dream Mecca International — penyelenggara ibadah Umroh resmi berizin PPIU Kementerian Agama RI. Bersama kami, wujudkan perjalanan ibadah yang aman, nyaman, dan penuh berkah.
           </p>
           <p className="text-[13px] mt-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            Jl. Durian No.9A 6, RT.6/RW.4, Jagakarsa, Kota Jakarta Selatan 12620
+            Jl. Durian No. 9H, RT 008/005, Kel. Jagakarsa, Kec. Jagakarsa, Jakarta Selatan 12620
           </p>
         </div>
         <a
