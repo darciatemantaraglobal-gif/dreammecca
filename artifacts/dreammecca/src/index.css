@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
@@ -40,11 +40,11 @@
   --color-destructive-foreground: hsl(var(--destructive-foreground));
   --color-destructive-border: var(--destructive-border);
 
-  --font-sans: 'Inter', sans-serif;
-  --font-serif: 'Fraunces', serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
 
-  --color-dream-navy: #0B1330;
-  --color-dream-navy-light: #141B3D;
+  --color-dream-navy: #222252;
+  --color-dream-navy-light: #2E2E62;
   --color-dream-gold: #C9A455;
   --color-dream-gold-hover: #E0C077;
   --color-dream-cream: #F8F6F0;
@@ -82,16 +82,16 @@
   --popover-border: 45 15% 85%;
 
   --primary: 41 52% 56%; /* Gold */
-  --primary-foreground: 228 63% 12%; /* Navy text */
+  --primary-foreground: 240 41% 23%; /* Indigo text */
 
-  --secondary: 228 63% 12%; /* Navy */
+  --secondary: 240 41% 23%; /* Indigo */
   --secondary-foreground: 47 31% 94%; /* Light text */
 
   --muted: 45 15% 85%;
   --muted-foreground: 0 0% 40%;
 
   --accent: 41 52% 56%; /* Gold */
-  --accent-foreground: 228 63% 12%;
+  --accent-foreground: 240 41% 23%;
 
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
@@ -101,32 +101,32 @@
 
 .dark {
   /* Enforce Light theme mostly, but just in case provide dark fallbacks */
-  --background: 228 63% 12%; /* #0B1330 */
+  --background: 240 41% 23%; /* #222252 */
   --foreground: 47 31% 94%; /* #F5F3EC */
 
-  --border: 230 51% 25%;
-  --input: 230 51% 25%;
+  --border: 240 51% 25%;
+  --input: 240 51% 25%;
   --ring: 41 52% 56%;
 
-  --card: 230 51% 16%; /* #141B3D */
+  --card: 240 36% 28%; /* #2E2E62 */
   --card-foreground: 47 31% 94%;
-  --card-border: 230 51% 25%;
+  --card-border: 240 51% 25%;
 
-  --popover: 230 51% 16%;
+  --popover: 240 36% 28%;
   --popover-foreground: 47 31% 94%;
-  --popover-border: 230 51% 25%;
+  --popover-border: 240 51% 25%;
 
   --primary: 41 52% 56%;
-  --primary-foreground: 228 63% 12%;
+  --primary-foreground: 240 41% 23%;
 
   --secondary: 45 27% 95%; /* Cream */
-  --secondary-foreground: 228 63% 12%;
+  --secondary-foreground: 240 41% 23%;
 
-  --muted: 230 51% 25%;
+  --muted: 240 51% 25%;
   --muted-foreground: 47 31% 70%;
 
   --accent: 41 52% 56%;
-  --accent-foreground: 228 63% 12%;
+  --accent-foreground: 240 41% 23%;
 
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;

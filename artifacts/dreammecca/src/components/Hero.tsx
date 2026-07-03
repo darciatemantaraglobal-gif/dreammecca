@@ -31,12 +31,19 @@ export default function Hero() {
           <source src="/videos/hero-1.mp4" type="video/mp4" />
         </video>
 
+        {/* Radial depth layer — subtle centre glow behind the linear overlay */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-30"
+          style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 50%, #2E2E62 0%, #222252 100%)' }}
+          aria-hidden="true"
+        />
+
         {/* Gradient overlay — legibility over both image and video */}
         <div className="absolute inset-0 bg-gradient-to-t from-dream-navy via-dream-navy/75 to-dream-navy/40" />
 
         {/* Subtle Islamic dot pattern — CPU-cheap on mobile */}
         <div
-          className="absolute inset-0 opacity-[0.07] pointer-events-none"
+          className="absolute inset-0 opacity-[0.12] pointer-events-none"
           style={{
             backgroundImage: `radial-gradient(#C9A455 1px, transparent 1px)`,
             backgroundSize: '40px 40px',
@@ -59,7 +66,7 @@ export default function Hero() {
           <motion.h1
             variants={fadeUp}
             className="text-[1.75rem] leading-tight sm:text-4xl md:text-[3.5rem] lg:text-7xl
-                       font-serif text-white mb-4 sm:mb-6"
+                       font-serif font-semibold text-white mb-4 sm:mb-6"
           >
             Wujudkan Panggilan Suci ke{' '}
             <span className="text-dream-gold">Tanah Haram</span>

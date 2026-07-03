@@ -86,9 +86,9 @@ function PackageCard({ pkg }: { pkg: Package }) {
   return (
     <motion.div
       variants={fadeUp}
-      className="bg-dream-navy-light rounded-xl overflow-hidden border border-white/5
-                 hover:border-dream-gold/30 hover:-translate-y-1
-                 hover:shadow-[0_12px_32px_rgba(201,164,85,0.08)]
+      className="bg-dream-navy-light rounded-xl overflow-hidden border border-white/8
+                 hover:border-dream-gold/40 hover:-translate-y-1
+                 hover:shadow-[0_12px_32px_rgba(201,164,85,0.12)]
                  transition-all duration-300 flex flex-col h-full"
     >
       {/* Card header graphic */}

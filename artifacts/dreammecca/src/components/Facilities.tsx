@@ -60,7 +60,7 @@ export default function Facilities() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-dream-gold/30 text-dream-gold font-semibold text-xs tracking-wider mb-6"
+            className="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-dream-gold/40 text-dream-gold font-semibold text-xs tracking-wider mb-6"
           >
             FASILITAS & LAYANAN
           </motion.div>
@@ -90,8 +90,8 @@ export default function Facilities() {
               key={index}
               variants={fadeUp}
               className="bg-dream-navy-light p-6 rounded-xl border border-white/5
-                         hover:border-dream-gold/40 hover:-translate-y-1
-                         hover:shadow-[0_8px_24px_rgba(201,164,85,0.12)]
+                         hover:border-dream-gold/50 hover:-translate-y-1
+                         hover:shadow-[0_8px_24px_rgba(201,164,85,0.15)]
                          transition-all duration-300 group cursor-default"
             >
               <div className="w-12 h-12 bg-dream-navy rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">

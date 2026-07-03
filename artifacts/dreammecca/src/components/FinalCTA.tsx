@@ -9,7 +9,7 @@ export default function FinalCTA() {
     <section className="py-12 md:py-20 bg-dream-navy relative overflow-hidden border-t border-dream-gold/15">
       {/* Islamic dot-grid pattern background */}
       <div
-        className="absolute inset-0 opacity-8 pointer-events-none"
+        className="absolute inset-0 opacity-[0.12] pointer-events-none"
         style={{
           backgroundImage: `radial-gradient(circle, #C9A455 1.5px, transparent 1.5px)`,
           backgroundSize: '28px 28px',

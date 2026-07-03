@@ -73,7 +73,7 @@ export default function Navbar() {
                 href={createWALink(DEFAULT_MESSAGE)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-dream-gold hover:bg-dream-gold-hover text-dream-navy font-semibold px-6 py-2.5 rounded-lg transition-all duration-200 shadow-sm"
+                className="bg-dream-gold hover:bg-dream-gold-hover text-dream-navy font-semibold px-6 py-2.5 rounded-lg transition-all duration-200 shadow-sm hover:shadow-[0_4px_20px_rgba(201,164,85,0.25)]"
               >
                 Konsultasi Gratis
               </a>
