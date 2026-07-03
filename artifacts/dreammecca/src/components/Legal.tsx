@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { fadeUp, staggerContainer } from '@/lib/animations';
 
 const points = [
   {
@@ -32,28 +34,41 @@ export default function Legal() {
   return (
     <section className="px-[7vw] py-[88px] bg-white">
       <div className="max-w-[1180px] mx-auto">
-        <span
-          className="text-[13px] font-bold tracking-[0.14em] uppercase"
-          style={{ color: '#6B6B85' }}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
         >
-          Legalitas &amp; Keamanan
-        </span>
-        <h2
-          className="font-bold leading-[1.15] mt-[10px]"
-          style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
-        >
-          Kredibilitas yang Bisa Anda Verifikasi Sendiri
-        </h2>
-        <p
-          className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
-          style={{ color: '#6B6B85' }}
-        >
-          Industri Umroh rawan penipuan — karena itu kami transparan soal legalitas kami. Jangan ragu memverifikasi izin kami langsung ke Kementerian Agama RI.
-        </p>
+          <span
+            className="text-[13px] font-bold tracking-[0.14em] uppercase"
+            style={{ color: '#6B6B85' }}
+          >
+            Legalitas &amp; Keamanan
+          </span>
+          <h2
+            className="font-bold leading-[1.15] mt-[10px]"
+            style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
+          >
+            Kredibilitas yang Bisa Anda Verifikasi Sendiri
+          </h2>
+          <p
+            className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
+            style={{ color: '#6B6B85' }}
+          >
+            Industri Umroh rawan penipuan — karena itu kami transparan soal legalitas kami. Jangan ragu memverifikasi izin kami langsung ke Kementerian Agama RI.
+          </p>
+        </motion.div>
 
-        <div className="flex flex-wrap gap-8 mt-[40px]">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={staggerContainer}
+          className="flex flex-wrap gap-8 mt-[40px]"
+        >
           {points.map(p => (
-            <div key={p.title} className="flex gap-3 max-w-[340px]">
+            <motion.div key={p.title} variants={fadeUp} className="flex gap-3 max-w-[340px]">
               <CheckIcon />
               <div>
                 <h3 className="text-[15px] font-bold" style={{ color: '#1B1B36' }}>{p.title}</h3>
@@ -61,9 +76,9 @@ export default function Legal() {
                   {p.desc}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { fadeUp, staggerContainer } from '@/lib/animations';
 
 const testimonials = [
   {
@@ -34,23 +36,37 @@ export default function Testimonials() {
       }}
     >
       <div className="max-w-[1180px] mx-auto">
-        <span
-          className="text-[13px] font-bold tracking-[0.14em] uppercase"
-          style={{ color: 'rgba(255,255,255,0.55)' }}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
         >
-          Testimoni Jamaah
-        </span>
-        <h2
-          className="font-bold leading-[1.15] mt-[10px] text-white"
-          style={{ fontSize: 'clamp(28px,3.6vw,42px)' }}
-        >
-          Cerita dari Mereka yang Sudah Berangkat
-        </h2>
+          <span
+            className="text-[13px] font-bold tracking-[0.14em] uppercase"
+            style={{ color: 'rgba(255,255,255,0.55)' }}
+          >
+            Testimoni Jamaah
+          </span>
+          <h2
+            className="font-bold leading-[1.15] mt-[10px] text-white"
+            style={{ fontSize: 'clamp(28px,3.6vw,42px)' }}
+          >
+            Cerita dari Mereka yang Sudah Berangkat
+          </h2>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-[24px] mt-[48px]">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={staggerContainer}
+          className="grid grid-cols-1 md:grid-cols-3 gap-[24px] mt-[48px]"
+        >
           {testimonials.map(t => (
-            <div
+            <motion.div
               key={t.name}
+              variants={fadeUp}
               className="rounded-xl p-[26px] bg-[rgba(255,255,255,0.04)] transition-all duration-200 hover:-translate-y-1 hover:bg-[rgba(255,255,255,0.07)]"
               style={{ border: '1px solid rgba(255,255,255,0.14)' }}
             >
@@ -72,9 +88,9 @@ export default function Testimonials() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

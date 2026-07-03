@@ -1,0 +1,136 @@
+# PROMPT REPLIT — ANIMASI SCROLL-REVEAL + TRANSISI ANTAR SECTION YANG MENYATU
+
+Copy-paste ke Replit Agent chat. `framer-motion` sudah terpasang di project ini (cek `package.json`), jadi tidak perlu install apapun, cuma belum dipakai di komponen manapun.
+
+---
+
+## BAGIAN A — Setup dasar (buat 2 file baru)
+
+### A1. `src/lib/animations.ts`
+```tsx
+import { Variants } from 'framer-motion';
+
+export const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+};
+
+export const fadeIn: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.6, ease: 'easeOut' } },
+};
+
+export const staggerContainer: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+};
+
+export const scaleIn: Variants = {
+  hidden: { opacity: 0, scale: 0.94 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.45, ease: 'easeOut' } },
+};
+```
+
+### A2. `src/components/SectionDivider.tsx` (curved transition antar section)
+```tsx
+import React from 'react';
+
+export default function SectionDivider({ color }: { color: string }) {
+  return (
+    <div className="w-full overflow-hidden leading-none relative" style={{ marginBottom: '-1px' }}>
+      <svg viewBox="0 0 1440 80" className="w-full h-[44px] md:h-[64px]" preserveAspectRatio="none">
+        <path d="M0,0 C400,80 1040,80 1440,0 L1440,80 L0,80 Z" fill={color} />
+      </svg>
+    </div>
+  );
+}
+```
+Cara kerja: divider ini di-render di ANTARA dua section (bukan di dalam salah satu section), dengan `color` = warna background section YANG DI BAWAHNYA. Kurva ini akan terlihat seperti section bawah "naik melengkung" ke section atas, menghilangkan potongan garis lurus yang kaku.
+
+## BAGIAN B — Pasang divider di titik transisi warna (edit Home.tsx)
+
+Di `src/pages/Home.tsx`, import `SectionDivider`, lalu sisipkan di antara section-section berikut (cuma di titik yang warnanya benar-benar beda, bukan di semua sela):
+
+```tsx
+import SectionDivider from '@/components/SectionDivider';
+
+// ... di dalam JSX:
+<Hero />
+<SectionDivider color="#fff" />
+<PartnerStrip />
+<About />
+<SectionDivider color="#292951" />
+<Facilities />
+<SectionDivider color="#fff" />
+<Gallery />
+<Packages />
+<Testimonials />
+<SectionDivider color="#fff" />
+<Legal />
+<FAQ />
+<SectionDivider color="#292951" />
+<FinalCTA />
+<Footer />
+```
+(Antara FinalCTA dan Footer sengaja tidak dikasih divider karena warnanya terlalu mirip, tidak akan kelihatan efeknya.)
+
+## BAGIAN C — Animasi "masuk" saat di-scroll, per komponen
+
+Pola yang dipakai konsisten di semua file: import `motion` dari `framer-motion`, import variants dari `@/lib/animations`, bungkus elemen dengan `motion.div` dan atribut `initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }}`.
+
+### Hero.tsx
+Bungkus div "LEFT: giant stacked headline" (baris ~16) dan div "RIGHT: floating white card" (baris ~42) masing-masing dengan:
+```tsx
+<motion.div
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.3 }}
+  variants={fadeUp}
+  className="flex flex-col" // (className asli tetap dipertahankan, cuma ganti tag div jadi motion.div)
+>
+```
+Card kanan pakai delay sedikit lebih lama dari kiri supaya terasa berurutan — tambahkan `transition={{ delay: 0.15 }}` di motion.div card kanan.
+
+### About.tsx, Facilities.tsx, Gallery.tsx, Packages.tsx, Testimonials.tsx, Legal.tsx, FAQ.tsx
+Pola sama untuk semua: bungkus div pembuka teks header section (eyebrow + h2 + p, biasanya 3 elemen pertama dalam `<div className="max-w-[1180px] mx-auto">`) dengan `motion.div` + `fadeUp`, lalu bungkus grid card/item-nya dengan `motion.div` bervariant `staggerContainer`, dan setiap card individual di dalam `.map()` dibungkus `motion.div` bervariant `fadeUp` (otomatis ikut ritme stagger dari parent).
+
+Contoh konkret untuk Facilities.tsx (baris ~69-93), ganti:
+```tsx
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[20px] mt-[48px]">
+  {facilities.map(f => (
+    <div key={f.title} className="rounded-xl p-[26px_22px]" style={{...}}>
+```
+Jadi:
+```tsx
+<motion.div
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, amount: 0.2 }}
+  variants={staggerContainer}
+  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[20px] mt-[48px]"
+>
+  {facilities.map(f => (
+    <motion.div key={f.title} variants={fadeUp} className="rounded-xl p-[26px_22px]" style={{...}}>
+```
+(Jangan lupa tutup tag jadi `</motion.div>` juga, dan `</motion.div>` penutup grid.)
+
+Terapkan pola identik ini ke:
+- **About.tsx** — grid 4 statistik (baris ~48)
+- **Gallery.tsx** — grid 6 item perlengkapan (baris ~35)
+- **Packages.tsx** — grid card paket (baris di dalam `<Packages>`, bukan di dalam `PackageCard` itu sendiri)
+- **Testimonials.tsx** — grid 3 testimoni (baris ~45)
+- **FAQ.tsx** — list accordion (baris ~45, stagger lebih halus karena vertikal, pakai `amount: 0.1`)
+
+### Import yang perlu ditambahkan di SEMUA file yang disentuh di atas
+```tsx
+import { motion } from 'framer-motion';
+import { fadeUp, staggerContainer } from '@/lib/animations';
+```
+
+## VERIFIKASI SETELAH SELESAI
+
+- Jalankan `npm run build`, pastikan tidak ada error TypeScript (biasanya dari lupa nutup tag `motion.div`)
+- Scroll dari atas ke bawah — setiap section harus punya elemen yang "muncul" halus (fade + naik dikit) saat masuk viewport, BUKAN langsung muncul instan atau nge-lag
+- Pastikan animasi cuma trigger SEKALI per elemen (karena `viewport={{ once: true }}`) — scroll naik-turun berulang tidak boleh bikin elemen berkedip animasi lagi
+- Cek transisi kurva di 5 titik section — pastikan warnanya pas nyambung dengan section di bawahnya, tidak ada garis putih tipis nyempil di antara kurva dan section
+- Cek performa scroll di HP — kalau kerasa patah-patah (jank), turunkan `amount` di viewport jadi lebih kecil (0.1-0.15) supaya animasi trigger lebih awal dan tidak numpuk

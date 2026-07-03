@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { fadeUp, staggerContainer } from '@/lib/animations';
 
 const stats = [
   { num: '12+', lbl: 'Tahun pengalaman' },
@@ -12,7 +14,11 @@ export default function About() {
     <section id="tentang" className="px-[7vw] py-[88px] bg-white">
       <div className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-[0.85fr_1.15fr] gap-[64px] items-center">
         {/* Left: photo */}
-        <div
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
           className="rounded-xl overflow-hidden"
           style={{ aspectRatio: '1/1' }}
         >
@@ -21,10 +27,16 @@ export default function About() {
             alt="Tim Dreammecca"
             className="w-full h-full object-cover"
           />
-        </div>
+        </motion.div>
 
         {/* Right: text */}
-        <div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
+          transition={{ delay: 0.1 }}
+        >
           <span
             className="text-[13px] font-bold tracking-[0.14em] uppercase"
             style={{ color: '#6B6B85' }}
@@ -57,15 +69,21 @@ export default function About() {
           </p>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-[24px] mt-[40px]">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={staggerContainer}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-[24px] mt-[40px]"
+          >
             {stats.map(s => (
-              <div key={s.lbl} style={{ borderTop: '2px solid #1B1B36', paddingTop: '14px' }}>
+              <motion.div key={s.lbl} variants={fadeUp} style={{ borderTop: '2px solid #1B1B36', paddingTop: '14px' }}>
                 <div className="text-[30px] font-extrabold" style={{ color: '#1B1B36' }}>{s.num}</div>
                 <div className="text-[13px] mt-[4px]" style={{ color: '#6B6B85' }}>{s.lbl}</div>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

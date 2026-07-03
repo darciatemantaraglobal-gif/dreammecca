@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { fadeUp, staggerContainer } from '@/lib/animations';
 
 const items = [
   { name: 'Kain Ihram', slug: 'kain-ihram', note: 'Official Dreammecca' },
@@ -18,28 +20,41 @@ export default function Gallery() {
   return (
     <section className="px-[7vw] py-[88px] bg-white">
       <div className="max-w-[1180px] mx-auto">
-        <span
-          className="text-[13px] font-bold tracking-[0.14em] uppercase"
-          style={{ color: '#6B6B85' }}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
         >
-          Perlengkapan Jamaah
-        </span>
-        <h2
-          className="font-bold leading-[1.15] mt-[10px]"
-          style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
-        >
-          Perlengkapan Eksklusif, Terlengkap &amp; Berkualitas
-        </h2>
-        <p
-          className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
-          style={{ color: '#6B6B85' }}
-        >
-          Setiap jamaah mendapat perlengkapan ibadah lengkap sebelum keberangkatan — siap pakai, tanpa perlu membeli sendiri.
-        </p>
+          <span
+            className="text-[13px] font-bold tracking-[0.14em] uppercase"
+            style={{ color: '#6B6B85' }}
+          >
+            Perlengkapan Jamaah
+          </span>
+          <h2
+            className="font-bold leading-[1.15] mt-[10px]"
+            style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
+          >
+            Perlengkapan Eksklusif, Terlengkap &amp; Berkualitas
+          </h2>
+          <p
+            className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
+            style={{ color: '#6B6B85' }}
+          >
+            Setiap jamaah mendapat perlengkapan ibadah lengkap sebelum keberangkatan — siap pakai, tanpa perlu membeli sendiri.
+          </p>
+        </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-[20px] mt-[48px]">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={staggerContainer}
+          className="grid grid-cols-2 md:grid-cols-4 gap-[20px] mt-[48px]"
+        >
           {items.map(item => (
-            <figure key={item.name}>
+            <motion.figure key={item.name} variants={fadeUp}>
               <div
                 className="rounded-xl overflow-hidden"
                 style={{ aspectRatio: '1/1', background: '#F4F4F7' }}
@@ -63,9 +78,9 @@ export default function Gallery() {
               <p className="text-[11.5px] mt-[2px]" style={{ color: '#6B6B85' }}>
                 {item.note}
               </p>
-            </figure>
+            </motion.figure>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { fadeUp } from '@/lib/animations';
 import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
 
 export default function Hero() {
@@ -18,7 +20,13 @@ export default function Hero() {
       <div className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] gap-[40px] items-start">
 
         {/* LEFT: giant stacked headline */}
-        <div className="flex flex-col">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
+          className="flex flex-col"
+        >
           <p
             className="text-[13px] font-bold tracking-[0.18em] uppercase"
             style={{ color: 'rgba(255,255,255,0.50)' }}
@@ -48,10 +56,17 @@ export default function Hero() {
           >
             Konsultasi Gratis
           </a>
-        </div>
+        </motion.div>
 
         {/* RIGHT: floating white card */}
-        <div className="relative flex flex-col">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
+          transition={{ delay: 0.15 }}
+          className="relative flex flex-col"
+        >
           <div className="bg-white rounded-2xl overflow-hidden shadow-2xl">
             {/* Card header */}
             <div className="px-[24px] pt-[24px]">
@@ -117,7 +132,7 @@ export default function Hero() {
               </video>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* ── Bottom 3-col stats strip ── */}

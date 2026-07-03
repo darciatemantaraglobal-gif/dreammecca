@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { fadeUp, staggerContainer } from '@/lib/animations';
 import { Calendar } from 'lucide-react';
 import { createWALink } from '@/lib/whatsapp';
 
@@ -75,7 +77,7 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
 
   return (
     <div
-      className="rounded-xl overflow-hidden flex flex-col transition-all duration-200 hover:-translate-y-1"
+      className="rounded-xl overflow-hidden flex flex-col h-full transition-all duration-200 hover:-translate-y-1"
       style={{
         border: pkg.featured ? '1px solid #1B1B36' : '1px solid rgba(27,27,54,0.10)',
         background: '#fff',
@@ -166,24 +168,39 @@ export default function Packages() {
   return (
     <section id="paket" className="px-[7vw] py-[88px] bg-white">
       <div className="max-w-[1180px] mx-auto">
-        <span className="text-[13px] font-bold tracking-[0.14em] uppercase" style={{ color: '#6B6B85' }}>
-          Paket Umroh
-        </span>
-        <h2
-          className="font-bold leading-[1.15] mt-[10px]"
-          style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
         >
-          Jadwal Keberangkatan Terdekat, Seat Terbatas
-        </h2>
-        <p className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]" style={{ color: '#6B6B85' }}>
-          Harga sudah termasuk tiket pesawat, visa, hotel, transportasi, manasik, dan perlengkapan. Jangan sampai kehabisan seat.
-        </p>
+          <span className="text-[13px] font-bold tracking-[0.14em] uppercase" style={{ color: '#6B6B85' }}>
+            Paket Umroh
+          </span>
+          <h2
+            className="font-bold leading-[1.15] mt-[10px]"
+            style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
+          >
+            Jadwal Keberangkatan Terdekat, Seat Terbatas
+          </h2>
+          <p className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]" style={{ color: '#6B6B85' }}>
+            Harga sudah termasuk tiket pesawat, visa, hotel, transportasi, manasik, dan perlengkapan. Jangan sampai kehabisan seat.
+          </p>
+        </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[20px] mt-[44px] items-stretch">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={staggerContainer}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[20px] mt-[44px] items-stretch"
+        >
           {packages.map(pkg => (
-            <PackageCard key={pkg.slug} pkg={pkg} />
+            <motion.div key={pkg.slug} variants={fadeUp} className="flex flex-col">
+              <PackageCard pkg={pkg} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <p className="text-center text-[14px] mt-[32px]" style={{ color: '#6B6B85' }}>
           Dapatkan flash sale diskon sesuai syarat &amp; ketentuan yang berlaku — tanya tim kami untuk info promo terbaru.

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { fadeUp, staggerContainer } from '@/lib/animations';
 
 const faqs = [
   {
@@ -37,23 +39,38 @@ export default function FAQ() {
   return (
     <section id="faq" className="px-[7vw] py-[88px] bg-white">
       <div className="mx-auto" style={{ maxWidth: '820px' }}>
-        <span
-          className="text-[13px] font-bold tracking-[0.14em] uppercase"
-          style={{ color: '#6B6B85' }}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
         >
-          FAQ
-        </span>
-        <h2
-          className="font-bold leading-[1.15] mt-[10px]"
-          style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
-        >
-          Pertanyaan yang Sering Ditanyakan
-        </h2>
+          <span
+            className="text-[13px] font-bold tracking-[0.14em] uppercase"
+            style={{ color: '#6B6B85' }}
+          >
+            FAQ
+          </span>
+          <h2
+            className="font-bold leading-[1.15] mt-[10px]"
+            style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
+          >
+            Pertanyaan yang Sering Ditanyakan
+          </h2>
+        </motion.div>
 
-        <div className="mt-[48px] flex flex-col" style={{ gap: '0' }}>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={staggerContainer}
+          className="mt-[48px] flex flex-col"
+          style={{ gap: '0' }}
+        >
           {faqs.map((f, i) => (
-            <div
+            <motion.div
               key={i}
+              variants={fadeUp}
               style={{ borderTop: '1px solid rgba(27,27,54,0.10)' }}
               className={i === faqs.length - 1 ? 'border-b border-[rgba(27,27,54,0.10)]' : ''}
             >
@@ -84,9 +101,9 @@ export default function FAQ() {
                   {f.a}
                 </div>
               )}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
