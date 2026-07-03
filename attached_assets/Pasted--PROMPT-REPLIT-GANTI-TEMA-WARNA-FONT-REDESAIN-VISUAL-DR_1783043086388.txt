@@ -1,0 +1,156 @@
+# PROMPT REPLIT — GANTI TEMA WARNA, FONT & REDESAIN VISUAL DREAMMECCA
+
+Copy-paste ke Replit Agent chat di project Dreammecca yang sudah ada.
+
+---
+
+## KONTEKS
+
+Ganti tema warna dari navy hangat (#0B1330 / #141B3D) ke **indigo/violet jewel-tone** (#222252 / #2E2E62), ganti font, dan sesuaikan beberapa detail visual supaya transisi warnanya terasa disengaja (bukan cuma ganti hex doang). Struktur 13 section yang sudah ada JANGAN diubah — ini murni theming pass, bukan rebuild.
+
+## 1. GANTI COLOR TOKEN
+
+Buka `src/index.css`. Lakukan replace berikut PERSIS:
+
+**Baris 46-47** (token dream-navy):
+```css
+/* SEBELUM */
+--color-dream-navy: #0B1330;
+--color-dream-navy-light: #141B3D;
+
+/* SESUDAH */
+--color-dream-navy: #222252;
+--color-dream-navy-light: #2E2E62;
+```
+
+**Baris 84-85** (light mode primary-foreground):
+```css
+/* SEBELUM */
+--primary-foreground: 228 63% 12%; /* Navy text */
+
+/* SESUDAH */
+--primary-foreground: 240 41% 23%; /* Navy text */
+```
+
+**Baris 87** (light mode secondary):
+```css
+/* SEBELUM */
+--secondary: 228 63% 12%; /* Navy */
+
+/* SESUDAH */
+--secondary: 240 41% 23%; /* Navy */
+```
+
+**Baris 104** (.dark background):
+```css
+/* SEBELUM */
+--background: 228 63% 12%; /* #0B1330 */
+
+/* SESUDAH */
+--background: 240 41% 23%; /* #222252 */
+```
+
+**Baris 107-108** (.dark border/input):
+```css
+/* SEBELUM */
+--border: 230 51% 25%;
+--input: 230 51% 25%;
+
+/* SESUDAH */
+--border: 240 51% 25%;
+--input: 240 51% 25%;
+```
+
+**Baris 111** (.dark card):
+```css
+/* SEBELUM */
+--card: 230 51% 16%; /* #141B3D */
+
+/* SESUDAH */
+--card: 240 36% 28%; /* #2E2E62 */
+```
+
+**Baris 115** (.dark popover):
+```css
+/* SEBELUM */
+--popover: 230 51% 16%;
+
+/* SESUDAH */
+--popover: 240 36% 28%;
+```
+
+**Baris 119-120** (.dark primary-foreground):
+```css
+/* SEBELUM */
+--primary-foreground: 228 63% 12%;
+
+/* SESUDAH */
+--primary-foreground: 240 41% 23%;
+```
+
+**Baris 128-129** (.dark accent-foreground):
+```css
+/* SEBELUM */
+--accent-foreground: 228 63% 12%;
+
+/* SESUDAH */
+--accent-foreground: 240 41% 23%;
+```
+
+PENTING: Semua nilai di atas sudah gue hitung presisi dari hex asli (#222252 dan #2E2E62) ke HSL, jangan diubah manual atau di-approximate lagi. Warna gold (`dream-gold`, `dream-gold-hover`) TIDAK berubah, tetap `#C9A455` dan `#E0C077` — kontrasnya masih bagus di atas indigo baru ini.
+
+## 2. GANTI FONT
+
+Baris 1 di `src/index.css`, ganti Google Fonts import:
+
+```css
+/* SEBELUM */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* SESUDAH */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+```
+
+Baris 43-44, ganti font token:
+```css
+/* SEBELUM */
+--font-sans: 'Inter', sans-serif;
+--font-serif: 'Fraunces', serif;
+
+/* SESUDAH */
+--font-sans: 'Plus Jakarta Sans', sans-serif;
+--font-serif: 'Cormorant Garamond', serif;
+```
+
+**Catatan penting soal ukuran font**: Cormorant Garamond secara visual lebih ramping dan "kurus" dibanding Fraunces di ukuran yang sama, apalagi di berat 500-600. Setelah ganti font, cek ulang semua heading (terutama Hero headline yang pakai `text-7xl` di desktop) — kemungkinan perlu naikkan ukuran font 10-15% atau naikkan font-weight ke 600/700 di heading besar supaya tetap punya presence yang kuat, tidak jadi terlalu tipis/lemah di atas background indigo gelap.
+
+Update juga referensi font yang sama di `index.html` (preconnect/stylesheet link Google Fonts) kalau ada duplikasi import di sana.
+
+## 3. REDESAIN VISUAL PENDUKUNG (supaya transisi ke indigo terasa disengaja)
+
+### Hero.tsx — overlay gradient
+Baris ~35, gradient overlay saat ini pakai `dream-navy` solid dari atas ke bawah. Perkaya jadi radial subtle di tengah supaya ada depth, bukan flat overlay:
+```
+Ganti class dari:
+bg-gradient-to-t from-dream-navy via-dream-navy/75 to-dream-navy/40
+
+Jadi kombinasi dua layer: pertahankan gradient linear yang ada, TAMBAHKAN satu div lagi di belakangnya dengan radial gradient halus dari dream-navy-light di tengah ke dream-navy di tepi, opacity rendah (~30%), supaya ada kesan "cahaya" di tengah hero, bukan flat gelap merata.
+```
+
+### Hero.tsx & FinalCTA.tsx — dot pattern
+Titik dekoratif gold yang sudah ada (`radial-gradient(#C9A455 1px, transparent 1px)`) TETAP dipakai, tapi naikkan opacity dari `0.07`/`opacity-8` jadi sekitar `0.12` — di atas indigo yang lebih gelap dan saturated, pattern gold dengan opacity lama jadi kurang kelihatan dibanding sebelumnya di navy yang lebih flat.
+
+### Navbar.tsx & tombol CTA
+Tombol gold (`bg-dream-gold hover:bg-dream-gold-hover text-dream-navy`) tetap dipertahankan strukturnya, tapi tambahkan subtle box-shadow gold saat hover (`hover:shadow-[0_4px_20px_rgba(201,164,85,0.25)]`) supaya tombol terasa "menyala" sedikit di atas background indigo gelap yang lebih dalam — memperkuat kontras premium.
+
+### Cards (Facilities, Packages, Testimonials)
+Border card yang pakai `ring-dream-gold/20` atau border tipis, naikkan sedikit jadi `/25-/30` karena di atas indigo yang lebih saturated, border tipis gold cenderung lebih "tenggelam" dibanding di navy sebelumnya.
+
+## 4. VERIFIKASI SETELAH SELESAI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek kontras teks gold di atas indigo baru masih AA compliant (khususnya teks kecil di badge/label)
+- Screenshot Hero, Packages, dan FinalCTA section — bandingkan sebelum/sesudah untuk memastikan mood indigo-nya konsisten di seluruh halaman, tidak ada section yang keliatan "ketinggalan" masih pakai nuansa navy lama
+- Cek heading besar di Hero tidak jadi terlalu tipis akibat ganti ke Cormorant Garamond — kalau terasa lemah, naikkan font-weight ke 600 atau 700
+
+Laporkan section mana saja yang perlu penyesuaian tambahan setelah kamu lihat hasil visualnya.

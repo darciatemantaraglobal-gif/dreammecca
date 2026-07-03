@@ -1,36 +1,51 @@
-# [Project name]
+# Dreammecca Tour & Travel
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Marketing landing page for **Dreammecca Tour & Travel**, an Umroh travel agency based in South Jakarta. Targets prospective Umroh pilgrims (25–55 years old) arriving via Facebook/Instagram ads and Google Search.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/dreammecca run dev` — run the landing page dev server (managed by workflow `artifacts/dreammecca: web`)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- Frontend: React 19 + Vite 7, Tailwind CSS v4, Framer Motion
+- UI components: Radix UI / shadcn
+- Icons: Lucide React
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/dreammecca/src/components/` — all landing page sections (Navbar, Hero, PartnerStrip, About, Facilities, Gallery, Packages, Testimonials, FAQ, FinalCTA, MapSection, Footer, StickyMobileCTA)
+- `artifacts/dreammecca/src/lib/whatsapp.ts` — WhatsApp deep-link helper; **change `WA_NUMBER` here** to the real number
+- `artifacts/dreammecca/src/lib/animations.ts` — reusable Framer Motion variants
+- `artifacts/dreammecca/src/index.css` — design tokens (navy/gold/cream palette, Fraunces + Inter fonts)
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Pure frontend — no backend or database required; all package data is static in `Packages.tsx`
+- WhatsApp CTA number is a single constant in `lib/whatsapp.ts` — never hardcoded in components
+- Fraunces (serif) for headings, Inter for body — loaded from Google Fonts in index.css
+- Framer Motion `whileInView` for scroll-triggered animations; variants defined once in `lib/animations.ts`
+- Mobile sticky CTA bar appears only after hero is scrolled past (Intersection Observer)
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Full-page Umroh marketing site with:
+- Sticky navbar (transparent → solid on scroll) with mobile hamburger slide-in
+- Hero with Kaabah video/image background, gold headline, two CTAs, trust bar
+- Infinite marquee partner/logo strip
+- About section with stat counters
+- 8-item facilities grid with hover effects
+- Equipment gallery carousel
+- Package cards with room-type price toggle and WhatsApp deep links
+- Testimonials carousel
+- FAQ accordion
+- Final CTA section with Islamic pattern background
+- Google Maps embed
+- Footer with social links and PPIU license number
+- Sticky mobile bottom bar with Phone + WhatsApp buttons
 
 ## User preferences
 
@@ -38,7 +53,9 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Real WhatsApp number: update `WA_NUMBER` in `artifacts/dreammecca/src/lib/whatsapp.ts` (currently placeholder `6281234567890`)
+- Hero video: place actual Kaabah video at `artifacts/dreammecca/public/videos/hero-1.mp4`; hero falls back to `public/images/hero/hero-1.jpg` if video is unavailable
+- Social media URLs in `Footer.tsx` are placeholder links — update with real Instagram/Facebook/YouTube handles
 
 ## Pointers
 

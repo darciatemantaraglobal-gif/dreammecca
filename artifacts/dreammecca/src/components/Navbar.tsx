@@ -52,7 +52,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <a href="#" className="flex-shrink-0" onClick={closeMenu}>
+            <a href="#" className="flex-shrink-0" onClick={closeMenu} aria-label="Dreammecca Tour & Travel — ke atas halaman">
               <span className="font-serif text-xl sm:text-2xl font-bold text-white tracking-wider">
                 DREAM<span className="text-dream-gold">MECCA</span>
               </span>

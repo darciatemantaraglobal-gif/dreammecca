@@ -35,13 +35,13 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-6">Sosial Media</h4>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full border border-dream-cream/20 flex items-center justify-center text-dream-cream/80 hover:bg-dream-gold hover:text-dream-navy hover:border-dream-gold transition-all">
+              <a href="https://instagram.com/dreammecca" target="_blank" rel="noopener noreferrer" aria-label="Instagram Dreammecca" className="w-10 h-10 rounded-full border border-dream-cream/20 flex items-center justify-center text-dream-cream/80 hover:bg-dream-gold hover:text-dream-navy hover:border-dream-gold transition-all">
                 <Instagram size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-dream-cream/20 flex items-center justify-center text-dream-cream/80 hover:bg-dream-gold hover:text-dream-navy hover:border-dream-gold transition-all">
+              <a href="https://facebook.com/dreammecca" target="_blank" rel="noopener noreferrer" aria-label="Facebook Dreammecca" className="w-10 h-10 rounded-full border border-dream-cream/20 flex items-center justify-center text-dream-cream/80 hover:bg-dream-gold hover:text-dream-navy hover:border-dream-gold transition-all">
                 <Facebook size={18} />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-dream-cream/20 flex items-center justify-center text-dream-cream/80 hover:bg-dream-gold hover:text-dream-navy hover:border-dream-gold transition-all">
+              <a href="https://youtube.com/@dreammecca" target="_blank" rel="noopener noreferrer" aria-label="YouTube Dreammecca" className="w-10 h-10 rounded-full border border-dream-cream/20 flex items-center justify-center text-dream-cream/80 hover:bg-dream-gold hover:text-dream-navy hover:border-dream-gold transition-all">
                 <Youtube size={18} />
               </a>
             </div>
