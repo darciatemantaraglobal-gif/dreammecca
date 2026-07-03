@@ -19,19 +19,19 @@ export default function Home() {
     <div className="min-h-screen font-sans pb-16 md:pb-0" style={{ background: '#fff' }}>
       <Navbar />
       <Hero />
-      <SectionDivider color="#fff" />
+      <SectionDivider overlayColor="27,27,54" />
       <PartnerStrip />
       <About />
-      <SectionDivider color="#292951" />
+      <SectionDivider overlayColor="41,41,81" />
       <Facilities />
-      <SectionDivider color="#fff" />
+      <SectionDivider overlayColor="41,41,81" />
       <Gallery />
       <Packages />
       <Testimonials />
-      <SectionDivider color="#fff" />
+      <SectionDivider overlayColor="27,27,54" />
       <Legal />
       <FAQ />
-      <SectionDivider color="#292951" />
+      <SectionDivider overlayColor="41,41,81" />
       <FinalCTA />
       <Footer />
       <StickyMobileCTA />

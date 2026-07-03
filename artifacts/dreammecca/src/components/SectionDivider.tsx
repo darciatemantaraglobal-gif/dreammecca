@@ -1,11 +1,28 @@
 import React from 'react';
 
-export default function SectionDivider({ color }: { color: string }) {
+interface SectionDividerProps {
+  overlayColor: string;
+}
+
+export default function SectionDivider({ overlayColor }: SectionDividerProps) {
+  const maskStyle: React.CSSProperties = {
+    WebkitMaskImage: 'url(/images/patterns/curve-mask.svg)',
+    maskImage: 'url(/images/patterns/curve-mask.svg)',
+    WebkitMaskSize: '100% 100%',
+    maskSize: '100% 100%',
+    WebkitMaskRepeat: 'no-repeat',
+    maskRepeat: 'no-repeat',
+  };
+
   return (
-    <div className="w-full overflow-hidden leading-none relative" style={{ marginBottom: '-1px' }}>
-      <svg viewBox="0 0 1440 80" className="w-full h-[44px] md:h-[64px]" preserveAspectRatio="none">
-        <path d="M0,0 C400,80 1040,80 1440,0 L1440,80 L0,80 Z" fill={color} />
-      </svg>
-    </div>
+    <div
+      className="w-full h-[44px] md:h-[64px]"
+      style={{
+        backgroundImage: `linear-gradient(180deg, rgba(${overlayColor},0.55), rgba(${overlayColor},0.65)), url(/images/patterns/geometric-navy.jpg)`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        ...maskStyle,
+      }}
+    />
   );
 }
