@@ -19,8 +19,18 @@ export default function Navbar() {
       className="sticky top-0 z-50 flex items-center justify-between px-[7vw] py-[18px]"
       style={{ background: '#1B1B36', borderBottom: '1px solid rgba(255,255,255,0.14)' }}
     >
-      <a href="#" className="text-white font-extrabold text-[19px] tracking-tight no-underline">
-        Dreammecca
+      <a
+        href="#"
+        onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+        className="flex items-center no-underline"
+        aria-label="Dreammecca — kembali ke atas"
+      >
+        <img
+          src="/images/logo.png"
+          alt="Dreammecca"
+          className="h-[36px] w-auto"
+          style={{ filter: 'brightness(0) invert(1)' }}
+        />
       </a>
 
       {/* Desktop links */}
