@@ -8,7 +8,7 @@ export default function Hero() {
     <section
       className="relative overflow-hidden px-[7vw] pt-[64px]"
       style={{
-        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url(/images/patterns/geometric-navy.jpg)',
+        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.55), rgba(27,27,54,0.65)), url(/images/patterns/geometric-navy.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center top',
         backgroundColor: '#1B1B36',

@@ -1,0 +1,42 @@
+# PROMPT REPLIT — PERBAIKI PATTERN BACKGROUND YANG TIDAK KELIHATAN
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+Pattern background yang baru ditambahkan di Hero, Facilities, Testimonials, FinalCTA, Footer, dan Navbar tidak terlihat. Tolong cek dan perbaiki dua kemungkinan penyebab berikut:
+
+## 1. Cek apakah file gambar benar-benar ter-load
+
+Cek apakah file `public/images/patterns/geometric-navy.jpg` benar-benar ada di project (bukan cuma disebut di kode tapi filenya belum ke-upload atau salah nama/folder — termasuk cek besar-kecil huruf, karena di server production itu case-sensitive meskipun kadang di preview lokal tidak masalah). Kalau file belum ada atau salah path, kasih tau saya supaya saya upload ulang dengan nama yang benar.
+
+## 2. Kurangi opacity overlay — ini kemungkinan penyebab utama
+
+Overlay gradient navy yang ditambahkan sebelumnya terlalu pekat (0.88–0.97), sehingga pattern yang aslinya sudah subtle jadi nyaris tidak kelihatan sama sekali karena ketutup dua lapis gelap. Turunkan semua opacity overlay di 6 file berikut jadi jauh lebih rendah supaya pattern benar-benar terlihat:
+
+**Hero.tsx & Testimonials.tsx:**
+```tsx
+backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.55), rgba(27,27,54,0.65)), url(/images/patterns/geometric-navy.jpg)',
+```
+
+**Facilities.tsx & FinalCTA.tsx:**
+```tsx
+backgroundImage: 'linear-gradient(180deg, rgba(41,41,81,0.55), rgba(41,41,81,0.65)), url(/images/patterns/geometric-navy.jpg)',
+```
+
+**Footer.tsx** (boleh tetap agak lebih pekat dari section lain karena teksnya kecil, tapi tidak sepekat sebelumnya):
+```tsx
+backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.65), rgba(27,27,54,0.75)), url(/images/patterns/geometric-navy.jpg)',
+```
+
+**Navbar.tsx** (tetap paling pekat karena sticky & harus paling gampang dibaca, tapi turunkan sedikit):
+```tsx
+backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.75), rgba(27,27,54,0.82)), url(/images/patterns/geometric-navy.jpg)',
+```
+Terapkan juga ke dropdown menu mobile di Navbar.tsx.
+
+## VERIFIKASI
+
+- Screenshot ulang keenam section setelah perubahan, pastikan pattern geometris sekarang benar-benar terlihat jelas (bukan cuma warna solid)
+- Cek kontras teks putih masih cukup terbaca di atas pattern yang sekarang lebih terang — kalau ada bagian teks yang jadi susah dibaca, naikkan opacity dikit (increment kecil, misal +0.05) khusus di section itu saja
+- Kalau setelah opacity diturunkan pattern MASIH tidak muncul sama sekali, itu tandanya masalahnya di file/path (poin 1), bukan opacity — laporkan balik ke saya kalau begitu

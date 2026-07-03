@@ -6,7 +6,7 @@ export default function Footer() {
 
   return (
     <footer style={{
-      backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.92), rgba(27,27,54,0.96)), url(/images/patterns/geometric-navy.jpg)',
+      backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.65), rgba(27,27,54,0.75)), url(/images/patterns/geometric-navy.jpg)',
       backgroundSize: 'cover',
       backgroundPosition: 'center bottom',
       backgroundColor: '#1B1B36',

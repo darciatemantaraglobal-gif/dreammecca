@@ -19,7 +19,7 @@ export default function Navbar() {
     <nav
       className="sticky top-0 z-50 flex items-center justify-between px-[7vw] py-[18px]"
       style={{
-        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.95), rgba(27,27,54,0.97)), url(/images/patterns/geometric-navy.jpg)',
+        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.75), rgba(27,27,54,0.82)), url(/images/patterns/geometric-navy.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center top',
         backgroundColor: '#1B1B36',
@@ -78,7 +78,7 @@ export default function Navbar() {
         <div
           className="absolute top-full left-0 right-0 flex flex-col px-[7vw] pb-6 pt-4 gap-5"
           style={{
-            backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.95), rgba(27,27,54,0.97)), url(/images/patterns/geometric-navy.jpg)',
+            backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.75), rgba(27,27,54,0.82)), url(/images/patterns/geometric-navy.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center top',
             backgroundColor: '#1B1B36',

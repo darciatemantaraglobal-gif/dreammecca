@@ -59,7 +59,7 @@ const facilities: { icon: FacilityIcon; title: string; desc: string }[] = [
 export default function Facilities() {
   return (
     <section id="fasilitas" className="px-[7vw] py-[88px]" style={{
-      backgroundImage: 'linear-gradient(180deg, rgba(41,41,81,0.90), rgba(41,41,81,0.95)), url(/images/patterns/geometric-navy.jpg)',
+      backgroundImage: 'linear-gradient(180deg, rgba(41,41,81,0.55), rgba(41,41,81,0.65)), url(/images/patterns/geometric-navy.jpg)',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundColor: '#292951',
