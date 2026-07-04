@@ -98,7 +98,7 @@ export default function Facilities() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={staggerContainer}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[20px] mt-[48px]"
+          className="grid grid-cols-2 md:grid-cols-4 gap-[14px] md:gap-[20px] mt-[48px]"
         >
           {facilities.map(f => (
             <motion.div
