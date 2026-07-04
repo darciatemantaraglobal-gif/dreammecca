@@ -43,12 +43,21 @@ export default function Hero() {
             Berizin resmi PPIU Kementerian Agama RI. Kami hadir memastikan perjalanan ibadah Umroh Anda, dari konsultasi, dokumen, visa, hingga pendampingan di Tanah Suci, berjalan lancar dan penuh kekhusyukan.
           </p>
 
-          {/* 3. CTA padding & font diperbesar */}
-          <div className="flex flex-wrap justify-center gap-[12px] mt-[28px]">
-            <a href={waLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-[34px] py-[17px] rounded-full font-bold text-[15px] no-underline hover:opacity-90 transition-opacity" style={{ background: '#fff', color: '#1B1B36' }}>
+          <div className="flex flex-row items-center justify-center gap-[10px] mt-[28px]">
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-[20px] md:px-[34px] py-[13px] md:py-[17px] rounded-full font-bold text-[14px] md:text-[15px] no-underline hover:opacity-90 transition-opacity flex-1 md:flex-none"
+              style={{ background: '#fff', color: '#1B1B36', maxWidth: '220px' }}
+            >
               Konsultasi Gratis
             </a>
-            <a href="#paket" className="inline-flex items-center justify-center px-[34px] py-[17px] rounded-full font-bold text-[15px] no-underline border transition-colors hover:bg-white/10" style={{ borderColor: 'rgba(255,255,255,0.35)', color: '#fff' }}>
+            <a
+              href="#paket"
+              className="inline-flex items-center justify-center px-[20px] md:px-[34px] py-[13px] md:py-[17px] rounded-full font-bold text-[14px] md:text-[15px] no-underline border transition-colors hover:bg-white/10 flex-1 md:flex-none"
+              style={{ borderColor: 'rgba(255,255,255,0.35)', color: '#fff', maxWidth: '180px' }}
+            >
               Lihat Paket
             </a>
           </div>
