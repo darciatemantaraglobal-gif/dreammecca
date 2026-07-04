@@ -1,0 +1,121 @@
+# PROMPT REPLIT — REDESIGN FILTER BAR + FIX SCROLL-TO-TOP SAAT PINDAH HALAMAN
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## BAGIAN A — Fix scroll tidak reset ke atas saat pindah ke `/paket-umroh`
+
+Wouter (router yang dipakai project ini) tidak otomatis reset posisi scroll saat pindah halaman via client-side navigation — jadi kalau user klik "Lihat Semua Paket & Jadwal" dari tengah halaman homepage, halaman baru ikut kebuka di posisi scroll yang sama.
+
+### Buat file baru `src/components/ScrollToTop.tsx`
+
+```tsx
+import { useEffect } from 'react';
+import { useLocation } from 'wouter';
+
+export default function ScrollToTop() {
+  const [location] = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  return null;
+}
+```
+
+### Pasang di `App.tsx`, di dalam `<WouterRouter>` sebelum `<Router />`
+
+```tsx
+import ScrollToTop from '@/components/ScrollToTop';
+
+<WouterRouter>
+  <ScrollToTop />
+  <Router />
+</WouterRouter>
+```
+
+Komponen ini akan otomatis scroll ke atas setiap kali path/route berubah, di halaman manapun (bukan cuma `/paket-umroh`).
+
+## BAGIAN B — Redesign filter bar di `pages/PaketUmroh.tsx`
+
+Ganti section filter yang sekarang (background putih flat, border-bottom tipis) jadi card mengambang dengan shadow, lebih rapi:
+
+```tsx
+/* SEBELUM (section filter, biasanya style seperti ini) */
+<section className="px-[7vw] py-[32px]" style={{ borderBottom: '1px solid rgba(27,27,54,0.08)' }}>
+  <div className="max-w-[1180px] mx-auto flex flex-wrap gap-[24px]">
+    ...
+  </div>
+</section>
+
+/* SESUDAH */
+<section className="px-[7vw] -mt-[24px] relative z-10">
+  <div
+    className="max-w-[1180px] mx-auto rounded-2xl p-[24px] md:p-[28px]"
+    style={{ background: '#fff', boxShadow: '0 8px 30px rgba(27,27,54,0.10)' }}
+  >
+    <div className="flex flex-wrap gap-[24px] items-start justify-between">
+      <div className="flex flex-wrap gap-[20px]">
+        <div>
+          <span className="text-[11px] font-bold tracking-[0.1em] uppercase block mb-[8px]" style={{ color: '#9CA0AC' }}>
+            Tier
+          </span>
+          <div className="flex gap-[8px] flex-wrap">
+            {(['Semua', 'Reguler', 'Luxury'] as const).map(t => (
+              <button
+                key={t}
+                onClick={() => setTierFilter(t)}
+                className="px-[16px] py-[9px] rounded-full text-[13.5px] font-semibold transition-colors"
+                style={{
+                  background: tierFilter === t ? '#1B1B36' : '#fff',
+                  color: tierFilter === t ? '#fff' : '#1B1B36',
+                  border: '1px solid rgba(27,27,54,0.16)',
+                }}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <span className="text-[11px] font-bold tracking-[0.1em] uppercase block mb-[8px]" style={{ color: '#9CA0AC' }}>
+            Durasi
+          </span>
+          <div className="flex gap-[8px] flex-wrap">
+            {(['Semua', '9 Hari', '12 Hari'] as const).map(d => (
+              <button
+                key={d}
+                onClick={() => setDurFilter(d)}
+                className="px-[16px] py-[9px] rounded-full text-[13.5px] font-semibold transition-colors"
+                style={{
+                  background: durFilter === d ? '#1B1B36' : '#fff',
+                  color: durFilter === d ? '#fff' : '#1B1B36',
+                  border: '1px solid rgba(27,27,54,0.16)',
+                }}
+              >
+                {d}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="text-[13.5px] font-semibold self-center" style={{ color: '#6B6B85' }}>
+        {cards.length} jadwal tersedia
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+Catatan:
+- `-mt-[24px] relative z-10` di section ini membuat card filter "naik" sedikit menutupi bagian bawah header navy di atasnya, memberi efek card mengambang yang lebih modern (mengambil pola yang sama seperti kartu di Hero sebelumnya).
+- Sesuaikan nama variable `cards`, `tierFilter`, `durFilter`, `setTierFilter`, `setDurFilter` supaya cocok dengan yang sudah ada di file — jangan ganti nama state yang sudah dipakai di bagian render grid hasil filter di bawahnya.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Klik "Lihat Semua Paket & Jadwal" dari homepage (scroll ke tengah dulu sebelum klik) — halaman `/paket-umroh` harus terbuka dari posisi paling atas
+- Cek filter bar sekarang tampil sebagai card mengambang dengan shadow, bukan flat menyatu dengan background
+- Cek navigasi antar halaman lain (`/` ke `/paket-umroh` dan sebaliknya) juga ikut scroll ke atas, bukan cuma satu arah

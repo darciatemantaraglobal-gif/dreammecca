@@ -11,6 +11,7 @@ import AdminDashboard from '@/pages/AdminDashboard';
 import AdminTestimonials from '@/pages/AdminTestimonials';
 import AdminGallery from '@/pages/AdminGallery';
 import AdminSettings from '@/pages/AdminSettings';
+import ScrollToTop from '@/components/ScrollToTop';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <WouterRouter>
+          <ScrollToTop />
           <Router />
         </WouterRouter>
         <Toaster />

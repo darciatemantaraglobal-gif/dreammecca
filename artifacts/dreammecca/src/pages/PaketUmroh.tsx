@@ -163,45 +163,60 @@ export default function PaketUmroh() {
         </div>
       </section>
 
-      <section className="px-[7vw] py-[28px] bg-white sticky top-[72px] z-40" style={{ borderBottom: '1px solid rgba(27,27,54,0.08)', boxShadow: '0 2px 12px rgba(27,27,54,0.04)' }}>
-        <div className="max-w-[1180px] mx-auto flex flex-wrap gap-[20px] items-center">
-          <div className="flex items-center gap-[8px] flex-wrap">
-            <span className="text-[12.5px] font-bold uppercase tracking-[0.08em]" style={{ color: '#6B6B85' }}>Tier</span>
-            {(['Semua', 'Reguler', 'Luxury'] as const).map(t => (
-              <button
-                key={t}
-                onClick={() => setTierFilter(t)}
-                className="px-[16px] py-[8px] rounded-full text-[13px] font-semibold transition-colors"
-                style={{
-                  background: tierFilter === t ? '#1B1B36' : '#fff',
-                  color: tierFilter === t ? '#fff' : '#1B1B36',
-                  border: '1px solid rgba(27,27,54,0.16)',
-                }}
-              >
-                {t}
-              </button>
-            ))}
+      <section className="px-[7vw] -mt-[24px] relative z-10">
+        <div
+          className="max-w-[1180px] mx-auto rounded-2xl p-[24px] md:p-[28px]"
+          style={{ background: '#fff', boxShadow: '0 8px 30px rgba(27,27,54,0.10)' }}
+        >
+          <div className="flex flex-wrap gap-[24px] items-start justify-between">
+            <div className="flex flex-wrap gap-[20px]">
+              <div>
+                <span className="text-[11px] font-bold tracking-[0.1em] uppercase block mb-[8px]" style={{ color: '#9CA0AC' }}>
+                  Tier
+                </span>
+                <div className="flex gap-[8px] flex-wrap">
+                  {(['Semua', 'Reguler', 'Luxury'] as const).map(t => (
+                    <button
+                      key={t}
+                      onClick={() => setTierFilter(t)}
+                      className="px-[16px] py-[9px] rounded-full text-[13.5px] font-semibold transition-colors"
+                      style={{
+                        background: tierFilter === t ? '#1B1B36' : '#fff',
+                        color: tierFilter === t ? '#fff' : '#1B1B36',
+                        border: '1px solid rgba(27,27,54,0.16)',
+                      }}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <span className="text-[11px] font-bold tracking-[0.1em] uppercase block mb-[8px]" style={{ color: '#9CA0AC' }}>
+                  Durasi
+                </span>
+                <div className="flex gap-[8px] flex-wrap">
+                  {(['Semua', '9 Hari', '12 Hari'] as const).map(d => (
+                    <button
+                      key={d}
+                      onClick={() => setDurFilter(d)}
+                      className="px-[16px] py-[9px] rounded-full text-[13.5px] font-semibold transition-colors"
+                      style={{
+                        background: durFilter === d ? '#1B1B36' : '#fff',
+                        color: durFilter === d ? '#fff' : '#1B1B36',
+                        border: '1px solid rgba(27,27,54,0.16)',
+                      }}
+                    >
+                      {d}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="text-[13.5px] font-semibold self-center" style={{ color: '#6B6B85' }}>
+              {isLoading ? 'Memuat...' : `${cards.length} jadwal tersedia`}
+            </div>
           </div>
-          <div className="flex items-center gap-[8px] flex-wrap">
-            <span className="text-[12.5px] font-bold uppercase tracking-[0.08em]" style={{ color: '#6B6B85' }}>Durasi</span>
-            {(['Semua', '9 Hari', '12 Hari'] as const).map(d => (
-              <button
-                key={d}
-                onClick={() => setDurFilter(d)}
-                className="px-[16px] py-[8px] rounded-full text-[13px] font-semibold transition-colors"
-                style={{
-                  background: durFilter === d ? '#1B1B36' : '#fff',
-                  color: durFilter === d ? '#fff' : '#1B1B36',
-                  border: '1px solid rgba(27,27,54,0.16)',
-                }}
-              >
-                {d}
-              </button>
-            ))}
-          </div>
-          <span className="ml-auto text-[13px]" style={{ color: '#6B6B85' }}>
-            {isLoading ? 'Memuat...' : `${cards.length} jadwal tersedia`}
-          </span>
         </div>
       </section>
 
