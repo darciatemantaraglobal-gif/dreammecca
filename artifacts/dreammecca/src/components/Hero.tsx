@@ -1,22 +1,21 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Plane, ShieldCheck, Users } from 'lucide-react';
-import { fadeUp, staggerContainer } from '@/lib/animations';
 import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
 
 const trustItems = [
   {
-    icon: Plane,
+    Icon: Plane,
     title: 'Direct Flight, Maskapai Ternama',
     desc: 'Saudia Airlines, Garuda Indonesia & FlyDubai, tanpa transit berlebih.',
   },
   {
-    icon: ShieldCheck,
+    Icon: ShieldCheck,
     title: 'PPIU Resmi',
     desc: 'Berizin resmi Kementerian Agama RI, diawasi langsung.',
   },
   {
-    icon: Users,
+    Icon: Users,
     title: 'Melayani Sejak 2025',
     desc: 'Dipercaya jamaah dari berbagai kota di Indonesia.',
     link: true,
@@ -28,165 +27,124 @@ export default function Hero() {
 
   return (
     <section
-      className="relative overflow-hidden px-[7vw] pt-[64px]"
+      id="hero"
+      className="relative px-[7vw] pt-[140px] pb-[64px] overflow-hidden"
       style={{
-        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.55), rgba(27,27,54,0.65)), url(/images/patterns/geometric-navy.jpg)',
+        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url("/images/patterns/geometric-navy.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center top',
         backgroundColor: '#1B1B36',
       }}
     >
-      {/* ── Main 2-col grid ── */}
-      <div className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-[1.15fr_0.85fr] gap-[40px] items-start">
+      <div className="max-w-[1180px] mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-[48px] items-start">
 
-        {/* LEFT: giant stacked headline */}
+        {/* KIRI — headline & CTA */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={fadeUp}
-          className="flex flex-col"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p
-            className="text-[13px] font-bold tracking-[0.18em] uppercase"
-            style={{ color: 'rgba(255,255,255,0.50)' }}
-          >
+          <span className="text-[13px] font-bold tracking-[0.14em] uppercase" style={{ color: 'rgba(255,255,255,0.55)' }}>
             Penyelenggara Ibadah Umroh Resmi
-          </p>
+          </span>
 
           <h1
-            className="font-extrabold text-white leading-[0.98] tracking-[-0.02em] mt-[18px]"
-            style={{ fontSize: 'clamp(44px, 6vw, 76px)' }}
+            className="font-extrabold leading-[1.05] mt-[16px]"
+            style={{ fontSize: 'clamp(36px,5.5vw,68px)', color: '#fff' }}
           >
-            Dreammecca<br />Tour &amp; Travel
+            Berangkat Umroh,<br />Pulang Berkah
           </h1>
 
-          <p
-            className="mt-[28px] text-[16px] leading-[1.6] max-w-[440px]"
-            style={{ color: 'rgba(255,255,255,0.66)' }}
-          >
+          <p className="text-[17px] leading-[1.65] mt-[24px] max-w-[480px]" style={{ color: 'rgba(255,255,255,0.7)' }}>
             Berizin resmi PPIU Kementerian Agama RI. Kami hadir memastikan perjalanan ibadah Umroh Anda, dari konsultasi, dokumen, visa, hingga pendampingan di Tanah Suci, berjalan lancar dan penuh kekhusyukan.
           </p>
 
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-[36px] self-start inline-flex items-center bg-white text-[#1B1B36] font-bold text-[14px] uppercase tracking-[0.09em] px-[32px] py-[17px] rounded-full hover:opacity-[0.88] transition-opacity no-underline"
-          >
-            Konsultasi Gratis
-          </a>
+          <div className="flex flex-wrap gap-[14px] mt-[32px]">
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center px-[30px] py-[16px] rounded-full font-bold text-[14px] no-underline hover:opacity-90 transition-opacity"
+              style={{ background: '#fff', color: '#1B1B36' }}
+            >
+              Konsultasi Gratis
+            </a>
+            <a
+              href="#paket"
+              className="inline-flex items-center justify-center px-[30px] py-[16px] rounded-full font-bold text-[14px] no-underline border transition-colors hover:bg-white/10"
+              style={{ borderColor: 'rgba(255,255,255,0.35)', color: '#fff' }}
+            >
+              Lihat Paket Umroh
+            </a>
+          </div>
         </motion.div>
 
-        {/* RIGHT: floating white card */}
+        {/* KANAN — satu kartu utuh: video di atas, info strip di bawah */}
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={fadeUp}
-          transition={{ delay: 0.15 }}
-          className="relative flex flex-col"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="rounded-2xl overflow-hidden"
+          style={{ background: '#fff', boxShadow: '0 24px 60px rgba(0,0,0,0.25)' }}
         >
-          <div className="bg-white rounded-2xl overflow-hidden shadow-2xl">
-            {/* Card header */}
-            <div className="px-[24px] pt-[24px]">
-              {/* Pills */}
-              <div className="flex gap-[8px] flex-wrap">
-                {[
-                  { label: 'Umroh', active: false },
-                  { label: 'Paket', active: false },
-                  { label: 'PPIU', active: true },
-                ].map(({ label, active }) => (
-                  <span
-                    key={label}
-                    className="text-[13px] font-semibold px-[14px] py-[7px] rounded-full"
-                    style={
-                      active
-                        ? { background: '#1B1B36', color: '#fff' }
-                        : { border: '1px solid rgba(27,27,54,0.20)', color: '#1B1B36' }
-                    }
-                  >
-                    {label}
-                  </span>
-                ))}
-              </div>
-
-              {/* Text + badge row */}
-              <div className="flex items-start justify-between gap-3 mt-[18px] mb-[20px]">
-                <div>
-                  <h2
-                    className="font-bold leading-[1.2]"
-                    style={{ fontSize: 'clamp(18px, 2vw, 22px)', color: '#1B1B36' }}
-                  >
-                    Berizin Resmi,<br />Siap Melayani Anda
-                  </h2>
-                  <p className="text-[13.5px] mt-[6px]" style={{ color: '#6B6B85' }}>
-                    Sudah memberangkatkan banyak jamaah sejak 2025, dengan bimbingan penuh dari awal hingga pulang.
-                  </p>
-                </div>
-
-                {/* PPIU badge */}
-                <div
-                  className="flex-none rounded-xl px-[14px] py-[11px] text-center"
-                  style={{ background: '#292951' }}
-                >
-                  <div className="text-[10.5px] font-bold uppercase tracking-[0.08em] text-white leading-tight">
-                    PPIU<br />RESMI
-                  </div>
-                </div>
-              </div>
+          {/* Video 16:9, full width kartu, jadi elemen visual utama */}
+          <div className="w-full relative" style={{ paddingTop: '56.25%', overflow: 'hidden', background: '#1B1B36' }}>
+            <video
+              autoPlay muted loop playsInline preload="metadata"
+              poster="/images/kaabah/kaabah-1.jpg"
+              className="absolute inset-0 w-full h-full"
+              style={{ objectFit: 'cover', display: 'block' }}
+            >
+              <source src="/videos/hero-card.mp4" type="video/mp4" />
+            </video>
+            {/* Caption overlay di pojok kiri bawah video */}
+            <div
+              className="absolute bottom-0 left-0 right-0 px-[20px] py-[14px]"
+              style={{ background: 'linear-gradient(180deg, transparent, rgba(0,0,0,0.55))' }}
+            >
+              <span className="text-[12px] font-semibold uppercase tracking-[0.06em]" style={{ color: '#fff' }}>
+                Cuplikan Perjalanan Ibadah
+              </span>
             </div>
+          </div>
 
-            {/* Card video — bleeds to bottom */}
-            <div className="w-full relative" style={{ paddingTop: '56.25%', overflow: 'hidden' }}>
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                poster="/images/kaabah/kaabah-1.jpg"
-                className="absolute inset-0 w-full h-full"
-                style={{ objectFit: 'cover', display: 'block' }}
-              >
-                <source src="/videos/hero-card.mp4" type="video/mp4" />
-              </video>
+          {/* Info strip bawah — bagian dari kartu yang sama */}
+          <div className="px-[26px] py-[22px] flex items-start justify-between gap-[16px]">
+            <div>
+              <h3 className="text-[17px] font-bold leading-[1.3]" style={{ color: '#1B1B36' }}>
+                Berizin Resmi, Siap Melayani Anda
+              </h3>
+              <p className="text-[13.5px] leading-[1.5] mt-[6px]" style={{ color: '#6B6B85' }}>
+                Sudah memberangkatkan banyak jamaah sejak 2025, dengan bimbingan penuh dari awal hingga pulang.
+              </p>
             </div>
+            <span
+              className="flex-none text-[11px] font-bold text-center leading-[1.3] px-[12px] py-[8px] rounded-full text-white"
+              style={{ background: '#1B1B36' }}
+            >
+              PPIU<br />RESMI
+            </span>
           </div>
         </motion.div>
       </div>
 
-      {/* ── Bottom 3-col trust strip ── */}
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={staggerContainer}
-        className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-[12px] mt-[32px]"
-      >
+      {/* Trust bar 3 kolom */}
+      <div className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-[12px] mt-[40px]">
         {trustItems.map((item) => (
-          <motion.div
+          <div
             key={item.title}
-            variants={fadeUp}
             className="rounded-xl p-[16px] flex items-start gap-[12px]"
-            style={{
-              background: 'rgba(255,255,255,0.035)',
-              border: '1px solid rgba(255,255,255,0.08)',
-            }}
+            style={{ background: 'rgba(255,255,255,0.035)', border: '1px solid rgba(255,255,255,0.08)' }}
           >
             <div
               className="w-[32px] h-[32px] rounded-full flex-none flex items-center justify-center mt-[2px]"
               style={{ background: 'rgba(255,255,255,0.08)' }}
             >
-              <item.icon size={14} color="#fff" strokeWidth={1.75} />
+              <item.Icon size={14} color="#fff" strokeWidth={1.75} />
             </div>
             <div>
-              <h3 className="text-[13px] font-bold leading-[1.3]" style={{ color: '#fff' }}>
-                {item.title}
-              </h3>
-              <p className="text-[12px] leading-[1.5] mt-[4px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                {item.desc}
-              </p>
+              <h4 className="text-[13px] font-bold leading-[1.3]" style={{ color: '#fff' }}>{item.title}</h4>
+              <p className="text-[12px] leading-[1.5] mt-[4px]" style={{ color: 'rgba(255,255,255,0.6)' }}>{item.desc}</p>
               {item.link && (
                 <a
                   href="#paket"
@@ -197,9 +155,9 @@ export default function Hero() {
                 </a>
               )}
             </div>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
     </section>
   );
 }

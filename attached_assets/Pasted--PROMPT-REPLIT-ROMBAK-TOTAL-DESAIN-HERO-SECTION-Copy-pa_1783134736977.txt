@@ -1,0 +1,162 @@
+# PROMPT REPLIT — ROMBAK TOTAL DESAIN HERO SECTION
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## KONTEKS
+
+Hero section sekarang kartu kanannya kerasa seperti dua elemen lepas ditumpuk (info card putih di atas, kotak video kosong besar di bawah dengan cuma ikon play sendirian). Headline juga terlalu datar (cuma nama perusahaan). Rombak total: video jadi elemen visual utama di ATAS kartu (lebih engaging, bukan dikubur di bawah teks), info pendukung jadi strip ringkas di bawahnya sebagai SATU kesatuan kartu, dan headline dibuat lebih kuat secara emosional.
+
+## GANTI ISI `Hero.tsx` TOTAL
+
+```tsx
+import React from 'react';
+import { motion } from 'framer-motion';
+
+export default function Hero() {
+  return (
+    <section
+      id="hero"
+      className="relative px-[7vw] pt-[140px] pb-[64px] overflow-hidden"
+      style={{
+        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url("/images/patterns/geometric-navy.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundColor: '#1B1B36',
+      }}
+    >
+      <div className="max-w-[1180px] mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-[48px] items-start">
+
+        {/* KIRI — headline & CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <span className="text-[13px] font-bold tracking-[0.14em] uppercase" style={{ color: 'rgba(255,255,255,0.55)' }}>
+            Penyelenggara Ibadah Umroh Resmi
+          </span>
+
+          <h1
+            className="font-extrabold leading-[1.05] mt-[16px]"
+            style={{ fontSize: 'clamp(36px,5.5vw,68px)', color: '#fff' }}
+          >
+            Berangkat Umroh,<br />Pulang Berkah
+          </h1>
+
+          <p className="text-[17px] leading-[1.65] mt-[24px] max-w-[480px]" style={{ color: 'rgba(255,255,255,0.7)' }}>
+            Berizin resmi PPIU Kementerian Agama RI. Kami hadir memastikan perjalanan ibadah Umroh Anda, dari konsultasi, dokumen, visa, hingga pendampingan di Tanah Suci, berjalan lancar dan penuh kekhusyukan.
+          </p>
+
+          <div className="flex flex-wrap gap-[14px] mt-[32px]">
+            <a
+              href="#kontak"
+              className="inline-flex items-center justify-center px-[30px] py-[16px] rounded-full font-bold text-[14px] no-underline hover:opacity-90 transition-opacity"
+              style={{ background: '#fff', color: '#1B1B36' }}
+            >
+              Konsultasi Gratis
+            </a>
+            <a
+              href="#paket"
+              className="inline-flex items-center justify-center px-[30px] py-[16px] rounded-full font-bold text-[14px] no-underline border transition-colors hover:bg-white/10"
+              style={{ borderColor: 'rgba(255,255,255,0.35)', color: '#fff' }}
+            >
+              Lihat Paket Umroh
+            </a>
+          </div>
+        </motion.div>
+
+        {/* KANAN — satu kartu utuh: video di atas, info strip di bawah */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="rounded-2xl overflow-hidden"
+          style={{ background: '#fff', boxShadow: '0 24px 60px rgba(0,0,0,0.25)' }}
+        >
+          {/* Video 16:9, full width kartu, jadi elemen visual utama */}
+          <div className="w-full relative" style={{ paddingTop: '56.25%', overflow: 'hidden', background: '#1B1B36' }}>
+            <video
+              autoPlay muted loop playsInline preload="metadata"
+              poster="/images/kaabah/kaabah-1.jpg"
+              className="absolute inset-0 w-full h-full"
+              style={{ objectFit: 'cover', display: 'block' }}
+            >
+              <source src="/videos/hero-card.mp4" type="video/mp4" />
+            </video>
+            {/* Caption overlay di pojok kiri bawah video, biar placeholder kosong tidak terasa hampa */}
+            <div
+              className="absolute bottom-0 left-0 right-0 px-[20px] py-[14px]"
+              style={{ background: 'linear-gradient(180deg, transparent, rgba(0,0,0,0.55))' }}
+            >
+              <span className="text-[12px] font-semibold uppercase tracking-[0.06em]" style={{ color: '#fff' }}>
+                Cuplikan Perjalanan Ibadah
+              </span>
+            </div>
+          </div>
+
+          {/* Info strip bawah — bagian dari kartu yang sama, bukan blok terpisah */}
+          <div className="px-[26px] py-[22px] flex items-start justify-between gap-[16px]">
+            <div>
+              <h3 className="text-[17px] font-bold leading-[1.3]" style={{ color: '#1B1B36' }}>
+                Berizin Resmi, Siap Melayani Anda
+              </h3>
+              <p className="text-[13.5px] leading-[1.5] mt-[6px]" style={{ color: '#6B6B85' }}>
+                Sudah memberangkatkan banyak jamaah sejak 2025, dengan bimbingan penuh dari awal hingga pulang.
+              </p>
+            </div>
+            <span
+              className="flex-none text-[11px] font-bold text-center leading-[1.3] px-[12px] py-[8px] rounded-full text-white"
+              style={{ background: '#1B1B36' }}
+            >
+              PPIU<br />RESMI
+            </span>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Trust bar 3 kolom, tetap dipertahankan strukturnya dari sebelumnya */}
+      <div className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-[16px] mt-[56px]">
+        {[
+          { icon: 'Plane', title: 'Direct Flight, Maskapai Ternama', desc: 'Saudia Airlines, Garuda Indonesia & FlyDubai, tanpa transit berlebih.' },
+          { icon: 'ShieldCheck', title: 'PPIU Resmi', desc: 'Berizin resmi Kementerian Agama RI, diawasi langsung.' },
+          { icon: 'Users', title: 'Melayani Sejak 2025', desc: 'Dipercaya jamaah dari berbagai kota di Indonesia.', link: true },
+        ].map((item) => (
+          <div
+            key={item.title}
+            className="rounded-2xl p-[28px]"
+            style={{ background: 'rgba(255,255,255,0.035)', border: '1px solid rgba(255,255,255,0.08)' }}
+          >
+            <h4 className="text-[17px] font-bold leading-[1.3]" style={{ color: '#fff' }}>{item.title}</h4>
+            <p className="text-[14px] leading-[1.55] mt-[8px]" style={{ color: 'rgba(255,255,255,0.6)' }}>{item.desc}</p>
+            {item.link && (
+              <a href="#paket" className="inline-flex items-center gap-[6px] text-[13px] font-bold uppercase tracking-[0.04em] mt-[16px] no-underline hover:opacity-75 transition-opacity" style={{ color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: '2px' }}>
+                Lihat Paket
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+```
+
+**PENTING**: kode di atas nulis ulang icon trust bar sebagai string placeholder (`'Plane'`, dst) supaya prompt ini tidak error kalau import Lucide sebelumnya sudah berbeda. Minta Replit Agent untuk mengganti bagian render icon di trust bar memakai komponen Lucide asli yang sudah pernah dipasang sebelumnya (`Plane`, `ShieldCheck`, `Users` dari `lucide-react`), bukan string teks — sesuaikan dengan pola render icon yang sudah ada di file sebelum prompt ini (biasanya `<item.icon size={20} color="#fff" />` dengan array yang menyimpan referensi komponen, bukan string).
+
+## PERUBAHAN UTAMA DIBANDING SEBELUMNYA
+
+1. Video sekarang di ATAS kartu (elemen visual utama, langsung menarik perhatian), bukan terkubur di bawah blok teks.
+2. Info pendukung (badge PPIU + judul + caption) jadi strip ringkas SATU BARIS di bawah video, bagian dari kartu yang sama — bukan blok terpisah dengan potongan kasar.
+3. Video placeholder sekarang ada caption overlay "Cuplikan Perjalanan Ibadah" di pojok kiri bawah, supaya area kosong tidak terasa hampa sebelum video asli di-upload.
+4. Headline balik jadi "Berangkat Umroh, Pulang Berkah" — lebih emosional dibanding sebelumnya yang cuma nama perusahaan.
+5. Kartu sekarang satu `motion.div` utuh dengan `boxShadow` tebal, terasa seperti satu objek premium yang mengambang, bukan dua blok lepas.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error import
+- Cek kartu kanan sekarang terasa sebagai SATU unit visual (video atas, info bawah, radius sudut konsisten di seluruh kartu)
+- Cek headline baru tampil dengan baik di semua ukuran layar (mobile tidak overflow)
+- Cek video/poster masih 16:9 proporsional dan caption overlay-nya terbaca jelas
+- Screenshot hasil akhir, bandingkan dengan versi sebelumnya — pastikan terasa jauh lebih rapi dan "satu kesatuan"
