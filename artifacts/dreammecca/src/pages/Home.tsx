@@ -19,7 +19,6 @@ export default function Home() {
     <div className="min-h-screen font-sans pb-16 md:pb-0" style={{ background: '#fff' }}>
       <Navbar />
       <Hero />
-      <SectionDivider overlayColor="27,27,54" clipId="divider-1" />
       <PartnerStrip />
       <About />
       <SectionDivider overlayColor="41,41,81" clipId="divider-2" />
