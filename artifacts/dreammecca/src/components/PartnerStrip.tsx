@@ -12,13 +12,13 @@ const logos = [
 export default function PartnerStrip() {
   return (
     <section className="px-[7vw] py-[40px] bg-white">
-      <div className="max-w-[1180px] mx-auto flex flex-wrap items-center justify-center gap-x-[48px] gap-y-[24px]">
+      <div className="max-w-[1180px] mx-auto grid grid-cols-3 md:grid-cols-6 gap-x-[32px] gap-y-[28px] items-center justify-items-center">
         {logos.map(logo => (
-          <div key={logo.slug} className="flex items-center justify-center" style={{ width: 120, height: 44 }}>
+          <div key={logo.slug} className="flex items-center justify-center" style={{ width: '100%', height: 40 }}>
             <img
               src={`/images/partners/${logo.slug}.png`}
               alt={logo.alt}
-              style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'contain', opacity: 0.85 }}
+              style={{ height: '40px', width: 'auto', maxWidth: '120px', objectFit: 'contain', opacity: 0.8 }}
             />
           </div>
         ))}
