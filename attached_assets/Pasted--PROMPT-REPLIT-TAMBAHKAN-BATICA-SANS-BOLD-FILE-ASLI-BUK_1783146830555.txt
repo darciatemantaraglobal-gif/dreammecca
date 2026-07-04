@@ -1,0 +1,42 @@
+# PROMPT REPLIT — TAMBAHKAN BATICA SANS BOLD (FILE ASLI, BUKAN SINTESIS LAGI)
+
+Sebelum paste ke Replit: upload file `BaticaSans-Bold.woff2` (yang saya kirim) ke folder `public/fonts/` (folder yang sama dengan `BaticaSans-Regular.woff2` sebelumnya).
+
+Lalu copy-paste ke Replit Agent chat:
+
+---
+
+## KONTEKS
+
+Sebelumnya cuma ada file Regular, jadi semua teks bold di situs pakai bold sintesis dari browser. Sekarang file Bold asli sudah ada — tambahkan sebagai `@font-face` terpisah dengan `font-weight: 700`, supaya teks bold beneran pakai desain huruf bold asli, bukan ditebalkan otomatis.
+
+## GANTI/TAMBAHKAN DI `src/index.css`
+
+Cari `@font-face` Batica Sans yang sudah ada (dari setup sebelumnya), dan ubah `font-weight` di situ jadi range 400-499 saja (khusus Regular), lalu TAMBAHKAN satu blok baru untuk Bold:
+
+```css
+@font-face {
+  font-family: 'Batica Sans';
+  src: url('/fonts/BaticaSans-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Batica Sans';
+  src: url('/fonts/BaticaSans-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+Dengan dua `@font-face` terpisah ini (sama-sama nama family `'Batica Sans'`, tapi beda `font-weight`), browser otomatis pakai file yang tepat sesuai konteks — teks dengan class `font-bold`/`font-extrabold` (yang biasanya di-render sebagai weight 700) akan otomatis pakai file Bold asli ini, tanpa perlu ubah satu pun className di komponen manapun.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek headline dan judul-judul card yang pakai bold — sekarang harus terlihat lebih presisi/tajam dibanding sebelumnya (yang sintesis biasanya sedikit lebih "kasar" di goresan hurufnya)
+- Cek di DevTools → Network tab, pastikan kedua file (`BaticaSans-Regular.woff2` dan `BaticaSans-Bold.woff2`) sama-sama ter-load, bukan cuma satu
+- Bandingkan screenshot sebelum-sesudah di salah satu headline besar untuk memastikan bedanya kelihatan
