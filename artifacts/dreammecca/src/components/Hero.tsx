@@ -24,12 +24,12 @@ export default function Hero() {
           className="max-w-[720px] mx-auto"
         >
           {/* 2. Headline diperbesar */}
-          <span className="block text-[18px] md:text-[22px] font-semibold mt-[14px]" style={{ color: 'rgba(255,255,255,0.75)' }}>
+          <span className="block text-[22px] md:text-[28px] font-semibold mt-[14px]" style={{ color: 'rgba(255,255,255,0.75)' }}>
             Selamat Datang di
           </span>
           <h1
             className="font-extrabold leading-[1.1] mt-[8px]"
-            style={{ fontSize: 'clamp(34px,5.5vw,64px)', color: '#fff' }}
+            style={{ fontSize: 'clamp(48px,7vw,88px)', color: '#fff' }}
           >
             Dreammecca<br />
             Tour &amp; Travel
