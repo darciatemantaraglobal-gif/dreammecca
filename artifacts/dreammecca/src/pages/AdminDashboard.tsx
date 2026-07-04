@@ -1,38 +1,62 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import { useQueryClient } from '@tanstack/react-query';
-import {
-  useListAdminPackages,
-  useCreatePackage,
-  useUpdatePackage,
-  useDeletePackage,
-  useCreateDeparture,
-  useUpdateDeparture,
-  useDeleteDeparture,
-  getListAdminPackagesQueryKey,
-} from '@workspace/api-client-react';
-import type { Package as Pkg, PackageInput, Departure } from '@workspace/api-client-react';
+import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabase';
+import type { Package, Departure } from '@/lib/supabase';
 import { useAdminAuth } from '@/lib/useAdminAuth';
+
+interface PackageInput {
+  slug: string;
+  tier: 'Reguler' | 'Luxury';
+  duration: string;
+  title: string;
+  hotel_mecca: string;
+  hotel_madinah: string;
+  flight_type: string;
+  landing: string;
+  tags: string[];
+  price_from: number;
+  poster_url: string | null;
+  featured: boolean;
+  is_active: boolean;
+  sort_order: number;
+}
 
 const emptyForm: PackageInput = {
   slug: '',
   tier: 'Reguler',
   duration: '9 Hari',
   title: '',
-  hotelMecca: '',
-  hotelMadinah: '',
-  flightType: 'Direct',
+  hotel_mecca: '',
+  hotel_madinah: '',
+  flight_type: 'Direct',
   landing: 'Jeddah',
   tags: [],
-  priceFrom: 0,
-  posterUrl: null,
+  price_from: 0,
+  poster_url: null,
   featured: false,
-  isActive: true,
-  sortOrder: 0,
+  is_active: true,
+  sort_order: 0,
 };
+
+const ADMIN_PACKAGES_KEY = ['admin-packages'];
 
 function fmt(n: number) {
   return new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 }).format(n / 1000000);
+}
+
+function useAdminPackages() {
+  return useQuery({
+    queryKey: ADMIN_PACKAGES_KEY,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*, departures(*)')
+        .order('sort_order');
+      if (error) throw error;
+      return data as Package[];
+    },
+  });
 }
 
 function PackageForm({
@@ -40,7 +64,7 @@ function PackageForm({
   onCancel,
   onSaved,
 }: {
-  initial: Pkg | null;
+  initial: Package | null;
   onCancel: () => void;
   onSaved: () => void;
 }) {
@@ -51,25 +75,38 @@ function PackageForm({
           tier: initial.tier,
           duration: initial.duration,
           title: initial.title,
-          hotelMecca: initial.hotelMecca,
-          hotelMadinah: initial.hotelMadinah,
-          flightType: initial.flightType,
+          hotel_mecca: initial.hotel_mecca,
+          hotel_madinah: initial.hotel_madinah,
+          flight_type: initial.flight_type,
           landing: initial.landing,
           tags: initial.tags,
-          priceFrom: initial.priceFrom,
-          posterUrl: initial.posterUrl,
+          price_from: initial.price_from,
+          poster_url: initial.poster_url,
           featured: initial.featured,
-          isActive: initial.isActive,
-          sortOrder: initial.sortOrder,
+          is_active: initial.is_active,
+          sort_order: initial.sort_order,
         }
       : emptyForm,
   );
   const [tagsInput, setTagsInput] = useState(form.tags?.join(', ') ?? '');
   const [error, setError] = useState('');
+  const queryClient = useQueryClient();
 
-  const createMutation = useCreatePackage();
-  const updateMutation = useUpdatePackage();
-  const saving = createMutation.isPending || updateMutation.isPending;
+  const saveMutation = useMutation({
+    mutationFn: async (payload: PackageInput) => {
+      if (initial) {
+        const { error } = await supabase.from('packages').update(payload).eq('id', initial.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from('packages').insert(payload);
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ADMIN_PACKAGES_KEY });
+      onSaved();
+    },
+  });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -77,16 +114,11 @@ function PackageForm({
     const payload: PackageInput = {
       ...form,
       tags: tagsInput.split(',').map(t => t.trim()).filter(Boolean),
-      priceFrom: Number(form.priceFrom),
+      price_from: Number(form.price_from),
     };
     try {
-      if (initial) {
-        await updateMutation.mutateAsync({ id: initial.id, data: payload });
-      } else {
-        await createMutation.mutateAsync({ data: payload });
-      }
-      onSaved();
-    } catch (err) {
+      await saveMutation.mutateAsync(payload);
+    } catch {
       setError('Gagal menyimpan paket. Cek kembali data yang diisi.');
     }
   }
@@ -149,8 +181,8 @@ function PackageForm({
           Hotel Makkah
           <input
             required
-            value={form.hotelMecca}
-            onChange={e => setForm({ ...form, hotelMecca: e.target.value })}
+            value={form.hotel_mecca}
+            onChange={e => setForm({ ...form, hotel_mecca: e.target.value })}
             className="w-full mt-1 px-3 py-2 rounded-lg border text-[14px] font-normal"
             style={{ borderColor: 'rgba(27,27,54,0.15)' }}
           />
@@ -159,8 +191,8 @@ function PackageForm({
           Hotel Madinah
           <input
             required
-            value={form.hotelMadinah}
-            onChange={e => setForm({ ...form, hotelMadinah: e.target.value })}
+            value={form.hotel_madinah}
+            onChange={e => setForm({ ...form, hotel_madinah: e.target.value })}
             className="w-full mt-1 px-3 py-2 rounded-lg border text-[14px] font-normal"
             style={{ borderColor: 'rgba(27,27,54,0.15)' }}
           />
@@ -171,8 +203,8 @@ function PackageForm({
         <label className="text-[13px] font-semibold" style={{ color: '#1B1B36' }}>
           Flight
           <input
-            value={form.flightType}
-            onChange={e => setForm({ ...form, flightType: e.target.value })}
+            value={form.flight_type}
+            onChange={e => setForm({ ...form, flight_type: e.target.value })}
             className="w-full mt-1 px-3 py-2 rounded-lg border text-[14px] font-normal"
             style={{ borderColor: 'rgba(27,27,54,0.15)' }}
           />
@@ -205,8 +237,8 @@ function PackageForm({
           required
           type="number"
           min={0}
-          value={form.priceFrom}
-          onChange={e => setForm({ ...form, priceFrom: Number(e.target.value) })}
+          value={form.price_from}
+          onChange={e => setForm({ ...form, price_from: Number(e.target.value) })}
           className="w-full mt-1 px-3 py-2 rounded-lg border text-[14px] font-normal"
           style={{ borderColor: 'rgba(27,27,54,0.15)' }}
         />
@@ -215,8 +247,8 @@ function PackageForm({
       <label className="text-[13px] font-semibold" style={{ color: '#1B1B36' }}>
         URL Poster (opsional)
         <input
-          value={form.posterUrl ?? ''}
-          onChange={e => setForm({ ...form, posterUrl: e.target.value || null })}
+          value={form.poster_url ?? ''}
+          onChange={e => setForm({ ...form, poster_url: e.target.value || null })}
           placeholder="https://..."
           className="w-full mt-1 px-3 py-2 rounded-lg border text-[14px] font-normal"
           style={{ borderColor: 'rgba(27,27,54,0.15)' }}
@@ -235,8 +267,8 @@ function PackageForm({
         <label className="flex items-center gap-2 text-[13px] font-semibold" style={{ color: '#1B1B36' }}>
           <input
             type="checkbox"
-            checked={form.isActive}
-            onChange={e => setForm({ ...form, isActive: e.target.checked })}
+            checked={form.is_active}
+            onChange={e => setForm({ ...form, is_active: e.target.checked })}
           />
           Aktif (tampil di website)
         </label>
@@ -247,11 +279,11 @@ function PackageForm({
       <div className="flex gap-3 mt-2">
         <button
           type="submit"
-          disabled={saving}
+          disabled={saveMutation.isPending}
           className="px-4 py-2 rounded-lg text-white font-semibold text-[14px] disabled:opacity-60"
           style={{ background: '#1B1B36' }}
         >
-          {saving ? 'Menyimpan...' : 'Simpan'}
+          {saveMutation.isPending ? 'Menyimpan...' : 'Simpan'}
         </button>
         <button
           type="button"
@@ -266,38 +298,37 @@ function PackageForm({
   );
 }
 
-function DepartureManager({ pkg }: { pkg: Pkg }) {
+function DepartureManager({ pkg }: { pkg: Package }) {
   const [newLabel, setNewLabel] = useState('');
-  const createDep = useCreateDeparture();
-  const updateDep = useUpdateDeparture();
-  const deleteDep = useDeleteDeparture();
   const queryClient = useQueryClient();
 
   function invalidate() {
-    queryClient.invalidateQueries({ queryKey: getListAdminPackagesQueryKey() });
+    queryClient.invalidateQueries({ queryKey: ADMIN_PACKAGES_KEY });
   }
 
   async function addDeparture() {
     if (!newLabel.trim()) return;
-    await createDep.mutateAsync({
-      packageId: pkg.id,
-      data: { dateLabel: newLabel.trim(), quotaLabel: 'Hubungi untuk sisa seat', isActive: true, sortOrder: pkg.departures.length + 1 },
+    const { error } = await supabase.from('departures').insert({
+      package_id: pkg.id,
+      date_label: newLabel.trim(),
+      quota_label: 'Hubungi untuk sisa seat',
+      is_active: true,
+      sort_order: (pkg.departures?.length ?? 0) + 1,
     });
-    setNewLabel('');
-    invalidate();
+    if (!error) {
+      setNewLabel('');
+      invalidate();
+    }
   }
 
   async function toggleDep(dep: Departure) {
-    await updateDep.mutateAsync({
-      id: dep.id,
-      data: { dateLabel: dep.dateLabel, quotaLabel: dep.quotaLabel, isActive: !dep.isActive, sortOrder: dep.sortOrder },
-    });
+    await supabase.from('departures').update({ is_active: !dep.is_active }).eq('id', dep.id);
     invalidate();
   }
 
   async function removeDep(dep: Departure) {
     if (!confirm('Hapus jadwal keberangkatan ini?')) return;
-    await deleteDep.mutateAsync({ id: dep.id });
+    await supabase.from('departures').delete().eq('id', dep.id);
     invalidate();
   }
 
@@ -307,14 +338,14 @@ function DepartureManager({ pkg }: { pkg: Pkg }) {
         Jadwal Keberangkatan
       </div>
       <div className="flex flex-col gap-2">
-        {pkg.departures.map(dep => (
+        {(pkg.departures ?? []).map(dep => (
           <div key={dep.id} className="flex items-center justify-between text-[13px] px-3 py-2 rounded-lg" style={{ background: '#F4F4F7' }}>
-            <span style={{ color: dep.isActive ? '#1B1B36' : '#B0B0C0' }}>
-              {dep.dateLabel} {!dep.isActive && '(nonaktif)'}
+            <span style={{ color: dep.is_active ? '#1B1B36' : '#B0B0C0' }}>
+              {dep.date_label} {!dep.is_active && '(nonaktif)'}
             </span>
             <div className="flex gap-2">
               <button onClick={() => toggleDep(dep)} className="text-[12px] font-semibold underline" style={{ color: '#1B1B36' }}>
-                {dep.isActive ? 'Nonaktifkan' : 'Aktifkan'}
+                {dep.is_active ? 'Nonaktifkan' : 'Aktifkan'}
               </button>
               <button onClick={() => removeDep(dep)} className="text-[12px] font-semibold underline" style={{ color: '#B5442E' }}>
                 Hapus
@@ -347,13 +378,21 @@ export default function AdminDashboard() {
   const { isAuthenticated, isLoading, logout } = useAdminAuth();
   const [, navigate] = useLocation();
   const queryClient = useQueryClient();
-  const [editing, setEditing] = useState<Pkg | 'new' | null>(null);
+  const [editing, setEditing] = useState<Package | 'new' | null>(null);
   const [managingDeparturesFor, setManagingDeparturesFor] = useState<string | null>(null);
 
-  const { data, isLoading: loadingPackages } = useListAdminPackages({
-    query: { enabled: isAuthenticated, queryKey: getListAdminPackagesQueryKey() },
+  const { data, isLoading: loadingPackages } = useAdminPackages();
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await supabase.from('departures').delete().eq('package_id', id);
+      const { error } = await supabase.from('packages').delete().eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ADMIN_PACKAGES_KEY });
+    },
   });
-  const deleteMutation = useDeletePackage();
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -365,16 +404,11 @@ export default function AdminDashboard() {
     return <div className="p-8 text-center">Memuat...</div>;
   }
 
-  const packages = data?.packages ?? [];
-
-  function invalidate() {
-    queryClient.invalidateQueries({ queryKey: getListAdminPackagesQueryKey() });
-  }
+  const packages = data ?? [];
 
   async function handleDelete(id: string) {
     if (!confirm('Yakin hapus paket ini beserta semua tanggal keberangkatannya?')) return;
-    await deleteMutation.mutateAsync({ id });
-    invalidate();
+    await deleteMutation.mutateAsync(id);
   }
 
   return (
@@ -404,10 +438,7 @@ export default function AdminDashboard() {
           <PackageForm
             initial={editing === 'new' ? null : editing}
             onCancel={() => setEditing(null)}
-            onSaved={() => {
-              setEditing(null);
-              invalidate();
-            }}
+            onSaved={() => setEditing(null)}
           />
         </div>
       )}
@@ -423,10 +454,10 @@ export default function AdminDashboard() {
               <div>
                 <div className="font-bold text-[15px]" style={{ color: '#1B1B36' }}>
                   {pkg.title} · {pkg.tier} · {pkg.duration}{' '}
-                  {!pkg.isActive && <span style={{ color: '#B5442E' }}>(nonaktif)</span>}
+                  {!pkg.is_active && <span style={{ color: '#B5442E' }}>(nonaktif)</span>}
                 </div>
                 <div className="text-[13px] mt-1" style={{ color: '#6B6B85' }}>
-                  Rp {fmt(pkg.priceFrom)} Jt · {pkg.departures.length} jadwal keberangkatan
+                  Rp {fmt(pkg.price_from)} Jt · {pkg.departures?.length ?? 0} jadwal keberangkatan
                 </div>
               </div>
               <div className="flex gap-2">

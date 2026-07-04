@@ -5,15 +5,31 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import StickyMobileCTA from '@/components/StickyMobileCTA';
 import { createWALink } from '@/lib/whatsapp';
-import { useListPublicPackages } from '@workspace/api-client-react';
-import type { Package as PackageType, Departure } from '@workspace/api-client-react';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabase';
+import type { Package, Departure } from '@/lib/supabase';
 
 function fmt(n: number) {
   return new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 }).format(n / 1000000);
 }
 
-function DepartureCard({ pkg, dep }: { pkg: PackageType; dep: Departure }) {
-  const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.title} (${pkg.tier}, ${pkg.duration}) keberangkatan ${dep.dateLabel}. Boleh minta info lebih lengkap?`;
+function usePackages() {
+  return useQuery({
+    queryKey: ['packages'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*, departures(*)')
+        .eq('is_active', true)
+        .order('sort_order');
+      if (error) throw error;
+      return data as Package[];
+    },
+  });
+}
+
+function DepartureCard({ pkg, dep }: { pkg: Package; dep: Departure }) {
+  const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.title} (${pkg.tier}, ${pkg.duration}) keberangkatan ${dep.date_label}. Boleh minta info lebih lengkap?`;
 
   return (
     <div
@@ -22,7 +38,7 @@ function DepartureCard({ pkg, dep }: { pkg: PackageType; dep: Departure }) {
     >
       <div className="w-full relative" style={{ aspectRatio: '4/5', background: '#F4F4F7' }}>
         <img
-          src={pkg.posterUrl || `/images/paket/poster-${pkg.slug}.jpg`}
+          src={pkg.poster_url || `/images/paket/poster-${pkg.slug}.jpg`}
           alt={`Poster ${pkg.title} ${pkg.tier} ${pkg.duration}`}
           className="w-full h-full object-cover"
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
@@ -38,7 +54,7 @@ function DepartureCard({ pkg, dep }: { pkg: PackageType; dep: Departure }) {
       <div className="px-5 pt-4 pb-5 flex-1 flex flex-col">
         <div className="flex items-center gap-[6px] text-[13px] font-medium" style={{ color: '#6B6B85' }}>
           <Calendar size={14} />
-          {dep.dateLabel}
+          {dep.date_label}
         </div>
 
         <h3 className="text-[16px] font-bold mt-[6px] leading-[1.3]" style={{ color: '#1B1B36' }}>
@@ -64,22 +80,22 @@ function DepartureCard({ pkg, dep }: { pkg: PackageType; dep: Departure }) {
           </div>
           <div className="flex justify-between text-[12.5px]">
             <span style={{ color: '#6B6B85' }}>Hotel Makkah</span>
-            <span className="font-semibold text-right max-w-[180px]" style={{ color: '#1B1B36' }}>{pkg.hotelMecca}</span>
+            <span className="font-semibold text-right max-w-[180px]" style={{ color: '#1B1B36' }}>{pkg.hotel_mecca}</span>
           </div>
           <div className="flex justify-between text-[12.5px]">
             <span style={{ color: '#6B6B85' }}>Hotel Madinah</span>
-            <span className="font-semibold text-right max-w-[180px]" style={{ color: '#1B1B36' }}>{pkg.hotelMadinah}</span>
+            <span className="font-semibold text-right max-w-[180px]" style={{ color: '#1B1B36' }}>{pkg.hotel_madinah}</span>
           </div>
           <div className="flex justify-between text-[12.5px]">
             <span style={{ color: '#6B6B85' }}>Flight / Landing</span>
-            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.flightType} · {pkg.landing}</span>
+            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.flight_type} · {pkg.landing}</span>
           </div>
         </div>
 
         <div className="mt-auto pt-[16px] flex items-end justify-between gap-3">
           <div>
             <div className="text-[11px]" style={{ color: '#6B6B85' }}>Harga Mulai</div>
-            <div className="text-[20px] font-extrabold" style={{ color: '#1B1B36' }}>Rp {fmt(pkg.priceFrom)} Jt</div>
+            <div className="text-[20px] font-extrabold" style={{ color: '#1B1B36' }}>Rp {fmt(pkg.price_from)} Jt</div>
           </div>
           <a
             href={createWALink(waMsg)}
@@ -99,21 +115,20 @@ function DepartureCard({ pkg, dep }: { pkg: PackageType; dep: Departure }) {
 export default function PaketUmroh() {
   const [tierFilter, setTierFilter] = useState<'Semua' | 'Reguler' | 'Luxury'>('Semua');
   const [durFilter, setDurFilter] = useState<'Semua' | '9 Hari' | '12 Hari'>('Semua');
-  const { data, isLoading, isError } = useListPublicPackages();
-  const packageTypes = data?.packages ?? [];
+  const { data, isLoading, isError } = usePackages();
+  const packageTypes = data ?? [];
 
   const cards = useMemo(() => {
     return packageTypes
       .filter(p => tierFilter === 'Semua' || p.tier === tierFilter)
       .filter(p => durFilter === 'Semua' || p.duration === durFilter)
-      .flatMap(p => p.departures.map(dep => ({ pkg: p, dep })));
+      .flatMap(p => (p.departures ?? []).map(dep => ({ pkg: p, dep })));
   }, [packageTypes, tierFilter, durFilter]);
 
   return (
     <div style={{ background: '#fff' }} className="min-h-screen pb-16 md:pb-0">
       <Navbar />
 
-      {/* Header halaman */}
       <section
         className="px-[7vw] pt-[140px] pb-[48px]"
         style={{
@@ -149,7 +164,6 @@ export default function PaketUmroh() {
         </div>
       </section>
 
-      {/* Filter */}
       <section className="px-[7vw] py-[28px] bg-white sticky top-[72px] z-40" style={{ borderBottom: '1px solid rgba(27,27,54,0.08)', boxShadow: '0 2px 12px rgba(27,27,54,0.04)' }}>
         <div className="max-w-[1180px] mx-auto flex flex-wrap gap-[20px] items-center">
           <div className="flex items-center gap-[8px] flex-wrap">
@@ -192,7 +206,6 @@ export default function PaketUmroh() {
         </div>
       </section>
 
-      {/* Grid hasil */}
       <section className="px-[7vw] py-[48px] bg-white">
         <div className="max-w-[1180px] mx-auto">
           {isLoading ? (

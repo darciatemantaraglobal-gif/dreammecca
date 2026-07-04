@@ -4,17 +4,33 @@ import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { Calendar } from 'lucide-react';
 import { createWALink } from '@/lib/whatsapp';
-import { useListPublicPackages } from '@workspace/api-client-react';
-import type { Package as Pkg } from '@workspace/api-client-react';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabase';
+import type { Package } from '@/lib/supabase';
 
 function fmt(n: number) {
   return new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 }).format(n / 1000000);
 }
 
-function PackageCard({ pkg }: { pkg: Pkg }) {
+function usePackages() {
+  return useQuery({
+    queryKey: ['packages'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*, departures(*)')
+        .eq('is_active', true)
+        .order('sort_order');
+      if (error) throw error;
+      return data as Package[];
+    },
+  });
+}
+
+function PackageCard({ pkg }: { pkg: Package }) {
   const nearestDeparture = pkg.departures?.[0];
-  const dateLabel = nearestDeparture?.dateLabel ?? 'Hubungi kami untuk jadwal';
-  const quotaLabel = nearestDeparture?.quotaLabel ?? 'Hubungi untuk sisa seat';
+  const dateLabel = nearestDeparture?.date_label ?? 'Hubungi kami untuk jadwal';
+  const quotaLabel = nearestDeparture?.quota_label ?? 'Hubungi untuk sisa seat';
   const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.title} (${pkg.tier}, ${pkg.duration}). Boleh minta info lebih lengkap?`;
 
   return (
@@ -26,10 +42,9 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
         boxShadow: pkg.featured ? '0 16px 40px rgba(27,27,54,0.12)' : '0 2px 8px rgba(27,27,54,0.04)',
       }}
     >
-      {/* Poster — rasio 4:5, di-upload manual */}
       <div className="w-full relative" style={{ aspectRatio: '4/5', background: '#F4F4F7' }}>
         <img
-          src={pkg.posterUrl || `/images/paket/poster-${pkg.slug}.jpg`}
+          src={pkg.poster_url || `/images/paket/poster-${pkg.slug}.jpg`}
           alt={`Poster ${pkg.title} ${pkg.tier} ${pkg.duration}`}
           className="w-full h-full object-cover"
           onError={(e) => {
@@ -46,7 +61,6 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
         )}
       </div>
 
-      {/* Info terstruktur */}
       <div className="px-5 pt-4 pb-5 flex-1 flex flex-col">
         <div className="flex items-center gap-[6px] text-[13px] font-medium" style={{ color: '#6B6B85' }}>
           <Calendar size={14} />
@@ -76,7 +90,7 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
           </div>
           <div className="flex justify-between text-[13px]">
             <span style={{ color: '#6B6B85' }}>Flight</span>
-            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.flightType ?? '-'}</span>
+            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.flight_type ?? '-'}</span>
           </div>
           <div className="flex justify-between text-[13px]">
             <span style={{ color: '#6B6B85' }}>Landing</span>
@@ -92,7 +106,7 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
           <div>
             <div className="text-[11.5px]" style={{ color: '#6B6B85' }}>Harga Mulai</div>
             <div className="text-[22px] font-extrabold" style={{ color: '#1B1B36' }}>
-              Rp {pkg.priceFrom ? fmt(pkg.priceFrom) : '-'} Jt
+              Rp {pkg.price_from ? fmt(pkg.price_from) : '-'} Jt
             </div>
           </div>
           <a
@@ -111,8 +125,8 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
 }
 
 export default function Packages() {
-  const { data, isLoading, isError } = useListPublicPackages();
-  const packages = data?.packages ?? [];
+  const { data, isLoading, isError } = usePackages();
+  const packages = data ?? [];
 
   return (
     <section id="paket" className="px-[7vw] py-[88px] bg-white">

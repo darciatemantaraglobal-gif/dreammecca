@@ -1,0 +1,151 @@
+# PROMPT REPLIT — BALIK KE SUPABASE (LEPAS DARI API-SERVER + REPLIT AUTH)
+
+Jalankan SQL `supabase-setup-lengkap.sql` di Supabase SQL Editor dulu (bikin project Supabase baru kalau belum ada), ambil `Project URL` dan `anon public key` dari Settings → API, tambahkan sebagai Secrets di Replit:
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+Lalu copy-paste ke Replit Agent chat:
+
+---
+
+## KONTEKS
+
+Project ini sempat migrasi ke Postgres bawaan Replit + Drizzle ORM + Replit Auth (OIDC) + Express api-server. Saya mau BALIK ke Supabase: frontend connect langsung ke Supabase (supabase-js) untuk data paket, dan Supabase Auth (email/password) untuk login admin — bukan lewat api-server atau Replit Auth lagi.
+
+## 1. Install dependency Supabase (kalau belum ada)
+
+```bash
+cd artifacts/dreammecca && npm install @supabase/supabase-js
+```
+
+## 2. Buat `src/lib/supabase.ts` di `artifacts/dreammecca`
+
+```tsx
+import { createClient } from '@supabase/supabase-js';
+
+const url = import.meta.env.VITE_SUPABASE_URL;
+const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+if (!url || !anonKey) {
+  console.error('Supabase env vars belum diset. Cek VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY.');
+}
+
+export const supabase = createClient(url, anonKey);
+
+export interface Departure {
+  id: string;
+  package_id: string;
+  date_label: string;
+  quota_label: string;
+  is_active: boolean;
+  sort_order: number;
+}
+
+export interface Package {
+  id: string;
+  slug: string;
+  tier: 'Reguler' | 'Luxury';
+  duration: string;
+  title: string;
+  hotel_mecca: string;
+  hotel_madinah: string;
+  flight_type: string;
+  landing: string;
+  tags: string[];
+  price_from: number;
+  poster_url: string | null;
+  featured: boolean;
+  is_active: boolean;
+  sort_order: number;
+  departures?: Departure[];
+}
+```
+
+## 3. Ganti `Packages.tsx` dan `pages/PaketUmroh.tsx` — fetch dari Supabase, BUKAN dari api-server
+
+Hapus semua `fetch('/packages')` atau `fetch('/admin/packages')` yang mengarah ke api-server. Ganti pakai TanStack Query + Supabase client:
+
+```tsx
+import { useQuery } from '@tanstack/react-query';
+import { supabase, Package } from '@/lib/supabase';
+
+function usePackages() {
+  return useQuery({
+    queryKey: ['packages'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*, departures(*)')
+        .eq('is_active', true)
+        .order('sort_order');
+      if (error) throw error;
+      return data as Package[];
+    },
+  });
+}
+```
+
+## 4. Ganti `AdminLogin.tsx` — Supabase Auth email/password, BUKAN redirect ke Replit OIDC
+
+```tsx
+import React, { useState } from 'react';
+import { useLocation } from 'wouter';
+import { supabase } from '@/lib/supabase';
+
+export default function AdminLogin() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [, navigate] = useLocation();
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) { setError('Email atau password salah.'); return; }
+    navigate('/admin');
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center" style={{ background: '#1B1B36' }}>
+      <form onSubmit={handleLogin} className="bg-white rounded-xl p-8 w-full max-w-[380px]">
+        <h1 className="text-[20px] font-bold mb-6" style={{ color: '#1B1B36' }}>Admin Dreammecca</h1>
+        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} className="w-full mb-3 px-4 py-3 rounded-lg border text-[14px]" style={{ borderColor: 'rgba(27,27,54,0.15)' }} required />
+        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} className="w-full mb-4 px-4 py-3 rounded-lg border text-[14px]" style={{ borderColor: 'rgba(27,27,54,0.15)' }} required />
+        {error && <p className="text-[13px] mb-3" style={{ color: '#B5442E' }}>{error}</p>}
+        <button type="submit" className="w-full py-3 rounded-lg font-bold text-[14px] text-white" style={{ background: '#1B1B36' }}>Masuk</button>
+      </form>
+    </div>
+  );
+}
+```
+
+## 5. Ganti `AdminDashboard.tsx` — CRUD langsung ke Supabase, bukan ke endpoint api-server
+
+Cari semua `fetch('/admin/packages', ...)`, `fetch('/admin/packages/:id', {method:'PUT'})`, dst — ganti jadi panggilan langsung:
+```tsx
+// baca semua paket (termasuk nonaktif, untuk admin)
+const { data } = await supabase.from('packages').select('*, departures(*)').order('sort_order');
+
+// update
+await supabase.from('packages').update({ ...fields }).eq('id', pkgId);
+
+// hapus
+await supabase.from('packages').delete().eq('id', pkgId);
+
+// tambah baru
+await supabase.from('packages').insert({ ...fields });
+```
+Cek juga bagian auth guard di file ini — ganti dari cek `req.isAuthenticated()`/session Replit jadi cek `supabase.auth.getSession()` (pola sama seperti `useAdminAuth.ts` yang mungkin masih ada dari setup sebelumnya, pastikan file itu juga masih konsisten pakai Supabase, bukan Replit Auth).
+
+## 6. Matikan/lepas dependency ke `api-server` dari frontend
+
+Pastikan `artifacts/dreammecca` tidak lagi import apapun dari `@workspace/api-client-react` atau memanggil endpoint api-server untuk data packages/departures/auth. `api-server` boleh dibiarkan ada di project (tidak perlu dihapus filenya), tapi frontend TIDAK memanggilnya lagi untuk fitur ini.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek homepage dan `/paket-umroh` menampilkan data langsung dari Supabase (bukan dari api-server lokal)
+- Cek `/admin/login` — form email/password muncul (bukan redirect ke halaman login Replit)
+- Login pakai akun yang dibuat di Supabase Dashboard, cek `/admin` bisa CRUD paket dan langsung kecerminan di homepage setelah refresh
+- Pastikan `VITE_SUPABASE_URL`/`VITE_SUPABASE_ANON_KEY` juga ditambahkan di Vercel Environment Variables kalau/ketika deploy ke sana nanti
