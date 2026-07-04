@@ -3,7 +3,6 @@ import { Calendar } from 'lucide-react';
 import { Link } from 'wouter';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import StickyMobileCTA from '@/components/StickyMobileCTA';
 import { createWALink } from '@/lib/whatsapp';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
@@ -233,7 +232,6 @@ export default function PaketUmroh() {
       </section>
 
       <Footer />
-      <StickyMobileCTA />
     </div>
   );
 }

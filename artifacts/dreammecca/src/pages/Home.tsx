@@ -13,12 +13,11 @@ import Legal from '@/components/Legal';
 import FAQ from '@/components/FAQ';
 import FinalCTA from '@/components/FinalCTA';
 import Footer from '@/components/Footer';
-import StickyMobileCTA from '@/components/StickyMobileCTA';
 import SectionDivider from '@/components/SectionDivider';
 
 export default function Home() {
   return (
-    <div className="min-h-screen font-sans pb-16 md:pb-0" style={{ background: '#fff' }}>
+    <div className="min-h-screen font-sans" style={{ background: '#fff' }}>
       <Navbar />
       <Hero />
       <TrustBar />
@@ -35,7 +34,6 @@ export default function Home() {
       <SectionDivider overlayColor="41,41,81" clipId="divider-5" />
       <FinalCTA />
       <Footer />
-      <StickyMobileCTA />
     </div>
   );
 }
