@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 
 const stats = [
-  { num: 'PPIU', lbl: 'Berizin Resmi Kemenag RI' },
-  { num: '2025', lbl: 'Tahun Mulai Beroperasi' },
-  { num: '100%', lbl: 'Dibimbing Ustadz Bersertifikat' },
-  { num: 'Sunnah', lbl: 'Sesuai Syariat & Sunnah Nabi ﷺ' },
+  { num: 'PPIU', lbl: 'Berizin Resmi Kemenag RI', icon: '🕌' },
+  { num: '2025', lbl: 'Tahun Mulai Beroperasi', icon: '📅' },
+  { num: '100%', lbl: 'Dibimbing Ustadz Bersertifikat', icon: '🎓' },
+  { num: 'Sunnah', lbl: 'Sesuai Syariat & Sunnah Nabi ﷺ', icon: '📖' },
 ];
 
 export default function About() {
@@ -74,12 +74,21 @@ export default function About() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={staggerContainer}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-[24px] mt-[40px]"
+            className="grid grid-cols-2 gap-[12px] mt-[40px]"
           >
             {stats.map(s => (
-              <motion.div key={s.lbl} variants={fadeUp} style={{ borderTop: '2px solid #1B1B36', paddingTop: '14px' }}>
-                <div className="text-[30px] font-extrabold" style={{ color: '#1B1B36' }}>{s.num}</div>
-                <div className="text-[13px] mt-[4px]" style={{ color: '#6B6B85' }}>{s.lbl}</div>
+              <motion.div
+                key={s.lbl}
+                variants={fadeUp}
+                className="rounded-2xl p-[18px] flex flex-col gap-[8px]"
+                style={{
+                  background: 'linear-gradient(135deg, #1B1B36 0%, #2d2d5e 100%)',
+                  boxShadow: '0 4px 20px rgba(27,27,54,0.15)',
+                }}
+              >
+                <span className="text-[22px] leading-none">{s.icon}</span>
+                <div className="text-[26px] font-extrabold leading-none mt-[2px]" style={{ color: '#fff' }}>{s.num}</div>
+                <div className="text-[12px] leading-[1.4] font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>{s.lbl}</div>
               </motion.div>
             ))}
           </motion.div>
