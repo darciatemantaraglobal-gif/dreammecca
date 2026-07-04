@@ -1,0 +1,277 @@
+# PROMPT REPLIT — MIGRASI PENUH KE SUPABASE (PRESISI SESUAI KODE SAAT INI)
+
+Pastikan sudah jalankan `supabase-setup-lengkap.sql` di Supabase SQL Editor dan sudah ada Secrets `VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY` di Replit. Buat juga akun admin di Supabase Dashboard → Authentication → Add User.
+
+Copy-paste ke Replit Agent chat:
+
+---
+
+## KONTEKS
+
+Frontend saat ini masih 100% pakai `@workspace/api-client-react` (generated client ke api-server/Drizzle) dan `@workspace/replit-auth-web` untuk auth. Ganti SEMUA jalur ini ke Supabase langsung. `api-server` dan `lib/db` boleh dibiarkan ada di project, tidak perlu dihapus — cukup tidak dipanggil lagi dari frontend.
+
+## 1. Install dependency
+
+```bash
+cd artifacts/dreammecca && npm install @supabase/supabase-js
+```
+
+## 2. Buat `src/lib/supabase.ts`
+
+```tsx
+import { createClient } from '@supabase/supabase-js';
+
+const url = import.meta.env.VITE_SUPABASE_URL;
+const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+export const supabase = createClient(url, anonKey);
+
+export interface Departure {
+  id: string;
+  package_id: string;
+  date_label: string;
+  quota_label: string;
+  is_active: boolean;
+  sort_order: number;
+}
+
+export interface Package {
+  id: string;
+  slug: string;
+  tier: 'Reguler' | 'Luxury';
+  duration: string;
+  title: string;
+  hotel_mecca: string;
+  hotel_madinah: string;
+  flight_type: string;
+  landing: string;
+  tags: string[];
+  price_from: number;
+  poster_url: string | null;
+  featured: boolean;
+  is_active: boolean;
+  sort_order: number;
+  departures?: Departure[];
+}
+```
+
+## 3. `Packages.tsx` — ganti baris import & pemanggilan data
+
+```tsx
+/* HAPUS baris 7-8 */
+import { useListPublicPackages } from '@workspace/api-client-react';
+import type { Package as Pkg } from '@workspace/api-client-react';
+
+/* GANTI jadi */
+import { useQuery } from '@tanstack/react-query';
+import { supabase, Package as Pkg } from '@/lib/supabase';
+
+function usePackages() {
+  return useQuery({
+    queryKey: ['packages'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*, departures(*)')
+        .eq('is_active', true)
+        .order('sort_order');
+      if (error) throw error;
+      return data as Pkg[];
+    },
+  });
+}
+```
+Cari pemanggilan `useListPublicPackages(...)` di dalam komponen, ganti jadi `usePackages()`. Sesuaikan nama field hasil return kalau ada perbedaan (misal hook lama mengembalikan `{ data: { packages: [...] } }` tapi Supabase langsung `{ data: [...] }` — pastikan bagian yang mengakses hasil disesuaikan, tidak double-nested).
+
+## 4. `PaketUmroh.tsx` — pola sama seperti Packages.tsx
+
+```tsx
+/* HAPUS baris 8-9 */
+import { useListPublicPackages } from '@workspace/api-client-react';
+import type { Package as PackageType, Departure } from '@workspace/api-client-react';
+
+/* GANTI jadi */
+import { useQuery } from '@tanstack/react-query';
+import { supabase, Package as PackageType, Departure } from '@/lib/supabase';
+```
+Gunakan hook `usePackages()` yang sama seperti di Packages.tsx (boleh diekspor dari `Packages.tsx` dan di-import, atau didefinisikan ulang di file ini — pilih yang paling konsisten dengan struktur project).
+
+## 5. `src/lib/useAdminAuth.ts` — ganti total dari Replit Auth ke Supabase Auth
+
+```tsx
+/* SEBELUM */
+import { useAuth } from '@workspace/replit-auth-web';
+
+export function useAdminAuth() {
+  const { user, isLoading, isAuthenticated, login, logout } = useAuth();
+  return { user, isLoading, isAuthenticated, login, logout };
+}
+
+/* SESUDAH */
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
+import type { Session } from '@supabase/supabase-js';
+
+export function useAdminAuth() {
+  const [session, setSession] = useState<Session | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setIsLoading(false);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, sess) => setSession(sess));
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  return {
+    user: session?.user ?? null,
+    isLoading,
+    isAuthenticated: !!session,
+    logout: () => supabase.auth.signOut(),
+  };
+}
+```
+
+## 6. `AdminLogin.tsx` — ganti tombol "Masuk" (redirect OIDC) jadi form email/password
+
+```tsx
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
+import { supabase } from '@/lib/supabase';
+import { useAdminAuth } from '@/lib/useAdminAuth';
+
+export default function AdminLogin() {
+  const { isAuthenticated, isLoading } = useAdminAuth();
+  const [, navigate] = useLocation();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) navigate('/admin');
+  }, [isLoading, isAuthenticated, navigate]);
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) { setError('Email atau password salah.'); return; }
+    navigate('/admin');
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center" style={{ background: '#1B1B36' }}>
+      <form onSubmit={handleLogin} className="bg-white rounded-xl p-8 w-full max-w-[380px]">
+        <h1 className="text-[20px] font-bold mb-2" style={{ color: '#1B1B36' }}>Admin Dreammecca</h1>
+        <p className="text-[14px] mb-6" style={{ color: '#6B6B85' }}>Masuk untuk mengelola paket umroh dan jadwal keberangkatan.</p>
+        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} className="w-full mb-3 px-4 py-3 rounded-lg border text-[14px]" style={{ borderColor: 'rgba(27,27,54,0.15)' }} required />
+        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} className="w-full mb-4 px-4 py-3 rounded-lg border text-[14px]" style={{ borderColor: 'rgba(27,27,54,0.15)' }} required />
+        {error && <p className="text-[13px] mb-3" style={{ color: '#B5442E' }}>{error}</p>}
+        <button type="submit" className="w-full py-3 rounded-lg font-bold text-[14px] text-white" style={{ background: '#1B1B36' }}>Masuk</button>
+      </form>
+    </div>
+  );
+}
+```
+
+## 7. `AdminDashboard.tsx` — ganti 7 hook dari api-client-react jadi Supabase langsung
+
+Hapus import baris 4-14 (`useListAdminPackages`, `useCreatePackage`, `useUpdatePackage`, `useDeletePackage`, `useCreateDeparture`, `useUpdateDeparture`, `useDeleteDeparture`, dan type `Package`/`PackageInput`/`Departure` dari `@workspace/api-client-react`).
+
+Ganti dengan:
+```tsx
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase, Package as Pkg, Departure } from '@/lib/supabase';
+
+function useListAdminPackages() {
+  return useQuery({
+    queryKey: ['admin-packages'],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('packages').select('*, departures(*)').order('sort_order');
+      if (error) throw error;
+      return { data: { packages: data as Pkg[] } }; // sesuaikan bentuk return supaya cocok dengan pemakaian di komponen (cek pola akses .data.packages di kode yang sudah ada)
+    },
+  });
+}
+
+function useCreatePackage() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: Partial<Pkg>) => {
+      const { data, error } = await supabase.from('packages').insert(input).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-packages'] }),
+  });
+}
+
+function useUpdatePackage() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, ...input }: Partial<Pkg> & { id: string }) => {
+      const { data, error } = await supabase.from('packages').update(input).eq('id', id).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-packages'] }),
+  });
+}
+
+function useDeletePackage() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('packages').delete().eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-packages'] }),
+  });
+}
+
+function useCreateDeparture() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: Partial<Departure> & { package_id: string }) => {
+      const { data, error } = await supabase.from('departures').insert(input).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-packages'] }),
+  });
+}
+
+function useUpdateDeparture() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, ...input }: Partial<Departure> & { id: string }) => {
+      const { data, error } = await supabase.from('departures').update(input).eq('id', id).select().single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-packages'] }),
+  });
+}
+
+function useDeleteDeparture() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('departures').delete().eq('id', id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['admin-packages'] }),
+  });
+}
+```
+
+**PENTING**: setelah menambahkan fungsi-fungsi hook lokal ini, JANGAN ubah pemanggilan-pemanggilannya di baris 70-73, 271-273, dan 353-356 yang sudah ada (`useListAdminPackages()`, `useCreatePackage()`, dst) — biarkan tetap seperti itu, karena sekarang nama-nama itu adalah fungsi lokal di file ini, bukan lagi import dari `@workspace/api-client-react`. Cek juga bagian yang memanggil `createMutation.mutate(...)`/`updateMutation.mutate(...)` dkk, sesuaikan bentuk parameter yang dikirim supaya cocok dengan `mutationFn` di atas (field-nya pakai snake_case sesuai kolom Supabase: `price_from`, `hotel_mecca`, `flight_type`, `date_label`, `quota_label`, `package_id`, bukan camelCase seperti sebelumnya).
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error TypeScript
+- Cek homepage dan `/paket-umroh` menampilkan data dari Supabase
+- Cek `/admin/login` sekarang menampilkan form email/password (bukan redirect ke Replit OAuth)
+- Login pakai akun Supabase, cek CRUD paket & jadwal di `/admin` semua berfungsi dan langsung kecerminan di homepage

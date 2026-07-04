@@ -21,3 +21,9 @@ timeoutMs = 20000
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+VITE_SUPABASE_URL = "https://oxpqejcuayfkfagtrmeq.supabase.co"
+VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im94cHFlamN1YXlma2ZhZ3RybWVxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMwNzI0NjksImV4cCI6MjA5ODY0ODQ2OX0.wyz7WGjKmjDPhwxK1OBqj-ksfUnhyWnqQasQlE025Ds"
