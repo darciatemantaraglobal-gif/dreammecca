@@ -21,14 +21,12 @@ export default function Footer() {
             src="/images/logo.png"
             alt="Dreammecca"
             className="w-[88px] h-[88px] object-contain flex-none rounded-lg"
+            style={{ filter: 'brightness(0) invert(1)' }}
           />
           <div>
             <h3 className="text-[20px] font-bold" style={{ color: '#fff' }}>
               Dreammecca
             </h3>
-            <p className="text-[14px] leading-[1.6] mt-[10px] max-w-[420px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
-              PT. Dream Mecca International, penyelenggara ibadah Umroh resmi berizin PPIU Kementerian Agama RI. Bersama kami, wujudkan perjalanan ibadah yang aman, nyaman, dan penuh berkah.
-            </p>
             <p className="text-[13px] mt-[10px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
               Jl. Durian No. 9H, RT 008/005, Kel. Jagakarsa, Kec. Jagakarsa, Jakarta Selatan 12620
             </p>
