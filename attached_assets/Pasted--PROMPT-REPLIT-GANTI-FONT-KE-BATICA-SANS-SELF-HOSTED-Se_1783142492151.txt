@@ -1,0 +1,46 @@
+# PROMPT REPLIT — GANTI FONT KE BATICA SANS (SELF-HOSTED)
+
+Sebelum paste ke Replit: buat folder `public/fonts/` dan upload file `BaticaSans-Regular.woff2` (yang saya kirim, sudah dikonversi dari OTF ke WOFF2 — 27KB, lebih ringan dan format standar untuk web font) ke situ.
+
+Lalu copy-paste ke Replit Agent chat:
+
+---
+
+## KONTEKS
+
+Ganti font situs dari Plus Jakarta Sans (Google Fonts) ke Batica Sans (font custom, di-hosting sendiri di project, bukan dari Google Fonts). File yang tersedia saat ini cuma weight Regular — jadi teks yang pakai `font-bold`/`font-extrabold` akan di-render browser sebagai "bold sintetis" (dibuat otomatis dari Regular, bukan file bold asli). Ini masih terlihat oke di kebanyakan browser modern, tapi kalau nanti ada file weight lain (Bold/SemiBold/Black) dari font ini, kabari supaya bisa ditambahkan biar hasilnya lebih presisi.
+
+## 1. GANTI Google Fonts import DI `src/index.css`
+
+**Hapus baris `@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans...')`** (baris paling atas file), ganti dengan `@font-face` yang mengarah ke file lokal:
+
+```css
+@font-face {
+  font-family: 'Batica Sans';
+  src: url('/fonts/BaticaSans-Regular.woff2') format('woff2');
+  font-weight: 400 700; /* variable range supaya font-weight 400-700 tetap dianggap 1 font-face, browser sintesis bold di rentang ini */
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+## 2. GANTI font token
+
+Cari baris `--font-sans` dan `--font-serif` (biasanya di bagian `@theme` atau `:root`), ganti jadi:
+```css
+--font-sans: 'Batica Sans', sans-serif;
+--font-serif: 'Batica Sans', sans-serif;
+```
+
+## 3. Hapus referensi Google Fonts lain kalau ada
+
+Cek `index.html`, kalau ada tag `<link rel="preconnect" href="https://fonts.googleapis.com">` atau `<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans...">`, HAPUS keduanya — sudah tidak dipakai lagi karena font sekarang di-hosting sendiri, tidak perlu koneksi ke Google Fonts sama sekali.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error, dan pastikan file `BaticaSans-Regular.woff2` ikut ter-copy ke folder `dist/public` setelah build (harusnya otomatis karena ada di `public/`)
+- Cek semua teks di situs sekarang pakai Batica Sans — bandingkan headline besar (harus jelas beda dari Jakarta Sans sebelumnya)
+- Cek teks bold/extrabold (headline, judul card) masih terlihat wajar meski di-bold-kan otomatis oleh browser (tidak pecah/berantakan)
+- Cek loading font cepat — filenya cuma 27KB, seharusnya nyaris instan bahkan di koneksi lambat
+
+Kalau nanti dapat file weight lain (Bold, SemiBold, dst), kirim ke saya, biar saya bantu setup `@font-face` tambahan supaya tampilan bold-nya jadi presisi pakai file asli, bukan sintesis browser.
