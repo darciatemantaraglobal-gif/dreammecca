@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import TrustBar from '@/components/TrustBar';
 import PartnerStrip from '@/components/PartnerStrip';
 import About from '@/components/About';
 import Facilities from '@/components/Facilities';
@@ -19,6 +20,7 @@ export default function Home() {
     <div className="min-h-screen font-sans pb-16 md:pb-0" style={{ background: '#fff' }}>
       <Navbar />
       <Hero />
+      <TrustBar />
       <PartnerStrip />
       <About />
       <SectionDivider overlayColor="41,41,81" clipId="divider-2" />

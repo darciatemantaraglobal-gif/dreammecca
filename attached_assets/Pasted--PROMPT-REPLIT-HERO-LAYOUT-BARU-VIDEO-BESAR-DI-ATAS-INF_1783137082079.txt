@@ -1,0 +1,131 @@
+# PROMPT REPLIT — HERO LAYOUT BARU: VIDEO BESAR DI ATAS, INFO 2 KOLOM DI BAWAH
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## KONTEKS
+
+Restrukturisasi Hero mengikuti layout referensi: video besar full-width sebagai fokus utama paling atas, lalu di bawahnya dua kolom — kiri headline + logo partner, kanan paragraf pendukung + CTA. Tetap pakai sistem warna monokrom navy + putih yang sudah ada (bukan terang seperti referensi aslinya).
+
+## GANTI ISI `Hero.tsx` TOTAL
+
+```tsx
+import React from 'react';
+import { motion } from 'framer-motion';
+
+const partners = ['Saudia Airlines', 'Garuda Indonesia', 'Emirates', 'Etihad Airways', 'Qatar Airways'];
+
+export default function Hero() {
+  return (
+    <section
+      id="hero"
+      className="relative px-[7vw] pt-[140px] pb-[80px] overflow-hidden"
+      style={{
+        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url("/images/patterns/geometric-navy.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundColor: '#1B1B36',
+      }}
+    >
+      <div className="max-w-[1180px] mx-auto">
+
+        {/* VIDEO BESAR — fokus utama paling atas */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full rounded-2xl overflow-hidden relative"
+          style={{ border: '1px solid rgba(255,255,255,0.12)', paddingTop: '52%' }}
+        >
+          <video
+            autoPlay muted loop playsInline preload="metadata"
+            poster="/images/kaabah/kaabah-1.jpg"
+            className="absolute inset-0 w-full h-full"
+            style={{ objectFit: 'cover', display: 'block' }}
+          >
+            <source src="/videos/hero-card.mp4" type="video/mp4" />
+          </video>
+          <div
+            className="absolute bottom-0 left-0 right-0 px-[24px] py-[16px]"
+            style={{ background: 'linear-gradient(180deg, transparent, rgba(0,0,0,0.5))' }}
+          >
+            <span className="text-[12px] font-semibold uppercase tracking-[0.06em]" style={{ color: '#fff' }}>
+              Cuplikan Perjalanan Ibadah
+            </span>
+          </div>
+        </motion.div>
+
+        {/* DUA KOLOM DI BAWAH VIDEO */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-[40px] mt-[48px] items-start">
+
+          {/* KIRI — headline + logo partner */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.15 }}
+          >
+            <h1
+              className="font-extrabold leading-[1.1]"
+              style={{ fontSize: 'clamp(30px,4.2vw,50px)', color: '#fff' }}
+            >
+              Berangkat Umroh,<br />
+              Pulang <span style={{ fontStyle: 'italic', fontWeight: 700 }}>Berkah</span>
+            </h1>
+
+            <p className="text-[14px] mt-[28px]" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              Digunakan jamaah dari berbagai kota, terbang bersama maskapai
+            </p>
+            <div className="flex flex-wrap gap-x-[24px] gap-y-[10px] mt-[12px]">
+              {partners.map(p => (
+                <span key={p} className="text-[14px] font-semibold" style={{ color: 'rgba(255,255,255,0.75)' }}>
+                  {p}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* KANAN — paragraf + CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.25 }}
+          >
+            <p className="text-[15.5px] leading-[1.65]" style={{ color: 'rgba(255,255,255,0.7)' }}>
+              Berizin resmi PPIU Kementerian Agama RI. Kami hadir memastikan perjalanan ibadah Umroh Anda, dari konsultasi, dokumen, visa, hingga pendampingan di Tanah Suci, berjalan lancar dan penuh kekhusyukan.
+            </p>
+            <div className="flex flex-wrap gap-[12px] mt-[24px]">
+              <a
+                href="#kontak"
+                className="inline-flex items-center justify-center px-[26px] py-[14px] rounded-full font-bold text-[14px] no-underline hover:opacity-90 transition-opacity"
+                style={{ background: '#fff', color: '#1B1B36' }}
+              >
+                Konsultasi Gratis
+              </a>
+              <a
+                href="#paket"
+                className="inline-flex items-center justify-center px-[26px] py-[14px] rounded-full font-bold text-[14px] no-underline border transition-colors hover:bg-white/10"
+                style={{ borderColor: 'rgba(255,255,255,0.35)', color: '#fff' }}
+              >
+                Lihat Paket
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+```
+
+Catatan:
+- Rasio video sekarang `paddingTop: '52%'` (mendekati referensi yang lebih wide/cinematic dibanding 16:9 standar) — kalau video asli lo nanti hasilnya lebih pas di rasio 16:9 biasa, tinggal ganti jadi `paddingTop: '56.25%'`.
+- Trust bar 3 kolom (Direct Flight / PPIU Resmi / Melayani Sejak 2025) yang sebelumnya ada TETAP DIPERTAHANKAN, tapi sekarang jadi section terpisah tepat di bawah Hero ini (biarkan komponen itu apa adanya, cuma pastikan urutan render-nya masih Hero lalu trust bar).
+- Headline "Berkah" dikasih style italic sebagai aksen tipografi kecil (pengganti warna, karena monokrom) — hapus kalau dirasa kurang pas, ganti balik jadi normal.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek video besar tampil proporsional dan tidak gepeng di berbagai ukuran layar
+- Cek dua kolom di bawah video — di mobile harus stack vertikal rapi (video dulu, lalu headline+logo, lalu paragraf+CTA)
+- Cek logo partner di kolom kiri tidak terlalu padat/berantakan saat wrap ke baris baru di layar sempit
