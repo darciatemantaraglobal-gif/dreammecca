@@ -17,7 +17,10 @@ export default function Footer() {
         className="max-w-[1180px] mx-auto px-[7vw] py-[44px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
       >
         <div>
-          <div className="text-white font-extrabold text-[19px] tracking-tight">Dreammecca</div>
+          <div className="flex items-center gap-[10px] mb-[2px]">
+            <img src="/images/logo.png" alt="Logo Dreammecca" className="h-[36px] w-auto" />
+            <span className="text-white font-extrabold text-[19px] tracking-tight">Dreammecca</span>
+          </div>
           <p
             className="text-[14px] mt-2 max-w-[420px] leading-[1.6]"
             style={{ color: 'rgba(255,255,255,0.55)' }}
