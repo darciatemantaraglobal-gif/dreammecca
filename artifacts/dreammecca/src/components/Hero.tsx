@@ -23,10 +23,6 @@ export default function Hero() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-[720px] mx-auto"
         >
-          <span className="text-[13px] font-bold tracking-[0.14em] uppercase" style={{ color: 'rgba(255,255,255,0.55)' }}>
-            Penyelenggara Ibadah Umroh Resmi
-          </span>
-
           {/* 2. Headline diperbesar */}
           <span className="block text-[18px] md:text-[22px] font-semibold mt-[14px]" style={{ color: 'rgba(255,255,255,0.75)' }}>
             Selamat Datang di
