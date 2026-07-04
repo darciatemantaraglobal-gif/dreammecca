@@ -7,6 +7,7 @@ import About from '@/components/About';
 import Facilities from '@/components/Facilities';
 import Gallery from '@/components/Gallery';
 import Packages from '@/components/Packages';
+import GaleriJamaah from '@/components/GaleriJamaah';
 import Testimonials from '@/components/Testimonials';
 import Legal from '@/components/Legal';
 import FAQ from '@/components/FAQ';
@@ -27,6 +28,7 @@ export default function Home() {
       <Facilities />
       <Gallery />
       <Packages />
+      <GaleriJamaah />
       <Testimonials />
       <Legal />
       <FAQ />

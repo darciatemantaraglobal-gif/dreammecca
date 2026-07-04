@@ -1,0 +1,131 @@
+# PROMPT REPLIT — TAMBAH SECTION "GALERI JAMAAH"
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## KONTEKS
+
+Tambah section baru berisi foto-foto jamaah saat perjalanan Umroh (bukan foto perlengkapan seperti `Gallery.tsx` yang sudah ada) — buat social proof visual, diposisikan tepat sebelum Testimonials supaya foto+testimoni tulisan jadi satu blok kepercayaan yang saling menguatkan.
+
+## 1. Buat file baru `src/components/GaleriJamaah.tsx`
+
+```tsx
+import React from 'react';
+
+const photos = [
+  { slug: 'jamaah-1', caption: 'Kloter September 2025' },
+  { slug: 'jamaah-2', caption: 'Kloter Oktober 2025' },
+  { slug: 'jamaah-3', caption: 'Manasik Sebelum Berangkat' },
+  { slug: 'jamaah-4', caption: 'Tawaf di Masjidil Haram' },
+  { slug: 'jamaah-5', caption: 'Kloter November 2025' },
+  { slug: 'jamaah-6', caption: 'Ziarah Masjid Nabawi' },
+  { slug: 'jamaah-7', caption: 'Kloter Desember 2025' },
+  { slug: 'jamaah-8', caption: 'Kebersamaan di Tanah Suci' },
+];
+
+export default function GaleriJamaah() {
+  return (
+    <section
+      id="galeri-jamaah"
+      className="px-[7vw] py-[88px]"
+      style={{
+        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url("/images/patterns/geometric-navy.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundColor: '#1B1B36',
+      }}
+    >
+      <div className="max-w-[1180px] mx-auto">
+        <span className="text-[13px] font-bold tracking-[0.14em] uppercase" style={{ color: 'rgba(255,255,255,0.55)' }}>
+          Galeri Jamaah
+        </span>
+        <h2
+          className="font-bold leading-[1.15] mt-[10px]"
+          style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#fff' }}
+        >
+          Momen Ibadah Bersama Dreammecca
+        </h2>
+        <p className="text-[17px] leading-[1.6] mt-[16px] max-w-[560px]" style={{ color: 'rgba(255,255,255,0.65)' }}>
+          Sebagian dokumentasi jamaah yang sudah berangkat bersama kami, dari manasik hingga tiba di Tanah Suci.
+        </p>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-[14px] mt-[40px]">
+          {photos.map(photo => (
+            <div
+              key={photo.slug}
+              className="rounded-xl overflow-hidden relative group"
+              style={{ aspectRatio: '4/5', background: 'rgba(255,255,255,0.05)' }}
+            >
+              <img
+                src={`/images/galeri-jamaah/${photo.slug}.jpg`}
+                alt={photo.caption}
+                className="w-full h-full object-cover"
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                loading="lazy"
+              />
+              <div
+                className="absolute bottom-0 left-0 right-0 px-[12px] py-[10px]"
+                style={{ background: 'linear-gradient(180deg, transparent, rgba(0,0,0,0.6))' }}
+              >
+                <span className="text-[11.5px] font-semibold" style={{ color: '#fff' }}>
+                  {photo.caption}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+```
+
+## 2. Siapkan folder upload foto
+
+Buat folder `public/images/galeri-jamaah/` dengan file `README.txt`:
+```
+GALERI JAMAAH — SPESIFIKASI FOTO
+
+Rasio: 4:5 (portrait, contoh ukuran 1080x1350px)
+Format: JPG, maksimal 300KB per file (compress sebelum upload)
+
+Nama file yang dibutuhkan (harus PERSIS sama):
+- jamaah-1.jpg
+- jamaah-2.jpg
+- jamaah-3.jpg
+- jamaah-4.jpg
+- jamaah-5.jpg
+- jamaah-6.jpg
+- jamaah-7.jpg
+- jamaah-8.jpg
+
+Kalau file belum ada, area foto akan kosong (bukan error) sampai di-upload.
+PENTING: pastikan sudah ada izin/persetujuan dari jamaah yang fotonya dipakai untuk publikasi di website, sesuai etika penggunaan foto pihak lain.
+```
+
+## 3. Tambahkan ke `Home.tsx`
+
+```tsx
+import GaleriJamaah from '@/components/GaleriJamaah';
+
+// sisipkan SEBELUM <Testimonials />:
+<Packages />
+<GaleriJamaah />
+<Testimonials />
+```
+
+## 4. Tambahkan link navigasi (opsional)
+
+Kalau mau section ini bisa diakses dari Navbar, tambahkan link baru di array `links` Navbar.tsx:
+```tsx
+{ name: 'Galeri', href: '#galeri-jamaah' },
+```
+(letakkan setelah "Fasilitas", sebelum "Paket Umroh" — sesuaikan urutan kalau perlu)
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek section baru muncul sebelum Testimonials, dengan 8 slot foto (kosong dulu, wajar karena belum upload)
+- Cek grid responsive: 2 kolom mobile, 4 kolom desktop
+- Setelah upload foto ke `public/images/galeri-jamaah/` dengan nama sesuai README, foto otomatis muncul menggantikan slot kosong
