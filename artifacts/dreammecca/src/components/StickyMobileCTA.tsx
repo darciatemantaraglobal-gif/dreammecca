@@ -9,7 +9,11 @@ export default function StickyMobileCTA() {
   return (
     <div
       className="fixed bottom-0 left-0 right-0 z-50 flex md:hidden"
-      style={{ background: '#1B1B36', borderTop: '1px solid rgba(255,255,255,0.14)' }}
+      style={{
+        background: '#1B1B36',
+        borderTop: '1px solid rgba(255,255,255,0.14)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+      }}
     >
       <a
         href={phoneLink}

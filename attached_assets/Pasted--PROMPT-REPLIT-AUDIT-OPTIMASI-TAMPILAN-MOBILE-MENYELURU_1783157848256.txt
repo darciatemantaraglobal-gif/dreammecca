@@ -1,0 +1,80 @@
+# PROMPT REPLIT — AUDIT & OPTIMASI TAMPILAN MOBILE MENYELURUH
+
+Copy-paste ke Replit Agent chat. Buka preview di viewport mobile (375px dan 390px, DevTools → Toggle Device Toolbar) sambil mengerjakan ini, supaya setiap perbaikan langsung terverifikasi visual.
+
+---
+
+## KONTEKS
+
+Situs ini dibangun desktop-first dan belum pernah di-audit khusus untuk mobile secara sistematis. Cek dan perbaiki SEMUA komponen berikut satu per satu, jangan cuma di beberapa section.
+
+## 1. GLOBAL — cek dulu sebelum ke komponen spesifik
+
+- Pastikan `index.html` punya `<meta name="viewport" content="width=device-width, initial-scale=1.0" />` (biasanya sudah ada dari scaffold Vite, tapi double-check)
+- Jalankan cek horizontal overflow: buka DevTools Console di viewport 375px, ketik `document.documentElement.scrollWidth > document.documentElement.clientWidth` — kalau hasilnya `true`, ada elemen yang overflow ke samping (biasanya dari padding/margin fixed px yang tidak responsive, atau elemen dengan width fixed lebih besar dari 375px). Temukan dan perbaiki elemen itu.
+- Cek semua touch target (tombol, link, ikon yang bisa diklik) minimal `44x44px` sesuai standar aksesibilitas mobile — terutama ikon di StickyMobileCTA, tombol accordion FAQ, dan hamburger menu Navbar.
+
+## 2. Navbar.tsx
+- Pastikan hamburger menu muncul di mobile (biasanya `md:hidden` untuk hamburger, `hidden md:flex` untuk menu desktop)
+- Cek slide-in panel mobile menu tidak overflow, backdrop menutup penuh, dan bisa di-scroll kalau daftar menu panjang
+- Pastikan body tidak bisa di-scroll saat menu mobile terbuka (`overflow: hidden` di body/html saat menu aktif)
+- Cek logo tidak terlalu besar/kepotong di lebar 375px
+
+## 3. Hero.tsx
+- Headline besar — cek `clamp()` font-size tidak overflow di 375px (baris terpanjang harus tetap wrap rapi, tidak keluar dari padding)
+- Video 16:9/rasio yang dipakai — cek tidak terlalu tinggi di mobile (karena lebar penuh 375px, rasio wide bisa membuat video jadi pendek banget, ini oke, tapi cek captionnya tetap terbaca)
+- Tombol CTA (Konsultasi Gratis / Lihat Paket) — pastikan stack vertikal rapi di mobile kalau tidak cukup ruang sejajar, gap cukup, tidak dempet
+- Strip logo partner di bawah — cek wrap rapi tidak berantakan
+
+## 4. Trust bar 3 kartu (Direct Flight / PPIU Resmi / Melayani Sejak 2025)
+- Pastikan grid jadi 1 kolom stack vertikal di mobile (`grid-cols-1 md:grid-cols-3`)
+- Cek padding dalam card tidak terlalu besar sampai terasa "kosong" di layar kecil
+
+## 5. PartnerStrip.tsx
+- Cek logo maskapai + teks Kemenag/HIMPUH wrap rapi jadi beberapa baris tanpa dempet
+
+## 6. About.tsx
+- Cek layout 2 kolom (teks + foto/stat) berubah jadi 1 kolom stack di mobile
+- Cek 4 kartu statistik jadi grid 2x2 atau 1 kolom (bukan tetap 4 kolom yang jadi kekecilan)
+
+## 7. Facilities.tsx
+- Grid 10 kartu fasilitas — pastikan jadi 1-2 kolom di mobile (`grid-cols-1 sm:grid-cols-2 md:grid-cols-4`), bukan tetap 4 kolom yang bikin card kegencet
+
+## 8. Gallery.tsx
+- Cek grid perlengkapan jamaah responsive, gambar tidak gepeng
+
+## 9. Packages.tsx
+- INI PALING PENTING karena section konversi utama. Cek card paket (poster 4:5 + info) jadi 1 kolom penuh di mobile, tidak kegencet 2 kolom kecil
+- Cek tombol "Booking" dan info harga tidak terpotong/wrap aneh di lebar kecil
+- Tombol "Lihat Semua Paket & Jadwal" full-width atau center rapi
+
+## 10. Testimonials.tsx
+- Grid 3 testimoni jadi 1 kolom stack, avatar+nama+quote tidak kepotong
+
+## 11. Legal.tsx
+- Cek list item legalitas (icon+judul+desc) tetap rapi 1 kolom di mobile
+
+## 12. FAQ.tsx
+- Accordion — cek tap area cukup besar, teks pertanyaan tidak terpotong, ikon +/− sejajar rapi dengan teks
+
+## 13. FinalCTA.tsx
+- Headline + CTA WhatsApp — cek center rapi, tombol full-width kalau perlu di mobile
+
+## 14. Footer.tsx
+- Kolom logo+teks (yang baru diubah) — cek di mobile logo dan teks TIDAK dempet ketika lebar menyempit, kalau perlu ubah jadi stack vertikal khusus mobile (`flex-col sm:flex-row`)
+- Link navigasi cepat dan sosial media — cek wrap rapi
+
+## 15. StickyMobileCTA.tsx
+- Pastikan cuma muncul di mobile (`md:hidden`), muncul setelah scroll melewati Hero
+- Cek tidak menutupi konten penting di bagian bawah halaman (footer harus punya padding-bottom ekstra supaya tidak tertutup bar ini)
+- Cek safe-area-inset-bottom untuk iPhone dengan home indicator
+
+## 16. pages/PaketUmroh.tsx (halaman terpisah)
+- Filter Tier/Durasi — cek pill button wrap rapi, tidak overflow horizontal
+- Grid card hasil filter jadi 1 kolom di mobile
+
+## VERIFIKASI AKHIR
+
+- Scroll dari atas ke bawah SETIAP halaman (`/` dan `/paket-umroh`) di viewport 375px, pastikan tidak ada elemen terpotong, dempet, atau overflow horizontal
+- Test tap semua tombol/link penting (CTA, accordion, hamburger menu, filter) pastikan mudah di-tap tanpa salah pencet elemen sebelahnya
+- Screenshot beberapa section untuk saya cek — terutama Hero, Packages, dan Footer karena itu yang paling sering berubah selama proses ini

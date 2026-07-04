@@ -65,7 +65,7 @@ export default function Legal() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={staggerContainer}
-          className="flex flex-wrap gap-8 mt-[40px]"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-[40px]"
         >
           {points.map(p => (
             <motion.div key={p.title} variants={fadeUp} className="flex gap-3 max-w-[340px]">
