@@ -1,30 +1,32 @@
 import React from 'react';
 
-const partners = [
-  'Saudia Airlines',
-  'Garuda Indonesia',
-  'Emirates',
-  'Etihad Airways',
-  'Qatar Airways',
-  'Turkish Airlines',
-  'Kementerian Agama RI',
-  'HIMPUH',
+const logos = [
+  { slug: 'saudia', alt: 'Saudia Airlines' },
+  { slug: 'garuda-indonesia', alt: 'Garuda Indonesia' },
+  { slug: 'emirates', alt: 'Emirates' },
+  { slug: 'etihad-airways', alt: 'Etihad Airways' },
+  { slug: 'qatar-airways', alt: 'Qatar Airways' },
+  { slug: 'turkish-airlines', alt: 'Turkish Airlines' },
 ];
+
+const textPartners = ['Kementerian Agama RI', 'HIMPUH'];
 
 export default function PartnerStrip() {
   return (
-    <section
-      className="px-[7vw] py-[44px]"
-      style={{ background: '#fff', borderBottom: '1px solid rgba(27,27,54,0.10)' }}
-    >
-      <div className="max-w-[1180px] mx-auto flex justify-between flex-wrap gap-[28px_40px] items-center">
-        {partners.map(p => (
-          <span
-            key={p}
-            className="text-[15px] font-bold tracking-[0.01em]"
-            style={{ color: '#6B6B85' }}
-          >
-            {p}
+    <section className="px-[7vw] py-[40px] bg-white">
+      <div className="max-w-[1180px] mx-auto flex flex-wrap items-center justify-center gap-x-[48px] gap-y-[24px]">
+        {logos.map(logo => (
+          <img
+            key={logo.slug}
+            src={`/images/partners/${logo.slug}.png`}
+            alt={logo.alt}
+            className="h-[28px] md:h-[34px] w-auto object-contain"
+            style={{ opacity: 0.85 }}
+          />
+        ))}
+        {textPartners.map(name => (
+          <span key={name} className="text-[15px] font-semibold" style={{ color: '#6B6B85' }}>
+            {name}
           </span>
         ))}
       </div>

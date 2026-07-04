@@ -1,0 +1,60 @@
+# PROMPT REPLIT — HAPUS TEKS MASKAPAI DI HERO + GANTI PARTNERSTRIP PAKAI LOGO ASLI
+
+Sebelum paste ke Replit: buat folder `public/images/partners/` dan upload 6 file logo yang saya kirim (`saudia.png`, `garuda-indonesia.png`, `emirates.png`, `etihad-airways.png`, `qatar-airways.png`, `turkish-airlines.png`) ke situ.
+
+Lalu copy-paste ke Replit Agent chat:
+
+---
+
+## 1. HAPUS baris teks maskapai di Hero.tsx
+
+Cari blok "LOGO PARTNER" (berisi teks "Digunakan jamaah dari berbagai kota, terbang bersama maskapai" dan daftar nama maskapai), HAPUS seluruh blok `<motion.div>` itu dari `Hero.tsx`.
+
+## 2. GANTI ISI `PartnerStrip.tsx` — pakai logo asli, bukan teks
+
+```tsx
+import React from 'react';
+
+const logos = [
+  { slug: 'saudia', alt: 'Saudia Airlines' },
+  { slug: 'garuda-indonesia', alt: 'Garuda Indonesia' },
+  { slug: 'emirates', alt: 'Emirates' },
+  { slug: 'etihad-airways', alt: 'Etihad Airways' },
+  { slug: 'qatar-airways', alt: 'Qatar Airways' },
+  { slug: 'turkish-airlines', alt: 'Turkish Airlines' },
+];
+
+const textPartners = ['Kementerian Agama RI', 'HIMPUH'];
+
+export default function PartnerStrip() {
+  return (
+    <section className="px-[7vw] py-[40px] bg-white">
+      <div className="max-w-[1180px] mx-auto flex flex-wrap items-center justify-center gap-x-[48px] gap-y-[24px]">
+        {logos.map(logo => (
+          <img
+            key={logo.slug}
+            src={`/images/partners/${logo.slug}.png`}
+            alt={logo.alt}
+            className="h-[28px] md:h-[34px] w-auto object-contain"
+            style={{ opacity: 0.85 }}
+          />
+        ))}
+        {textPartners.map(name => (
+          <span key={name} className="text-[15px] font-semibold" style={{ color: '#6B6B85' }}>
+            {name}
+          </span>
+        ))}
+      </div>
+    </section>
+  );
+}
+```
+
+Catatan: `Kementerian Agama RI` dan `HIMPUH` tetap ditampilkan sebagai teks karena belum ada file logo untuk keduanya — kirim logonya kalau ada, nanti sekalian diganti jadi gambar juga biar konsisten semua pakai logo.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek Hero — bagian teks daftar maskapai sudah tidak ada lagi
+- Cek PartnerStrip — 6 logo asli (warna asli, bukan monokrom) tampil rapi sejajar, ukurannya konsisten satu baris, disusul teks "Kementerian Agama RI" dan "HIMPUH"
+- Cek responsif di mobile — logo wrap ke baris baru dengan rapi kalau tidak cukup ruang dalam satu baris

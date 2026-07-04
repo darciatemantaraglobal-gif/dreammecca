@@ -1,8 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const partners = ['Saudia Airlines', 'Garuda Indonesia', 'Emirates', 'Etihad Airways', 'Qatar Airways'];
-
 export default function Hero() {
   return (
     <section
@@ -69,25 +67,6 @@ export default function Hero() {
             <span className="text-[12px] font-semibold uppercase tracking-[0.06em]" style={{ color: '#fff' }}>
               Cuplikan Perjalanan Ibadah
             </span>
-          </div>
-        </motion.div>
-
-        {/* LOGO PARTNER — 4. mt diperbesar, 6. gap diperlebar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-[36px]"
-        >
-          <p className="text-[13px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
-            Digunakan jamaah dari berbagai kota, terbang bersama maskapai
-          </p>
-          <div className="flex flex-wrap justify-center gap-x-[32px] gap-y-[10px] mt-[14px]">
-            {partners.map(p => (
-              <span key={p} className="text-[14px] font-semibold" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                {p}
-              </span>
-            ))}
           </div>
         </motion.div>
       </div>
