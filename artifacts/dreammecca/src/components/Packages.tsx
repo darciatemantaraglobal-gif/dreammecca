@@ -145,7 +145,13 @@ export default function Packages() {
           </p>
         )}
 
-        {!isLoading && !isError && (
+        {!isLoading && !isError && packages.length === 0 && (
+          <p className="text-center py-[48px]" style={{ color: '#6B6B85' }}>
+            Belum ada paket yang tersedia saat ini. Hubungi kami untuk info terbaru.
+          </p>
+        )}
+
+        {!isLoading && !isError && packages.length > 0 && (
           <motion.div
             initial="hidden"
             whileInView="visible"
