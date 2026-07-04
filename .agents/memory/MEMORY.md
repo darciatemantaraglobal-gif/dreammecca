@@ -1,0 +1,1 @@
+- [Dreammecca port notes](dreammecca-port.md) — key decisions from porting this Replit-native Vite app from migration-backup to the workspace.

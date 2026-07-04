@@ -1,0 +1,80 @@
+# PROMPT REPLIT — PATTERN FLAT BARU (TANPA GRADIENT) + KURVA MENYATU
+
+Sebelum paste ke Replit: **timpa/replace** file `public/images/patterns/geometric-navy.jpg` yang sudah ada dengan `pattern-bg-flat.jpg` yang saya kirim (nama file dibuat SAMA persis: `geometric-navy.jpg`, supaya tidak perlu ubah satu pun path di kode). Versi baru ini pattern-nya rata/flat di seluruh gambar (gradient cahaya besar sudah dihilangkan, cuma garis geometrisnya yang tersisa) — ini kunci supaya kurva dan section bisa benar-benar menyatu tanpa seam, karena sekarang di potong di posisi manapun hasilnya tetap konsisten.
+
+Lalu copy-paste ke Replit Agent chat:
+
+---
+
+## KONTEKS
+
+Balik pakai pattern di kurva (bukan solid fill), tapi sekarang dengan gambar pattern yang sudah di-flatten, DAN pastikan `backgroundPosition` di divider dan di section SAMA PERSIS di semua tempat (`center top` — sebelumnya ada yang pakai `center` polos, itu penyebab ketidaksesuaian titik potong gambar).
+
+## 1. GANTI ISI `src/components/SectionDivider.tsx`
+
+```tsx
+import React from 'react';
+
+interface SectionDividerProps {
+  overlayColor: string; // format: '41,41,81' (rgb tanpa rgba wrapper)
+}
+
+export default function SectionDivider({ overlayColor }: SectionDividerProps) {
+  return (
+    <div
+      className="w-full h-[44px] md:h-[64px]"
+      style={{
+        backgroundImage: `linear-gradient(180deg, rgba(${overlayColor},0.55), rgba(${overlayColor},0.65)), url("/images/patterns/geometric-navy.jpg")`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
+        WebkitMaskImage: 'url("/images/patterns/curve-mask.svg")',
+        maskImage: 'url("/images/patterns/curve-mask.svg")',
+        WebkitMaskSize: '100% 100%',
+        maskSize: '100% 100%',
+        WebkitMaskRepeat: 'no-repeat',
+        maskRepeat: 'no-repeat',
+        marginTop: '-1px',
+        marginBottom: '-1px',
+      }}
+    />
+  );
+}
+```
+
+## 2. WAJIB CEK — samakan `backgroundPosition` di SEMUA section navy jadi `center top`
+
+Ini bagian paling penting. Buka `Hero.tsx`, `Facilities.tsx`, `Testimonials.tsx`, `FinalCTA.tsx`, `Footer.tsx`, `Navbar.tsx` — cari baris `backgroundPosition` di masing-masing (dari prompt penerapan pattern sebelumnya), dan pastikan SEMUANYA persis:
+```tsx
+backgroundPosition: 'center top',
+```
+Kalau ada yang masih tertulis `'center'` saja (tanpa `top`), itu HARUS diganti jadi `'center top'` — perbedaan ini yang menyebabkan potongan gambar antar elemen tidak sinkron sebelumnya.
+
+## 3. UPDATE PEMANGGILAN DI `Home.tsx`
+
+Pastikan urutan dan prop-nya seperti ini (kembali ke format `overlayColor` rgb):
+```tsx
+<Hero />
+<SectionDivider overlayColor="27,27,54" />
+<PartnerStrip />
+<About />
+<SectionDivider overlayColor="41,41,81" />
+<Facilities />
+<SectionDivider overlayColor="41,41,81" />
+<Gallery />
+<Packages />
+<Testimonials />
+<SectionDivider overlayColor="27,27,54" />
+<Legal />
+<FAQ />
+<SectionDivider overlayColor="41,41,81" />
+<FinalCTA />
+<Footer />
+```
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Screenshot ulang SEMUA 5 titik transisi, zoom ke area sambungan kurva-section
+- Pastikan TIDAK ADA lagi garis/potongan kasar di sambungan manapun — sekarang harusnya benar-benar menyatu karena sumber gambarnya sudah flat (tanpa gradient) dan posisi crop-nya konsisten di semua elemen
+- Kalau MASIH ada seam tipis di titik tertentu setelah ini, kemungkinan besar itu section spesifik yang backgroundPosition-nya masih ketinggalan `center` tanpa `top` — cek ulang satu per satu poin 2 di atas

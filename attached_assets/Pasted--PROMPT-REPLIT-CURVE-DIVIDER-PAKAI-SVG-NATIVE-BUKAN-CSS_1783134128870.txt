@@ -1,0 +1,79 @@
+# PROMPT REPLIT — CURVE DIVIDER PAKAI SVG NATIVE (BUKAN CSS MASK)
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## KONTEKS
+
+`mask-image` sudah dicoba beberapa kali dan konsisten gagal menampilkan pattern (selalu jatuh ke flat solid color). Ganti total pendekatannya: gambar pattern ditaruh LANGSUNG di dalam SVG lewat tag `<image>`, dipotong bentuk kurva pakai `<clipPath>` — ini murni SVG standar, tidak bergantung sama sekali pada `mask-image`/`-webkit-mask` yang selama ini bermasalah.
+
+## GANTI ISI `src/components/SectionDivider.tsx` TOTAL
+
+```tsx
+import React from 'react';
+
+interface SectionDividerProps {
+  overlayColor: string; // format: '41,41,81' (rgb tanpa rgba wrapper)
+  clipId: string; // WAJIB unik per pemanggilan, misal 'clip-1', 'clip-2', dst — SVG clipPath id tidak boleh dobel di satu halaman
+}
+
+export default function SectionDivider({ overlayColor, clipId }: SectionDividerProps) {
+  return (
+    <div className="w-full h-[44px] md:h-[64px]" style={{ marginTop: '-1px', marginBottom: '-1px', overflow: 'hidden' }}>
+      <svg viewBox="0 0 1440 80" width="100%" height="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id={clipId}>
+            <path d="M0,0 C400,80 1040,80 1440,0 L1440,80 L0,80 Z" />
+          </clipPath>
+        </defs>
+        <g clipPath={`url(#${clipId})`}>
+          <image
+            href="/images/patterns/geometric-navy.jpg"
+            x="0"
+            y="0"
+            width="1440"
+            height="955"
+            preserveAspectRatio="xMidYMin slice"
+          />
+          <rect width="1440" height="80" fill={`rgba(${overlayColor},0.6)`} />
+        </g>
+      </svg>
+    </div>
+  );
+}
+```
+
+Catatan teknis:
+- `width="1440" height="955"` pada tag `<image>` itu rasio asli file pattern (1920x1273, di-scale ke lebar viewBox 1440) — JANGAN diubah angkanya, supaya gambar tidak gepeng/distorsi.
+- `preserveAspectRatio="xMidYMin slice"` bikin gambar di-crop dari bagian ATAS (Y-min) dan tengah horizontal, mirip `background-position: center top` yang dipakai di section-section lain — supaya crop-nya konsisten.
+- `<rect>` di atas gambar itu overlay gradient warna (disederhanakan jadi solid rgba, karena di dalam SVG lebih simpel pakai satu rect solid dibanding linear-gradient bertingkat) — cukup untuk menjaga kontras teks section di sekitarnya.
+- `clipId` HARUS unik di setiap pemanggilan `<SectionDivider>` di halaman yang sama, karena SVG `id` yang dobel bikin browser bingung clipPath mana yang dipakai (ini penyebab umum kurva jadi tidak muncul/salah bentuk kalau ada beberapa instance di satu halaman).
+
+## UPDATE PEMANGGILAN DI `Home.tsx` — WAJIB kasih `clipId` unik per instance
+
+```tsx
+<Hero />
+<SectionDivider overlayColor="27,27,54" clipId="divider-1" />
+<PartnerStrip />
+<About />
+<SectionDivider overlayColor="41,41,81" clipId="divider-2" />
+<Facilities />
+<SectionDivider overlayColor="41,41,81" clipId="divider-3" />
+<Gallery />
+<Packages />
+<Testimonials />
+<SectionDivider overlayColor="27,27,54" clipId="divider-4" />
+<Legal />
+<FAQ />
+<SectionDivider overlayColor="41,41,81" clipId="divider-5" />
+<FinalCTA />
+<Footer />
+```
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Screenshot ulang SEMUA 5 titik transisi — sekarang pattern HARUS terlihat jelas di dalam bentuk kurva, karena ini murni gambar SVG native, bukan CSS mask lagi
+- Cek tidak ada duplikasi `id` clipPath di HTML akhir (`document.querySelectorAll('clipPath')` di console browser, pastikan setiap id-nya unik)
+- Kalau ini MASIH tidak muncul pattern-nya, kemungkinan masalahnya bukan lagi di teknik CSS/SVG, tapi di path file gambar itu sendiri (404) — cek Network tab di DevTools khusus untuk request ke `geometric-navy.jpg` dari elemen SVG ini

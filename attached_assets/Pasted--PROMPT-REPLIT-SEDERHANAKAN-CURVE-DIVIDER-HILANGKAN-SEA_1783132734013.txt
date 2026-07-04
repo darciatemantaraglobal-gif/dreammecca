@@ -1,0 +1,63 @@
+# PROMPT REPLIT — SEDERHANAKAN CURVE DIVIDER, HILANGKAN SEAM/JAGGY
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## KONTEKS
+
+Pendekatan pattern-di-dalam-kurva menyebabkan seam/potongan kasar di beberapa titik transisi (gambar pattern di kurva dan di section tidak align persis pixel-nya, terlihat jelas di transisi About-ke-Facilities). Daripada terus coba selaraskan posisi gambar yang rawan meleset, balik ke pendekatan SOLID FILL yang smooth dan simpel — dijamin tidak ada seam karena tidak ada gambar yang perlu nyambung.
+
+## GANTI ISI `src/components/SectionDivider.tsx` TOTAL (versi final, solid fill)
+
+```tsx
+import React from 'react';
+
+interface SectionDividerProps {
+  fillColor: string; // hex warna solid, contoh: '#292951'
+}
+
+export default function SectionDivider({ fillColor }: SectionDividerProps) {
+  return (
+    <div className="w-full overflow-hidden leading-none" style={{ marginBottom: '-1px', marginTop: '-1px' }}>
+      <svg viewBox="0 0 1440 80" className="w-full h-[44px] md:h-[64px]" preserveAspectRatio="none">
+        <path d="M0,0 C400,80 1040,80 1440,0 L1440,80 L0,80 Z" fill={fillColor} />
+      </svg>
+    </div>
+  );
+}
+```
+
+Hapus semua referensi `overlayColor`, `maskImage`, dan `backgroundImage` dari komponen ini — sudah tidak dipakai lagi.
+
+## UPDATE PEMANGGILAN DI `Home.tsx`
+
+Ganti prop `overlayColor` jadi `fillColor` dengan nilai HEX SOLID (bukan rgb dipisah koma lagi), sesuai warna section navy terdekat:
+
+```tsx
+<Hero />
+<SectionDivider fillColor="#1B1B36" />
+<PartnerStrip />
+<About />
+<SectionDivider fillColor="#292951" />
+<Facilities />
+<SectionDivider fillColor="#292951" />
+<Gallery />
+<Packages />
+<Testimonials />
+<SectionDivider fillColor="#1B1B36" />
+<Legal />
+<FAQ />
+<SectionDivider fillColor="#292951" />
+<FinalCTA />
+<Footer />
+```
+
+Nilai `marginBottom: '-1px'` dan `marginTop: '-1px'` di komponen divider itu sengaja ditambahkan untuk menutup celah rendering sub-pixel yang kadang muncul di browser (garis putih tipis nyempil di antara divider dan section) — jangan dihapus.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Screenshot ulang SEMUA 5 titik transisi (Hero, About-Facilities, Facilities-Gallery, Testimonials-Legal, FAQ-FinalCTA) — pastikan kurvanya smooth solid, TIDAK ADA lagi garis/potongan kasar di manapun
+- Cek tidak ada garis putih tipis nyempil di sambungan divider dengan section di atas/bawahnya
+- Ini pendekatan final — kalau masih ada masalah visual setelah ini, kemungkinan bukan lagi soal pattern/gambar, tapi soal spacing/margin section itu sendiri, jadi laporkan detail lokasi persisnya
