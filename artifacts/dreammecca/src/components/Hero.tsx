@@ -1,7 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
 
 export default function Hero() {
+  const waLink = createWALink(DEFAULT_MESSAGE);
+
   return (
     <section
       id="hero"
@@ -42,7 +45,7 @@ export default function Hero() {
 
           {/* 3. CTA padding & font diperbesar */}
           <div className="flex flex-wrap justify-center gap-[12px] mt-[28px]">
-            <a href="#kontak" className="inline-flex items-center justify-center px-[34px] py-[17px] rounded-full font-bold text-[15px] no-underline hover:opacity-90 transition-opacity" style={{ background: '#fff', color: '#1B1B36' }}>
+            <a href={waLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-[34px] py-[17px] rounded-full font-bold text-[15px] no-underline hover:opacity-90 transition-opacity" style={{ background: '#fff', color: '#1B1B36' }}>
               Konsultasi Gratis
             </a>
             <a href="#paket" className="inline-flex items-center justify-center px-[34px] py-[17px] rounded-full font-bold text-[15px] no-underline border transition-colors hover:bg-white/10" style={{ borderColor: 'rgba(255,255,255,0.35)', color: '#fff' }}>
