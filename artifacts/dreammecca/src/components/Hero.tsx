@@ -9,7 +9,7 @@ export default function Hero() {
       id="hero"
       className="relative px-[7vw] pt-[140px] pb-[80px] overflow-hidden"
       style={{
-        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url("/images/patterns/geometric-navy.jpg")',
+        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.60), rgba(27,27,54,0.80)), url("/images/patterns/geometric-navy.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center top',
         backgroundRepeat: 'no-repeat',
