@@ -1,0 +1,77 @@
+# PROMPT REPLIT — OPTIMASI UKURAN OBJECT DI HERO SECTION
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## KONTEKS
+
+Sesuaikan proporsi ukuran beberapa elemen di `Hero.tsx` supaya lebih seimbang secara visual — video jangan terlalu tinggi mendominasi, headline dikasih presence lebih kuat karena sekarang rata tengah dengan banyak white space di sekitarnya, dan jarak antar elemen dirapikan biar ritmenya lebih enak.
+
+## PERUBAHAN SPESIFIK DI `Hero.tsx`
+
+**1. Video — kurangi tinggi supaya tidak terlalu dominan**
+```tsx
+/* SEBELUM */
+style={{ border: '1px solid rgba(255,255,255,0.12)', paddingTop: '52%' }}
+
+/* SESUDAH — rasio lebih cinematic/wide, tidak terlalu tinggi */
+style={{ border: '1px solid rgba(255,255,255,0.12)', paddingTop: '42%' }}
+```
+
+**2. Headline — perbesar sedikit, sekarang rata tengah butuh presence lebih kuat**
+```tsx
+/* SEBELUM */
+style={{ fontSize: 'clamp(32px,5vw,58px)', color: '#fff' }}
+
+/* SESUDAH */
+style={{ fontSize: 'clamp(34px,5.5vw,64px)', color: '#fff' }}
+```
+
+**3. Tombol CTA — perbesar padding sedikit biar terasa lebih substantial**
+```tsx
+/* SEBELUM (dua tombol) */
+className="inline-flex items-center justify-center px-[28px] py-[15px] rounded-full font-bold text-[14px] ..."
+
+/* SESUDAH */
+className="inline-flex items-center justify-center px-[34px] py-[17px] rounded-full font-bold text-[15px] ..."
+```
+
+**4. Jarak antar blok — rapikan ritme vertikal**
+```tsx
+/* SEBELUM */
+<motion.div ... className="w-full rounded-2xl overflow-hidden relative mt-[40px] text-left" ...>
+...
+<motion.div ... className="mt-[28px]" ...>
+
+/* SESUDAH */
+<motion.div ... className="w-full rounded-2xl overflow-hidden relative mt-[56px] text-left" ...>
+...
+<motion.div ... className="mt-[36px]" ...>
+```
+
+**5. Deskripsi paragraf — lebar maksimal sedikit disempitkan supaya baris tidak terlalu panjang saat rata tengah (baris pendek lebih nyaman dibaca saat centered)**
+```tsx
+/* SEBELUM */
+style={{ color: 'rgba(255,255,255,0.7)', maxWidth: '580px' }}
+
+/* SESUDAH */
+style={{ color: 'rgba(255,255,255,0.7)', maxWidth: '520px' }}
+```
+
+**6. Logo partner — perbesar sedikit jarak antar logo biar tidak kerasa padat saat rata tengah**
+```tsx
+/* SEBELUM */
+className="flex flex-wrap justify-center gap-x-[24px] gap-y-[8px] mt-[10px]"
+
+/* SESUDAH */
+className="flex flex-wrap justify-center gap-x-[32px] gap-y-[10px] mt-[14px]"
+```
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek video sekarang terasa lebih proporsional, tidak makan terlalu banyak tinggi viewport
+- Cek headline terasa lebih punya "presence" tanpa sampai overflow di mobile
+- Cek jarak antar blok (headline-video-logo) terasa lebih lega dan enak diikuti mata saat scroll
+- Screenshot hasil akhir untuk saya cek lagi kalau masih ada yang perlu disesuaikan
