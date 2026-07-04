@@ -98,23 +98,22 @@ export default function Facilities() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={staggerContainer}
-          className="grid grid-cols-2 md:grid-cols-4 gap-[14px] md:gap-[20px] mt-[48px]"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[16px] md:gap-[20px] mt-[48px] items-stretch"
         >
           {facilities.map(f => (
             <motion.div
               key={f.title}
               variants={fadeUp}
-              className="rounded-xl p-[26px_22px] bg-[rgba(255,255,255,0.04)] transition-all duration-200 hover:-translate-y-1 hover:bg-[rgba(255,255,255,0.07)]"
-              style={{ border: '1px solid rgba(255,255,255,0.14)' }}
+              className="rounded-2xl p-[28px] flex flex-col h-full transition-all duration-200 hover:-translate-y-1 hover:bg-[rgba(255,255,255,0.07)]"
+              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
             >
-              <div className="w-[38px] h-[38px] rounded-[10px] bg-white flex items-center justify-center mb-[16px]">
-                <f.icon size={20} color="#1B1B36" strokeWidth={2} />
+              <div className="w-[44px] h-[44px] rounded-xl bg-white flex items-center justify-center mb-[20px] flex-none">
+                <f.icon size={20} color="#1B1B36" strokeWidth={1.75} />
               </div>
-              <h3 className="text-white font-bold text-[16px] leading-[1.3]">{f.title}</h3>
-              <p
-                className="text-[14px] mt-[8px] leading-[1.55]"
-                style={{ color: 'rgba(255,255,255,0.66)' }}
-              >
+              <h4 className="text-[17px] font-bold leading-[1.3]" style={{ color: '#fff' }}>
+                {f.title}
+              </h4>
+              <p className="text-[14px] leading-[1.6] mt-[10px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 {f.desc}
               </p>
             </motion.div>

@@ -1,0 +1,60 @@
+# PROMPT REPLIT — REDESIGN CARD STATISTIK ABOUT (GANTI EMOJI, BENERIN GLYPH RUSAK)
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## MASALAH
+
+1. Card statistik pakai emoji (🕌📅🎓📖) yang nggak konsisten sama gaya icon Lucide yang dipakai di section lain (Facilities, Hero trust bar) — kesannya jadi belang, nggak seragam.
+2. Ada glyph rusak (muncul jadi emoji bendera) setelah teks "Sunnah Nabi" — ini simbol Arab ﷺ yang nggak ke-render dengan benar di font Lokeya/Jakarta Sans, jadi fallback ke emoji yang nggak nyambung.
+
+## PERBAIKAN DI `About.tsx`
+
+Ganti array `stats` dan cara render icon-nya total:
+
+```tsx
+import { ShieldCheck, CalendarCheck, GraduationCap, BookOpenText } from 'lucide-react';
+
+const stats = [
+  { icon: ShieldCheck, value: 'PPIU', label: 'Berizin Resmi Kemenag RI' },
+  { icon: CalendarCheck, value: '2025', label: 'Tahun Mulai Beroperasi' },
+  { icon: GraduationCap, value: '100%', label: 'Dibimbing Ustadz Bersertifikat' },
+  { icon: BookOpenText, value: 'Sunnah', label: 'Sesuai Syariat & Sunnah Nabi' },
+];
+```
+
+Perhatikan: teks "Sunnah Nabi ﷺ" diganti jadi "Sunnah Nabi" saja (simbol ﷺ dihapus) — kalau ingin tetap menyertakan penghormatan itu, tulis dalam bentuk teks Latin biasa "Sunnah Nabi SAW" supaya tidak bergantung pada glyph Arab yang bisa gagal render di font custom.
+
+Ganti render card-nya jadi (konsisten dengan gaya card Facilities yang sudah diperbaiki sebelumnya):
+
+```tsx
+<div className="grid grid-cols-2 gap-[16px] mt-[32px]">
+  {stats.map(stat => (
+    <div
+      key={stat.label}
+      className="rounded-2xl p-[24px] flex flex-col"
+      style={{ background: '#1B1B36' }}
+    >
+      <div className="w-[40px] h-[40px] rounded-xl bg-white flex items-center justify-center mb-[16px] flex-none">
+        <stat.icon size={19} color="#1B1B36" strokeWidth={1.75} />
+      </div>
+      <div className="text-[26px] font-extrabold leading-[1.1]" style={{ color: '#fff' }}>
+        {stat.value}
+      </div>
+      <p className="text-[13.5px] leading-[1.5] mt-[8px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+        {stat.label}
+      </p>
+    </div>
+  ))}
+</div>
+```
+
+Ini bikin icon-nya konsisten (kotak putih + Lucide icon monokrom, sama persis gayanya dengan card Facilities), bukan lagi emoji warna-warni yang nabrak sama tema.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error import icon baru
+- Cek 4 card statistik sekarang pakai icon Lucide konsisten (kotak putih + ikon navy), bukan emoji
+- Cek teks "Sunnah Nabi" tidak lagi diikuti glyph rusak/emoji bendera
+- Cek keempat card tinggi seragam (`items-stretch` di grid kalau belum ada)
