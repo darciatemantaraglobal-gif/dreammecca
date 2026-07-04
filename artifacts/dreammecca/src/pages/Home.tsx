@@ -23,7 +23,6 @@ export default function Home() {
       <About />
       <SectionDivider overlayColor="41,41,81" clipId="divider-2" />
       <Facilities />
-      <SectionDivider overlayColor="41,41,81" clipId="divider-3" />
       <Gallery />
       <Packages />
       <Testimonials />
