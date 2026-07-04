@@ -12,6 +12,7 @@ export default function Hero() {
         backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url("/images/patterns/geometric-navy.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
         backgroundColor: '#1B1B36',
       }}
     >
@@ -33,8 +34,8 @@ export default function Hero() {
             className="font-extrabold leading-[1.1] mt-[14px]"
             style={{ fontSize: 'clamp(34px,5.5vw,64px)', color: '#fff' }}
           >
-            Berangkat Umroh,<br />
-            Pulang <span style={{ fontStyle: 'italic', fontWeight: 700 }}>Berkah</span>
+            Selamat Datang di<br />
+            Dreammecca Tour &amp; Travel
           </h1>
 
           {/* 5. maxWidth deskripsi disempitkan */}
