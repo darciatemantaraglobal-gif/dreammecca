@@ -1,0 +1,153 @@
+# PROMPT REPLIT — KELOLA TESTIMONI, UPLOAD GALERI, SETTING UMUM, DUPLIKAT PAKET
+
+Jalankan SQL `sql-testimoni-galeri-settings.sql` di Supabase dulu. Lalu copy-paste ke Replit Agent chat:
+
+---
+
+## BAGIAN A — Duplikat Paket (paling ringan, kerjakan duluan)
+
+Di `AdminDashboard.tsx`, tambahkan fungsi dan tombol baru di card paket:
+
+```tsx
+async function duplicatePackage(pkg: Pkg) {
+  const newSlug = `${pkg.slug}-copy-${Date.now()}`;
+  const { departures, id, created_at, ...rest } = pkg as any;
+  await supabase.from('packages').insert({ ...rest, slug: newSlug, title: `${pkg.title} (Copy)` });
+  queryClient.invalidateQueries({ queryKey: ['admin-packages'] });
+}
+```
+
+Tambahkan tombol di deretan aksi (Jadwal/Edit/Hapus):
+```tsx
+<button onClick={() => duplicatePackage(pkg)} className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border" style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}>
+  Salin
+</button>
+```
+
+## BAGIAN B — Kelola Testimoni
+
+### B1. Ganti `Testimonials.tsx` — fetch dari Supabase
+
+```tsx
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabase';
+
+interface Testimonial {
+  id: string;
+  name: string;
+  meta: string;
+  quote: string;
+  rating: number;
+}
+
+function useTestimonials() {
+  return useQuery({
+    queryKey: ['testimonials'],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('testimonials').select('*').eq('is_active', true).order('sort_order');
+      if (error) throw error;
+      return data as Testimonial[];
+    },
+  });
+}
+```
+Ganti array hardcoded `testimonials` dengan hasil `const { data: testimonials } = useTestimonials();` di komponen, dan `initials` untuk avatar bulat dihitung dari `name` (ambil huruf pertama tiap kata): `name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase()`.
+
+### B2. Tambah halaman `src/pages/AdminTestimonials.tsx`
+
+Buat halaman CRUD sederhana (list + form tambah/edit + hapus) mengikuti pola yang sama seperti `AdminDashboard.tsx` untuk paket, tapi field-nya: `name`, `meta`, `quote` (textarea), `rating` (angka 1-5), `is_active` (checkbox). Tambahkan route `/admin/testimoni` di `App.tsx`, dan link ke halaman ini dari `AdminDashboard.tsx` (tombol/link di header: "Kelola Testimoni").
+
+## BAGIAN C — Upload Galeri Jamaah dari Admin
+
+### C1. Ganti `GaleriJamaah.tsx` — fetch dari Supabase
+
+```tsx
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabase';
+
+function useGalleryPhotos() {
+  return useQuery({
+    queryKey: ['gallery-photos'],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('gallery_photos').select('*').eq('is_active', true).order('sort_order');
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+```
+Ganti array `photos` hardcoded, render `<img src={photo.image_url} alt={photo.caption} />` langsung (bukan lagi path lokal `/images/galeri-jamaah/...`).
+
+### C2. Tambah halaman `src/pages/AdminGallery.tsx`
+
+Halaman dengan tombol "+ Upload Foto" yang membuka file input, upload ke bucket `gallery`:
+```tsx
+async function uploadGalleryPhoto(file: File, caption: string) {
+  const ext = file.name.split('.').pop();
+  const path = `jamaah-${Date.now()}.${ext}`;
+  const { error: uploadError } = await supabase.storage.from('gallery').upload(path, file);
+  if (uploadError) throw uploadError;
+  const { data } = supabase.storage.from('gallery').getPublicUrl(path);
+  await supabase.from('gallery_photos').insert({ image_url: data.publicUrl, caption });
+}
+```
+Tampilkan grid thumbnail foto yang sudah ada, dengan tombol hapus per foto (`supabase.from('gallery_photos').delete().eq('id', id)`, boleh juga hapus file storage-nya tapi tidak wajib). Tambahkan route `/admin/galeri` dan link dari `AdminDashboard.tsx`.
+
+## BAGIAN D — Setting Umum (WA, Alamat, Sosial Media)
+
+### D1. Buat `src/lib/useSiteSettings.ts`
+
+```tsx
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabase';
+
+export function useSiteSettings() {
+  return useQuery({
+    queryKey: ['site-settings'],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('site_settings').select('*').eq('id', 1).single();
+      if (error) throw error;
+      return data;
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+}
+```
+
+### D2. Pakai hook ini di tempat yang sebelumnya hardcode nomor WA/alamat
+
+Di `lib/whatsapp.ts`, `Footer.tsx`, `FinalCTA.tsx`, dan komponen lain yang punya nomor WA/alamat statis — ganti jadi ambil dari `useSiteSettings()`. Contoh pola:
+```tsx
+const { data: settings } = useSiteSettings();
+const waNumber = settings?.whatsapp_number ?? '6281311506025'; // fallback kalau belum load
+```
+Untuk `lib/whatsapp.ts` yang berupa fungsi biasa (bukan komponen React, tidak bisa pakai hook langsung) — ubah `createWALink` supaya menerima `waNumber` sebagai parameter, dan komponen yang memanggilnya menyuplai nilai dari `useSiteSettings()`.
+
+### D3. Tambah halaman `src/pages/AdminSettings.tsx`
+
+Form sederhana dengan input untuk `whatsapp_number`, `address`, `instagram_url`, `facebook_url`, `youtube_url`, tombol "Simpan" yang menjalankan:
+```tsx
+await supabase.from('site_settings').update({ ...formValues, updated_at: new Date().toISOString() }).eq('id', 1);
+```
+Tambahkan route `/admin/settings` dan link dari `AdminDashboard.tsx`.
+
+## BAGIAN E — Navigasi antar halaman admin
+
+Di `AdminDashboard.tsx`, tambahkan tab/link navigasi kecil di bagian atas (di bawah header) supaya bisa pindah ke halaman admin lain:
+```tsx
+<div className="flex gap-[16px] mb-[24px] text-[14px] font-semibold" style={{ color: '#6B6B85' }}>
+  <a href="/admin" style={{ color: '#1B1B36' }}>Paket</a>
+  <a href="/admin/testimoni">Testimoni</a>
+  <a href="/admin/galeri">Galeri Jamaah</a>
+  <a href="/admin/settings">Settings</a>
+</div>
+```
+(Pakai `Link` dari `wouter` untuk client-side navigation kalau mau lebih mulus, atau `<a>` biasa juga tidak masalah untuk area admin.)
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek tombol "Salin" di admin paket membuat duplikat baru
+- Cek `/admin/testimoni` bisa tambah/edit/hapus testimoni, dan hasilnya muncul di homepage
+- Cek `/admin/galeri` bisa upload foto baru, dan muncul di section Galeri Jamaah homepage
+- Cek `/admin/settings` bisa ubah nomor WA, dan tombol-tombol WhatsApp di seluruh situs pakai nomor baru tersebut
