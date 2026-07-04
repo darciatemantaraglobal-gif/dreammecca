@@ -1,0 +1,55 @@
+# PROMPT REPLIT — FIX BUILD ERROR "PORT environment variable is required"
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## ERROR
+
+```
+error during build:
+Error: PORT environment variable is required but was not provided.
+    at .../artifacts/dreammecca/vite.config.ts...
+```
+
+## SEBAB
+
+`artifacts/dreammecca/vite.config.ts` punya kode yang secara paksa require `process.env.PORT` dan `throw` error kalau tidak ada — ini kebutuhan spesifik Replit (untuk proxy preview mereka), tapi Vercel (dan environment lain di luar Replit) tidak otomatis menyediakan env var `PORT` saat proses build. Build gagal SEBELUM sempat compile apapun karena config-nya sendiri yang crash duluan.
+
+## PERBAIKAN
+
+Buka `artifacts/dreammecca/vite.config.ts`, cari baris yang mirip seperti ini (biasanya di bagian atas file atau di dalam `defineConfig`):
+
+```tsx
+/* CARI DAN HAPUS pola seperti ini */
+const port = process.env.PORT;
+if (!port) {
+  throw new Error('PORT environment variable is required but was not provided.');
+}
+```
+
+Ganti jadi tidak wajib, dengan fallback default (port ini nantinya HANYA relevan untuk `vite dev`/`vite preview` lokal, TIDAK dipakai sama sekali saat production build/deploy):
+
+```tsx
+const port = process.env.PORT ? parseInt(process.env.PORT) : 5000;
+```
+
+Cek juga apakah `port` ini dipakai di bagian `server: { port }` atau `preview: { port }` di dalam `defineConfig` — biarkan tetap dipakai di situ, cuma bagian yang MEWAJIBKAN (throw error) yang dihapus.
+
+## SEKALIAN BERSIHKAN — plugin khusus Replit yang bisa bikin masalah serupa di Vercel
+
+Dari log build, `@replit/vite-plugin-cartographer`, `@replit/vite-plugin-dev-banner`, dan `@replit/vite-plugin-runtime-error-modal` masih terpasang. Cek di `vite.config.ts` bagian `plugins: [...]`, kalau ketiga plugin ini masih dipanggil di sana, bungkus jadi kondisional supaya cuma aktif di environment Replit:
+
+```tsx
+plugins: [
+  react(),
+  ...(process.env.REPL_ID ? [cartographer(), devBanner(), runtimeErrorModal()] : []),
+],
+```
+(`REPL_ID` adalah env var yang otomatis ada di environment Replit, tidak ada di Vercel — jadi plugin ini otomatis nonaktif saat deploy ke Vercel tanpa perlu dihapus manual dari `package.json`.)
+
+## VERIFIKASI
+
+- Jalankan `pnpm run build` (bukan `npm run build`, karena project ini pakai pnpm workspace) secara lokal di Replit dulu, pastikan sukses tanpa error
+- Push ke GitHub, cek build di Vercel jalan sampai selesai tanpa error yang sama
+- Setelah deploy sukses, akses URL Vercel-nya, pastikan halaman utama tampil normal
