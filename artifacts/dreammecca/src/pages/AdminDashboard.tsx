@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import type { Package, Departure } from '@/lib/supabase';
@@ -464,8 +464,21 @@ export default function AdminDashboard() {
     await deleteMutation.mutateAsync(id);
   }
 
+  async function duplicatePackage(pkg: Package) {
+    const newSlug = `${pkg.slug}-copy-${Date.now()}`;
+    const { departures, id, ...rest } = pkg as any;
+    await supabase.from('packages').insert({ ...rest, slug: newSlug, title: `${pkg.title} (Copy)` });
+    queryClient.invalidateQueries({ queryKey: ADMIN_PACKAGES_KEY });
+  }
+
   return (
     <div className="min-h-screen p-8" style={{ background: '#F4F4F7' }}>
+      <div className="max-w-[1000px] mx-auto flex gap-[16px] mb-[24px] text-[14px] font-semibold" style={{ color: '#6B6B85' }}>
+        <Link href="/admin" style={{ color: '#1B1B36', textDecoration: 'underline' }}>Paket</Link>
+        <Link href="/admin/testimoni">Testimoni</Link>
+        <Link href="/admin/galeri">Galeri Jamaah</Link>
+        <Link href="/admin/settings">Settings</Link>
+      </div>
       <div className="flex justify-between items-center mb-[32px] max-w-[1000px] mx-auto">
         <div>
           <h1 className="text-[26px] font-bold" style={{ color: '#1B1B36' }}>Kelola Paket Umroh</h1>
@@ -541,6 +554,13 @@ export default function AdminDashboard() {
                   pkg={pkg}
                   onUploaded={() => queryClient.invalidateQueries({ queryKey: ADMIN_PACKAGES_KEY })}
                 />
+                <button
+                  onClick={() => duplicatePackage(pkg)}
+                  className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border transition-colors hover:bg-black/5"
+                  style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}
+                >
+                  Salin
+                </button>
                 <button
                   onClick={() => setManagingDeparturesFor(managingDeparturesFor === pkg.id ? null : pkg.id)}
                   className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border transition-colors hover:bg-black/5"

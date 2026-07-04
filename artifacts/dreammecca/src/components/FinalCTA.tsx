@@ -1,8 +1,13 @@
 import React from 'react';
-import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
+import { createWALink, DEFAULT_MESSAGE, WA_NUMBER } from '@/lib/whatsapp';
+import { useSiteSettings } from '@/lib/useSiteSettings';
 
 export default function FinalCTA() {
-  const waLink = createWALink(DEFAULT_MESSAGE);
+  const { data: settings } = useSiteSettings();
+  const waNumber = settings?.whatsapp_number ?? WA_NUMBER;
+  const waLink = createWALink(DEFAULT_MESSAGE, waNumber);
+  const address = settings?.address ?? 'Jl. Durian No. 9H, RT 008/005,\nKel. Jagakarsa, Kec. Jagakarsa,\nJakarta Selatan 12620';
+  const instagramUrl = settings?.instagram_url ?? 'https://instagram.com/dreammecca.id';
 
   return (
     <section id="kontak" className="px-[7vw] py-[88px]" style={{
@@ -14,7 +19,6 @@ export default function FinalCTA() {
       <div
         className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-[56px] items-center"
       >
-        {/* Left: contact info */}
         <div>
           <span
             className="text-[13px] font-bold tracking-[0.14em] uppercase"
@@ -50,15 +54,15 @@ export default function FinalCTA() {
             <div>
               <h3 className="text-white font-bold text-[15px]">Alamat Kantor</h3>
               <p className="text-[14px] mt-1 leading-[1.6]" style={{ color: 'rgba(255,255,255,0.66)' }}>
-                Jl. Durian No. 9H, RT 008/005,<br />
-                Kel. Jagakarsa, Kec. Jagakarsa,<br />
-                Jakarta Selatan 12620
+                {address.split('\n').map((line, i) => (
+                  <React.Fragment key={i}>{line}{i < address.split('\n').length - 1 && <br />}</React.Fragment>
+                ))}
               </p>
             </div>
             <div>
               <h3 className="text-white font-bold text-[15px]">WhatsApp Admin</h3>
               <p className="text-[14px] mt-1 leading-[1.6]" style={{ color: 'rgba(255,255,255,0.66)' }}>
-                +62 812-2574-0093<br />
+                +{waNumber}<br />
                 <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.45)' }}>Kak Alya Azizah</span>
               </p>
             </div>
@@ -71,7 +75,6 @@ export default function FinalCTA() {
           </div>
         </div>
 
-        {/* Right: Google Maps embed + Instagram */}
         <div className="flex flex-col gap-[16px]">
           <div
             className="rounded-xl overflow-hidden w-full"
@@ -92,7 +95,7 @@ export default function FinalCTA() {
             />
           </div>
           <a
-            href="https://instagram.com/dreammecca.id"
+            href={instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-[10px] no-underline hover:opacity-75 transition-opacity"

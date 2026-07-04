@@ -1,17 +1,45 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabase';
 
-const photos = [
-  { slug: 'jamaah-1', caption: 'Kloter September 2025' },
-  { slug: 'jamaah-2', caption: 'Kloter Oktober 2025' },
-  { slug: 'jamaah-3', caption: 'Manasik Sebelum Berangkat' },
-  { slug: 'jamaah-4', caption: 'Tawaf di Masjidil Haram' },
-  { slug: 'jamaah-5', caption: 'Kloter November 2025' },
-  { slug: 'jamaah-6', caption: 'Ziarah Masjid Nabawi' },
-  { slug: 'jamaah-7', caption: 'Kloter Desember 2025' },
-  { slug: 'jamaah-8', caption: 'Kebersamaan di Tanah Suci' },
+interface GalleryPhoto {
+  id: string;
+  image_url: string;
+  caption: string;
+  sort_order: number;
+  is_active: boolean;
+}
+
+function useGalleryPhotos() {
+  return useQuery({
+    queryKey: ['gallery-photos'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('gallery_photos')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order');
+      if (error) throw error;
+      return data as GalleryPhoto[];
+    },
+  });
+}
+
+const fallbackPhotos = [
+  { id: '1', image_url: '/images/galeri-jamaah/jamaah-1.jpg', caption: 'Kloter September 2025' },
+  { id: '2', image_url: '/images/galeri-jamaah/jamaah-2.jpg', caption: 'Kloter Oktober 2025' },
+  { id: '3', image_url: '/images/galeri-jamaah/jamaah-3.jpg', caption: 'Manasik Sebelum Berangkat' },
+  { id: '4', image_url: '/images/galeri-jamaah/jamaah-4.jpg', caption: 'Tawaf di Masjidil Haram' },
+  { id: '5', image_url: '/images/galeri-jamaah/jamaah-5.jpg', caption: 'Kloter November 2025' },
+  { id: '6', image_url: '/images/galeri-jamaah/jamaah-6.jpg', caption: 'Ziarah Masjid Nabawi' },
+  { id: '7', image_url: '/images/galeri-jamaah/jamaah-7.jpg', caption: 'Kloter Desember 2025' },
+  { id: '8', image_url: '/images/galeri-jamaah/jamaah-8.jpg', caption: 'Kebersamaan di Tanah Suci' },
 ];
 
 export default function GaleriJamaah() {
+  const { data } = useGalleryPhotos();
+  const photos = (data && data.length > 0) ? data : fallbackPhotos;
+
   return (
     <section
       id="galeri-jamaah"
@@ -40,12 +68,12 @@ export default function GaleriJamaah() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-[14px] mt-[40px]">
           {photos.map(photo => (
             <div
-              key={photo.slug}
+              key={photo.id}
               className="rounded-xl overflow-hidden relative group"
               style={{ aspectRatio: '4/5', background: 'rgba(255,255,255,0.05)' }}
             >
               <img
-                src={`/images/galeri-jamaah/${photo.slug}.jpg`}
+                src={photo.image_url}
                 alt={photo.caption}
                 className="w-full h-full object-cover"
                 onError={(e) => { e.currentTarget.style.display = 'none'; }}

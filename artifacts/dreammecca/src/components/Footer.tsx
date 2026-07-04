@@ -1,8 +1,12 @@
 import React from 'react';
-import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
+import { createWALink, DEFAULT_MESSAGE, WA_NUMBER } from '@/lib/whatsapp';
+import { useSiteSettings } from '@/lib/useSiteSettings';
 
 export default function Footer() {
-  const waLink = createWALink(DEFAULT_MESSAGE);
+  const { data: settings } = useSiteSettings();
+  const waNumber = settings?.whatsapp_number ?? WA_NUMBER;
+  const waLink = createWALink(DEFAULT_MESSAGE, waNumber);
+  const address = settings?.address ?? 'Jl. Durian No. 9H, RT 008/005, Kel. Jagakarsa, Kec. Jagakarsa, Jakarta Selatan 12620';
 
   return (
     <footer style={{
@@ -12,7 +16,6 @@ export default function Footer() {
       backgroundColor: '#1B1B36',
       borderTop: '1px solid rgba(255,255,255,0.14)',
     }}>
-      {/* Top row */}
       <div
         className="max-w-[1180px] mx-auto px-[7vw] py-[44px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
       >
@@ -28,7 +31,7 @@ export default function Footer() {
               Dreammecca
             </h3>
             <p className="text-[13px] mt-[10px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
-              Jl. Durian No. 9H, RT 008/005, Kel. Jagakarsa, Kec. Jagakarsa, Jakarta Selatan 12620
+              {address}
             </p>
           </div>
         </div>
@@ -43,7 +46,6 @@ export default function Footer() {
         </a>
       </div>
 
-      {/* Bottom row */}
       <div
         className="px-[7vw] py-[20px] flex flex-col sm:flex-row justify-between gap-2"
         style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}

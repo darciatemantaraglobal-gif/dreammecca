@@ -1,29 +1,73 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabase';
 
-const testimonials = [
+interface Testimonial {
+  id: string;
+  name: string;
+  meta: string;
+  quote: string;
+  rating: number;
+}
+
+function useTestimonials() {
+  return useQuery({
+    queryKey: ['testimonials'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('testimonials')
+        .select('*')
+        .eq('is_active', true)
+        .order('sort_order');
+      if (error) throw error;
+      return data as Testimonial[];
+    },
+  });
+}
+
+function getInitials(name: string) {
+  return name
+    .split(' ')
+    .map(w => w[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+function renderStars(rating: number) {
+  return '★'.repeat(Math.min(5, Math.max(1, rating)));
+}
+
+const fallbackTestimonials: Testimonial[] = [
   {
-    initials: 'RH',
+    id: '1',
     name: 'Ratna Hidayati',
     meta: 'Kloter September 2025',
     quote: 'Dari daftar sampai pulang, semuanya rapi dan sesuai jadwal. Hotelnya beneran dekat Masjidil Haram, persis seperti yang dijanjikan di awal.',
+    rating: 5,
   },
   {
-    initials: 'AF',
+    id: '2',
     name: 'Ahmad Fauzan',
     meta: 'Kloter Mei 2025',
     quote: 'Pembimbingnya sabar banget jelasinnya, dan manasiknya kepakai betul di lapangan. Orang tua saya yang sudah lansia jadi lebih siap dan tenang.',
+    rating: 5,
   },
   {
-    initials: 'SN',
+    id: '3',
     name: 'Siti Nuraini',
     meta: 'Kloter Januari 2025',
     quote: 'Jujur awalnya was-was, banyak berita penipuan travel Umroh akhir-akhir ini. Tapi Dreammecca transparan soal izin dan itinerary sejak konsultasi pertama.',
+    rating: 5,
   },
 ];
 
 export default function Testimonials() {
+  const { data } = useTestimonials();
+  const testimonials = (data && data.length > 0) ? data : fallbackTestimonials;
+
   return (
     <section
       id="testimoni"
@@ -65,13 +109,13 @@ export default function Testimonials() {
         >
           {testimonials.map(t => (
             <motion.div
-              key={t.name}
+              key={t.id}
               variants={fadeUp}
               className="rounded-xl p-[26px] bg-[rgba(255,255,255,0.04)] transition-all duration-200 hover:-translate-y-1 hover:bg-[rgba(255,255,255,0.07)]"
               style={{ border: '1px solid rgba(255,255,255,0.14)' }}
             >
               <div className="text-[13px] tracking-[2px] mb-[14px]" style={{ color: '#fff' }}>
-                ★★★★★
+                {renderStars(t.rating)}
               </div>
               <p className="text-[14.5px] leading-[1.65] text-white">"{t.quote}"</p>
               <div className="flex items-center gap-3 mt-[20px]">
@@ -79,7 +123,7 @@ export default function Testimonials() {
                   className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-[14px] text-white flex-none"
                   style={{ background: 'rgba(255,255,255,0.12)' }}
                 >
-                  {t.initials}
+                  {getInitials(t.name)}
                 </div>
                 <div>
                   <div className="text-[13.5px] font-bold text-white">{t.name}</div>

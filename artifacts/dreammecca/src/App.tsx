@@ -8,6 +8,9 @@ import SyaratKetentuan from '@/pages/SyaratKetentuan';
 import PaketUmroh from '@/pages/PaketUmroh';
 import AdminLogin from '@/pages/AdminLogin';
 import AdminDashboard from '@/pages/AdminDashboard';
+import AdminTestimonials from '@/pages/AdminTestimonials';
+import AdminGallery from '@/pages/AdminGallery';
+import AdminSettings from '@/pages/AdminSettings';
 
 const queryClient = new QueryClient();
 
@@ -18,6 +21,9 @@ function Router() {
       <Route path="/syarat-ketentuan" component={SyaratKetentuan} />
       <Route path="/paket-umroh" component={PaketUmroh} />
       <Route path="/admin/login" component={AdminLogin} />
+      <Route path="/admin/testimoni" component={AdminTestimonials} />
+      <Route path="/admin/galeri" component={AdminGallery} />
+      <Route path="/admin/settings" component={AdminSettings} />
       <Route path="/admin" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>
