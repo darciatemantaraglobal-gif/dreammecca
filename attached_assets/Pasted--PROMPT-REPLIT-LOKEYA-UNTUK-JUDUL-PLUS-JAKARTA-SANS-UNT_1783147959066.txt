@@ -1,0 +1,61 @@
+# PROMPT REPLIT — LOKEYA UNTUK JUDUL, PLUS JAKARTA SANS UNTUK DESKRIPSI/BODY TEXT
+
+File `Lokeya-Regular.woff2` seharusnya sudah ada di `public/fonts/` dari prompt sebelumnya — kalau belum, upload dulu ke situ.
+
+Copy-paste ke Replit Agent chat:
+
+---
+
+## KONTEKS
+
+Lokeya (font dekoratif) dipakai KHUSUS untuk judul/heading (h1-h6), sementara body text (paragraf, tombol, menu, label) balik pakai Plus Jakarta Sans supaya tetap gampang dibaca. Ini menghindari masalah keterbacaan kalau seluruh situs pakai font dekoratif.
+
+## 1. TAMBAHKAN KEMBALI Google Fonts import untuk Plus Jakarta Sans
+
+Di baris paling atas `src/index.css`, TAMBAHKAN (jangan hapus `@font-face` Lokeya yang sudah ada):
+```css
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+```
+
+## 2. PASTIKAN `@font-face` Lokeya masih ada
+
+```css
+@font-face {
+  font-family: 'Lokeya';
+  src: url('/fonts/Lokeya-Regular.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+## 3. GANTI FONT TOKEN — pisahkan serif (judul) dan sans (body)
+
+```css
+/* SESUDAH */
+--font-sans: 'Plus Jakarta Sans', sans-serif;
+--font-serif: 'Lokeya', sans-serif;
+```
+
+## 4. PASTIKAN base layer heading pakai `font-serif`
+
+Cek di bagian `@layer base` (biasanya di bawah token warna/font), pastikan ada aturan ini supaya SEMUA tag heading otomatis pakai Lokeya tanpa perlu ubah satu-satu di komponen:
+```css
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+}
+```
+Kalau aturan ini belum ada, tambahkan. Kalau sudah ada tapi beda caranya (misal pakai `@apply font-serif` dari Tailwind), biarkan seperti itu — yang penting hasilnya heading pakai token `--font-serif`.
+
+## 5. Cek body/default text
+
+Pastikan elemen `body` di CSS (atau `html`) punya `font-family: var(--font-sans)` sebagai default, supaya paragraf, button, link, dan teks lain yang TIDAK pakai tag heading otomatis fallback ke Plus Jakarta Sans.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek semua judul/heading (Hero, judul section, judul card) sekarang pakai Lokeya
+- Cek semua paragraf, tombol, menu navigasi, label pakai Plus Jakarta Sans (harus balik seperti sebelum ganti font kemarin)
+- Screenshot hasilnya — pastikan kombinasi dua font ini terasa harmonis, bukan malah kerasa "dua situs beda" yang nggak nyambung
