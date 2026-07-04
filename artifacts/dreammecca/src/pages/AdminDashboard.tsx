@@ -479,22 +479,22 @@ export default function AdminDashboard() {
         <Link href="/admin/galeri">Galeri Jamaah</Link>
         <Link href="/admin/settings">Settings</Link>
       </div>
-      <div className="flex justify-between items-center mb-[32px] max-w-[1000px] mx-auto">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-[16px] mb-[24px] max-w-[1000px] mx-auto">
         <div>
-          <h1 className="text-[26px] font-bold" style={{ color: '#1B1B36' }}>Kelola Paket Umroh</h1>
-          <p className="text-[14px] mt-[4px]" style={{ color: '#6B6B85' }}>{packages.length} paket terdaftar</p>
+          <h1 className="text-[22px] sm:text-[26px] font-bold" style={{ color: '#1B1B36' }}>Kelola Paket Umroh</h1>
+          <p className="text-[13px] sm:text-[14px] mt-[4px]" style={{ color: '#6B6B85' }}>{packages.length} paket terdaftar</p>
         </div>
         <div className="flex gap-[10px]">
           <button
             onClick={() => setEditing('new')}
-            className="px-[18px] py-[11px] rounded-lg text-white font-semibold text-[14px]"
+            className="flex-1 sm:flex-none px-[16px] py-[10px] rounded-lg text-white font-semibold text-[13.5px]"
             style={{ background: '#1B1B36' }}
           >
             + Tambah Paket
           </button>
           <button
             onClick={logout}
-            className="px-[18px] py-[11px] rounded-lg font-semibold text-[14px] border"
+            className="flex-1 sm:flex-none px-[16px] py-[10px] rounded-lg font-semibold text-[13.5px] border"
             style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}
           >
             Keluar
@@ -518,74 +518,75 @@ export default function AdminDashboard() {
           <p style={{ color: '#6B6B85' }}>Belum ada paket. Klik "Tambah Paket" untuk membuat yang pertama.</p>
         )}
         {packages.map(pkg => (
-          <div key={pkg.id} className="bg-white rounded-xl" style={{ boxShadow: '0 1px 3px rgba(27,27,54,0.06)' }}>
-            <div className="p-[16px] flex items-center gap-[16px]">
-              {/* Thumbnail poster */}
+          <div
+            key={pkg.id}
+            className="bg-white rounded-xl p-[16px] flex flex-col sm:flex-row sm:items-center gap-[14px]"
+            style={{ boxShadow: '0 1px 3px rgba(27,27,54,0.06)' }}
+          >
+            {/* Baris atas di mobile: poster + info */}
+            <div className="flex items-center gap-[14px] flex-1 min-w-0">
               <div
                 className="rounded-lg overflow-hidden flex-none"
-                style={{ width: '64px', height: '80px', background: '#F4F4F7' }}
+                style={{ width: '56px', height: '70px', background: '#F4F4F7' }}
               >
                 {pkg.poster_url ? (
                   <img src={pkg.poster_url} alt={pkg.title} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-[10px]" style={{ color: '#9CA0AC' }}>
+                  <div className="w-full h-full flex items-center justify-center text-[9px] text-center" style={{ color: '#9CA0AC' }}>
                     No poster
                   </div>
                 )}
               </div>
 
-              {/* Info paket */}
-              <div className="flex-1 min-w-0">
-                <div className="font-bold text-[15px]" style={{ color: '#1B1B36' }}>
+              <div className="min-w-0 flex-1">
+                <div className="font-bold text-[14px] leading-[1.3]" style={{ color: '#1B1B36' }}>
                   {pkg.title}
-                  <span className="font-medium" style={{ color: '#6B6B85' }}> · {pkg.tier} · {pkg.duration}</span>
-                  {!pkg.is_active && (
-                    <span className="ml-[8px] text-[12px] font-semibold" style={{ color: '#B5442E' }}>(nonaktif)</span>
-                  )}
                 </div>
-                <div className="text-[13px] mt-[4px]" style={{ color: '#6B6B85' }}>
-                  Rp {fmt(pkg.price_from)} Jt · {pkg.departures?.length ?? 0} jadwal keberangkatan
+                <div className="text-[12.5px] mt-[3px]" style={{ color: '#6B6B85' }}>
+                  {pkg.tier} · {pkg.duration}
+                  {!pkg.is_active && <span className="ml-[6px] font-semibold" style={{ color: '#B5442E' }}>(nonaktif)</span>}
                 </div>
-              </div>
-
-              {/* Tombol aksi */}
-              <div className="flex gap-[8px] flex-none flex-wrap justify-end">
-                <PosterUploadButton
-                  pkg={pkg}
-                  onUploaded={() => queryClient.invalidateQueries({ queryKey: ADMIN_PACKAGES_KEY })}
-                />
-                <button
-                  onClick={() => duplicatePackage(pkg)}
-                  className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border transition-colors hover:bg-black/5"
-                  style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}
-                >
-                  Salin
-                </button>
-                <button
-                  onClick={() => setManagingDeparturesFor(managingDeparturesFor === pkg.id ? null : pkg.id)}
-                  className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border transition-colors hover:bg-black/5"
-                  style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}
-                >
-                  Jadwal
-                </button>
-                <button
-                  onClick={() => setEditing(pkg)}
-                  className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border transition-colors hover:bg-black/5"
-                  style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(pkg.id)}
-                  className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border transition-colors hover:bg-red-50"
-                  style={{ borderColor: 'rgba(181,68,46,0.3)', color: '#B5442E' }}
-                >
-                  Hapus
-                </button>
+                <div className="text-[12.5px] mt-[2px]" style={{ color: '#6B6B85' }}>
+                  Rp {fmt(pkg.price_from)} Jt · {pkg.departures?.length || 0} jadwal
+                </div>
               </div>
             </div>
+
+            {/* Baris bawah di mobile (2 kolom), jadi flex row di desktop */}
+            <div className="grid grid-cols-2 sm:flex sm:flex-none gap-[8px] pt-[10px] sm:pt-0 border-t sm:border-t-0" style={{ borderColor: 'rgba(27,27,54,0.08)' }}>
+              <PosterUploadButton pkg={pkg} onUploaded={() => queryClient.invalidateQueries({ queryKey: ADMIN_PACKAGES_KEY })} />
+              <button
+                onClick={() => setManagingDeparturesFor(managingDeparturesFor === pkg.id ? null : pkg.id)}
+                className="text-[12.5px] font-semibold px-[10px] py-[8px] rounded-lg border text-center transition-colors hover:bg-black/5"
+                style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}
+              >
+                Jadwal
+              </button>
+              <button
+                onClick={() => duplicatePackage(pkg)}
+                className="text-[12.5px] font-semibold px-[10px] py-[8px] rounded-lg border text-center transition-colors hover:bg-black/5"
+                style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}
+              >
+                Salin
+              </button>
+              <button
+                onClick={() => setEditing(pkg)}
+                className="text-[12.5px] font-semibold px-[10px] py-[8px] rounded-lg border text-center transition-colors hover:bg-black/5"
+                style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDelete(pkg.id)}
+                className="text-[12.5px] font-semibold px-[10px] py-[8px] rounded-lg border text-center col-span-2 sm:col-span-1 transition-colors hover:bg-red-50"
+                style={{ borderColor: 'rgba(181,68,46,0.3)', color: '#B5442E' }}
+              >
+                Hapus
+              </button>
+            </div>
+
             {managingDeparturesFor === pkg.id && (
-              <div className="px-[16px] pb-[16px]">
+              <div className="w-full pt-[10px] border-t sm:border-t-0" style={{ borderColor: 'rgba(27,27,54,0.08)' }}>
                 <DepartureManager pkg={pkg} />
               </div>
             )}

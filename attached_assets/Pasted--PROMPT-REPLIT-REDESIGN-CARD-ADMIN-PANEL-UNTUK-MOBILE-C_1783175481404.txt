@@ -1,0 +1,97 @@
+# PROMPT REPLIT — REDESIGN CARD ADMIN PANEL UNTUK MOBILE
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## KONTEKS
+
+Card paket di `/admin` sekarang pakai layout flex-row kaku (poster + info + tombol aksi sejajar horizontal) yang berantakan di mobile karena terlalu banyak elemen berjejer di ruang sempit. Ganti jadi layout yang stack rapi di mobile, tetap horizontal ringkas di desktop.
+
+## GANTI STRUKTUR CARD DI `AdminDashboard.tsx`
+
+```tsx
+<div
+  key={pkg.id}
+  className="bg-white rounded-xl p-[16px] flex flex-col sm:flex-row sm:items-center gap-[14px]"
+  style={{ boxShadow: '0 1px 3px rgba(27,27,54,0.06)' }}
+>
+  {/* Baris atas di mobile: poster + info */}
+  <div className="flex items-center gap-[14px] flex-1 min-w-0">
+    <div
+      className="rounded-lg overflow-hidden flex-none"
+      style={{ width: '56px', height: '70px', background: '#F4F4F7' }}
+    >
+      {pkg.poster_url ? (
+        <img src={pkg.poster_url} alt={pkg.title} className="w-full h-full object-cover" />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-[9px] text-center" style={{ color: '#9CA0AC' }}>
+          No poster
+        </div>
+      )}
+    </div>
+
+    <div className="min-w-0 flex-1">
+      <div className="font-bold text-[14px] leading-[1.3]" style={{ color: '#1B1B36' }}>
+        {pkg.title}
+      </div>
+      <div className="text-[12.5px] mt-[3px]" style={{ color: '#6B6B85' }}>
+        {pkg.tier} · {pkg.duration}
+        {!pkg.is_active && <span className="ml-[6px] font-semibold" style={{ color: '#B5442E' }}>(nonaktif)</span>}
+      </div>
+      <div className="text-[12.5px] mt-[2px]" style={{ color: '#6B6B85' }}>
+        Rp {(pkg.price_from / 1000000).toFixed(1)} Jt · {pkg.departures?.length || 0} jadwal
+      </div>
+    </div>
+  </div>
+
+  {/* Baris bawah di mobile (full width, wrap rapi), jadi kolom kanan di desktop */}
+  <div className="grid grid-cols-2 sm:flex sm:flex-none gap-[8px] pt-[10px] sm:pt-0 border-t sm:border-t-0" style={{ borderColor: 'rgba(27,27,54,0.08)' }}>
+    <PosterUploadButton pkg={pkg} onUploaded={() => queryClient.invalidateQueries({ queryKey: ['admin-packages'] })} />
+    <button onClick={() => setSelectedForSchedule(pkg)} className="text-[12.5px] font-semibold px-[10px] py-[8px] rounded-lg border text-center" style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}>
+      Jadwal
+    </button>
+    <button onClick={() => duplicatePackage(pkg)} className="text-[12.5px] font-semibold px-[10px] py-[8px] rounded-lg border text-center" style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}>
+      Salin
+    </button>
+    <button onClick={() => setEditing(pkg)} className="text-[12.5px] font-semibold px-[10px] py-[8px] rounded-lg border text-center" style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}>
+      Edit
+    </button>
+    <button onClick={() => deleteMutation.mutate(pkg.id)} className="text-[12.5px] font-semibold px-[10px] py-[8px] rounded-lg border text-center col-span-2 sm:col-span-1" style={{ borderColor: 'rgba(181,68,46,0.3)', color: '#B5442E' }}>
+      Hapus
+    </button>
+  </div>
+</div>
+```
+
+Catatan:
+- Di mobile: `grid-cols-2` bikin tombol aksi (Upload/Ganti Poster, Jadwal, Salin, Edit, Hapus) tersusun 2 kolom rapi, tombol "Hapus" dikasih `col-span-2` supaya jadi baris terakhir sendiri (full width) — memberi jarak psikologis dari tombol lain karena ini aksi destruktif, mengurangi resiko salah pencet.
+- Di desktop (`sm:` ke atas): balik jadi flex row sejajar seperti sebelumnya, ringkas dalam satu baris.
+- Border tipis (`border-t`) muncul di mobile untuk memisahkan visual antara info paket dan baris tombol aksi, dihilangkan lagi di desktop karena sudah sejajar horizontal.
+- Sesuaikan nama fungsi (`duplicatePackage`, `setSelectedForSchedule`, dll) dengan yang sudah ada di file — jangan ganti logic-nya, cuma strukturnya yang diubah.
+
+## GANTI HEADER HALAMAN JUGA supaya responsive
+
+```tsx
+<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-[16px] mb-[24px]">
+  <div>
+    <h1 className="text-[22px] sm:text-[26px] font-bold" style={{ color: '#1B1B36' }}>Kelola Paket Umroh</h1>
+    <p className="text-[13px] sm:text-[14px] mt-[4px]" style={{ color: '#6B6B85' }}>{packages?.length || 0} paket terdaftar</p>
+  </div>
+  <div className="flex gap-[10px]">
+    <button onClick={() => setEditing({} as Pkg)} className="flex-1 sm:flex-none px-[16px] py-[10px] rounded-lg text-white font-semibold text-[13.5px]" style={{ background: '#1B1B36' }}>
+      + Tambah Paket
+    </button>
+    <button onClick={handleLogout} className="flex-1 sm:flex-none px-[16px] py-[10px] rounded-lg font-semibold text-[13.5px] border" style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}>
+      Keluar
+    </button>
+  </div>
+</div>
+```
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek di viewport 375px — card paket stack rapi (poster+info di atas, tombol aksi 2 kolom di bawah, tombol Hapus full-width sendiri)
+- Cek di desktop — layout balik jadi ringkas sejajar horizontal seperti sebelumnya
+- Cek semua tombol tetap berfungsi (upload poster, jadwal, salin, edit, hapus) setelah restrukturisasi
