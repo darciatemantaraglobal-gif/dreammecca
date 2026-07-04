@@ -1,0 +1,52 @@
+# PROMPT REPLIT — FIX CARD PAKET KOSONG (MISMATCH FIELD SUPABASE)
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## KONTEKS
+
+Data Supabase sudah berhasil connect (pesan error sudah tidak muncul), tapi kartu paket tampil kosong total. Ini karena komponen kartu masih mengharapkan field flat seperti `pkg.dateLabel`/`pkg.quota` (sisa dari versi hardcoded sebelumnya), sementara data asli dari Supabase punya struktur `pkg.departures` (array tanggal terpisah, relasi dari tabel `departures`) dan nama kolom snake_case (`price_from`, `hotel_mecca`, dst). Perbaiki `PackageCard` di `Packages.tsx` (homepage) supaya konsumsi data sesuai struktur asli dari Supabase, dengan fallback aman kalau ada field kosong.
+
+## PERBAIKI KOMPONEN `PackageCard` di `Packages.tsx`
+
+Ganti bagian yang mengambil tanggal dan quota (biasanya di awal komponen sebelum return JSX) jadi:
+
+```tsx
+function PackageCard({ pkg }: { pkg: Package }) {
+  const nearestDeparture = pkg.departures?.[0];
+  const dateLabel = nearestDeparture?.date_label ?? 'Hubungi kami untuk jadwal';
+  const quotaLabel = nearestDeparture?.quota_label ?? 'Hubungi untuk sisa seat';
+
+  const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.title} (${pkg.tier}, ${pkg.duration}). Boleh minta info lebih lengkap?`;
+
+  // ... lanjutkan JSX yang sudah ada, tapi ganti setiap referensi:
+  // pkg.dateLabel  -> dateLabel
+  // pkg.quota      -> quotaLabel
+  // pkg.priceFrom  -> pkg.price_from
+  // pkg.flightType -> pkg.flight_type
+  // (field lain seperti pkg.tier, pkg.title, pkg.tags, pkg.landing, pkg.duration sudah cocok, tidak perlu diganti)
+}
+```
+
+Cari SEMUA pemakaian `pkg.priceFrom` di file ini, ganti jadi `pkg.price_from` (nama kolom Supabase pakai snake_case, bukan camelCase seperti versi hardcoded sebelumnya). Cari juga `pkg.flightType`, ganti jadi `pkg.flight_type`.
+
+## TAMBAHKAN FALLBACK AMAN supaya tidak blank total lagi kalau ada field kosong
+
+Di bagian render harga, ganti:
+```tsx
+/* SEBELUM (rawan error kalau price_from null/undefined) */
+Rp {fmt(pkg.priceFrom)} Jt
+
+/* SESUDAH */
+Rp {pkg.price_from ? fmt(pkg.price_from) : '-'} Jt
+```
+
+Lakukan pola serupa (fallback `??` atau pengecekan `?.`) di semua tempat yang mengambil field langsung dari `pkg` supaya satu field kosong tidak bikin seluruh kartu gagal render.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error TypeScript (biasanya muncul kalau ada mismatch nama properti dengan tipe `Package` di `lib/supabase.ts`)
+- Buka DevTools Console, refresh halaman, pastikan tidak ada error merah lagi
+- Cek 4 kartu sekarang tampil lengkap: tanggal, judul, tag, info durasi/flight/landing, harga, dan tombol Booking
+- Kalau MASIH ada kartu kosong/sebagian setelah ini, screenshot lagi + kirim juga isi Console error-nya (kalau ada), supaya saya bisa diagnosa field mana lagi yang belum sinkron

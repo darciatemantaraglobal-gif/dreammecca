@@ -12,7 +12,9 @@ function fmt(n: number) {
 }
 
 function PackageCard({ pkg }: { pkg: Pkg }) {
-  const dateLabel = pkg.departures[0]?.dateLabel ?? 'Hubungi kami untuk jadwal';
+  const nearestDeparture = pkg.departures?.[0];
+  const dateLabel = nearestDeparture?.dateLabel ?? 'Hubungi kami untuk jadwal';
+  const quotaLabel = nearestDeparture?.quotaLabel ?? 'Hubungi untuk sisa seat';
   const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.title} (${pkg.tier}, ${pkg.duration}). Boleh minta info lebih lengkap?`;
 
   return (
@@ -56,7 +58,7 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
         </h3>
 
         <div className="flex gap-[6px] flex-wrap mt-[10px]">
-          {pkg.tags.map(tag => (
+          {pkg.tags?.map(tag => (
             <span
               key={tag}
               className="text-[11.5px] font-semibold px-[10px] py-[4px] rounded-full"
@@ -74,11 +76,15 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
           </div>
           <div className="flex justify-between text-[13px]">
             <span style={{ color: '#6B6B85' }}>Flight</span>
-            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.flightType}</span>
+            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.flightType ?? '-'}</span>
           </div>
           <div className="flex justify-between text-[13px]">
             <span style={{ color: '#6B6B85' }}>Landing</span>
-            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.landing}</span>
+            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.landing ?? '-'}</span>
+          </div>
+          <div className="flex justify-between text-[13px]">
+            <span style={{ color: '#6B6B85' }}>Seat</span>
+            <span className="font-semibold" style={{ color: '#1B1B36' }}>{quotaLabel}</span>
           </div>
         </div>
 
@@ -86,7 +92,7 @@ function PackageCard({ pkg }: { pkg: Pkg }) {
           <div>
             <div className="text-[11.5px]" style={{ color: '#6B6B85' }}>Harga Mulai</div>
             <div className="text-[22px] font-extrabold" style={{ color: '#1B1B36' }}>
-              Rp {fmt(pkg.priceFrom)} Jt
+              Rp {pkg.priceFrom ? fmt(pkg.priceFrom) : '-'} Jt
             </div>
           </div>
           <a
