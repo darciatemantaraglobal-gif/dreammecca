@@ -1,0 +1,56 @@
+# PROMPT REPLIT — DIAGNOSA & FIX PACKAGE CARDS YANG TIDAK MUNCUL
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## LANGKAH 1 — Cek dulu sebelum ubah kode apapun
+
+Buka browser DevTools (F12) → tab Console, refresh halaman, dan lihat apakah ada error merah terkait Supabase (misalnya "Invalid API key", "Failed to fetch", atau "supabaseUrl is required"). Laporkan pesan error yang muncul kalau ada.
+
+Cek juga di Replit → Secrets (ikon gembok di sidebar kiri) — pastikan `VITE_SUPABASE_URL` dan `VITE_SUPABASE_ANON_KEY` benar-benar sudah ditambahkan dengan value yang benar dari Supabase Dashboard → Settings → API. Kalau belum ada sama sekali, itu penyebab utamanya — tambahkan dulu, lalu restart/rerun project di Replit (env var baru butuh restart supaya terbaca).
+
+## LANGKAH 2 — Tambahkan loading/error/empty state yang jelas (supaya tidak silent blank lagi)
+
+Di `Packages.tsx` (homepage) dan `pages/PaketUmroh.tsx`, cari pemanggilan `usePackages()` dan render grid-nya. Ganti jadi ada penanganan 3 kondisi: loading, error, dan kosong — supaya ke depannya kalau ada masalah, keliatan jelas apa penyebabnya bukan cuma kosong senyap:
+
+```tsx
+const { data: packages, isLoading, error } = usePackages();
+
+// ... di bagian render, sebelum grid:
+{isLoading && (
+  <p className="text-center py-[48px]" style={{ color: '#6B6B85' }}>
+    Memuat paket...
+  </p>
+)}
+
+{error && (
+  <div className="text-center py-[48px] rounded-xl" style={{ background: 'rgba(181,68,46,0.06)', color: '#B5442E' }}>
+    <p className="font-semibold">Gagal memuat data paket.</p>
+    <p className="text-[13px] mt-[4px]">Cek koneksi Supabase (env var VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).</p>
+  </div>
+)}
+
+{!isLoading && !error && (!packages || packages.length === 0) && (
+  <p className="text-center py-[48px]" style={{ color: '#6B6B85' }}>
+    Belum ada paket yang tersedia saat ini. Hubungi kami untuk info terbaru.
+  </p>
+)}
+
+{!isLoading && !error && packages && packages.length > 0 && (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[20px] mt-[44px]">
+    {packages.map(pkg => (
+      <PackageCard key={pkg.slug} pkg={pkg} />
+    ))}
+  </div>
+)}
+```
+
+## LANGKAH 3 — Kalau Supabase belum sempat di-setup sama sekali
+
+Kalau ternyata project Supabase memang belum dibuat/di-setup (belum sempat jalanin prompt admin panel sebelumnya), kabarin saya — kita bisa sementara BALIK ke data hardcoded dulu (4 paket dummy langsung di kode, tanpa database) supaya landing page tetap bisa ditampilkan utuh sambil setup Supabase-nya lo kerjakan belakangan. Jangan biarkan section ini kosong terlalu lama karena ini section paling penting untuk konversi.
+
+## VERIFIKASI
+
+- Setelah Secrets ditambahkan dan project di-restart, refresh halaman, cek apakah 4 card paket sudah muncul
+- Kalau masih error, laporkan pesan error dari Langkah 1 supaya saya bisa diagnosa lebih spesifik (401 = API key salah, network error = URL salah, RLS error = policy Supabase belum benar)
