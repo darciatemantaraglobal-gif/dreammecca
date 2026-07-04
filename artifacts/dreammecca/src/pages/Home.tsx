@@ -26,7 +26,6 @@ export default function Home() {
       <Gallery />
       <Packages />
       <Testimonials />
-      <SectionDivider overlayColor="27,27,54" clipId="divider-4" />
       <Legal />
       <FAQ />
       <SectionDivider overlayColor="41,41,81" clipId="divider-5" />
