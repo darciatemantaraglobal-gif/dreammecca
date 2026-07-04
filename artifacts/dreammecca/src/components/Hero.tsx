@@ -28,12 +28,15 @@ export default function Hero() {
           </span>
 
           {/* 2. Headline diperbesar */}
+          <span className="block text-[18px] md:text-[22px] font-semibold mt-[14px]" style={{ color: 'rgba(255,255,255,0.75)' }}>
+            Selamat Datang di
+          </span>
           <h1
-            className="font-extrabold leading-[1.1] mt-[14px]"
+            className="font-extrabold leading-[1.1] mt-[8px]"
             style={{ fontSize: 'clamp(34px,5.5vw,64px)', color: '#fff' }}
           >
-            Selamat Datang di<br />
-            Dreammecca Tour &amp; Travel
+            Dreammecca<br />
+            Tour &amp; Travel
           </h1>
 
           {/* 5. maxWidth deskripsi disempitkan */}
