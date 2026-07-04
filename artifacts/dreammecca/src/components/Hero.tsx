@@ -162,39 +162,41 @@ export default function Hero() {
         whileInView="visible"
         viewport={{ once: true, amount: 0.3 }}
         variants={staggerContainer}
-        className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-[16px] mt-[64px]"
+        className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-[12px] mt-[32px]"
       >
         {trustItems.map((item) => (
           <motion.div
             key={item.title}
             variants={fadeUp}
-            className="rounded-2xl p-[28px]"
+            className="rounded-xl p-[16px] flex items-start gap-[12px]"
             style={{
               background: 'rgba(255,255,255,0.035)',
               border: '1px solid rgba(255,255,255,0.08)',
             }}
           >
             <div
-              className="w-[44px] h-[44px] rounded-full flex items-center justify-center mb-[18px]"
+              className="w-[32px] h-[32px] rounded-full flex-none flex items-center justify-center mt-[2px]"
               style={{ background: 'rgba(255,255,255,0.08)' }}
             >
-              <item.icon size={20} color="#fff" strokeWidth={1.75} />
+              <item.icon size={14} color="#fff" strokeWidth={1.75} />
             </div>
-            <h3 className="text-[17px] font-bold leading-[1.3]" style={{ color: '#fff' }}>
-              {item.title}
-            </h3>
-            <p className="text-[14px] leading-[1.55] mt-[8px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
-              {item.desc}
-            </p>
-            {item.link && (
-              <a
-                href="#paket"
-                className="inline-flex items-center gap-[6px] text-[13px] font-bold uppercase tracking-[0.04em] mt-[16px] no-underline hover:opacity-75 transition-opacity"
-                style={{ color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: '2px' }}
-              >
-                Lihat Paket
-              </a>
-            )}
+            <div>
+              <h3 className="text-[13px] font-bold leading-[1.3]" style={{ color: '#fff' }}>
+                {item.title}
+              </h3>
+              <p className="text-[12px] leading-[1.5] mt-[4px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                {item.desc}
+              </p>
+              {item.link && (
+                <a
+                  href="#paket"
+                  className="inline-flex items-center gap-[4px] text-[11px] font-bold uppercase tracking-[0.04em] mt-[8px] no-underline hover:opacity-75 transition-opacity"
+                  style={{ color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: '1px' }}
+                >
+                  Lihat Paket
+                </a>
+              )}
+            </div>
           </motion.div>
         ))}
       </motion.div>
