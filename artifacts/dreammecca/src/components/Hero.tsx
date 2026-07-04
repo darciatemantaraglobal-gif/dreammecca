@@ -48,15 +48,15 @@ export default function Hero() {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-[20px] md:px-[34px] py-[13px] md:py-[17px] rounded-full font-bold text-[14px] md:text-[15px] no-underline hover:opacity-90 transition-opacity flex-1 md:flex-none"
-              style={{ background: '#fff', color: '#1B1B36', maxWidth: '220px' }}
+              className="inline-flex items-center justify-center px-[20px] md:px-[32px] py-[13px] md:py-[16px] rounded-full font-bold text-[14px] md:text-[15px] no-underline hover:opacity-90 transition-opacity whitespace-nowrap"
+              style={{ background: '#fff', color: '#1B1B36' }}
             >
               Konsultasi Gratis
             </a>
             <a
               href="#paket"
-              className="inline-flex items-center justify-center px-[20px] md:px-[34px] py-[13px] md:py-[17px] rounded-full font-bold text-[14px] md:text-[15px] no-underline border transition-colors hover:bg-white/10 flex-1 md:flex-none"
-              style={{ borderColor: 'rgba(255,255,255,0.35)', color: '#fff', maxWidth: '180px' }}
+              className="inline-flex items-center justify-center px-[20px] md:px-[32px] py-[13px] md:py-[16px] rounded-full font-bold text-[14px] md:text-[15px] no-underline border transition-colors hover:bg-white/10 whitespace-nowrap"
+              style={{ borderColor: 'rgba(255,255,255,0.35)', color: '#fff' }}
             >
               Lihat Paket
             </a>
