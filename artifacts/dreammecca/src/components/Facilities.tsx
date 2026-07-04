@@ -9,52 +9,52 @@ const facilities: { icon: FacilityIcon; title: string; desc: string }[] = [
   {
     icon: FileCheck,
     title: 'Transparansi Biaya',
-    desc: 'Setiap biaya dijelaskan rinci dan terbuka sejak awal, tanpa biaya tersembunyi.',
+    desc: 'Rinci dan terbuka sejak awal, tanpa biaya tersembunyi.',
   },
   {
     icon: HeartHandshake,
-    title: 'Ibadah Lebih Personal & Khusyuk',
-    desc: 'Perjalanan dirancang agar Bapak/Ibu beribadah dengan tenang dan penuh kekhusyukan.',
+    title: 'Ibadah Lebih Khusyuk',
+    desc: 'Perjalanan dirancang tenang dan penuh kekhusyukan.',
   },
   {
     icon: GraduationCap,
-    title: 'Bimbingan Ustadz Profesional',
-    desc: 'Didampingi ustadz lulusan Al-Azhar Cairo dan Universitas Islam Madinah.',
+    title: 'Bimbingan Ustadz',
+    desc: 'Lulusan Al-Azhar Cairo dan Universitas Islam Madinah.',
   },
   {
     icon: Building2,
     title: 'Hotel Bintang 4 & 5',
-    desc: 'Lokasi strategis, dekat dengan Masjidil Haram dan Masjid Nabawi.',
+    desc: 'Lokasi dekat Masjidil Haram dan Masjid Nabawi.',
   },
   {
     icon: Car,
-    title: 'Transportasi Nyaman & Aman',
-    desc: 'Bekerja sama dengan penyedia transportasi terpercaya di Arab Saudi.',
+    title: 'Transportasi Nyaman',
+    desc: 'Bekerja sama dengan penyedia terpercaya di Arab Saudi.',
   },
   {
     icon: Armchair,
     title: 'Lounge Bandara',
-    desc: 'Fasilitas lounge saat keberangkatan & kepulangan, termasuk air zamzam 5 liter.',
+    desc: 'Saat keberangkatan & kepulangan, termasuk air zamzam.',
   },
   {
     icon: Stamp,
     title: 'Visa Umroh Gratis',
-    desc: 'Seluruh proses visa diurus penuh oleh tim kami, tanpa biaya tambahan.',
+    desc: 'Diurus penuh oleh tim kami, tanpa biaya tambahan.',
   },
   {
     icon: Camera,
     title: 'Fotografer Profesional',
-    desc: 'Momen ibadah Bapak/Ibu didokumentasikan tim fotografer selama perjalanan.',
+    desc: 'Momen ibadah Anda didokumentasikan selama perjalanan.',
   },
   {
     icon: Plane,
-    title: 'Maskapai Berstandar Internasional',
-    desc: 'Saudia, Garuda, Emirates, Etihad, Qatar Airways & Turkish Airlines.',
+    title: 'Maskapai Internasional',
+    desc: 'Saudia, Garuda, Emirates, Etihad, Qatar & Turkish Airlines.',
   },
   {
     icon: Briefcase,
-    title: 'Perlengkapan Umroh Lengkap',
-    desc: 'Seluruh perlengkapan ibadah sudah termasuk, tanpa biaya tambahan.',
+    title: 'Perlengkapan Lengkap',
+    desc: 'Seluruh perlengkapan ibadah sudah termasuk.',
   },
 ];
 
@@ -98,7 +98,7 @@ export default function Facilities() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={staggerContainer}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[16px] md:gap-[20px] mt-[48px] items-stretch"
+          className="grid grid-cols-2 md:grid-cols-4 gap-[12px] md:gap-[20px] mt-[48px] items-stretch"
         >
           {facilities.map(f => (
             <motion.div
@@ -110,10 +110,10 @@ export default function Facilities() {
               <div className="w-[44px] h-[44px] rounded-xl bg-white flex items-center justify-center mb-[20px] flex-none">
                 <f.icon size={20} color="#1B1B36" strokeWidth={1.75} />
               </div>
-              <h4 className="text-[17px] font-bold leading-[1.3]" style={{ color: '#fff' }}>
+              <h4 className="text-[15px] md:text-[17px] font-bold leading-[1.3]" style={{ color: '#fff' }}>
                 {f.title}
               </h4>
-              <p className="text-[14px] leading-[1.6] mt-[10px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              <p className="text-[12.5px] md:text-[14px] leading-[1.5] mt-[8px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
                 {f.desc}
               </p>
             </motion.div>

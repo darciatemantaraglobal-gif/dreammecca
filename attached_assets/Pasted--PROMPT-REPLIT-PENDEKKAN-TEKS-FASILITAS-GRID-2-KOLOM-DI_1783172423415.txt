@@ -1,0 +1,92 @@
+# PROMPT REPLIT — PENDEKKAN TEKS FASILITAS + GRID 2 KOLOM DI MOBILE
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## 1. GANTI GRID jadi 2 kolom dari mobile
+
+```tsx
+/* SEBELUM */
+className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[16px] md:gap-[20px] mt-[48px] items-stretch"
+
+/* SESUDAH */
+className="grid grid-cols-2 md:grid-cols-4 gap-[12px] md:gap-[20px] mt-[48px] items-stretch"
+```
+
+## 2. PENDEKKAN judul & deskripsi supaya fit 1 baris di card sempit
+
+Ganti array `facilities` jadi:
+
+```tsx
+const facilities = [
+  {
+    icon: FileCheck,
+    title: 'Transparansi Biaya',
+    desc: 'Rinci dan terbuka sejak awal, tanpa biaya tersembunyi.',
+  },
+  {
+    icon: HeartHandshake,
+    title: 'Ibadah Lebih Khusyuk',
+    desc: 'Perjalanan dirancang tenang dan penuh kekhusyukan.',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Bimbingan Ustadz',
+    desc: 'Lulusan Al-Azhar Cairo dan Universitas Islam Madinah.',
+  },
+  {
+    icon: Building2,
+    title: 'Hotel Bintang 4 & 5',
+    desc: 'Lokasi dekat Masjidil Haram dan Masjid Nabawi.',
+  },
+  {
+    icon: Car,
+    title: 'Transportasi Nyaman',
+    desc: 'Bekerja sama dengan penyedia terpercaya di Arab Saudi.',
+  },
+  {
+    icon: Armchair,
+    title: 'Lounge Bandara',
+    desc: 'Saat keberangkatan & kepulangan, termasuk air zamzam.',
+  },
+  {
+    icon: Stamp,
+    title: 'Visa Umroh Gratis',
+    desc: 'Diurus penuh oleh tim kami, tanpa biaya tambahan.',
+  },
+  {
+    icon: Camera,
+    title: 'Fotografer Profesional',
+    desc: 'Momen ibadah Anda didokumentasikan selama perjalanan.',
+  },
+  {
+    icon: Plane,
+    title: 'Maskapai Internasional',
+    desc: 'Saudia, Garuda, Emirates, Etihad, Qatar & Turkish Airlines.',
+  },
+  {
+    icon: Briefcase,
+    title: 'Perlengkapan Lengkap',
+    desc: 'Seluruh perlengkapan ibadah sudah termasuk.',
+  },
+];
+```
+
+## 3. Kecilkan sedikit ukuran font judul khusus di mobile supaya makin lega
+
+Di elemen `<h4>` judul card, sesuaikan jadi:
+```tsx
+<h4 className="text-[15px] md:text-[17px] font-bold leading-[1.3]" style={{ color: '#fff' }}>
+```
+Dan deskripsi:
+```tsx
+<p className="text-[12.5px] md:text-[14px] leading-[1.5] mt-[8px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+```
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek di viewport 375px — sekarang 2 kolom, judul-judul harusnya fit 1 baris (kecuali "Bimbingan Ustadz" atau yang lain kalau masih wrap, kabari saya biar dipendekin lagi)
+- Cek `items-stretch` masih bikin 2 card sebaris tetap sama tinggi
+- Screenshot hasilnya untuk saya cek judul mana yang masih wrap 2 baris
