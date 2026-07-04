@@ -75,15 +75,15 @@ export default function About() {
               <div
                 key={s.label}
                 className="rounded-2xl p-[24px] flex flex-col"
-                style={{ background: '#1B1B36' }}
+                style={{ border: '1.5px solid #1B1B36' }}
               >
-                <div className="w-[40px] h-[40px] rounded-xl bg-white flex items-center justify-center mb-[16px] flex-none">
+                <div className="w-[40px] h-[40px] rounded-xl flex items-center justify-center mb-[16px] flex-none" style={{ background: 'rgba(27,27,54,0.08)' }}>
                   <s.icon size={19} color="#1B1B36" strokeWidth={1.75} />
                 </div>
-                <div className="text-[26px] font-extrabold leading-[1.1]" style={{ color: '#fff' }}>
+                <div className="text-[26px] font-extrabold leading-[1.1]" style={{ color: '#1B1B36' }}>
                   {s.value}
                 </div>
-                <p className="text-[13.5px] leading-[1.5] mt-[8px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <p className="text-[13.5px] leading-[1.5] mt-[8px]" style={{ color: '#6B6B85' }}>
                   {s.label}
                 </p>
               </div>
