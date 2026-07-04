@@ -59,7 +59,7 @@ export default function Hero() {
           className="w-full rounded-2xl overflow-hidden relative mt-[56px] text-left"
           style={{ border: '1px solid rgba(255,255,255,0.12)', paddingTop: '42%' }}
         >
-          <video autoPlay muted loop playsInline preload="metadata" poster="/images/kaabah/kaabah-1.jpg" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover', display: 'block' }}>
+          <video autoPlay muted loop playsInline preload="metadata" poster="/images/kaabah/kaabah-1.jpg" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top', display: 'block' }}>
             <source src="/videos/hero-card.mp4" type="video/mp4" />
           </video>
           <div className="absolute bottom-0 left-0 right-0 px-[24px] py-[16px]" style={{ background: 'linear-gradient(180deg, transparent, rgba(0,0,0,0.5))' }}>
