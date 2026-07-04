@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative px-[7vw] pt-[140px] pb-[80px] overflow-hidden"
+      className="relative px-[7vw] pt-[100px] pb-[80px] overflow-hidden"
       style={{
         backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url("/images/patterns/geometric-navy.jpg")',
         backgroundSize: 'cover',
