@@ -1,0 +1,41 @@
+# PROMPT REPLIT — FIX 404 DI /admin (DAN ROUTE LAIN) DI VERCEL
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## KONTEKS
+
+`/admin` (dan kemungkinan `/paket-umroh` juga) menampilkan 404 dari Vercel, padahal route ini valid dan ditangani client-side oleh Wouter. Ini karena Vercel secara default nyari file fisik sesuai path URL — dia nggak tau bahwa semua routing sebenarnya harus diserahkan ke `index.html` supaya React Router (Wouter) yang urus.
+
+## PERBAIKAN — buat/perbaiki `vercel.json`
+
+Karena Root Directory project di Vercel sekarang di-set ke `artifacts/dreammecca`, file `vercel.json` HARUS ada di DALAM folder itu (`artifacts/dreammecca/vercel.json`), bukan di root monorepo. Cek dulu apakah filenya ada di lokasi yang benar — kalau ada di root monorepo (`vercel.json` di paling luar), pindahkan ke `artifacts/dreammecca/vercel.json`.
+
+Isi file-nya:
+```json
+{
+  "buildCommand": "cd ../.. && pnpm run build --filter=@workspace/dreammecca",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+```
+
+**Catatan penting soal `buildCommand`**: sesuaikan dengan command build yang benar-benar terbukti jalan dari log Vercel sebelumnya (kemarin errornya beda, bukan soal build command, jadi build command yang sekarang mungkin sudah benar apa adanya dari setting Vercel dashboard — JANGAN utak-atik `buildCommand`/`outputDirectory` di sini kalau build kemarin sudah sukses jalan, fokus HANYA menambahkan bagian `rewrites`). Kalau tidak yakin, cukup tambahkan:
+```json
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
+```
+tanpa menyentuh `buildCommand`/`outputDirectory` sama sekali, supaya tidak merusak konfigurasi build yang sudah jalan.
+
+## VERIFIKASI
+
+- Push ke GitHub, tunggu Vercel redeploy otomatis
+- Setelah selesai, akses langsung `https://dreammecca.vercel.app/admin` — harus tampil halaman login, BUKAN 404
+- Cek juga akses langsung ke `/paket-umroh` dengan cara yang sama
+- Cek refresh browser (F5) di halaman `/admin` atau `/paket-umroh` tidak memicu 404 lagi
