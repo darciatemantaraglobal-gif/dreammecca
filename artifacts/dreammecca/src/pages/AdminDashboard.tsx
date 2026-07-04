@@ -45,6 +45,59 @@ function fmt(n: number) {
   return new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 }).format(n / 1000000);
 }
 
+async function uploadPoster(file: File, packageSlug: string): Promise<string> {
+  const ext = file.name.split('.').pop();
+  const path = `${packageSlug}-${Date.now()}.${ext}`;
+  const { error: uploadError } = await supabase.storage
+    .from('posters')
+    .upload(path, file, { upsert: true, cacheControl: '3600' });
+  if (uploadError) throw uploadError;
+  const { data } = supabase.storage.from('posters').getPublicUrl(path);
+  return data.publicUrl;
+}
+
+function PosterUploadButton({
+  pkg,
+  onUploaded,
+}: {
+  pkg: Package;
+  onUploaded: () => void;
+}) {
+  const [uploading, setUploading] = useState(false);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadPoster(file, pkg.slug);
+      await supabase.from('packages').update({ poster_url: url }).eq('id', pkg.id);
+      onUploaded();
+    } catch (err) {
+      alert('Gagal upload poster. Coba lagi.');
+      console.error(err);
+    } finally {
+      setUploading(false);
+      if (inputRef.current) inputRef.current.value = '';
+    }
+  }
+
+  return (
+    <>
+      <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+      <button
+        onClick={() => inputRef.current?.click()}
+        disabled={uploading}
+        className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border transition-colors hover:bg-black/5 disabled:opacity-50"
+        style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}
+      >
+        {uploading ? 'Mengupload...' : pkg.poster_url ? 'Ganti Poster' : 'Upload Poster'}
+      </button>
+    </>
+  );
+}
+
 function useAdminPackages() {
   return useQuery({
     queryKey: ADMIN_PACKAGES_KEY,

@@ -1,0 +1,147 @@
+# PROMPT REPLIT — REDESIGN ADMIN PANEL + FITUR UPLOAD POSTER DARI KOMPUTER
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## KONTEKS
+
+Redesign tampilan `AdminDashboard.tsx` supaya lebih rapi dan informatif (ada preview poster kecil per paket), dan tambahkan fitur upload poster langsung dari komputer — file di-upload ke Supabase Storage bucket `posters` (sudah dibuat dari SQL setup sebelumnya), lalu URL publiknya otomatis disimpan ke kolom `poster_url` paket terkait.
+
+## 1. Tambahkan fungsi upload di `AdminDashboard.tsx`
+
+```tsx
+async function uploadPoster(file: File, packageSlug: string): Promise<string> {
+  const ext = file.name.split('.').pop();
+  const path = `${packageSlug}-${Date.now()}.${ext}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from('posters')
+    .upload(path, file, { upsert: true, cacheControl: '3600' });
+  if (uploadError) throw uploadError;
+
+  const { data } = supabase.storage.from('posters').getPublicUrl(path);
+  return data.publicUrl;
+}
+```
+(Pastikan `import { supabase } from '@/lib/supabase';` sudah ada di file ini.)
+
+## 2. Ganti tampilan card list paket — tambahkan thumbnail poster + tombol upload
+
+Ganti bagian `.map(pkg => (...))` yang render list paket jadi:
+
+```tsx
+function PosterUploadButton({ pkg, onUploaded }: { pkg: Pkg; onUploaded: (url: string) => void }) {
+  const [uploading, setUploading] = useState(false);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadPoster(file, pkg.slug);
+      await supabase.from('packages').update({ poster_url: url }).eq('id', pkg.id);
+      onUploaded(url);
+    } catch (err) {
+      alert('Gagal upload poster. Coba lagi.');
+      console.error(err);
+    } finally {
+      setUploading(false);
+      if (inputRef.current) inputRef.current.value = '';
+    }
+  }
+
+  return (
+    <>
+      <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
+      <button
+        onClick={() => inputRef.current?.click()}
+        disabled={uploading}
+        className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border transition-colors hover:bg-black/5"
+        style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}
+      >
+        {uploading ? 'Mengupload...' : pkg.poster_url ? 'Ganti Poster' : 'Upload Poster'}
+      </button>
+    </>
+  );
+}
+```
+
+Lalu ganti render tiap card paket jadi:
+
+```tsx
+<div
+  key={pkg.id}
+  className="bg-white rounded-xl p-[16px] flex items-center gap-[16px]"
+  style={{ boxShadow: '0 1px 3px rgba(27,27,54,0.06)' }}
+>
+  {/* Thumbnail poster */}
+  <div
+    className="rounded-lg overflow-hidden flex-none"
+    style={{ width: '64px', height: '80px', background: '#F4F4F7' }}
+  >
+    {pkg.poster_url ? (
+      <img src={pkg.poster_url} alt={pkg.title} className="w-full h-full object-cover" />
+    ) : (
+      <div className="w-full h-full flex items-center justify-center text-[10px]" style={{ color: '#9CA0AC' }}>
+        No poster
+      </div>
+    )}
+  </div>
+
+  {/* Info paket */}
+  <div className="flex-1">
+    <div className="font-bold text-[15px]" style={{ color: '#1B1B36' }}>
+      {pkg.title}
+      <span className="font-medium" style={{ color: '#6B6B85' }}> · {pkg.tier} · {pkg.duration}</span>
+      {!pkg.is_active && <span className="ml-[8px] text-[12px] font-semibold" style={{ color: '#B5442E' }}>(nonaktif)</span>}
+    </div>
+    <div className="text-[13px] mt-[4px]" style={{ color: '#6B6B85' }}>
+      Rp {(pkg.price_from / 1000000).toFixed(1)} Jt · {pkg.departures?.length || 0} jadwal keberangkatan
+    </div>
+  </div>
+
+  {/* Tombol aksi */}
+  <div className="flex gap-[8px] flex-none">
+    <PosterUploadButton pkg={pkg} onUploaded={() => queryClient.invalidateQueries({ queryKey: ['admin-packages'] })} />
+    <button onClick={() => setSelectedForSchedule(pkg)} className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border" style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}>
+      Jadwal
+    </button>
+    <button onClick={() => setEditing(pkg)} className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border" style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}>
+      Edit
+    </button>
+    <button onClick={() => deleteMutation.mutate(pkg.id)} className="text-[12px] font-semibold px-[12px] py-[7px] rounded-lg border" style={{ borderColor: 'rgba(181,68,46,0.3)', color: '#B5442E' }}>
+      Hapus
+    </button>
+  </div>
+</div>
+```
+(Sesuaikan nama state `setSelectedForSchedule`/`setEditing` dengan yang sudah ada di file — jangan ganti nama state yang sudah dipakai di komponen lain, cukup pastikan tombol "Jadwal" dan "Edit" tetap terhubung ke handler yang sudah ada.)
+
+## 3. Rapikan header halaman
+
+```tsx
+<div className="flex justify-between items-center mb-[32px]">
+  <div>
+    <h1 className="text-[26px] font-bold" style={{ color: '#1B1B36' }}>Kelola Paket Umroh</h1>
+    <p className="text-[14px] mt-[4px]" style={{ color: '#6B6B85' }}>{packages?.length || 0} paket terdaftar</p>
+  </div>
+  <div className="flex gap-[10px]">
+    <button onClick={() => setEditing({} as Pkg)} className="px-[18px] py-[11px] rounded-lg text-white font-semibold text-[14px]" style={{ background: '#1B1B36' }}>
+      + Tambah Paket
+    </button>
+    <button onClick={handleLogout} className="px-[18px] py-[11px] rounded-lg font-semibold text-[14px] border" style={{ borderColor: 'rgba(27,27,54,0.2)', color: '#1B1B36' }}>
+      Keluar
+    </button>
+  </div>
+</div>
+```
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek tampilan card sekarang ada thumbnail poster (kotak "No poster" kalau belum ada)
+- Klik "Upload Poster" pada salah satu paket, pilih gambar dari komputer, cek thumbnail berubah setelah upload selesai
+- Cek poster yang di-upload juga otomatis muncul di card paket homepage/halaman `/paket-umroh` (karena `poster_url` sudah ke-update di database)
+- Cek tombol "Ganti Poster" muncul (bukan "Upload Poster") untuk paket yang sudah punya poster
