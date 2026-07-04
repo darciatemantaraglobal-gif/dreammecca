@@ -1,12 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { fadeUp, staggerContainer } from '@/lib/animations';
+import { ShieldCheck, CalendarCheck, GraduationCap, BookOpenText } from 'lucide-react';
 
 const stats = [
-  { num: 'PPIU', lbl: 'Berizin Resmi Kemenag RI', icon: '🕌' },
-  { num: '2025', lbl: 'Tahun Mulai Beroperasi', icon: '📅' },
-  { num: '100%', lbl: 'Dibimbing Ustadz Bersertifikat', icon: '🎓' },
-  { num: 'Sunnah', lbl: 'Sesuai Syariat & Sunnah Nabi ﷺ', icon: '📖' },
+  { icon: ShieldCheck, value: 'PPIU', label: 'Berizin Resmi Kemenag RI' },
+  { icon: CalendarCheck, value: '2025', label: 'Tahun Mulai Beroperasi' },
+  { icon: GraduationCap, value: '100%', label: 'Dibimbing Ustadz Bersertifikat' },
+  { icon: BookOpenText, value: 'Sunnah', label: 'Sesuai Syariat & Sunnah Nabi SAW' },
 ];
 
 export default function About() {
@@ -69,29 +70,25 @@ export default function About() {
           </p>
 
           {/* Stats */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={staggerContainer}
-            className="grid grid-cols-2 gap-[12px] mt-[40px]"
-          >
+          <div className="grid grid-cols-2 gap-[16px] mt-[32px] items-stretch">
             {stats.map(s => (
-              <motion.div
-                key={s.lbl}
-                variants={fadeUp}
-                className="rounded-2xl p-[18px] flex flex-col gap-[8px]"
-                style={{
-                  background: 'linear-gradient(135deg, #1B1B36 0%, #2d2d5e 100%)',
-                  boxShadow: '0 4px 20px rgba(27,27,54,0.15)',
-                }}
+              <div
+                key={s.label}
+                className="rounded-2xl p-[24px] flex flex-col"
+                style={{ background: '#1B1B36' }}
               >
-                <span className="text-[22px] leading-none">{s.icon}</span>
-                <div className="text-[26px] font-extrabold leading-none mt-[2px]" style={{ color: '#fff' }}>{s.num}</div>
-                <div className="text-[12px] leading-[1.4] font-medium" style={{ color: 'rgba(255,255,255,0.65)' }}>{s.lbl}</div>
-              </motion.div>
+                <div className="w-[40px] h-[40px] rounded-xl bg-white flex items-center justify-center mb-[16px] flex-none">
+                  <s.icon size={19} color="#1B1B36" strokeWidth={1.75} />
+                </div>
+                <div className="text-[26px] font-extrabold leading-[1.1]" style={{ color: '#fff' }}>
+                  {s.value}
+                </div>
+                <p className="text-[13.5px] leading-[1.5] mt-[8px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  {s.label}
+                </p>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
