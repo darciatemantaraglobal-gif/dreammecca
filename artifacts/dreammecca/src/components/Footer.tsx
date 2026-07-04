@@ -16,26 +16,23 @@ export default function Footer() {
       <div
         className="max-w-[1180px] mx-auto px-[7vw] py-[44px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
       >
-        <div>
-          <div className="flex items-center gap-[12px] mb-[16px]">
-            <img
-              src="/images/logo.png"
-              alt="Dreammecca"
-              className="w-[40px] h-[40px] object-contain flex-none"
-            />
+        <div className="flex flex-col sm:flex-row items-start gap-[20px]">
+          <img
+            src="/images/logo.png"
+            alt="Dreammecca"
+            className="w-[88px] h-[88px] object-contain flex-none rounded-lg"
+          />
+          <div>
             <h3 className="text-[20px] font-bold" style={{ color: '#fff' }}>
               Dreammecca
             </h3>
+            <p className="text-[14px] leading-[1.6] mt-[10px] max-w-[420px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+              PT. Dream Mecca International, penyelenggara ibadah Umroh resmi berizin PPIU Kementerian Agama RI. Bersama kami, wujudkan perjalanan ibadah yang aman, nyaman, dan penuh berkah.
+            </p>
+            <p className="text-[13px] mt-[10px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
+              Jl. Durian No. 9H, RT 008/005, Kel. Jagakarsa, Kec. Jagakarsa, Jakarta Selatan 12620
+            </p>
           </div>
-          <p
-            className="text-[14px] mt-2 max-w-[420px] leading-[1.6]"
-            style={{ color: 'rgba(255,255,255,0.55)' }}
-          >
-            PT. Dream Mecca International, penyelenggara ibadah Umroh resmi berizin PPIU Kementerian Agama RI. Bersama kami, wujudkan perjalanan ibadah yang aman, nyaman, dan penuh berkah.
-          </p>
-          <p className="text-[13px] mt-2" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            Jl. Durian No. 9H, RT 008/005, Kel. Jagakarsa, Kec. Jagakarsa, Jakarta Selatan 12620
-          </p>
         </div>
         <a
           href={waLink}

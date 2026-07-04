@@ -1,0 +1,43 @@
+# PROMPT REPLIT — LOGO FOOTER JADI KOLOM BESAR DI KIRI (SEJAJAR SELURUH BLOK TEKS)
+
+Copy-paste ke Replit Agent chat.
+
+---
+
+## KONTEKS
+
+Logo dipindah jadi kolom sendiri di sebelah kiri, ukurannya lebih besar, sejajar dengan seluruh blok teks (judul + paragraf + alamat) — bukan cuma inline kecil sebaris judul.
+
+## GANTI STRUKTUR KOLOM PERTAMA DI `Footer.tsx`
+
+```tsx
+<div className="flex items-start gap-[20px]">
+  <img
+    src="/images/logo.png"
+    alt="Dreammecca"
+    className="w-[88px] h-[88px] object-contain flex-none rounded-lg"
+  />
+  <div>
+    <h3 className="text-[20px] font-bold" style={{ color: '#fff' }}>
+      Dreammecca
+    </h3>
+    <p className="text-[14px] leading-[1.6] mt-[10px] max-w-[420px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+      PT. Dream Mecca International, penyelenggara ibadah Umroh resmi berizin PPIU Kementerian Agama RI. Bersama kami, wujudkan perjalanan ibadah yang aman, nyaman, dan penuh berkah.
+    </p>
+    <p className="text-[13px] mt-[10px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
+      Jl. Durian No. 9H, RT 008/005, Kel. Jagakarsa, Kec. Jagakarsa, Jakarta Selatan 12620
+    </p>
+  </div>
+</div>
+```
+
+Poin penting:
+- `items-start` (bukan `items-center`) di parent, supaya logo sejajar dari ATAS blok teks (pas dengan posisi yang diinginkan), bukan di tengah vertikal.
+- Ukuran logo `w-[88px] h-[88px]` — sesuaikan lagi kalau masih dirasa kurang besar/kecil, tinggal ubah angka ini.
+- Paragraf dan alamat yang sebelumnya mungkin terpisah sebagai elemen sendiri di luar div ini, sekarang dipindahkan masuk ke dalam kolom teks (di sebelah kanan logo) supaya semuanya sejajar sebagai satu blok.
+
+## VERIFIKASI
+
+- Jalankan `npm run build`, pastikan tidak ada error
+- Cek logo sekarang tampil sebagai kotak besar di kiri, sejajar dari atas dengan judul+paragraf+alamat di sebelah kanannya
+- Cek tampilan mobile — kalau kolom logo+teks jadi terlalu sempit berdampingan, boleh disesuaikan supaya logo pindah ke atas (stack vertikal) khusus di mobile pakai `flex-col sm:flex-row`
