@@ -38,7 +38,7 @@ export default function Navbar() {
       className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[7vw] py-[16px] transition-colors duration-300"
       style={{
         background: overHero ? 'linear-gradient(180deg, rgba(9,15,59,0.48), rgba(9,15,59,0))' : '#090F3B',
-        borderBottom: overHero ? '1px solid transparent' : '1px solid rgba(255,255,255,0.12)',
+        borderBottom: 'none',
       }}
     >
       <a
