@@ -13,13 +13,13 @@ export default function About() {
           variants={fadeUp}
         >
           <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#C9ADA7' }}>
-            Tentang Dreammecca
+            Mengapa Memilih Dreammecca
           </span>
           <h2
             className="mt-[12px] font-bold leading-[1.12]"
             style={{ fontSize: 'clamp(34px,4vw,54px)', color: '#1B1B36', textWrap: 'balance' }}
           >
-            Mendampingi Perjalanan Ibadah Anda
+            Perjalanan Ibadah yang Lebih Tenang dan Tertata
           </h2>
           <div className="mt-[24px] max-w-[560px] space-y-[16px] border-l-2 pl-[20px] text-[16px] leading-[1.72] md:text-[17px]" style={{ color: '#5D5D76', borderColor: '#C9ADA7' }}>
             <p>
@@ -28,6 +28,18 @@ export default function About() {
             <p>
               Kami percaya perjalanan ibadah yang tenang dimulai dari pendampingan yang dekat, komunikasi yang responsif, dan pelayanan yang tertata.
             </p>
+          </div>
+          <div className="mt-[30px] grid max-w-[560px] grid-cols-1 gap-y-[16px] sm:grid-cols-3 sm:gap-x-[18px]">
+            {[
+              ['Resmi', 'Berizin dan terdaftar'],
+              ['Terarah', 'Informasi program jelas'],
+              ['Mendampingi', 'Dari manasik sampai pulang'],
+            ].map(([title, detail]) => (
+              <div key={title} className="border-t pt-[12px]" style={{ borderColor: 'rgba(9,15,59,0.14)' }}>
+                <p className="text-[14px]" style={{ color: '#090F3B', fontWeight: 700 }}>{title}</p>
+                <p className="mt-[3px] text-[12px] leading-[1.45]" style={{ color: '#5D5D76' }}>{detail}</p>
+              </div>
+            ))}
           </div>
         </motion.div>
 

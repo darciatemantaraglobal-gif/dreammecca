@@ -23,10 +23,10 @@ export default function Home() {
       <QuickLinks />
       <AirlineMarquee />
       <About />
+      <Packages />
+      <GaleriJamaah />
       <Facilities />
       <Gallery />
-      <GaleriJamaah />
-      <Packages />
       <Discounts />
       <ProgramDetails />
       <FinalCTA />

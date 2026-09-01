@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { ChevronRight, type LucideIcon } from 'lucide-react';
 import {
   BadgeCheck,
   BedDouble,
@@ -11,62 +11,68 @@ import {
   TrainFront,
   UsersRound,
 } from 'lucide-react';
-import { fadeUp, staggerContainer } from '@/lib/animations';
+import { motion } from 'framer-motion';
+import { fadeUp } from '@/lib/animations';
 
-type FacilityIcon = React.ComponentType<{ size?: number; color?: string; strokeWidth?: number }>;
+type Facility = {
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+  image: string;
+  position: string;
+};
 
-const facilities: { icon: FacilityIcon; title: string; desc: string }[] = [
-  { icon: BadgeCheck, title: 'Penyelenggara Resmi', desc: 'Berizin Kemenag dan terdaftar SISKOPATUH.' },
-  { icon: Plane, title: 'Maskapai Internasional', desc: 'Direct flight Garuda, Saudia, atau Qatar Airways.' },
-  { icon: BedDouble, title: 'Hotel Bintang 4 & 5', desc: 'Dekat Masjidil Haram dan Masjid Nabawi.' },
-  { icon: BusFront, title: 'Transportasi Bus Terbaru', desc: 'Bus ber-AC keluaran terbaru selama di Tanah Suci.' },
-  { icon: BookOpenCheck, title: 'Manasik Eksklusif', desc: 'Pembekalan sebelum berangkat, dibimbing sesuai sunnah.' },
-  { icon: Luggage, title: 'Perlengkapan Eksklusif', desc: 'Terlengkap dan berkualitas, sudah termasuk paket.' },
-  { icon: ShieldCheck, title: 'Persiapan Keberangkatan', desc: 'Jamaah berkumpul dan dipersiapkan dengan nyaman sebelum menuju bandara.' },
-  { icon: UsersRound, title: 'Full Bimbingan', desc: 'Pembimbing mendampingi penuh sepanjang perjalanan.' },
-  { icon: TrainFront, title: 'Kereta Cepat Haramain', desc: 'Makkah ke Madinah pulang pergi, sudah termasuk.' },
+const facilities: Facility[] = [
+  { icon: BadgeCheck, title: 'Penyelenggara Resmi', desc: 'Berizin Kemenag dan terdaftar SISKOPATUH untuk perjalanan ibadah yang lebih tenang.', image: '/images/gallery-jamaah/jamaah-masjidil-haram.jpg', position: 'center 58%' },
+  { icon: Plane, title: 'Maskapai Internasional', desc: 'Pilihan penerbangan Garuda Indonesia dan Qatar Airways sesuai jadwal program.', image: '/images/gallery-jamaah/jamaah-payung-dreammecca.jpg', position: 'center 50%' },
+  { icon: BedDouble, title: 'Hotel Bintang 4 & 5', desc: 'Akomodasi Makkah dan Madinah yang dipilih untuk kenyamanan waktu istirahat jamaah.', image: '/images/gallery-jamaah/jamaah-madinah.jpg', position: 'center center' },
+  { icon: BusFront, title: 'Transportasi Bus Terbaru', desc: 'Mobilitas perjalanan di Tanah Suci menggunakan bus ber-AC yang nyaman.', image: '/images/gallery-jamaah/jamaah-keluarga.jpg', position: 'center center' },
+  { icon: BookOpenCheck, title: 'Manasik Eksklusif', desc: 'Pembekalan sebelum berangkat dengan bimbingan yang jelas dan sesuai sunnah.', image: '/images/gallery-jamaah/jamaah-doa.jpg', position: 'center center' },
+  { icon: Luggage, title: 'Perlengkapan Eksklusif', desc: 'Kebutuhan perjalanan disiapkan lebih awal agar jamaah dapat fokus beribadah.', image: '/images/gallery-jamaah/jamaah-pendampingan.jpg', position: 'center center' },
+  { icon: ShieldCheck, title: 'Persiapan Keberangkatan', desc: 'Jamaah berkumpul dan dipersiapkan dengan nyaman sebelum menuju bandara.', image: '/images/hero.jpg', position: 'center 64%' },
+  { icon: UsersRound, title: 'Full Bimbingan', desc: 'Pembimbing mendampingi perjalanan dari manasik, keberangkatan, hingga kepulangan.', image: '/images/gallery-jamaah/jamaah-pendampingan.jpg', position: 'center center' },
+  { icon: TrainFront, title: 'Kereta Cepat Haramain', desc: 'Makkah ke Madinah pulang pergi sudah termasuk dalam program yang tersedia.', image: '/images/gallery-jamaah/jamaah-madinah.jpg', position: 'center center' },
 ];
 
 export default function Facilities() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const active = facilities[activeIndex];
+
   return (
-    <section id="fasilitas" className="px-[7vw] py-[72px] md:py-[132px]" style={{ background: '#090F3B' }}>
+    <section id="fasilitas" className="px-[7vw] py-[72px] md:py-[132px]" style={{ background: '#F7F6F2' }}>
       <div className="mx-auto max-w-[1180px]">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeUp}>
-          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#C9ADA7' }}>
-            Fasilitas &amp; Layanan Unggulan
-          </span>
-          <h2 className="mt-[12px] max-w-[740px] font-bold leading-[1.12] text-white" style={{ fontSize: 'clamp(34px,4vw,54px)', textWrap: 'balance' }}>
-            Layanan Terbaik, untuk Perjalanan Ibadah yang Berkesan
-          </h2>
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeUp} className="grid gap-[24px] md:grid-cols-[0.8fr_1.2fr] md:items-end">
+          <div>
+            <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#9A8C98' }}>Fasilitas Lengkap</span>
+            <h2 className="mt-[12px] font-bold leading-[1.12]" style={{ fontSize: 'clamp(34px,4vw,54px)', color: '#090F3B', textWrap: 'balance' }}>Setiap Perjalanan Disiapkan dengan Penuh Perhatian</h2>
+          </div>
+          <p className="max-w-[540px] text-[16px] leading-[1.7] md:justify-self-end" style={{ color: '#5D5D76' }}>Pilih layanan untuk melihat bagaimana Dreammecca menjaga kenyamanan jamaah sejak persiapan hingga kembali ke Tanah Air.</p>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.18 }}
-          variants={staggerContainer}
-          className="mt-[32px] grid grid-cols-2 gap-[10px] md:mt-[48px] md:grid-cols-12 md:gap-[12px]"
-        >
-          {facilities.map((facility, index) => {
-            const isLead = index === 0;
-            return (
-            <motion.article
-              key={facility.title}
-              variants={fadeUp}
-              className={`flex flex-col gap-[14px] rounded-lg p-[16px] md:p-[24px] ${isLead ? 'min-h-[176px] justify-between md:col-span-6 md:row-span-2 md:min-h-[324px]' : 'min-h-[176px] md:col-span-3'}`}
-              style={{ background: isLead ? '#15205A' : '#11194A', border: '1px solid rgba(207,165,104,0.20)' }}
-            >
-              <div className={`flex flex-none items-center justify-center rounded-lg ${isLead ? 'h-10 w-10 md:h-12 md:w-12' : 'h-9 w-9 md:h-10 md:w-10'}`} style={{ background: 'rgba(207,165,104,0.12)' }}>
-                <facility.icon size={isLead ? 21 : 18} color="#C9ADA7" strokeWidth={1.65} />
-              </div>
-              <div>
-                <h3 className={isLead ? 'text-[17px] font-bold leading-[1.2] md:text-[24px]' : 'text-[14px] font-semibold leading-[1.3] md:text-[16px]'} style={{ color: '#fff' }}>{facility.title}</h3>
-                <p className={`mt-[6px] leading-[1.5] ${isLead ? 'max-w-[340px] text-[12px] md:text-[15px]' : 'text-[12px] md:text-[13px]'}`} style={{ color: '#B5BCDE' }}>{facility.desc}</p>
-              </div>
-            </motion.article>
-            );
-          })}
-        </motion.div>
+        <div className="mt-[34px] grid gap-[24px] md:mt-[48px] md:grid-cols-[0.94fr_1.06fr] md:gap-[72px]">
+          <motion.figure initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={fadeUp} className="relative min-h-[360px] overflow-hidden rounded-lg md:min-h-[620px]" style={{ background: '#090F3B' }}>
+            <img key={active.image} src={active.image} alt={active.title} className="h-full w-full object-cover" style={{ objectPosition: active.position }} />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.04), rgba(9,15,59,0.82))' }} />
+            <figcaption className="absolute inset-x-[20px] bottom-[20px] md:inset-x-[30px] md:bottom-[30px]">
+              <active.icon size={24} color="#C9ADA7" strokeWidth={1.55} />
+              <h3 className="mt-[14px] text-[28px] leading-[1.15] md:text-[36px]" style={{ color: '#fff', fontWeight: 700 }}>{active.title}</h3>
+              <p className="mt-[10px] max-w-[480px] text-[14px] leading-[1.6] md:text-[16px]" style={{ color: 'rgba(255,255,255,0.78)' }}>{active.desc}</p>
+            </figcaption>
+          </motion.figure>
+
+          <div className="border-t" style={{ borderColor: 'rgba(9,15,59,0.16)' }}>
+            {facilities.map((facility, index) => {
+              const isActive = index === activeIndex;
+              return (
+                <button key={facility.title} type="button" onClick={() => setActiveIndex(index)} className="group flex w-full items-center gap-[14px] border-b py-[17px] text-left transition-colors md:gap-[18px] md:py-[19px]" style={{ borderColor: 'rgba(9,15,59,0.16)', color: isActive ? '#090F3B' : '#5D5D76' }} aria-pressed={isActive}>
+                  <span className="flex size-9 flex-none items-center justify-center rounded-[6px]" style={{ background: isActive ? '#090F3B' : '#fff', border: isActive ? '1px solid #090F3B' : '1px solid rgba(9,15,59,0.12)' }}><facility.icon size={18} color={isActive ? '#C9ADA7' : '#4A4E69'} strokeWidth={1.65} /></span>
+                  <span className="min-w-0 flex-1"><span className="block text-[15px] leading-[1.25] md:text-[17px]" style={{ fontWeight: isActive ? 700 : 400 }}>{facility.title}</span>{isActive && <span className="mt-[6px] block max-w-[480px] text-[13px] leading-[1.55]" style={{ color: '#5D5D76' }}>{facility.desc}</span>}</span>
+                  <ChevronRight size={18} className="flex-none transition-transform duration-200" style={{ color: isActive ? '#090F3B' : '#9A8C98', transform: isActive ? 'rotate(90deg)' : 'rotate(0deg)' }} />
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </section>
   );
