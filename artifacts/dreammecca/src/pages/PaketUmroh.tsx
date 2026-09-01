@@ -41,15 +41,15 @@ function CatalogCard({ pkg }: { pkg: PublicPackage }) {
         <div className="mt-[18px]">
           <h2 className="text-[25px] leading-[1.15]" style={{ color: '#090F3B', fontWeight: 700 }}>{pkg.title}</h2>
           <div className="mt-[12px] grid grid-cols-2 gap-[8px] text-[12px]">
-            <p className="flex items-center gap-[7px] rounded-[6px] px-[10px] py-[9px]" style={{ background: '#F7F6F2', color: '#4B4F68' }}><Clock3 size={15} color="#F2E9E4" />{pkg.duration}</p>
-            <p className="flex items-center gap-[7px] rounded-[6px] px-[10px] py-[9px]" style={{ background: '#F7F6F2', color: '#4B4F68' }}><Plane size={15} color="#F2E9E4" /><span className="truncate">{pkg.airline}</span></p>
+            <p className="flex items-center gap-[7px] rounded-[6px] px-[10px] py-[9px]" style={{ background: '#F7F6F2', color: '#4B4F68' }}><Clock3 size={15} color="#090F3B" />{pkg.duration}</p>
+            <p className="flex items-center gap-[7px] rounded-[6px] px-[10px] py-[9px]" style={{ background: '#F7F6F2', color: '#4B4F68' }}><Plane size={15} color="#090F3B" /><span className="truncate">{pkg.airline}</span></p>
           </div>
         </div>
 
         <div className="mt-[16px] space-y-[10px] border-t pt-[16px] text-[13px] leading-[1.42]" style={{ borderColor: 'rgba(9,15,59,0.10)', color: '#4B4F68' }}>
-          <p className="grid grid-cols-[18px_66px_1fr] gap-[8px]"><Hotel size={16} className="mt-[1px]" color="#F2E9E4" /><span style={{ color: '#5D5D76' }}>Makkah</span><span style={{ color: '#090F3B', fontWeight: 600 }}>{pkg.makkah}</span></p>
-          <p className="grid grid-cols-[18px_66px_1fr] gap-[8px]"><Hotel size={16} className="mt-[1px]" color="#F2E9E4" /><span style={{ color: '#5D5D76' }}>Madinah</span><span style={{ color: '#090F3B', fontWeight: 600 }}>{pkg.madinah}</span></p>
-          <p className="flex gap-[9px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#F2E9E4" />Kereta Cepat Haramain termasuk</p>
+          <p className="grid grid-cols-[18px_66px_1fr] gap-[8px]"><Hotel size={16} className="mt-[1px]" color="#090F3B" /><span style={{ color: '#5D5D76' }}>Makkah</span><span style={{ color: '#090F3B', fontWeight: 600 }}>{pkg.makkah}</span></p>
+          <p className="grid grid-cols-[18px_66px_1fr] gap-[8px]"><Hotel size={16} className="mt-[1px]" color="#090F3B" /><span style={{ color: '#5D5D76' }}>Madinah</span><span style={{ color: '#090F3B', fontWeight: 600 }}>{pkg.madinah}</span></p>
+          <p className="flex gap-[9px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#090F3B" />Kereta Cepat Haramain termasuk</p>
         </div>
 
         <div className="mt-auto flex items-end justify-between gap-3 pt-[20px]">
@@ -100,7 +100,7 @@ export default function PaketUmroh() {
           <div className="mx-auto max-w-[1180px]">
             <div className="rounded-lg p-[16px] md:p-[22px]" style={{ background: '#fff', border: '1px solid rgba(9,15,59,0.10)' }}>
               <div className="grid gap-[18px] lg:grid-cols-[1fr_auto_auto] lg:items-end">
-                <label className="block"><span className="mb-[8px] block text-[11px] font-bold tracking-[0.10em] uppercase" style={{ color: '#5D5D76' }}>Cari Program</span><span className="flex min-h-11 items-center gap-[10px] rounded-[6px] px-[13px]" style={{ background: '#F7F6F2', border: '1px solid rgba(9,15,59,0.10)' }}><Search size={17} color="#F2E9E4" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari paket, hotel, atau maskapai" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none" style={{ color: '#090F3B' }} /></span></label>
+                <label className="block"><span className="mb-[8px] block text-[11px] font-bold tracking-[0.10em] uppercase" style={{ color: '#5D5D76' }}>Cari Program</span><span className="flex min-h-11 items-center gap-[10px] rounded-[6px] px-[13px]" style={{ background: '#F7F6F2', border: '1px solid rgba(9,15,59,0.10)' }}><Search size={17} color="#090F3B" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari paket, hotel, atau maskapai" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none" style={{ color: '#090F3B' }} /></span></label>
                 <div><span className="mb-[8px] block text-[11px] font-bold tracking-[0.10em] uppercase" style={{ color: '#5D5D76' }}>Kelas Program</span><div className="flex flex-wrap gap-[7px]">{tiers.map((item) => <button key={item} type="button" onClick={() => setTier(item)} className="min-h-10 rounded-[6px] px-[13px] text-[13px]" style={tier === item ? { background: '#090F3B', color: '#fff' } : { background: '#F7F6F2', color: '#090F3B', border: '1px solid rgba(9,15,59,0.10)' }}>{item}</button>)}</div></div>
                 <label className="block"><span className="mb-[8px] block text-[11px] font-bold tracking-[0.10em] uppercase" style={{ color: '#5D5D76' }}>Keberangkatan</span><select value={date} onChange={(event) => setDate(event.target.value)} className="min-h-10 rounded-[6px] px-[12px] text-[13px] outline-none" style={{ background: '#F7F6F2', color: '#090F3B', border: '1px solid rgba(9,15,59,0.10)' }}><option>Semua</option>{dates.map((item) => <option key={item}>{item}</option>)}</select></label>
               </div>
