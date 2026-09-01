@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Mail, MapPin } from 'lucide-react';
+import { Instagram, Mail, MapPin, MessageCircle } from 'lucide-react';
 import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
 
 const links = [
@@ -33,14 +33,15 @@ export default function Footer() {
         <div>
           <h2 className="text-[14px] font-bold" style={{ color: '#fff' }}>Hubungi Kami</h2>
           <div className="mt-[16px] flex flex-col gap-[12px] text-[14px] leading-[1.55]" style={{ color: 'rgba(255,255,255,0.63)' }}>
+            <a href={createWALink(DEFAULT_MESSAGE)} target="_blank" rel="noopener noreferrer" className="flex items-center gap-[9px] no-underline" style={{ color: 'inherit' }}><MessageCircle size={16} /> WhatsApp +62 812-2574-0093</a>
             <a href="mailto:dreammecca@gmail.com" className="flex items-center gap-[9px] no-underline" style={{ color: 'inherit' }}><Mail size={16} /> dreammecca@gmail.com</a>
             <a href="https://instagram.com/dreammecca.id" target="_blank" rel="noopener noreferrer" className="flex items-center gap-[9px] no-underline" style={{ color: 'inherit' }}><Instagram size={16} /> @dreammecca.id</a>
-            <span className="flex items-start gap-[9px]"><MapPin size={16} className="mt-[3px] flex-none" /> Jakarta Selatan</span>
+            <a href="https://www.google.com/maps/search/?api=1&query=Dreammecca+Tour+%26+Travel" target="_blank" rel="noopener noreferrer" className="flex items-start gap-[9px] no-underline" style={{ color: 'inherit' }}><MapPin size={16} className="mt-[3px] flex-none" /> Jl. Durian 9A No. 6, Jagakarsa, Jakarta Selatan 12620</a>
           </div>
         </div>
       </div>
       <div className="px-[7vw] py-[18px] text-[12px]" style={{ borderTop: '1px solid rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.45)' }}>
-        © 2026 Dreammecca Tour &amp; Travel. All rights reserved.
+        © 2026 PT Dream Mecca International.
       </div>
     </footer>
   );

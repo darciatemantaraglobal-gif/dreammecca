@@ -19,14 +19,14 @@ export default function About() {
             className="mt-[12px] font-bold leading-[1.12]"
             style={{ fontSize: 'clamp(34px,4vw,54px)', color: '#1B1B36', textWrap: 'balance' }}
           >
-            Perjalanan Ibadah, Penuh Berkah
+            Mendampingi Perjalanan Ibadah Anda
           </h2>
           <div className="mt-[24px] max-w-[560px] space-y-[16px] border-l-2 pl-[20px] text-[16px] leading-[1.72] md:text-[17px]" style={{ color: '#5D5D76', borderColor: '#D9B35E' }}>
             <p>
-              Kami adalah <strong style={{ color: '#1B1B36' }}>biro perjalanan umrah dan wisata halal</strong> yang berkomitmen menjadi mitra terpercaya umat Islam dalam mewujudkan impian suci ke Tanah Suci. Dengan layanan <strong style={{ color: '#1B1B36' }}>aman, nyaman, terjangkau, dan sesuai syariat</strong>, kami hadir mulai dari bimbingan manasik hingga pendampingan selama perjalanan.
+              Dreammecca mendampingi perjalanan umroh dan wisata halal, dari persiapan manasik hingga kepulangan. Kami menata setiap tahap perjalanan dengan informasi yang jelas dan perhatian pada kenyamanan jamaah.
             </p>
             <p>
-              Kami menjunjung tinggi <strong style={{ color: '#1B1B36' }}>transparansi biaya</strong>, pelayanan berkualitas, dan keamanan jamaah, serta terus berinovasi melalui pengembangan SDM dan teknologi demi menghadirkan pengalaman ibadah yang tenang, berkesan, dan penuh berkah.
+              Kami percaya perjalanan ibadah yang tenang dimulai dari pendampingan yang dekat, komunikasi yang responsif, dan pelayanan yang tertata.
             </p>
           </div>
         </motion.div>
@@ -41,12 +41,13 @@ export default function About() {
           style={{ aspectRatio: '4 / 3', background: '#F4F3EF', boxShadow: '16px 16px 0 #EDE5D5' }}
         >
           <img
-            src="/images/about.jpg"
-            alt="Suasana Masjid Nabawi saat matahari terbenam"
+            src="/images/gallery-jamaah/jamaah-pendampingan.jpg"
+            alt="Pembimbing Dreammecca mendampingi jamaah di Tanah Suci"
             className="h-full w-full object-cover"
+            style={{ objectPosition: 'center center' }}
           />
           <figcaption className="absolute bottom-0 left-0 px-[18px] py-[12px] text-[12px] font-bold tracking-[0.08em] uppercase" style={{ background: '#090F3B', color: '#E2BC6C' }}>
-            Dreammecca Tour &amp; Travel
+            Pendampingan Jamaah Dreammecca
           </figcaption>
         </motion.figure>
       </div>

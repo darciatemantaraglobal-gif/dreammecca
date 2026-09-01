@@ -158,6 +158,7 @@ const packages: Package[] = [
 ];
 
 const months: Month[] = ['Oktober', 'November', 'Desember'];
+const featuredDate = '2026-12-09';
 
 function isUpcoming(date: string) {
   const departure = new Date(`${date}T00:00:00+07:00`);
@@ -203,7 +204,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
         <div className="flex gap-[7px] md:gap-[10px]"><Plane size={14} className="mt-[1px] flex-none md:size-4" color="#CFA568" /><span><strong style={{ color: '#090F3B' }}>Maskapai:</strong> {pkg.airline}</span></div>
         <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Check size={16} className="mt-[1px] flex-none" color="#CFA568" /><span><strong style={{ color: '#090F3B' }}>Makkah:</strong> {pkg.makkah}</span></div>
         <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Check size={16} className="mt-[1px] flex-none" color="#CFA568" /><span><strong style={{ color: '#090F3B' }}>Madinah:</strong> {pkg.madinah}</span></div>
-        <div className="hidden gap-[7px] md:flex md:gap-[10px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#CFA568" /><span>Haramain Express 2x sudah termasuk.</span></div>
+        <div className="hidden gap-[7px] md:flex md:gap-[10px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#CFA568" /><span>Kereta Cepat Haramain 2x.</span></div>
       </div>
       <div className="mt-auto pt-[20px] md:pt-[28px]">
         {pkg.normalPrice && <span className="text-[13px] line-through" style={{ color: '#8B8EA0' }}>Rp{pkg.normalPrice} juta</span>}
@@ -241,7 +242,15 @@ export default function Packages() {
   const visiblePackages = useMemo(
     () => packages
       .filter((pkg) => pkg.month === activeMonth && isUpcoming(pkg.date))
-      .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || a.date.localeCompare(b.date)),
+      .sort((a, b) => {
+        const featuredDateOrder = Number(b.date === featuredDate) - Number(a.date === featuredDate);
+        if (featuredDateOrder !== 0) return featuredDateOrder;
+
+        const dateOrder = a.date.localeCompare(b.date);
+        if (dateOrder !== 0) return dateOrder;
+
+        return a.tier === 'Ekonomis' ? -1 : 1;
+      }),
     [activeMonth],
   );
 
@@ -254,7 +263,7 @@ export default function Packages() {
             Pilihan Jadwal Umroh Terdekat
           </h2>
           <p className="mt-[16px] max-w-[620px] text-[16px] leading-[1.65] md:text-[17px]" style={{ color: '#5D5D76' }}>
-            Tanggal sudah pasti, seat sudah diblok. Oktober sampai Desember 2026.
+            Lihat program Oktober sampai Desember 2026 dan pilih bulan keberangkatan yang sesuai rencana Anda.
           </p>
         </motion.div>
 
@@ -289,9 +298,9 @@ export default function Packages() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
             variants={staggerContainer}
-          className="mt-[32px] grid grid-cols-2 gap-[10px] md:mt-[42px] md:grid-cols-2 md:gap-[16px] xl:grid-cols-3"
+          className="mt-[32px] grid grid-cols-2 gap-[10px] md:mt-[42px] md:grid-cols-2 md:gap-[16px]"
           >
-            {visiblePackages.map((pkg) => <motion.div key={pkg.id} variants={fadeUp} className={pkg.featured ? 'xl:col-span-2' : ''}><PackageCard pkg={pkg} /></motion.div>)}
+            {visiblePackages.map((pkg) => <motion.div key={pkg.id} variants={fadeUp}><PackageCard pkg={pkg} /></motion.div>)}
           </motion.div>
         )}
 
