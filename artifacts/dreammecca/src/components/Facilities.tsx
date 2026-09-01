@@ -24,7 +24,7 @@ const facilities: { icon: FacilityIcon; title: string; desc: string }[] = [
   { icon: Luggage, title: 'Perlengkapan Eksklusif', desc: 'Terlengkap dan berkualitas, sudah termasuk paket.' },
   { icon: ShieldCheck, title: 'Ruang Tunggu Nyaman', desc: 'Keberangkatan dan kepulangan dari bandara Indonesia.' },
   { icon: UsersRound, title: 'Full Bimbingan', desc: 'Pembimbing mendampingi penuh sepanjang perjalanan.' },
-  { icon: TrainFront, title: 'Kereta Cepat Haramain 2x', desc: 'Makkah ke Madinah pulang pergi, sudah termasuk.' },
+  { icon: TrainFront, title: 'Kereta Cepat Haramain', desc: 'Makkah ke Madinah pulang pergi, sudah termasuk.' },
 ];
 
 export default function Facilities() {

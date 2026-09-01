@@ -15,6 +15,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-[40px] px-[7vw] py-[56px] md:grid-cols-[1.15fr_0.85fr_0.85fr]">
         <div>
           <img src="/images/logo.png" alt="Dreammecca" className="h-[42px] w-auto" style={{ filter: 'brightness(0) invert(1)' }} />
+          <p className="mt-[14px] text-[13px]" style={{ color: 'rgba(255,255,255,0.78)' }}>PT Dream Mecca International</p>
           <p className="mt-[18px] max-w-[350px] text-[14px] leading-[1.65]" style={{ color: 'rgba(255,255,255,0.63)' }}>
             Teman perjalanan umroh dan wisata halal Anda, dari manasik sampai pulang.
           </p>

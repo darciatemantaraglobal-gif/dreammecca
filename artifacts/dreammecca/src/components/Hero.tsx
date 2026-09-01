@@ -40,15 +40,11 @@ export default function Hero() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-[690px]"
         >
-          <div className="mb-[18px] flex items-center gap-[12px] text-[12px] font-bold uppercase tracking-[0.14em]" style={{ color: '#E2BC6C' }}>
-            <span className="h-px w-[42px]" style={{ background: '#E2BC6C' }} />
-            Dreammecca Tour &amp; Travel
-          </div>
           <h1
             className="font-extrabold leading-[1.08]"
             style={{ fontSize: 'clamp(44px,5.8vw,80px)', color: '#fff', textWrap: 'balance' }}
           >
-            Perjalanan Ibadah,<br />
+            Perjalanan Ibadah<br />
             Penuh Berkah
           </h1>
           <p className="mt-[22px] max-w-[570px] text-[16px] leading-[1.7] md:text-[18px]" style={{ color: 'rgba(255,255,255,0.84)' }}>

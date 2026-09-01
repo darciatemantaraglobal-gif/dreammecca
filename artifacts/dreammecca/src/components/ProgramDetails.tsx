@@ -4,7 +4,7 @@ import { createWALink } from '@/lib/whatsapp';
 
 const confirmed = [
   'Tanggal keberangkatan, maskapai, hotel, dan harga tampil pada setiap kartu program.',
-  'Program Desember mencantumkan Haramain Express 2x.',
+  'Program Desember mencantumkan Kereta Cepat Haramain.',
   'Manasik dan pendampingan penuh tercantum sebagai fasilitas perjalanan.',
 ];
 

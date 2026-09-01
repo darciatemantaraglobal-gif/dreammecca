@@ -204,7 +204,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
         <div className="flex gap-[7px] md:gap-[10px]"><Plane size={14} className="mt-[1px] flex-none md:size-4" color="#CFA568" /><span><strong style={{ color: '#090F3B' }}>Maskapai:</strong> {pkg.airline}</span></div>
         <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Check size={16} className="mt-[1px] flex-none" color="#CFA568" /><span><strong style={{ color: '#090F3B' }}>Makkah:</strong> {pkg.makkah}</span></div>
         <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Check size={16} className="mt-[1px] flex-none" color="#CFA568" /><span><strong style={{ color: '#090F3B' }}>Madinah:</strong> {pkg.madinah}</span></div>
-        <div className="hidden gap-[7px] md:flex md:gap-[10px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#CFA568" /><span>Kereta Cepat Haramain 2x.</span></div>
+        <div className="hidden gap-[7px] md:flex md:gap-[10px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#CFA568" /><span>Kereta Cepat Haramain.</span></div>
       </div>
       <div className="mt-auto pt-[20px] md:pt-[28px]">
         {pkg.normalPrice && <span className="text-[13px] line-through" style={{ color: '#8B8EA0' }}>Rp{pkg.normalPrice} juta</span>}
