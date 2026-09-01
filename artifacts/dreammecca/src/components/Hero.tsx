@@ -36,8 +36,11 @@ export default function Hero() {
           transition={{ duration: 0.55, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-[560px] text-left"
         >
+          <p className="text-[12px] font-bold uppercase tracking-[0.14em] md:text-[13px]" style={{ color: '#C9ADA7' }}>
+            Dreammecca Tour &amp; Travel
+          </p>
           <h1
-            className="font-extrabold leading-[1.02]"
+            className="mt-[12px] font-extrabold leading-[1.02]"
             style={{ fontSize: 'clamp(40px,4.8vw,72px)', color: '#fff', textWrap: 'balance' }}
           >
             Perjalanan Ibadah<br />
