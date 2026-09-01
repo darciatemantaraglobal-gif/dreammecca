@@ -1,252 +1,105 @@
-import React, { useState, useMemo } from 'react';
-import { Calendar } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { ArrowLeft, ArrowRight, CalendarDays, Clock3, Hotel, Plane, Search, TrainFront } from 'lucide-react';
 import { Link } from 'wouter';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import StickyMobileCTA from '@/components/StickyMobileCTA';
 import { createWALink } from '@/lib/whatsapp';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase';
-import type { Package, Departure } from '@/lib/supabase';
+import { packageVisual, packageWhatsAppMessage, publicPackages, type PackageTier, type PublicPackage } from '@/lib/publicPackages';
 
-function fmt(n: number) {
-  return new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 }).format(n / 1000000);
-}
+const tiers: Array<'Semua' | PackageTier> = ['Semua', 'Ekonomis', 'Eksklusif'];
+const dates = [...new Set(publicPackages.map((pkg) => pkg.dateLabel))];
 
-function usePackages() {
-  return useQuery({
-    queryKey: ['packages'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('packages')
-        .select('*, departures(*)')
-        .eq('is_active', true)
-        .order('sort_order');
-      if (error) throw error;
-      return data as Package[];
-    },
-  });
-}
-
-function DepartureCard({ pkg, dep }: { pkg: Package; dep: Departure }) {
-  const waMsg = `Assalamualaikum, saya tertarik dengan ${pkg.title} (${pkg.tier}, ${pkg.duration}) keberangkatan ${dep.date_label}. Boleh minta info lebih lengkap?`;
+function CatalogCard({ pkg }: { pkg: PublicPackage }) {
+  const visual = packageVisual(pkg.date);
 
   return (
-    <div
-      className="rounded-xl overflow-hidden flex flex-col h-full transition-all duration-200 hover:-translate-y-1"
-      style={{ border: '1px solid rgba(27,27,54,0.10)', background: '#fff', boxShadow: '0 2px 8px rgba(27,27,54,0.04)' }}
-    >
-      <div className="w-full relative" style={{ aspectRatio: '4/5', background: '#F4F4F7' }}>
-        <img
-          src={pkg.poster_url || `/images/paket/poster-${pkg.slug}.jpg`}
-          alt={`Poster ${pkg.title} ${pkg.tier} ${pkg.duration}`}
-          className="w-full h-full object-cover"
-          onError={(e) => { e.currentTarget.style.display = 'none'; }}
-        />
-        <span
-          className="absolute top-3 left-3 text-[11px] font-bold uppercase tracking-[0.04em] px-[10px] py-[5px] rounded-full text-white"
-          style={{ background: pkg.tier === 'Luxury' ? '#1B1B36' : 'rgba(27,27,54,0.75)' }}
-        >
-          {pkg.tier}
-        </span>
-      </div>
-
-      <div className="px-5 pt-4 pb-5 flex-1 flex flex-col">
-        <div className="flex items-center gap-[6px] text-[13px] font-medium" style={{ color: '#6B6B85' }}>
-          <Calendar size={14} />
-          {dep.date_label}
+    <article className="flex h-full flex-col overflow-hidden rounded-lg" style={{ background: '#fff', border: pkg.featured ? '1px solid #F2E9E4' : '1px solid rgba(9,15,59,0.12)', boxShadow: pkg.featured ? '0 16px 36px rgba(9,15,59,0.10)' : '0 2px 8px rgba(9,15,59,0.03)' }}>
+      <figure className="relative aspect-[16/10] overflow-hidden" style={{ background: '#090F3B' }}>
+        <img src={visual.image} alt="Dokumentasi jamaah Dreammecca" className="h-full w-full object-cover" style={{ objectPosition: visual.position }} loading="lazy" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.02), rgba(9,15,59,0.56))' }} />
+        <div className="absolute inset-x-[16px] top-[16px] flex items-start justify-between gap-2">
+          <span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#090F3B', color: '#F2E9E4' }}>{pkg.tier}</span>
+          {pkg.featured && <span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#fff', color: '#090F3B' }}>Paling Untung</span>}
         </div>
+        <p className="absolute bottom-[14px] left-[16px] flex items-center gap-[7px] text-[12px]" style={{ color: '#fff' }}><CalendarDays size={15} />Keberangkatan {pkg.dateLabel}</p>
+      </figure>
 
-        <h3 className="text-[16px] font-bold mt-[6px] leading-[1.3]" style={{ color: '#1B1B36' }}>
-          {pkg.title}
-        </h3>
-
-        <div className="flex gap-[6px] flex-wrap mt-[10px]">
-          {pkg.tags.map(tag => (
-            <span
-              key={tag}
-              className="text-[11px] font-semibold px-[9px] py-[4px] rounded-full"
-              style={{ border: '1px solid rgba(27,27,54,0.14)', color: '#1B1B36' }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        <div className="mt-[14px] flex flex-col gap-[6px]">
-          <div className="flex justify-between text-[12.5px]">
-            <span style={{ color: '#6B6B85' }}>Durasi</span>
-            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.duration}</span>
-          </div>
-          <div className="flex justify-between text-[12.5px]">
-            <span style={{ color: '#6B6B85' }}>Hotel Makkah</span>
-            <span className="font-semibold text-right max-w-[180px]" style={{ color: '#1B1B36' }}>{pkg.hotel_mecca}</span>
-          </div>
-          <div className="flex justify-between text-[12.5px]">
-            <span style={{ color: '#6B6B85' }}>Hotel Madinah</span>
-            <span className="font-semibold text-right max-w-[180px]" style={{ color: '#1B1B36' }}>{pkg.hotel_madinah}</span>
-          </div>
-          <div className="flex justify-between text-[12.5px]">
-            <span style={{ color: '#6B6B85' }}>Flight / Landing</span>
-            <span className="font-semibold" style={{ color: '#1B1B36' }}>{pkg.flight_type} · {pkg.landing}</span>
-          </div>
-        </div>
-
-        <div className="mt-auto pt-[16px] flex items-end justify-between gap-3">
+      <div className="flex flex-1 flex-col p-[20px]">
+        <div className="flex items-start justify-between gap-3">
           <div>
-            <div className="text-[11px]" style={{ color: '#6B6B85' }}>Harga Mulai</div>
-            <div className="text-[20px] font-extrabold" style={{ color: '#1B1B36' }}>Rp {fmt(pkg.price_from)} Jt</div>
+            <p className="text-[12px]" style={{ color: '#5D5D76' }}>{pkg.duration} · {pkg.tier}</p>
+            <h2 className="mt-[6px] text-[24px] leading-[1.16]" style={{ color: '#090F3B', fontWeight: 700 }}>{pkg.title}</h2>
           </div>
-          <a
-            href={createWALink(waMsg)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-[20px] py-[11px] rounded-none font-bold text-[13px] no-underline hover:opacity-[0.88] transition-opacity flex-none"
-            style={{ background: '#1B1B36', color: '#fff' }}
-          >
-            Booking
-          </a>
+          <p className="text-right leading-none" style={{ color: '#090F3B', fontWeight: 700 }}><span className="text-[11px]">Rp</span> <span className="text-[28px]">{pkg.price}</span> <span className="text-[12px]">JT</span></p>
         </div>
+
+        <div className="mt-[18px] space-y-[10px] border-t pt-[16px] text-[13px] leading-[1.45]" style={{ borderColor: 'rgba(9,15,59,0.10)', color: '#4B4F68' }}>
+          <p className="flex gap-[9px]"><Plane size={16} className="mt-[1px] flex-none" color="#F2E9E4" />{pkg.airline}</p>
+          <p className="flex gap-[9px]"><Hotel size={16} className="mt-[1px] flex-none" color="#F2E9E4" /><span><strong style={{ fontWeight: 600 }}>Makkah:</strong> {pkg.makkah}</span></p>
+          <p className="flex gap-[9px]"><Hotel size={16} className="mt-[1px] flex-none" color="#F2E9E4" /><span><strong style={{ fontWeight: 600 }}>Madinah:</strong> {pkg.madinah}</span></p>
+          <p className="flex gap-[9px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#F2E9E4" />Kereta Cepat Haramain</p>
+        </div>
+
+        <a href={createWALink(packageWhatsAppMessage(pkg))} target="_blank" rel="noopener noreferrer" className="mt-auto inline-flex min-h-11 items-center justify-center gap-[8px] rounded-[6px] px-[18px] py-[11px] text-[14px] font-bold no-underline" style={{ background: '#090F3B', color: '#fff' }}>Tanya Program <ArrowRight size={16} /></a>
       </div>
-    </div>
+    </article>
   );
 }
 
 export default function PaketUmroh() {
-  const [tierFilter, setTierFilter] = useState<'Semua' | 'Reguler' | 'Luxury'>('Semua');
-  const [durFilter, setDurFilter] = useState<'Semua' | '9 Hari' | '12 Hari'>('Semua');
-  const { data, isLoading, isError } = usePackages();
-  const packageTypes = data ?? [];
+  const [query, setQuery] = useState('');
+  const [tier, setTier] = useState<'Semua' | PackageTier>('Semua');
+  const [date, setDate] = useState('Semua');
 
-  const cards = useMemo(() => {
-    return packageTypes
-      .filter(p => tierFilter === 'Semua' || p.tier === tierFilter)
-      .filter(p => durFilter === 'Semua' || p.duration === durFilter)
-      .flatMap(p => (p.departures ?? []).map(dep => ({ pkg: p, dep })));
-  }, [packageTypes, tierFilter, durFilter]);
+  const filteredPackages = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    return publicPackages.filter((pkg) => {
+      const matchesQuery = !normalizedQuery || [pkg.title, pkg.airline, pkg.makkah, pkg.madinah, pkg.tier, pkg.dateLabel].join(' ').toLowerCase().includes(normalizedQuery);
+      return matchesQuery && (tier === 'Semua' || pkg.tier === tier) && (date === 'Semua' || pkg.dateLabel === date);
+    });
+  }, [date, query, tier]);
 
   return (
-    <div style={{ background: '#fff' }} className="min-h-screen pb-16 md:pb-0">
+    <div className="dreammecca-public min-h-screen bg-white pb-16 font-sans md:pb-0">
       <Navbar />
 
-      <section
-        className="px-[7vw] pt-[140px] pb-[48px]"
-        style={{
-          backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.72), rgba(27,27,54,0.80)), url(/images/patterns/geometric-navy.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center top',
-          backgroundColor: '#1B1B36',
-        }}
-      >
-        <div className="max-w-[1180px] mx-auto">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-[6px] text-[13px] font-semibold no-underline mb-[24px]"
-            style={{ color: 'rgba(255,255,255,0.60)' }}
-          >
-            ← Kembali ke Beranda
-          </Link>
-          <span className="text-[13px] font-bold tracking-[0.14em] uppercase block" style={{ color: 'rgba(255,255,255,0.6)' }}>
-            Paket Umroh
-          </span>
-          <h1
-            className="font-bold leading-[1.15] mt-[10px]"
-            style={{ fontSize: 'clamp(28px,4vw,44px)', color: '#fff' }}
-          >
-            Semua Jadwal &amp; Pilihan Paket
-          </h1>
-          <p
-            className="text-[16px] leading-[1.6] mt-[14px] max-w-[600px]"
-            style={{ color: 'rgba(255,255,255,0.7)' }}
-          >
-            Pilih tier dan durasi sesuai kebutuhan Anda. Semua harga sudah termasuk tiket, visa, hotel, transportasi, manasik, dan perlengkapan.
-          </p>
-        </div>
-      </section>
-
-      <section className="px-[7vw] -mt-[24px] relative z-10">
-        <div
-          className="max-w-[1180px] mx-auto rounded-2xl p-[24px] md:p-[28px]"
-          style={{ background: '#fff', boxShadow: '0 8px 30px rgba(27,27,54,0.10)' }}
-        >
-          <div className="flex flex-wrap gap-[24px] items-start justify-between">
-            <div className="flex flex-wrap gap-[20px]">
+      <main>
+        <section className="px-[7vw] pb-[54px] pt-[132px] md:pb-[72px] md:pt-[152px]" style={{ background: '#090F3B' }}>
+          <div className="mx-auto max-w-[1180px]">
+            <Link href="/" className="inline-flex items-center gap-[7px] text-[14px] no-underline" style={{ color: 'rgba(255,255,255,0.72)' }}><ArrowLeft size={16} />Kembali ke Beranda</Link>
+            <div className="mt-[30px] grid gap-[24px] lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
               <div>
-                <span className="text-[11px] font-bold tracking-[0.1em] uppercase block mb-[8px]" style={{ color: '#9CA0AC' }}>
-                  Tier
-                </span>
-                <div className="flex gap-[8px] flex-wrap">
-                  {(['Semua', 'Reguler', 'Luxury'] as const).map(t => (
-                    <button
-                      key={t}
-                      onClick={() => setTierFilter(t)}
-                      className="px-[16px] py-[9px] rounded-full text-[13.5px] font-semibold transition-colors"
-                      style={{
-                        background: tierFilter === t ? '#1B1B36' : '#fff',
-                        color: tierFilter === t ? '#fff' : '#1B1B36',
-                        border: '1px solid rgba(27,27,54,0.16)',
-                      }}
-                    >
-                      {t}
-                    </button>
-                  ))}
-                </div>
+                <span className="inline-flex rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold tracking-[0.12em] uppercase" style={{ background: 'rgba(242,233,228,0.14)', color: '#F2E9E4' }}>Katalog Digital</span>
+                <h1 className="mt-[16px] max-w-[760px] font-bold leading-[1.08]" style={{ color: '#fff', fontSize: 'clamp(38px,5vw,64px)', textWrap: 'balance' }}>Koleksi Program Umroh Dreammecca</h1>
+                <p className="mt-[16px] max-w-[680px] text-[16px] leading-[1.65]" style={{ color: 'rgba(255,255,255,0.76)' }}>Bandingkan jadwal, kelas program, hotel, maskapai, dan harga dari seluruh pilihan Desember 2026.</p>
               </div>
-              <div>
-                <span className="text-[11px] font-bold tracking-[0.1em] uppercase block mb-[8px]" style={{ color: '#9CA0AC' }}>
-                  Durasi
-                </span>
-                <div className="flex gap-[8px] flex-wrap">
-                  {(['Semua', '9 Hari', '12 Hari'] as const).map(d => (
-                    <button
-                      key={d}
-                      onClick={() => setDurFilter(d)}
-                      className="px-[16px] py-[9px] rounded-full text-[13.5px] font-semibold transition-colors"
-                      style={{
-                        background: durFilter === d ? '#1B1B36' : '#fff',
-                        color: durFilter === d ? '#fff' : '#1B1B36',
-                        border: '1px solid rgba(27,27,54,0.16)',
-                      }}
-                    >
-                      {d}
-                    </button>
-                  ))}
-                </div>
+              <div className="grid grid-cols-2 gap-[10px] text-[13px]">
+                <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#F2E9E4', fontWeight: 700 }}>{publicPackages.length}</span>Program tersedia</div>
+                <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#F2E9E4', fontWeight: 700 }}>5</span>Tanggal berangkat</div>
               </div>
-            </div>
-            <div className="text-[13.5px] font-semibold self-center" style={{ color: '#6B6B85' }}>
-              {isLoading ? 'Memuat...' : `${cards.length} jadwal tersedia`}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="px-[7vw] py-[48px] bg-white">
-        <div className="max-w-[1180px] mx-auto">
-          {isLoading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[20px]">
-              {[0, 1, 2, 3].map(i => (
-                <div key={i} className="rounded-xl h-[420px] animate-pulse" style={{ background: '#F4F4F7' }} />
-              ))}
+        <section className="px-[7vw] py-[48px] md:py-[64px]" style={{ background: '#F7F6F2' }}>
+          <div className="mx-auto max-w-[1180px]">
+            <div className="rounded-lg p-[16px] md:p-[22px]" style={{ background: '#fff', border: '1px solid rgba(9,15,59,0.10)' }}>
+              <div className="grid gap-[18px] lg:grid-cols-[1fr_auto_auto] lg:items-end">
+                <label className="block"><span className="mb-[8px] block text-[11px] font-bold tracking-[0.10em] uppercase" style={{ color: '#5D5D76' }}>Cari Program</span><span className="flex min-h-11 items-center gap-[10px] rounded-[6px] px-[13px]" style={{ background: '#F7F6F2', border: '1px solid rgba(9,15,59,0.10)' }}><Search size={17} color="#F2E9E4" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari paket, hotel, atau maskapai" className="min-w-0 flex-1 bg-transparent text-[14px] outline-none" style={{ color: '#090F3B' }} /></span></label>
+                <div><span className="mb-[8px] block text-[11px] font-bold tracking-[0.10em] uppercase" style={{ color: '#5D5D76' }}>Kelas Program</span><div className="flex flex-wrap gap-[7px]">{tiers.map((item) => <button key={item} type="button" onClick={() => setTier(item)} className="min-h-10 rounded-[6px] px-[13px] text-[13px]" style={tier === item ? { background: '#090F3B', color: '#fff' } : { background: '#F7F6F2', color: '#090F3B', border: '1px solid rgba(9,15,59,0.10)' }}>{item}</button>)}</div></div>
+                <label className="block"><span className="mb-[8px] block text-[11px] font-bold tracking-[0.10em] uppercase" style={{ color: '#5D5D76' }}>Keberangkatan</span><select value={date} onChange={(event) => setDate(event.target.value)} className="min-h-10 rounded-[6px] px-[12px] text-[13px] outline-none" style={{ background: '#F7F6F2', color: '#090F3B', border: '1px solid rgba(9,15,59,0.10)' }}><option>Semua</option>{dates.map((item) => <option key={item}>{item}</option>)}</select></label>
+              </div>
             </div>
-          ) : isError ? (
-            <p className="text-center py-[60px]" style={{ color: '#6B6B85' }}>
-              Gagal memuat paket. Silakan refresh halaman atau hubungi kami langsung.
-            </p>
-          ) : cards.length === 0 ? (
-            <p className="text-center py-[60px]" style={{ color: '#6B6B85' }}>
-              Tidak ada paket yang cocok dengan filter ini. Coba filter lain atau hubungi kami langsung.
-            </p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[20px] items-stretch">
-              {cards.map(({ pkg, dep }, i) => (
-                <DepartureCard key={`${pkg.slug}-${i}`} pkg={pkg} dep={dep} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+
+            <div className="mt-[34px] flex items-center justify-between gap-4"><h2 className="text-[28px]" style={{ color: '#090F3B', fontWeight: 700 }}>Koleksi Desember 2026</h2><p className="text-[14px]" style={{ color: '#5D5D76' }}>{filteredPackages.length} program ditemukan</p></div>
+            {filteredPackages.length ? <div className="mt-[20px] grid gap-[16px] sm:grid-cols-2 xl:grid-cols-3">{filteredPackages.map((pkg) => <CatalogCard key={pkg.id} pkg={pkg} />)}</div> : <div className="mt-[20px] rounded-lg p-[36px] text-center" style={{ background: '#fff', color: '#5D5D76', border: '1px solid rgba(9,15,59,0.10)' }}>Tidak ada program yang sesuai dengan pencarian atau filter Anda.</div>}
+          </div>
+        </section>
+      </main>
 
       <Footer />
+      <StickyMobileCTA />
     </div>
   );
 }
