@@ -52,7 +52,7 @@ export default function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex min-h-11 items-center justify-center rounded-[6px] px-[24px] py-[13px] text-[14px] font-bold no-underline transition-opacity hover:opacity-90 md:px-[30px] md:text-[15px]"
-              style={{ background: '#FFD400', color: '#090F3B' }}
+              style={{ background: '#C9ADA7', color: '#090F3B' }}
             >
               Konsultasi Gratis
             </a>
