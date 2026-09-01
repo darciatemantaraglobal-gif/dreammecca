@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { CalendarDays, Check, Clock3, Plane, TrainFront } from 'lucide-react';
+import { ArrowRight, CalendarDays, Check, Clock3, Plane, TrainFront } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { createWALink } from '@/lib/whatsapp';
 import { fadeUp, staggerContainer } from '@/lib/animations';
@@ -159,6 +159,13 @@ const packages: Package[] = [
 
 const months: Month[] = ['Oktober', 'November', 'Desember'];
 const featuredDate = '2026-12-09';
+const packageVisuals: Record<string, { image: string; position: string }> = {
+  '2026-12-07': { image: '/images/gallery-jamaah/jamaah-payung-dreammecca.jpg', position: 'center 48%' },
+  '2026-12-09': { image: '/images/gallery-jamaah/jamaah-masjidil-haram.jpg', position: 'center 57%' },
+  '2026-12-12': { image: '/images/gallery-jamaah/jamaah-madinah.jpg', position: 'center center' },
+  '2026-12-15': { image: '/images/gallery-jamaah/jamaah-pendampingan.jpg', position: 'center center' },
+  '2026-12-19': { image: '/images/gallery-jamaah/jamaah-keluarga.jpg', position: 'center center' },
+};
 
 function isUpcoming(date: string) {
   const departure = new Date(`${date}T00:00:00+07:00`);
@@ -169,55 +176,59 @@ function isUpcoming(date: string) {
 
 function PackageCard({ pkg }: { pkg: Package }) {
   const message = `Assalamu'alaikum, saya mau tanya program\n${pkg.title} ${pkg.tier} - ${pkg.dateLabel.replace('Keberangkatan ', '')} (Rp${pkg.price} juta).\n\nNama:\nKota:\nJumlah jamaah:`;
+  const visual = packageVisuals[pkg.date];
 
   return (
     <article
-      className="relative flex h-full flex-col rounded-lg p-[16px] md:p-[26px]"
+      className="relative flex h-full flex-col overflow-hidden rounded-lg"
       style={{
         background: pkg.featured ? '#FFFCF5' : '#fff',
         border: pkg.featured ? '1px solid #CFA568' : '1px solid rgba(27,27,54,0.12)',
         boxShadow: pkg.featured ? '0 18px 44px rgba(9,15,59,0.12)' : 'none',
       }}
     >
-      {pkg.featured && (
-        <span className="absolute right-[12px] top-[12px] rounded-md px-[7px] py-[4px] text-[9px] font-bold md:right-[18px] md:top-[18px] md:px-[9px] md:py-[5px] md:text-[11px]" style={{ background: '#090F3B', color: '#fff' }}>
-          Paling Untung
-        </span>
-      )}
-      <div className="flex items-center gap-[9px]">
-        <span
-          className="rounded-md px-[7px] py-[4px] text-[9px] font-bold md:px-[9px] md:py-[5px] md:text-[11px]"
-          style={pkg.tier === 'Eksklusif' ? { background: '#F6EEDC', color: '#8C661A' } : { background: '#F1F2F5', color: '#575A67' }}
-        >
-          {pkg.tier}
-        </span>
-      </div>
-      <p className="mt-[14px] flex items-center gap-[6px] text-[10px] font-semibold leading-[1.35] md:mt-[18px] md:gap-[8px] md:text-[13px]" style={{ color: '#5D5D76' }}>
-        <CalendarDays size={13} color="#CFA568" />
-        {pkg.dateLabel}
-      </p>
-      <h3 className="mt-[9px] pr-[62px] text-[18px] font-bold leading-[1.2] md:mt-[10px] md:pr-[90px] md:text-[24px] md:leading-[1.18]" style={{ color: '#090F3B' }}>
-        {pkg.title}
-      </h3>
-      <div className="mt-[16px] space-y-[8px] text-[11px] leading-[1.4] md:mt-[22px] md:space-y-[12px] md:text-[13px] md:leading-[1.45]" style={{ color: '#444761' }}>
-        <div className="flex gap-[7px] md:gap-[10px]"><Clock3 size={14} className="mt-[1px] flex-none md:size-4" color="#CFA568" /><span><strong style={{ color: '#090F3B' }}>Durasi:</strong> {pkg.duration}</span></div>
-        <div className="flex gap-[7px] md:gap-[10px]"><Plane size={14} className="mt-[1px] flex-none md:size-4" color="#CFA568" /><span><strong style={{ color: '#090F3B' }}>Maskapai:</strong> {pkg.airline}</span></div>
-        <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Check size={16} className="mt-[1px] flex-none" color="#CFA568" /><span><strong style={{ color: '#090F3B' }}>Makkah:</strong> {pkg.makkah}</span></div>
-        <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Check size={16} className="mt-[1px] flex-none" color="#CFA568" /><span><strong style={{ color: '#090F3B' }}>Madinah:</strong> {pkg.madinah}</span></div>
-        <div className="hidden gap-[7px] md:flex md:gap-[10px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#CFA568" /><span>Kereta Cepat Haramain.</span></div>
-      </div>
-      <div className="mt-auto pt-[20px] md:pt-[28px]">
-        {pkg.normalPrice && <span className="text-[13px] line-through" style={{ color: '#8B8EA0' }}>Rp{pkg.normalPrice} juta</span>}
-        <p className="leading-none" style={{ color: '#090F3B' }}><span className="text-[10px] font-semibold md:text-[13px]">Rp</span> <span className="text-[27px] font-extrabold md:text-[34px]">{pkg.price}</span> <span className="text-[11px] font-bold md:text-[14px]">JT</span></p>
-        <a
-          href={createWALink(message)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-[14px] inline-flex min-h-11 w-full items-center justify-center rounded-none px-[10px] py-[10px] text-[11px] font-bold no-underline transition-opacity hover:opacity-90 md:mt-[18px] md:px-[18px] md:py-[12px] md:text-[14px]"
-          style={{ background: '#090F3B', color: '#fff' }}
-        >
-          Konsultasi Gratis
-        </a>
+      <figure className="relative aspect-[16/9] overflow-hidden" style={{ background: '#090F3B' }}>
+        <img src={visual.image} alt="" className="h-full w-full object-cover" style={{ objectPosition: visual.position }} loading="lazy" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.04), rgba(9,15,59,0.42))' }} />
+        <div className="absolute inset-x-[12px] top-[12px] flex items-start justify-between gap-[8px] md:inset-x-[16px] md:top-[16px]">
+          <span className="rounded-md px-[8px] py-[4px] text-[9px] font-bold md:text-[11px]" style={pkg.tier === 'Eksklusif' ? { background: '#F6EEDC', color: '#8C661A' } : { background: '#fff', color: '#090F3B' }}>
+            {pkg.tier}
+          </span>
+          {pkg.featured && <span className="rounded-md px-[8px] py-[4px] text-[9px] font-bold md:text-[11px]" style={{ background: '#090F3B', color: '#fff' }}>Paling Untung</span>}
+        </div>
+      </figure>
+
+      <div className="flex flex-1 flex-col p-[14px] md:p-[22px]">
+        <p className="flex items-center gap-[6px] text-[10px] leading-[1.35] md:gap-[8px] md:text-[13px]" style={{ color: '#5D5D76' }}>
+          <CalendarDays size={13} color="#CFA568" />
+          {pkg.dateLabel}
+        </p>
+        <h3 className="mt-[8px] text-[17px] leading-[1.2] md:mt-[10px] md:text-[24px] md:leading-[1.18]" style={{ color: '#090F3B' }}>
+          {pkg.title}
+        </h3>
+        <div className="mt-[14px] space-y-[7px] text-[10px] leading-[1.4] md:mt-[18px] md:space-y-[10px] md:text-[13px] md:leading-[1.45]" style={{ color: '#444761' }}>
+          <div className="flex gap-[7px] md:gap-[10px]"><Clock3 size={14} className="mt-[1px] flex-none md:size-4" color="#CFA568" /><span>{pkg.duration}</span></div>
+          <div className="flex gap-[7px] md:gap-[10px]"><Plane size={14} className="mt-[1px] flex-none md:size-4" color="#CFA568" /><span>{pkg.airline}</span></div>
+          <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Check size={16} className="mt-[1px] flex-none" color="#CFA568" /><span>{pkg.makkah}</span></div>
+          <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Check size={16} className="mt-[1px] flex-none" color="#CFA568" /><span>{pkg.madinah}</span></div>
+          <div className="hidden gap-[7px] md:flex md:gap-[10px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#CFA568" /><span>Kereta Cepat Haramain</span></div>
+        </div>
+        <div className="mt-auto flex items-end justify-between gap-[10px] pt-[18px] md:pt-[24px]">
+          <div>
+            {pkg.normalPrice && <span className="text-[13px] line-through" style={{ color: '#8B8EA0' }}>Rp{pkg.normalPrice} juta</span>}
+            <p className="leading-none" style={{ color: '#090F3B' }}><span className="text-[10px] md:text-[13px]">Rp</span> <span className="text-[25px] md:text-[34px]">{pkg.price}</span> <span className="text-[10px] md:text-[14px]">JT</span></p>
+          </div>
+          <a
+            href={createWALink(message)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex size-10 flex-none items-center justify-center rounded-none no-underline transition-opacity hover:opacity-80"
+            style={{ background: '#090F3B', color: '#fff' }}
+            aria-label={`Tanya ${pkg.title} ${pkg.tier}`}
+          >
+            <ArrowRight size={17} strokeWidth={1.9} />
+          </a>
+        </div>
       </div>
     </article>
   );

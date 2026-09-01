@@ -9,13 +9,8 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100dvh] items-end overflow-hidden px-[7vw] pb-[72px] pt-[116px] md:min-h-[780px] md:pb-[112px]"
-      style={{
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 58%',
-        backgroundRepeat: 'no-repeat',
-        backgroundColor: '#1B1B36',
-      }}
+      className="relative flex min-h-[100dvh] overflow-hidden px-[7vw] pb-[48px] pt-[108px] md:min-h-[780px] md:pb-[70px]"
+      style={{ backgroundColor: '#090F3B' }}
     >
       <video
         autoPlay
@@ -31,26 +26,37 @@ export default function Hero() {
       </video>
       <div
         className="absolute inset-0"
-        style={{ background: 'linear-gradient(90deg, rgba(9,15,59,0.78) 0%, rgba(9,15,59,0.48) 48%, rgba(9,15,59,0.15) 100%), linear-gradient(0deg, rgba(9,15,59,0.72) 0%, rgba(9,15,59,0) 50%)' }}
+        style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.18) 0%, rgba(9,15,59,0.1) 36%, rgba(9,15,59,0.82) 100%), linear-gradient(90deg, rgba(9,15,59,0.35) 0%, rgba(9,15,59,0) 62%)' }}
       />
-      <div className="relative z-10 mx-auto w-full max-w-[1180px]">
+
+      <div className="relative z-10 mx-auto flex w-full max-w-[1280px] flex-col justify-between">
+        <motion.p
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-full whitespace-nowrap font-normal leading-none"
+          style={{ fontSize: 'clamp(52px,13.5vw,172px)', color: 'rgba(255,255,255,0.94)' }}
+        >
+          dreammecca
+        </motion.p>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-[690px]"
+          transition={{ duration: 0.55, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+          className="ml-auto mt-[84px] max-w-[560px] md:mt-0 md:text-right"
         >
           <h1
-            className="font-extrabold leading-[1.08]"
-            style={{ fontSize: 'clamp(44px,5.8vw,80px)', color: '#fff', textWrap: 'balance' }}
+            className="font-extrabold leading-[1.02]"
+            style={{ fontSize: 'clamp(40px,4.8vw,72px)', color: '#fff', textWrap: 'balance' }}
           >
             Perjalanan Ibadah<br />
             Penuh Berkah
           </h1>
-          <p className="mt-[22px] max-w-[570px] text-[16px] leading-[1.7] md:text-[18px]" style={{ color: 'rgba(255,255,255,0.84)' }}>
+          <p className="mt-[18px] max-w-[500px] text-[15px] leading-[1.65] md:ml-auto md:text-[17px]" style={{ color: 'rgba(255,255,255,0.84)' }}>
             Umroh berizin resmi, tanggal pasti, pendampingan penuh dari manasik sampai pulang.
           </p>
-          <div className="mt-[30px] flex flex-wrap items-center gap-[18px]">
+          <div className="mt-[26px] flex flex-wrap items-center gap-[16px] md:justify-end">
             <a
               href={waLink}
               target="_blank"
