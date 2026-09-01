@@ -26,8 +26,8 @@ export default function Gallery() {
           </a>
         </div>
 
-        <div className="overflow-hidden rounded-lg" style={{ aspectRatio: '4 / 3', background: '#090F3B' }}>
-            <img src="/images/hero.jpg" alt="Masjidil Haram" className="h-full w-full object-cover opacity-85" style={{ objectPosition: 'center 64%' }} />
+        <div className="overflow-hidden rounded-lg" style={{ aspectRatio: '16 / 10', background: '#090F3B' }}>
+            <img src="/images/perlengkapan/perlengkapan-dreammecca.png" alt="Perlengkapan umroh eksklusif Dreammecca" className="h-full w-full object-cover" style={{ objectPosition: 'center center' }} />
         </div>
       </div>
     </section>
