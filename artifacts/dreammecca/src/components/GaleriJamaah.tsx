@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 
 interface GalleryPhoto {
   id: string;
@@ -80,6 +81,7 @@ function useGalleryPhotos() {
 
 export default function GaleriJamaah() {
   const { data } = useGalleryPhotos();
+  const [selectedPhoto, setSelectedPhoto] = useState<DocumentationPhoto | null>(null);
   const publishedPhotos = data?.slice(0, 6) ?? [];
   const photos: DocumentationPhoto[] = publishedPhotos.length > 0
     ? publishedPhotos.map((photo, index) => ({
@@ -116,13 +118,12 @@ export default function GaleriJamaah() {
 
         <div className="grid grid-cols-2 md:grid-cols-12 auto-rows-[148px] md:auto-rows-[190px] gap-[10px] md:gap-[14px] mt-[32px] md:mt-[48px]">
           {photos.map(photo => (
-            <a
+            <button
               key={photo.id}
-              href={photo.image_url}
-              target="_blank"
-              rel="noreferrer"
-              className={`${photo.className} group relative overflow-hidden rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E2BC6C]`}
-              aria-label={`Buka foto: ${photo.caption}`}
+              type="button"
+              onClick={() => setSelectedPhoto(photo)}
+              className={`${photo.className} group relative overflow-hidden rounded-lg text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E2BC6C]`}
+              aria-label={`Perbesar foto: ${photo.caption}`}
             >
               <img
                 src={photo.image_url}
@@ -139,10 +140,28 @@ export default function GaleriJamaah() {
                   {photo.caption}
                 </span>
               </div>
-            </a>
+            </button>
           ))}
         </div>
       </div>
+
+      <Dialog open={selectedPhoto !== null} onOpenChange={(open) => !open && setSelectedPhoto(null)}>
+        <DialogContent className="w-[min(92vw,1100px)] max-w-none max-h-[90dvh] overflow-visible border-0 bg-transparent p-0 shadow-none [&>button]:-right-3 [&>button]:-top-3 [&>button]:rounded-full [&>button]:bg-white [&>button]:p-2 [&>button]:text-[#090F3B] [&>button]:opacity-100 [&>button]:shadow-lg [&>button]:focus-visible:ring-[#CFA568]">
+          <DialogTitle className="sr-only">{selectedPhoto?.caption ?? 'Foto dokumentasi jamaah'}</DialogTitle>
+          {selectedPhoto && (
+            <figure className="relative max-h-[90dvh] overflow-hidden rounded-lg bg-[#090F3B]">
+              <img
+                src={selectedPhoto.image_url}
+                alt={selectedPhoto.caption}
+                className="max-h-[90dvh] w-full object-contain"
+              />
+              <figcaption className="absolute inset-x-0 bottom-0 px-[16px] py-[14px] text-[13px]" style={{ background: 'linear-gradient(180deg, transparent, rgba(0,0,0,0.78))', color: '#fff' }}>
+                {selectedPhoto.caption}
+              </figcaption>
+            </figure>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
