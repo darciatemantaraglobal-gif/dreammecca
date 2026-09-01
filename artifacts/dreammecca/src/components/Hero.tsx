@@ -43,8 +43,8 @@ export default function Hero() {
             Perjalanan Ibadah<br />
             Penuh Berkah
           </h1>
-          <p className="mt-[18px] max-w-[500px] text-[15px] leading-[1.65] md:text-[17px]" style={{ color: 'rgba(255,255,255,0.84)' }}>
-            Umroh berizin resmi, tanggal pasti, pendampingan penuh dari manasik sampai pulang.
+          <p className="mt-[18px] max-w-[620px] text-[15px] leading-[1.65] md:text-[17px]" style={{ color: 'rgba(255,255,255,0.84)' }}>
+            “Ikutkanlah umroh kepada haji, karena keduanya menghilangkan kemiskinan dan dosa-dosa sebagaimana pembakaran menghilangkan karat pada besi, emas, dan perak. Sementara tidak ada pahala bagi haji yang mabrur kecuali surga.” (HR. An Nasai, Tirmidzi dan Ahmad)
           </p>
           <div className="mt-[26px] flex flex-wrap items-center gap-[16px]">
             <a
