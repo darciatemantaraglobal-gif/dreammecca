@@ -29,22 +29,12 @@ export default function Hero() {
         style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.18) 0%, rgba(9,15,59,0.1) 36%, rgba(9,15,59,0.82) 100%), linear-gradient(90deg, rgba(9,15,59,0.35) 0%, rgba(9,15,59,0) 62%)' }}
       />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-[1280px] flex-col justify-between">
-        <motion.p
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-full whitespace-nowrap font-normal leading-none"
-          style={{ fontSize: 'clamp(52px,13.5vw,172px)', color: 'rgba(255,255,255,0.94)' }}
-        >
-          dreammecca
-        </motion.p>
-
+      <div className="relative z-10 mx-auto flex w-full max-w-[1280px] flex-col justify-end">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className="ml-auto mt-[84px] max-w-[560px] md:mt-0 md:text-right"
+          className="max-w-[560px] text-left"
         >
           <h1
             className="font-extrabold leading-[1.02]"
@@ -53,10 +43,10 @@ export default function Hero() {
             Perjalanan Ibadah<br />
             Penuh Berkah
           </h1>
-          <p className="mt-[18px] max-w-[500px] text-[15px] leading-[1.65] md:ml-auto md:text-[17px]" style={{ color: 'rgba(255,255,255,0.84)' }}>
+          <p className="mt-[18px] max-w-[500px] text-[15px] leading-[1.65] md:text-[17px]" style={{ color: 'rgba(255,255,255,0.84)' }}>
             Umroh berizin resmi, tanggal pasti, pendampingan penuh dari manasik sampai pulang.
           </p>
-          <div className="mt-[26px] flex flex-wrap items-center gap-[16px] md:justify-end">
+          <div className="mt-[26px] flex flex-wrap items-center gap-[16px]">
             <a
               href={waLink}
               target="_blank"
