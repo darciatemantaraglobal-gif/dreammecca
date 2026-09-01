@@ -74,7 +74,7 @@ export default function Navbar() {
         target="_blank"
         rel="noopener noreferrer"
         className="hidden md:inline-flex min-h-11 items-center rounded-[6px] px-[25px] py-[12px] text-[14px] font-bold no-underline transition-opacity hover:opacity-[0.90]"
-        style={{ background: '#F2E9E4', color: '#090F3B' }}
+        style={{ background: '#C9ADA7', color: '#090F3B' }}
       >
         Konsultasi Gratis
       </a>
@@ -114,7 +114,7 @@ export default function Navbar() {
             rel="noopener noreferrer"
             onClick={() => setOpen(false)}
             className="inline-flex min-h-11 justify-center rounded-[6px] px-6 py-3 text-[15px] font-bold no-underline"
-            style={{ background: '#F2E9E4', color: '#090F3B' }}
+            style={{ background: '#C9ADA7', color: '#090F3B' }}
           >
             Konsultasi Gratis
           </a>

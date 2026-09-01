@@ -12,7 +12,7 @@ export default function About() {
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeUp}
         >
-          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#F2E9E4' }}>
+          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#C9ADA7' }}>
             Tentang Dreammecca
           </span>
           <h2
@@ -21,7 +21,7 @@ export default function About() {
           >
             Mendampingi Perjalanan Ibadah Anda
           </h2>
-          <div className="mt-[24px] max-w-[560px] space-y-[16px] border-l-2 pl-[20px] text-[16px] leading-[1.72] md:text-[17px]" style={{ color: '#5D5D76', borderColor: '#F2E9E4' }}>
+          <div className="mt-[24px] max-w-[560px] space-y-[16px] border-l-2 pl-[20px] text-[16px] leading-[1.72] md:text-[17px]" style={{ color: '#5D5D76', borderColor: '#C9ADA7' }}>
             <p>
               Dreammecca mendampingi perjalanan umroh dan wisata halal, dari persiapan manasik hingga kepulangan. Kami menata setiap tahap perjalanan dengan informasi yang jelas dan perhatian pada kenyamanan jamaah.
             </p>
@@ -46,7 +46,7 @@ export default function About() {
             className="h-full w-full object-cover"
             style={{ objectPosition: 'center center' }}
           />
-          <figcaption className="absolute bottom-0 left-0 px-[18px] py-[12px] text-[12px] font-bold tracking-[0.08em] uppercase" style={{ background: '#090F3B', color: '#F2E9E4' }}>
+          <figcaption className="absolute bottom-0 left-0 px-[18px] py-[12px] text-[12px] font-bold tracking-[0.08em] uppercase" style={{ background: '#090F3B', color: '#C9ADA7' }}>
             Pendampingan Jamaah Dreammecca
           </figcaption>
         </motion.figure>

@@ -21,7 +21,7 @@ export default function QuickLinks() {
             className="group flex min-h-[82px] items-center gap-[13px] py-[15px] no-underline first:pt-0 last:pb-0 md:px-[24px] md:py-0 md:first:pl-0 md:last:pr-0"
             style={{ color: '#090F3B' }}
           >
-            <Icon size={19} strokeWidth={1.7} color="#F2E9E4" className="flex-none" />
+            <Icon size={19} strokeWidth={1.7} color="#C9ADA7" className="flex-none" />
             <span className="min-w-0 flex-1">
               <span className="block text-[14px] font-semibold">{label}</span>
               <span className="mt-[3px] block text-[12px] leading-[1.45]" style={{ color: '#5D5D76' }}>{detail}</span>

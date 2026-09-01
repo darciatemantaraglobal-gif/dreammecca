@@ -31,7 +31,7 @@ export default function TravelFAQ() {
     <section id="faq" className="px-[7vw] py-[72px] md:py-[112px]" style={{ background: '#F7F6F2' }}>
       <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-[32px] md:grid-cols-[0.75fr_1.25fr] md:gap-[90px]">
         <div>
-          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#F2E9E4' }}>FAQ</span>
+          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#C9ADA7' }}>FAQ</span>
           <h2 className="mt-[12px] font-bold leading-[1.12]" style={{ fontSize: 'clamp(32px,4vw,52px)', color: '#090F3B', textWrap: 'balance' }}>
             Pertanyaan yang Sering Ditanyakan
           </h2>

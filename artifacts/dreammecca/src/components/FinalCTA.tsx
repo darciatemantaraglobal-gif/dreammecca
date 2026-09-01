@@ -21,7 +21,7 @@ export default function FinalCTA() {
         <div className="mt-[40px] grid grid-cols-1 gap-[20px] md:grid-cols-[0.72fr_1.28fr]">
           <div className="flex flex-col justify-between rounded-xl p-[28px] md:p-[34px]" style={{ background: '#090F3B' }}>
             <div>
-              <MapPin size={24} color="#F2E9E4" strokeWidth={1.65} />
+              <MapPin size={24} color="#C9ADA7" strokeWidth={1.65} />
               <p className="mt-[20px] text-[17px] font-semibold leading-[1.45]" style={{ color: '#fff' }}>Kantor pusat Dreammecca</p>
               <address className="mt-[10px] not-italic text-[14px] leading-[1.7]" style={{ color: 'rgba(255,255,255,0.68)' }}>{address}</address>
             </div>

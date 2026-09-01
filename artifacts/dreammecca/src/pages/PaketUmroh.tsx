@@ -15,12 +15,12 @@ function CatalogCard({ pkg }: { pkg: PublicPackage }) {
   const [day, month, year] = pkg.dateLabel.split(' ');
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-lg transition-transform duration-300 hover:-translate-y-1" style={{ background: '#fff', border: pkg.featured ? '1px solid #F2E9E4' : '1px solid rgba(9,15,59,0.12)', boxShadow: pkg.featured ? '0 18px 42px rgba(9,15,59,0.12)' : '0 3px 12px rgba(9,15,59,0.04)' }}>
+    <article className="group flex h-full flex-col overflow-hidden rounded-lg transition-transform duration-300 hover:-translate-y-1" style={{ background: '#fff', border: pkg.featured ? '1px solid #C9ADA7' : '1px solid rgba(9,15,59,0.12)', boxShadow: pkg.featured ? '0 18px 42px rgba(9,15,59,0.12)' : '0 3px 12px rgba(9,15,59,0.04)' }}>
       <figure className="relative aspect-[16/8] overflow-hidden" style={{ background: '#090F3B' }}>
         <img src={visual.image} alt="Dokumentasi jamaah Dreammecca" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" style={{ objectPosition: visual.position }} loading="lazy" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.08), rgba(9,15,59,0.62))' }} />
         <div className="absolute inset-x-[16px] top-[16px] flex items-start justify-between gap-2">
-          <span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#090F3B', color: '#F2E9E4' }}>{pkg.tier}</span>
+          <span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#090F3B', color: '#C9ADA7' }}>{pkg.tier}</span>
           {pkg.featured && <span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#fff', color: '#090F3B' }}>Paling Untung</span>}
         </div>
         <p className="absolute bottom-[14px] left-[16px] text-[12px]" style={{ color: 'rgba(255,255,255,0.84)' }}>Program Umroh Dreammecca</p>
@@ -29,7 +29,7 @@ function CatalogCard({ pkg }: { pkg: PublicPackage }) {
       <div className="relative flex flex-1 flex-col p-[20px] pt-0">
         <div className="-mt-[26px] grid grid-cols-[64px_1fr] items-center gap-[12px] rounded-[6px] p-[10px] shadow-sm" style={{ background: '#fff', border: '1px solid rgba(9,15,59,0.10)' }}>
           <div className="flex h-[62px] flex-col items-center justify-center rounded-[6px]" style={{ background: '#090F3B', color: '#fff' }}>
-            <span className="text-[26px] leading-none" style={{ color: '#F2E9E4', fontWeight: 700 }}>{day}</span>
+            <span className="text-[26px] leading-none" style={{ color: '#C9ADA7', fontWeight: 700 }}>{day}</span>
             <span className="mt-[3px] text-[10px] uppercase tracking-[0.08em]">{month.slice(0, 3)}</span>
           </div>
           <div>
@@ -84,13 +84,13 @@ export default function PaketUmroh() {
             <Link href="/" className="inline-flex items-center gap-[7px] text-[14px] no-underline" style={{ color: 'rgba(255,255,255,0.72)' }}><ArrowLeft size={16} />Kembali ke Beranda</Link>
             <div className="mt-[30px] grid gap-[24px] lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
               <div>
-                <span className="inline-flex rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold tracking-[0.12em] uppercase" style={{ background: 'rgba(242,233,228,0.14)', color: '#F2E9E4' }}>Katalog Digital</span>
+                <span className="inline-flex rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold tracking-[0.12em] uppercase" style={{ background: 'rgba(242,233,228,0.14)', color: '#C9ADA7' }}>Katalog Digital</span>
                 <h1 className="mt-[16px] max-w-[760px] font-bold leading-[1.08]" style={{ color: '#fff', fontSize: 'clamp(38px,5vw,64px)', textWrap: 'balance' }}>Koleksi Program Umroh Dreammecca</h1>
                 <p className="mt-[16px] max-w-[680px] text-[16px] leading-[1.65]" style={{ color: 'rgba(255,255,255,0.76)' }}>Bandingkan jadwal, kelas program, hotel, maskapai, dan harga dari seluruh pilihan Desember 2026.</p>
               </div>
               <div className="grid grid-cols-2 gap-[10px] text-[13px]">
-                <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#F2E9E4', fontWeight: 700 }}>{publicPackages.length}</span>Program tersedia</div>
-                <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#F2E9E4', fontWeight: 700 }}>5</span>Tanggal berangkat</div>
+                <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#C9ADA7', fontWeight: 700 }}>{publicPackages.length}</span>Program tersedia</div>
+                <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#C9ADA7', fontWeight: 700 }}>5</span>Tanggal berangkat</div>
               </div>
             </div>
           </div>
