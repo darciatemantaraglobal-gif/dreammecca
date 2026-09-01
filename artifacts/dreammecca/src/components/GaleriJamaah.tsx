@@ -101,7 +101,7 @@ export default function GaleriJamaah() {
       }}
     >
       <div className="max-w-[1180px] mx-auto">
-        <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#C9ADA7' }}>
+        <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#F2E9E4' }}>
           Dokumentasi Jamaah
         </span>
         <div className="md:flex md:items-end md:justify-between md:gap-[40px]">
@@ -122,7 +122,7 @@ export default function GaleriJamaah() {
               key={photo.id}
               type="button"
               onClick={() => setSelectedPhoto(photo)}
-              className={`${photo.className} group relative overflow-hidden rounded-lg text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C9ADA7]`}
+              className={`${photo.className} group relative overflow-hidden rounded-lg text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F2E9E4]`}
               aria-label={`Perbesar foto: ${photo.caption}`}
             >
               <img
@@ -146,7 +146,7 @@ export default function GaleriJamaah() {
       </div>
 
       <Dialog open={selectedPhoto !== null} onOpenChange={(open) => !open && setSelectedPhoto(null)}>
-        <DialogContent className="w-[min(92vw,1100px)] max-w-none max-h-[90dvh] overflow-visible border-0 bg-transparent p-0 shadow-none [&>button]:-right-3 [&>button]:-top-3 [&>button]:rounded-full [&>button]:bg-white [&>button]:p-2 [&>button]:text-[#090F3B] [&>button]:opacity-100 [&>button]:shadow-lg [&>button]:focus-visible:ring-[#C9ADA7]">
+        <DialogContent className="w-[min(92vw,1100px)] max-w-none max-h-[90dvh] overflow-visible border-0 bg-transparent p-0 shadow-none [&>button]:-right-3 [&>button]:-top-3 [&>button]:rounded-full [&>button]:bg-white [&>button]:p-2 [&>button]:text-[#090F3B] [&>button]:opacity-100 [&>button]:shadow-lg [&>button]:focus-visible:ring-[#F2E9E4]">
           <DialogTitle className="sr-only">{selectedPhoto?.caption ?? 'Foto dokumentasi jamaah'}</DialogTitle>
           {selectedPhoto && (
             <figure className="relative max-h-[90dvh] overflow-hidden rounded-lg bg-[#090F3B]">
