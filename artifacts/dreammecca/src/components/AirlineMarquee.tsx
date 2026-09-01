@@ -11,11 +11,8 @@ export default function AirlineMarquee() {
 
   return (
     <section aria-label="Maskapai penerbangan pilihan" className="overflow-hidden border-y" style={{ background: '#F7F6F2', borderColor: '#E5DDCC' }}>
-      <div className="mx-auto flex max-w-[1440px] items-center gap-[20px] px-[7vw] py-[12px] md:gap-[32px] md:py-[14px]">
-        <span className="flex-none text-[10px] font-bold uppercase tracking-[0.14em] md:text-[11px]" style={{ color: '#8C661A' }}>
-          Maskapai pilihan
-        </span>
-        <div className="min-w-0 flex-1 overflow-hidden">
+      <div className="mx-auto max-w-[1440px] px-[7vw] py-[12px] md:py-[14px]">
+        <div className="overflow-hidden">
           <div className="airline-marquee-track flex w-max items-center gap-[26px] md:gap-[40px]">
             {items.map((airline, index) => (
               <img
