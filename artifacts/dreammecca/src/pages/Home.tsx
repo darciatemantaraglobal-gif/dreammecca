@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import AirlineMarquee from '@/components/AirlineMarquee';
 import About from '@/components/About';
 import Facilities from '@/components/Facilities';
 import Gallery from '@/components/Gallery';
@@ -18,6 +19,7 @@ export default function Home() {
     <div className="min-h-screen font-sans" style={{ background: '#fff' }}>
       <Navbar />
       <Hero />
+      <AirlineMarquee />
       <About />
       <Facilities />
       <Gallery />

@@ -154,6 +154,26 @@
   }
 }
 
+@keyframes airline-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-25%);
+  }
+}
+
+.airline-marquee-track {
+  animation: airline-marquee 26s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .airline-marquee-track {
+    animation: none;
+  }
+}
+
 /**
  * Using the elevate system.
  * Automatic contrast adjustment.
