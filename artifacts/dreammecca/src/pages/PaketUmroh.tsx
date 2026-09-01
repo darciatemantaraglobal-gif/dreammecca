@@ -33,7 +33,7 @@ function CatalogCard({ pkg }: { pkg: PublicPackage }) {
             <span className="mt-[3px] text-[10px] uppercase tracking-[0.08em]">{month.slice(0, 3)}</span>
           </div>
           <div>
-            <p className="flex items-center gap-[6px] text-[11px] uppercase tracking-[0.08em]" style={{ color: '#5D5D76' }}><CalendarDays size={14} color="#F2E9E4" />Keberangkatan</p>
+            <p className="flex items-center gap-[6px] text-[11px] uppercase tracking-[0.08em]" style={{ color: '#5D5D76' }}><CalendarDays size={14} color="#090F3B" />Keberangkatan</p>
             <p className="mt-[3px] text-[14px]" style={{ color: '#090F3B', fontWeight: 700 }}>{month} {year}</p>
           </div>
         </div>
