@@ -1,95 +1,54 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { fadeUp, staggerContainer } from '@/lib/animations';
-import { ShieldCheck, CalendarCheck, GraduationCap, BookOpenText } from 'lucide-react';
-
-const stats = [
-  { icon: ShieldCheck, value: 'PPIU', label: 'Berizin Resmi Kemenag RI' },
-  { icon: CalendarCheck, value: '2025', label: 'Tahun Mulai Beroperasi' },
-  { icon: GraduationCap, value: '100%', label: 'Dibimbing Ustadz Bersertifikat' },
-  { icon: BookOpenText, value: 'Sunnah', label: 'Sesuai Syariat & Sunnah Nabi SAW' },
-];
+import { fadeUp } from '@/lib/animations';
 
 export default function About() {
   return (
-    <section id="tentang" className="px-[7vw] py-[88px] bg-white">
-      <div className="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-[0.85fr_1.15fr] gap-[64px] items-center">
-        {/* Left: photo */}
+    <section id="tentang" className="bg-white px-[7vw] py-[72px] md:py-[136px]">
+      <div className="mx-auto grid max-w-[1180px] grid-cols-1 items-center gap-[36px] md:grid-cols-[0.9fr_1.1fr] md:gap-[96px]">
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeUp}
-          className="rounded-xl overflow-hidden"
-          style={{ aspectRatio: '1/1' }}
         >
-          <img
-            src="/images/about.jpg"
-            alt="Tim Dreammecca"
-            className="w-full h-full object-cover"
-          />
+          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#8C661A' }}>
+            Tentang Dreammecca
+          </span>
+          <h2
+            className="mt-[12px] font-bold leading-[1.12]"
+            style={{ fontSize: 'clamp(34px,4vw,54px)', color: '#1B1B36', textWrap: 'balance' }}
+          >
+            Perjalanan Ibadah, Penuh Berkah
+          </h2>
+          <div className="mt-[24px] max-w-[560px] space-y-[16px] border-l-2 pl-[20px] text-[16px] leading-[1.72] md:text-[17px]" style={{ color: '#5D5D76', borderColor: '#D9B35E' }}>
+            <p>
+              Kami adalah <strong style={{ color: '#1B1B36' }}>biro perjalanan umrah dan wisata halal</strong> yang berkomitmen menjadi mitra terpercaya umat Islam dalam mewujudkan impian suci ke Tanah Suci. Dengan layanan <strong style={{ color: '#1B1B36' }}>aman, nyaman, terjangkau, dan sesuai syariat</strong>, kami hadir mulai dari bimbingan manasik hingga pendampingan selama perjalanan.
+            </p>
+            <p>
+              Kami menjunjung tinggi <strong style={{ color: '#1B1B36' }}>transparansi biaya</strong>, pelayanan berkualitas, dan keamanan jamaah, serta terus berinovasi melalui pengembangan SDM dan teknologi demi menghadirkan pengalaman ibadah yang tenang, berkesan, dan penuh berkah.
+            </p>
+          </div>
         </motion.div>
 
-        {/* Right: text */}
-        <motion.div
+        <motion.figure
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeUp}
           transition={{ delay: 0.1 }}
+          className="relative overflow-hidden rounded-lg"
+          style={{ aspectRatio: '4 / 3', background: '#F4F3EF', boxShadow: '16px 16px 0 #EDE5D5' }}
         >
-          <span
-            className="text-[13px] font-bold tracking-[0.14em] uppercase"
-            style={{ color: '#6B6B85' }}
-          >
-            Tentang Kami
-          </span>
-          <h2
-            className="font-bold leading-[1.15] mt-[10px]"
-            style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#1B1B36' }}
-          >
-            Travel Umroh Resmi, Melayani Sejak 2025
-          </h2>
-          <p
-            className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
-            style={{ color: '#6B6B85' }}
-          >
-            PT. Dream Mecca International adalah perusahaan travel umroh terpercaya yang berkomitmen memberikan pengalaman ibadah yang nyaman, aman, dan berkualitas tinggi.
-          </p>
-          <p
-            className="text-[17px] leading-[1.6] mt-[14px] max-w-[620px]"
-            style={{ color: '#6B6B85' }}
-          >
-            Dengan pengalaman luas dan dukungan tim profesional, kami memastikan setiap proses perjalanan umroh, mulai dari konsultasi, pengurusan dokumen, visa, hingga pendampingan di tanah suci, berjalan lancar dan sesuai standar resmi. Kami mengutamakan transparansi, keamanan, dan kepuasan jamaah dengan pelayanan personal yang responsif.
-          </p>
-          <p
-            className="text-[17px] leading-[1.6] mt-[14px] max-w-[620px]"
-            style={{ color: '#6B6B85' }}
-          >
-            Berbasis pada integritas dan regulasi pemerintah, kami siap mendampingi untuk mewujudkan impian ibadah umroh yang penuh berkah, mudah, dan khusyuk.
-          </p>
-
-          {/* Stats */}
-          <div className="grid grid-cols-2 gap-[16px] mt-[32px] items-stretch">
-            {stats.map(s => (
-              <div
-                key={s.label}
-                className="rounded-2xl p-[24px] flex flex-col"
-                style={{ border: '1.5px solid #1B1B36' }}
-              >
-                <div className="w-[40px] h-[40px] rounded-xl flex items-center justify-center mb-[16px] flex-none" style={{ background: 'rgba(27,27,54,0.08)' }}>
-                  <s.icon size={19} color="#1B1B36" strokeWidth={1.75} />
-                </div>
-                <div className="text-[26px] font-extrabold leading-[1.1]" style={{ color: '#1B1B36' }}>
-                  {s.value}
-                </div>
-                <p className="text-[13.5px] leading-[1.5] mt-[8px]" style={{ color: '#6B6B85' }}>
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+          <img
+            src="/images/about.jpg"
+            alt="Suasana Masjid Nabawi saat matahari terbenam"
+            className="h-full w-full object-cover"
+          />
+          <figcaption className="absolute bottom-0 left-0 px-[18px] py-[12px] text-[12px] font-bold tracking-[0.08em] uppercase" style={{ background: '#090F3B', color: '#E2BC6C' }}>
+            Dreammecca Tour &amp; Travel
+          </figcaption>
+        </motion.figure>
       </div>
     </section>
   );

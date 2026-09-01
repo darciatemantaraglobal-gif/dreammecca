@@ -25,25 +25,17 @@ function useGalleryPhotos() {
   });
 }
 
-const fallbackPhotos = [
-  { id: '1', image_url: '/images/galeri-jamaah/jamaah-1.jpg', caption: 'Kloter September 2025' },
-  { id: '2', image_url: '/images/galeri-jamaah/jamaah-2.jpg', caption: 'Kloter Oktober 2025' },
-  { id: '3', image_url: '/images/galeri-jamaah/jamaah-3.jpg', caption: 'Manasik Sebelum Berangkat' },
-  { id: '4', image_url: '/images/galeri-jamaah/jamaah-4.jpg', caption: 'Tawaf di Masjidil Haram' },
-  { id: '5', image_url: '/images/galeri-jamaah/jamaah-5.jpg', caption: 'Kloter November 2025' },
-  { id: '6', image_url: '/images/galeri-jamaah/jamaah-6.jpg', caption: 'Ziarah Masjid Nabawi' },
-  { id: '7', image_url: '/images/galeri-jamaah/jamaah-7.jpg', caption: 'Kloter Desember 2025' },
-  { id: '8', image_url: '/images/galeri-jamaah/jamaah-8.jpg', caption: 'Kebersamaan di Tanah Suci' },
-];
-
 export default function GaleriJamaah() {
   const { data } = useGalleryPhotos();
-  const photos = (data && data.length > 0) ? data : fallbackPhotos;
+  const photos = data?.slice(0, 6) ?? [];
+
+  // Only show published photos. The landing page must never invent jamaah documentation.
+  if (photos.length === 0) return null;
 
   return (
     <section
       id="galeri-jamaah"
-      className="px-[7vw] py-[88px]"
+      className="px-[7vw] py-[72px] md:py-[128px]"
       style={{
         backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.88), rgba(27,27,54,0.94)), url("/images/patterns/geometric-navy.jpg")',
         backgroundSize: 'cover',
@@ -52,24 +44,24 @@ export default function GaleriJamaah() {
       }}
     >
       <div className="max-w-[1180px] mx-auto">
-        <span className="text-[13px] font-bold tracking-[0.14em] uppercase" style={{ color: 'rgba(255,255,255,0.55)' }}>
+        <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#E2BC6C' }}>
           Galeri Jamaah
         </span>
         <h2
-          className="font-bold leading-[1.15] mt-[10px]"
-          style={{ fontSize: 'clamp(28px,3.6vw,42px)', color: '#fff' }}
+          className="font-bold leading-[1.12] mt-[12px]"
+          style={{ fontSize: 'clamp(34px,4vw,54px)', color: '#fff', textWrap: 'balance' }}
         >
-          Momen Ibadah Bersama Dreammecca
+          Mereka Sudah Berangkat Bersama Kami
         </h2>
         <p className="text-[17px] leading-[1.6] mt-[16px] max-w-[560px]" style={{ color: 'rgba(255,255,255,0.65)' }}>
-          Sebagian dokumentasi jamaah yang sudah berangkat bersama kami, dari manasik hingga tiba di Tanah Suci.
+          Dokumentasi asli jamaah Dreammecca, bukan foto stok.
         </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-[14px] mt-[40px]">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-[10px] md:gap-[14px] mt-[32px] md:mt-[44px]">
           {photos.map(photo => (
             <div
               key={photo.id}
-              className="rounded-xl overflow-hidden relative group"
+              className="rounded-lg overflow-hidden relative group"
               style={{ aspectRatio: '4/5', background: 'rgba(255,255,255,0.05)' }}
             >
               <img

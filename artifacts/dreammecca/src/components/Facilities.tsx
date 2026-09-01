@@ -1,123 +1,71 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import {
+  BadgeCheck,
+  BedDouble,
+  BookOpenCheck,
+  BusFront,
+  Luggage,
+  Plane,
+  ShieldCheck,
+  TrainFront,
+  UsersRound,
+} from 'lucide-react';
 import { fadeUp, staggerContainer } from '@/lib/animations';
-import { FileCheck, HeartHandshake, GraduationCap, Building2, Car, Armchair, Stamp, Camera, Plane, Briefcase } from 'lucide-react';
 
 type FacilityIcon = React.ComponentType<{ size?: number; color?: string; strokeWidth?: number }>;
 
 const facilities: { icon: FacilityIcon; title: string; desc: string }[] = [
-  {
-    icon: FileCheck,
-    title: 'Transparansi Biaya',
-    desc: 'Rinci dan terbuka sejak awal, tanpa biaya tersembunyi.',
-  },
-  {
-    icon: HeartHandshake,
-    title: 'Ibadah Lebih Khusyuk',
-    desc: 'Perjalanan dirancang tenang dan penuh kekhusyukan.',
-  },
-  {
-    icon: GraduationCap,
-    title: 'Bimbingan Ustadz',
-    desc: 'Lulusan Al-Azhar Cairo dan Universitas Islam Madinah.',
-  },
-  {
-    icon: Building2,
-    title: 'Hotel Bintang 4 & 5',
-    desc: 'Lokasi dekat Masjidil Haram dan Masjid Nabawi.',
-  },
-  {
-    icon: Car,
-    title: 'Transportasi Nyaman',
-    desc: 'Bekerja sama dengan penyedia terpercaya di Arab Saudi.',
-  },
-  {
-    icon: Armchair,
-    title: 'Lounge Bandara',
-    desc: 'Saat keberangkatan & kepulangan, termasuk air zamzam.',
-  },
-  {
-    icon: Stamp,
-    title: 'Visa Umroh Gratis',
-    desc: 'Diurus penuh oleh tim kami, tanpa biaya tambahan.',
-  },
-  {
-    icon: Camera,
-    title: 'Fotografer Profesional',
-    desc: 'Momen ibadah Anda didokumentasikan selama perjalanan.',
-  },
-  {
-    icon: Plane,
-    title: 'Maskapai Internasional',
-    desc: 'Saudia, Garuda, Emirates, Etihad, Qatar & Turkish Airlines.',
-  },
-  {
-    icon: Briefcase,
-    title: 'Perlengkapan Lengkap',
-    desc: 'Seluruh perlengkapan ibadah sudah termasuk.',
-  },
+  { icon: BadgeCheck, title: 'Penyelenggara Resmi', desc: 'Berizin Kemenag dan terdaftar SISKOPATUH.' },
+  { icon: Plane, title: 'Maskapai Internasional', desc: 'Direct flight Garuda, Saudia, atau Qatar Airways.' },
+  { icon: BedDouble, title: 'Hotel Bintang 4 & 5', desc: 'Dekat Masjidil Haram dan Masjid Nabawi.' },
+  { icon: BusFront, title: 'Transportasi Bus Terbaru', desc: 'Bus ber-AC keluaran terbaru selama di Tanah Suci.' },
+  { icon: BookOpenCheck, title: 'Manasik Eksklusif', desc: 'Pembekalan sebelum berangkat, dibimbing sesuai sunnah.' },
+  { icon: Luggage, title: 'Perlengkapan Eksklusif', desc: 'Terlengkap dan berkualitas, sudah termasuk paket.' },
+  { icon: ShieldCheck, title: 'Ruang Tunggu Nyaman', desc: 'Keberangkatan dan kepulangan dari bandara Indonesia.' },
+  { icon: UsersRound, title: 'Full Bimbingan', desc: 'Pembimbing mendampingi penuh sepanjang perjalanan.' },
+  { icon: TrainFront, title: 'Kereta Cepat Haramain 2x', desc: 'Makkah ke Madinah pulang pergi, sudah termasuk.' },
 ];
 
 export default function Facilities() {
   return (
-    <section id="fasilitas" className="px-[7vw] py-[88px]" style={{
-      backgroundImage: 'linear-gradient(180deg, rgba(41,41,81,0.55), rgba(41,41,81,0.65)), url(/images/patterns/geometric-navy.jpg)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center top',
-      backgroundColor: '#292951',
-    }}>
-      <div className="max-w-[1180px] mx-auto">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={fadeUp}
-        >
-          <span
-            className="text-[13px] font-bold tracking-[0.14em] uppercase"
-            style={{ color: 'rgba(255,255,255,0.55)' }}
-          >
-            Fasilitas &amp; Layanan
+    <section id="fasilitas" className="px-[7vw] py-[72px] md:py-[132px]" style={{ background: '#090F3B' }}>
+      <div className="mx-auto max-w-[1180px]">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeUp}>
+          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#E2BC6C' }}>
+            Fasilitas &amp; Layanan Unggulan
           </span>
-          <h2
-            className="font-bold leading-[1.15] mt-[10px] text-white"
-            style={{ fontSize: 'clamp(28px,3.6vw,42px)' }}
-          >
-            Semua Kebutuhan Ibadah, Kami Siapkan
+          <h2 className="mt-[12px] max-w-[740px] font-bold leading-[1.12] text-white" style={{ fontSize: 'clamp(34px,4vw,54px)', textWrap: 'balance' }}>
+            Layanan Terbaik, untuk Perjalanan Ibadah yang Berkesan
           </h2>
-          <p
-            className="text-[17px] leading-[1.6] mt-[16px] max-w-[620px]"
-            style={{ color: 'rgba(255,255,255,0.66)' }}
-          >
-            Layanan menyeluruh yang dirancang agar jamaah fokus beribadah, bukan mengurus logistik.
-          </p>
         </motion.div>
 
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.18 }}
           variants={staggerContainer}
-          className="grid grid-cols-2 md:grid-cols-4 gap-[12px] md:gap-[20px] mt-[48px] items-stretch"
+          className="mt-[32px] grid grid-cols-2 gap-[10px] md:mt-[48px] md:grid-cols-12 md:gap-[12px]"
         >
-          {facilities.map(f => (
-            <motion.div
-              key={f.title}
+          {facilities.map((facility, index) => {
+            const isLead = index === 0;
+            return (
+            <motion.article
+              key={facility.title}
               variants={fadeUp}
-              className="rounded-2xl p-[28px] flex flex-col h-full transition-all duration-200 hover:-translate-y-1 hover:bg-[rgba(255,255,255,0.07)]"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}
+              className={`flex flex-col gap-[14px] rounded-lg p-[16px] md:p-[24px] ${isLead ? 'min-h-[176px] justify-between md:col-span-6 md:row-span-2 md:min-h-[324px]' : 'min-h-[176px] md:col-span-3'}`}
+              style={{ background: isLead ? '#15205A' : '#11194A', border: '1px solid rgba(207,165,104,0.20)' }}
             >
-              <div className="w-[44px] h-[44px] rounded-xl bg-white flex items-center justify-center mb-[20px] flex-none">
-                <f.icon size={20} color="#1B1B36" strokeWidth={1.75} />
+              <div className={`flex flex-none items-center justify-center rounded-lg ${isLead ? 'h-10 w-10 md:h-12 md:w-12' : 'h-9 w-9 md:h-10 md:w-10'}`} style={{ background: 'rgba(207,165,104,0.12)' }}>
+                <facility.icon size={isLead ? 21 : 18} color="#E2BC6C" strokeWidth={1.65} />
               </div>
-              <h4 className="text-[15px] md:text-[17px] font-bold leading-[1.3]" style={{ color: '#fff' }}>
-                {f.title}
-              </h4>
-              <p className="text-[12.5px] md:text-[14px] leading-[1.5] mt-[8px]" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                {f.desc}
-              </p>
-            </motion.div>
-          ))}
+              <div>
+                <h3 className={isLead ? 'text-[17px] font-bold leading-[1.2] md:text-[24px]' : 'text-[14px] font-semibold leading-[1.3] md:text-[16px]'} style={{ color: '#fff' }}>{facility.title}</h3>
+                <p className={`mt-[6px] leading-[1.5] ${isLead ? 'max-w-[340px] text-[12px] md:text-[15px]' : 'text-[12px] md:text-[13px]'}`} style={{ color: '#B5BCDE' }}>{facility.desc}</p>
+              </div>
+            </motion.article>
+            );
+          })}
         </motion.div>
       </div>
     </section>

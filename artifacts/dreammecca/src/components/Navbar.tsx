@@ -6,29 +6,39 @@ const links = [
   { name: 'Tentang', href: '#tentang' },
   { name: 'Fasilitas', href: '#fasilitas' },
   { name: 'Paket Umroh', href: '#paket' },
-  { name: 'Testimoni', href: '#testimoni' },
-  { name: 'FAQ', href: '#faq' },
+  { name: 'Perlengkapan', href: '#perlengkapan' },
   { name: 'Kontak', href: '#kontak' },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [overHero, setOverHero] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [open]);
+
+  useEffect(() => {
+    const hero = document.querySelector('#hero');
+    if (!hero) return undefined;
+
+    setOverHero(true);
+    const observer = new IntersectionObserver(([entry]) => setOverHero(entry.isIntersecting), {
+      threshold: 0.1,
+    });
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
+
   const waLink = createWALink(DEFAULT_MESSAGE);
 
   return (
     <nav
-      className="sticky top-0 z-50 flex items-center justify-between px-[7vw] py-[18px]"
+      className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[7vw] py-[16px] transition-colors duration-300"
       style={{
-        backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.75), rgba(27,27,54,0.82)), url(/images/patterns/geometric-navy.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center top',
-        backgroundColor: '#1B1B36',
-        borderBottom: '1px solid rgba(255,255,255,0.14)',
+        background: overHero ? 'linear-gradient(180deg, rgba(9,15,59,0.48), rgba(9,15,59,0))' : '#090F3B',
+        borderBottom: overHero ? '1px solid transparent' : '1px solid rgba(255,255,255,0.12)',
       }}
     >
       <a
@@ -40,18 +50,18 @@ export default function Navbar() {
         <img
           src="/images/logo.png"
           alt="Dreammecca"
-          className="h-[36px] w-auto"
+          className="h-[40px] w-auto"
           style={{ filter: 'brightness(0) invert(1)' }}
         />
       </a>
 
       {/* Desktop links */}
-      <ul className="hidden md:flex gap-[30px] list-none m-0 p-0">
+      <ul className="hidden md:flex gap-[28px] list-none m-0 p-0">
         {links.map(l => (
           <li key={l.name}>
             <a
               href={l.href}
-              className="text-white/70 hover:text-white no-underline text-[14.5px] font-medium transition-colors duration-150"
+              className="text-white/80 hover:text-white no-underline text-[14px] font-semibold transition-colors duration-150"
             >
               {l.name}
             </a>
@@ -63,7 +73,8 @@ export default function Navbar() {
         href={waLink}
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden md:inline-flex items-center bg-white text-[#1B1B36] font-bold text-[15px] px-[26px] py-[15px] rounded-lg hover:opacity-[0.88] transition-opacity no-underline"
+        className="hidden md:inline-flex min-h-11 items-center rounded-full px-[25px] py-[12px] text-[14px] font-bold no-underline transition-opacity hover:opacity-[0.90]"
+        style={{ background: '#CFA568', color: '#090F3B' }}
       >
         Konsultasi Gratis
       </a>
@@ -83,10 +94,7 @@ export default function Navbar() {
         <div
           className="absolute top-full left-0 right-0 flex flex-col px-[7vw] pb-6 pt-4 gap-5"
           style={{
-            backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.75), rgba(27,27,54,0.82)), url(/images/patterns/geometric-navy.jpg)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center top',
-            backgroundColor: '#1B1B36',
+            background: '#090F3B',
             borderBottom: '1px solid rgba(255,255,255,0.14)',
           }}
         >
@@ -105,7 +113,8 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setOpen(false)}
-            className="inline-flex justify-center bg-white text-[#1B1B36] font-bold px-6 py-3 rounded-lg text-[15px] no-underline"
+            className="inline-flex min-h-11 justify-center rounded-lg px-6 py-3 text-[15px] font-bold no-underline"
+            style={{ background: '#CFA568', color: '#090F3B' }}
           >
             Konsultasi Gratis
           </a>

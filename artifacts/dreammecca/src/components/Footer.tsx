@@ -1,66 +1,46 @@
 import React from 'react';
-import { createWALink, DEFAULT_MESSAGE, WA_NUMBER } from '@/lib/whatsapp';
-import { useSiteSettings } from '@/lib/useSiteSettings';
+import { Instagram, Mail, MapPin } from 'lucide-react';
+import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
+
+const links = [
+  { label: 'Tentang', href: '#tentang' },
+  { label: 'Fasilitas', href: '#fasilitas' },
+  { label: 'Paket Umroh', href: '#paket' },
+  { label: 'Kontak', href: '#kontak' },
+];
 
 export default function Footer() {
-  const { data: settings } = useSiteSettings();
-  const waNumber = settings?.whatsapp_number ?? WA_NUMBER;
-  const waLink = createWALink(DEFAULT_MESSAGE, waNumber);
-  const address = settings?.address ?? 'Jl. Durian No. 9H, RT 008/005, Kel. Jagakarsa, Kec. Jagakarsa, Jakarta Selatan 12620';
-
   return (
-    <footer style={{
-      backgroundImage: 'linear-gradient(180deg, rgba(27,27,54,0.65), rgba(27,27,54,0.75)), url(/images/patterns/geometric-navy.jpg)',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center top',
-      backgroundColor: '#1B1B36',
-      borderTop: '1px solid rgba(255,255,255,0.14)',
-    }}>
-      <div
-        className="max-w-[1180px] mx-auto px-[7vw] py-[44px] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6"
-      >
-        <div className="flex flex-col sm:flex-row items-start gap-[20px]">
-          <img
-            src="/images/logo.png"
-            alt="Dreammecca"
-            className="w-[88px] h-[88px] object-contain flex-none rounded-lg"
-            style={{ filter: 'brightness(0) invert(1)' }}
-          />
-          <div>
-            <h3 className="text-[20px] font-bold" style={{ color: '#fff' }}>
-              Dreammecca
-            </h3>
-            <p className="text-[13px] mt-[10px]" style={{ color: 'rgba(255,255,255,0.45)' }}>
-              {address}
-            </p>
+    <footer style={{ background: '#090F3B' }}>
+      <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-[40px] px-[7vw] py-[56px] md:grid-cols-[1.15fr_0.85fr_0.85fr]">
+        <div>
+          <img src="/images/logo.png" alt="Dreammecca" className="h-[42px] w-auto" style={{ filter: 'brightness(0) invert(1)' }} />
+          <p className="mt-[18px] max-w-[350px] text-[14px] leading-[1.65]" style={{ color: 'rgba(255,255,255,0.63)' }}>
+            Teman perjalanan umroh dan wisata halal Anda, dari manasik sampai pulang.
+          </p>
+          <a href={createWALink(DEFAULT_MESSAGE)} target="_blank" rel="noopener noreferrer" className="mt-[22px] inline-flex min-h-11 items-center rounded-lg px-[18px] py-[11px] text-[14px] font-bold no-underline" style={{ background: '#fff', color: '#090F3B' }}>
+            Konsultasi Gratis
+          </a>
+        </div>
+
+        <div>
+          <h2 className="text-[14px] font-bold" style={{ color: '#fff' }}>Navigasi</h2>
+          <nav className="mt-[16px] flex flex-col items-start gap-[10px]">
+            {links.map((link) => <a key={link.href} href={link.href} className="text-[14px] no-underline transition-opacity hover:opacity-100" style={{ color: 'rgba(255,255,255,0.63)' }}>{link.label}</a>)}
+          </nav>
+        </div>
+
+        <div>
+          <h2 className="text-[14px] font-bold" style={{ color: '#fff' }}>Hubungi Kami</h2>
+          <div className="mt-[16px] flex flex-col gap-[12px] text-[14px] leading-[1.55]" style={{ color: 'rgba(255,255,255,0.63)' }}>
+            <a href="mailto:dreammecca@gmail.com" className="flex items-center gap-[9px] no-underline" style={{ color: 'inherit' }}><Mail size={16} /> dreammecca@gmail.com</a>
+            <a href="https://instagram.com/dreammecca.id" target="_blank" rel="noopener noreferrer" className="flex items-center gap-[9px] no-underline" style={{ color: 'inherit' }}><Instagram size={16} /> @dreammecca.id</a>
+            <span className="flex items-start gap-[9px]"><MapPin size={16} className="mt-[3px] flex-none" /> Jakarta Selatan</span>
           </div>
         </div>
-        <a
-          href={waLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center font-bold text-[15px] px-[26px] py-[15px] rounded-lg hover:opacity-[0.88] transition-opacity no-underline text-white flex-none"
-          style={{ border: '1px solid rgba(255,255,255,0.35)', background: 'transparent' }}
-        >
-          Konsultasi Gratis
-        </a>
       </div>
-
-      <div
-        className="px-[7vw] py-[20px] flex flex-col sm:flex-row justify-between gap-2"
-        style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
-      >
-        <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
-          © 2026 Dreammecca Tour &amp; Travel. All rights reserved.
-        </span>
-        <div className="flex items-center gap-4">
-          <a href="/syarat-ketentuan" className="text-[12px] hover:text-white transition-colors" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            Syarat &amp; Ketentuan
-          </a>
-          <span className="text-[13px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
-            dreammecca@gmail.com
-          </span>
-        </div>
+      <div className="px-[7vw] py-[18px] text-[12px]" style={{ borderTop: '1px solid rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.45)' }}>
+        © 2026 Dreammecca Tour &amp; Travel. All rights reserved.
       </div>
     </footer>
   );
