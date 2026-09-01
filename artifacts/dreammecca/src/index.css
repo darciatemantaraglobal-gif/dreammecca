@@ -154,6 +154,13 @@
   }
 }
 
+.dreammecca-public .font-medium,
+.dreammecca-public .font-semibold,
+.dreammecca-public .font-bold,
+.dreammecca-public .font-extrabold {
+  font-weight: 400;
+}
+
 @keyframes airline-marquee {
   from {
     transform: translateX(0);

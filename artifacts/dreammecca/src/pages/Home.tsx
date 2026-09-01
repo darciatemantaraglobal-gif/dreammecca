@@ -16,7 +16,7 @@ import StickyMobileCTA from '@/components/StickyMobileCTA';
 
 export default function Home() {
   return (
-    <div className="min-h-screen font-sans" style={{ background: '#fff' }}>
+    <div className="dreammecca-public min-h-screen font-sans" style={{ background: '#fff' }}>
       <Navbar />
       <Hero />
       <AirlineMarquee />
