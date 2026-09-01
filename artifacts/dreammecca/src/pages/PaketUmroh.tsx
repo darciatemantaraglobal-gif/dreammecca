@@ -12,36 +12,50 @@ const dates = [...new Set(publicPackages.map((pkg) => pkg.dateLabel))];
 
 function CatalogCard({ pkg }: { pkg: PublicPackage }) {
   const visual = packageVisual(pkg.date);
+  const [day, month, year] = pkg.dateLabel.split(' ');
 
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-lg" style={{ background: '#fff', border: pkg.featured ? '1px solid #F2E9E4' : '1px solid rgba(9,15,59,0.12)', boxShadow: pkg.featured ? '0 16px 36px rgba(9,15,59,0.10)' : '0 2px 8px rgba(9,15,59,0.03)' }}>
-      <figure className="relative aspect-[16/10] overflow-hidden" style={{ background: '#090F3B' }}>
-        <img src={visual.image} alt="Dokumentasi jamaah Dreammecca" className="h-full w-full object-cover" style={{ objectPosition: visual.position }} loading="lazy" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.02), rgba(9,15,59,0.56))' }} />
+    <article className="group flex h-full flex-col overflow-hidden rounded-lg transition-transform duration-300 hover:-translate-y-1" style={{ background: '#fff', border: pkg.featured ? '1px solid #F2E9E4' : '1px solid rgba(9,15,59,0.12)', boxShadow: pkg.featured ? '0 18px 42px rgba(9,15,59,0.12)' : '0 3px 12px rgba(9,15,59,0.04)' }}>
+      <figure className="relative aspect-[16/8] overflow-hidden" style={{ background: '#090F3B' }}>
+        <img src={visual.image} alt="Dokumentasi jamaah Dreammecca" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" style={{ objectPosition: visual.position }} loading="lazy" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.08), rgba(9,15,59,0.62))' }} />
         <div className="absolute inset-x-[16px] top-[16px] flex items-start justify-between gap-2">
           <span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#090F3B', color: '#F2E9E4' }}>{pkg.tier}</span>
           {pkg.featured && <span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#fff', color: '#090F3B' }}>Paling Untung</span>}
         </div>
-        <p className="absolute bottom-[14px] left-[16px] flex items-center gap-[7px] text-[12px]" style={{ color: '#fff' }}><CalendarDays size={15} />Keberangkatan {pkg.dateLabel}</p>
+        <p className="absolute bottom-[14px] left-[16px] text-[12px]" style={{ color: 'rgba(255,255,255,0.84)' }}>Program Umroh Dreammecca</p>
       </figure>
 
-      <div className="flex flex-1 flex-col p-[20px]">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <p className="text-[12px]" style={{ color: '#5D5D76' }}>{pkg.duration} · {pkg.tier}</p>
-            <h2 className="mt-[6px] text-[24px] leading-[1.16]" style={{ color: '#090F3B', fontWeight: 700 }}>{pkg.title}</h2>
+      <div className="relative flex flex-1 flex-col p-[20px] pt-0">
+        <div className="-mt-[26px] grid grid-cols-[64px_1fr] items-center gap-[12px] rounded-[6px] p-[10px] shadow-sm" style={{ background: '#fff', border: '1px solid rgba(9,15,59,0.10)' }}>
+          <div className="flex h-[62px] flex-col items-center justify-center rounded-[6px]" style={{ background: '#090F3B', color: '#fff' }}>
+            <span className="text-[26px] leading-none" style={{ color: '#F2E9E4', fontWeight: 700 }}>{day}</span>
+            <span className="mt-[3px] text-[10px] uppercase tracking-[0.08em]">{month.slice(0, 3)}</span>
           </div>
-          <p className="text-right leading-none" style={{ color: '#090F3B', fontWeight: 700 }}><span className="text-[11px]">Rp</span> <span className="text-[28px]">{pkg.price}</span> <span className="text-[12px]">JT</span></p>
+          <div>
+            <p className="flex items-center gap-[6px] text-[11px] uppercase tracking-[0.08em]" style={{ color: '#5D5D76' }}><CalendarDays size={14} color="#F2E9E4" />Keberangkatan</p>
+            <p className="mt-[3px] text-[14px]" style={{ color: '#090F3B', fontWeight: 700 }}>{month} {year}</p>
+          </div>
         </div>
 
-        <div className="mt-[18px] space-y-[10px] border-t pt-[16px] text-[13px] leading-[1.45]" style={{ borderColor: 'rgba(9,15,59,0.10)', color: '#4B4F68' }}>
-          <p className="flex gap-[9px]"><Plane size={16} className="mt-[1px] flex-none" color="#F2E9E4" />{pkg.airline}</p>
-          <p className="flex gap-[9px]"><Hotel size={16} className="mt-[1px] flex-none" color="#F2E9E4" /><span><strong style={{ fontWeight: 600 }}>Makkah:</strong> {pkg.makkah}</span></p>
-          <p className="flex gap-[9px]"><Hotel size={16} className="mt-[1px] flex-none" color="#F2E9E4" /><span><strong style={{ fontWeight: 600 }}>Madinah:</strong> {pkg.madinah}</span></p>
-          <p className="flex gap-[9px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#F2E9E4" />Kereta Cepat Haramain</p>
+        <div className="mt-[18px]">
+          <h2 className="text-[25px] leading-[1.15]" style={{ color: '#090F3B', fontWeight: 700 }}>{pkg.title}</h2>
+          <div className="mt-[12px] grid grid-cols-2 gap-[8px] text-[12px]">
+            <p className="flex items-center gap-[7px] rounded-[6px] px-[10px] py-[9px]" style={{ background: '#F7F6F2', color: '#4B4F68' }}><Clock3 size={15} color="#F2E9E4" />{pkg.duration}</p>
+            <p className="flex items-center gap-[7px] rounded-[6px] px-[10px] py-[9px]" style={{ background: '#F7F6F2', color: '#4B4F68' }}><Plane size={15} color="#F2E9E4" /><span className="truncate">{pkg.airline}</span></p>
+          </div>
         </div>
 
-        <a href={createWALink(packageWhatsAppMessage(pkg))} target="_blank" rel="noopener noreferrer" className="mt-auto inline-flex min-h-11 items-center justify-center gap-[8px] rounded-[6px] px-[18px] py-[11px] text-[14px] font-bold no-underline" style={{ background: '#090F3B', color: '#fff' }}>Tanya Program <ArrowRight size={16} /></a>
+        <div className="mt-[16px] space-y-[10px] border-t pt-[16px] text-[13px] leading-[1.42]" style={{ borderColor: 'rgba(9,15,59,0.10)', color: '#4B4F68' }}>
+          <p className="grid grid-cols-[18px_66px_1fr] gap-[8px]"><Hotel size={16} className="mt-[1px]" color="#F2E9E4" /><span style={{ color: '#5D5D76' }}>Makkah</span><span style={{ color: '#090F3B', fontWeight: 600 }}>{pkg.makkah}</span></p>
+          <p className="grid grid-cols-[18px_66px_1fr] gap-[8px]"><Hotel size={16} className="mt-[1px]" color="#F2E9E4" /><span style={{ color: '#5D5D76' }}>Madinah</span><span style={{ color: '#090F3B', fontWeight: 600 }}>{pkg.madinah}</span></p>
+          <p className="flex gap-[9px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#F2E9E4" />Kereta Cepat Haramain termasuk</p>
+        </div>
+
+        <div className="mt-auto flex items-end justify-between gap-3 pt-[20px]">
+          <div><p className="text-[11px]" style={{ color: '#5D5D76' }}>Harga mulai</p><p className="mt-[3px] leading-none" style={{ color: '#090F3B', fontWeight: 700 }}><span className="text-[12px]">Rp</span> <span className="text-[30px]">{pkg.price}</span> <span className="text-[13px]">JT</span></p></div>
+          <a href={createWALink(packageWhatsAppMessage(pkg))} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center justify-center gap-[8px] rounded-[6px] px-[16px] py-[11px] text-[13px] font-bold no-underline" style={{ background: '#090F3B', color: '#fff' }}>Tanya <ArrowRight size={16} /></a>
+        </div>
       </div>
     </article>
   );
