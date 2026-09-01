@@ -29,7 +29,7 @@ export default function FinalCTA() {
               href={createWALink(DEFAULT_MESSAGE)}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-[34px] inline-flex min-h-11 items-center justify-center gap-[9px] rounded-lg px-[20px] py-[12px] text-[14px] font-bold no-underline"
+              className="mt-[34px] inline-flex min-h-11 items-center justify-center gap-[9px] rounded-none px-[20px] py-[12px] text-[14px] font-bold no-underline"
               style={{ background: '#fff', color: '#090F3B' }}
             >
               <MessageCircle size={17} />

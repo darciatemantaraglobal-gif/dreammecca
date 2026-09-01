@@ -18,7 +18,7 @@ export default function Gallery() {
             href={createWALink(DEFAULT_MESSAGE)}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-[28px] inline-flex min-h-11 items-center gap-[9px] rounded-lg px-[22px] py-[12px] text-[14px] font-bold no-underline"
+            className="mt-[28px] inline-flex min-h-11 items-center gap-[9px] rounded-none px-[22px] py-[12px] text-[14px] font-bold no-underline"
             style={{ background: '#090F3B', color: '#fff' }}
           >
             <MessageCircle size={17} />

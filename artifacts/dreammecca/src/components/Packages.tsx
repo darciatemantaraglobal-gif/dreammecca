@@ -212,7 +212,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
           href={createWALink(message)}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-[14px] inline-flex min-h-11 w-full items-center justify-center rounded-lg px-[10px] py-[10px] text-[11px] font-bold no-underline transition-opacity hover:opacity-90 md:mt-[18px] md:px-[18px] md:py-[12px] md:text-[14px]"
+          className="mt-[14px] inline-flex min-h-11 w-full items-center justify-center rounded-none px-[10px] py-[10px] text-[11px] font-bold no-underline transition-opacity hover:opacity-90 md:mt-[18px] md:px-[18px] md:py-[12px] md:text-[14px]"
           style={{ background: '#090F3B', color: '#fff' }}
         >
           Konsultasi Gratis
@@ -229,7 +229,7 @@ function WaitlistCard() {
       <span className="text-[13px] font-bold tracking-[0.10em] uppercase" style={{ color: '#8C661A' }}>November 2026</span>
       <h3 className="mt-[10px] text-[27px] font-bold leading-[1.2]" style={{ color: '#090F3B' }}>Jadwal November 2026 segera diumumkan.</h3>
       <p className="mt-[10px] text-[15px] leading-[1.65]" style={{ color: '#5D5D76' }}>Hubungi admin untuk masuk daftar tunggu dan mendapat informasi jadwal lebih dahulu.</p>
-      <a href={createWALink(message)} target="_blank" rel="noopener noreferrer" className="mt-[20px] inline-flex min-h-11 items-center justify-center rounded-lg px-[22px] py-[12px] text-[14px] font-bold no-underline" style={{ background: '#090F3B', color: '#fff' }}>
+      <a href={createWALink(message)} target="_blank" rel="noopener noreferrer" className="mt-[20px] inline-flex min-h-11 items-center justify-center rounded-none px-[22px] py-[12px] text-[14px] font-bold no-underline" style={{ background: '#090F3B', color: '#fff' }}>
         Konsultasi Gratis
       </a>
     </div>

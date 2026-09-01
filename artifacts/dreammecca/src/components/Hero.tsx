@@ -59,7 +59,7 @@ export default function Hero() {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-11 items-center justify-center rounded-full px-[24px] py-[13px] text-[14px] font-bold no-underline transition-opacity hover:opacity-90 md:px-[30px] md:text-[15px]"
+              className="inline-flex min-h-11 items-center justify-center rounded-none px-[24px] py-[13px] text-[14px] font-bold no-underline transition-opacity hover:opacity-90 md:px-[30px] md:text-[15px]"
               style={{ background: '#CFA568', color: '#090F3B' }}
             >
               Konsultasi Gratis

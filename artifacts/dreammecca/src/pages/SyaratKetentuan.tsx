@@ -140,7 +140,7 @@ export default function SyaratKetentuan() {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center font-bold text-[15px] px-[24px] py-[14px] rounded-lg mt-[20px] no-underline hover:opacity-[0.88] transition-opacity"
+              className="inline-flex items-center font-bold text-[15px] px-[24px] py-[14px] rounded-none mt-[20px] no-underline hover:opacity-[0.88] transition-opacity"
               style={{ background: '#1B1B36', color: '#fff' }}
             >
               Tanya via WhatsApp

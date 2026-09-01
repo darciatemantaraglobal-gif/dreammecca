@@ -44,7 +44,7 @@ export default function ProgramDetails() {
             <ul className="mt-[18px] space-y-[13px]">
               {toConfirm.map((item) => <li key={item} className="flex gap-[10px] text-[14px] leading-[1.6]" style={{ color: '#C5CBE5' }}><span className="mt-[9px] h-[5px] w-[5px] flex-none rounded-full" style={{ background: '#E2BC6C' }} />{item}</li>)}
             </ul>
-            <a href={createWALink(message)} target="_blank" rel="noopener noreferrer" className="mt-[24px] inline-flex min-h-11 items-center justify-center rounded-lg px-[18px] py-[11px] text-[14px] font-bold no-underline" style={{ background: '#E2BC6C', color: '#090F3B' }}>
+            <a href={createWALink(message)} target="_blank" rel="noopener noreferrer" className="mt-[24px] inline-flex min-h-11 items-center justify-center rounded-none px-[18px] py-[11px] text-[14px] font-bold no-underline" style={{ background: '#E2BC6C', color: '#090F3B' }}>
               Tanya Rincian Program
             </a>
           </article>

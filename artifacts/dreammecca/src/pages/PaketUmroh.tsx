@@ -100,7 +100,7 @@ function DepartureCard({ pkg, dep }: { pkg: Package; dep: Departure }) {
             href={createWALink(waMsg)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-[20px] py-[11px] rounded-lg font-bold text-[13px] no-underline hover:opacity-[0.88] transition-opacity flex-none"
+            className="inline-flex items-center justify-center px-[20px] py-[11px] rounded-none font-bold text-[13px] no-underline hover:opacity-[0.88] transition-opacity flex-none"
             style={{ background: '#1B1B36', color: '#fff' }}
           >
             Booking

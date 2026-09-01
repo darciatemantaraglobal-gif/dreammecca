@@ -35,7 +35,7 @@ export default function Discounts() {
           <p className="mt-[16px] max-w-[460px] text-[16px] leading-[1.7]" style={{ color: '#B5BCDE' }}>
             Kedua potongan dapat digabung dengan maksimum Rp2 juta per jamaah.
           </p>
-          <a href={createWALink(message)} target="_blank" rel="noopener noreferrer" className="mt-[24px] inline-flex min-h-11 items-center justify-center rounded-lg px-[20px] py-[12px] text-[14px] font-bold no-underline transition-opacity hover:opacity-90" style={{ background: '#E2BC6C', color: '#090F3B' }}>
+          <a href={createWALink(message)} target="_blank" rel="noopener noreferrer" className="mt-[24px] inline-flex min-h-11 items-center justify-center rounded-none px-[20px] py-[12px] text-[14px] font-bold no-underline transition-opacity hover:opacity-90" style={{ background: '#E2BC6C', color: '#090F3B' }}>
             Konsultasi Promo
           </a>
         </div>
