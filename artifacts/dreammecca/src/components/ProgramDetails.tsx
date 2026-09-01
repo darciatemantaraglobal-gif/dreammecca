@@ -21,7 +21,7 @@ export default function ProgramDetails() {
     <section id="rincian-program" className="bg-white px-[7vw] py-[72px] md:py-[112px]">
       <div className="mx-auto max-w-[1180px]">
         <div className="max-w-[680px]">
-          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#8C661A' }}>Transparansi program</span>
+          <span className="inline-flex rounded-[6px] px-[9px] py-[5px] text-[12px] font-bold tracking-[0.14em] uppercase" style={{ background: '#090F3B', color: '#FFD400' }}>Transparansi program</span>
           <h2 className="mt-[12px] font-bold leading-[1.12]" style={{ fontSize: 'clamp(32px,4vw,52px)', color: '#090F3B', textWrap: 'balance' }}>
             Yang Sudah Dikonfirmasi untuk Perjalanan Anda
           </h2>
@@ -32,19 +32,19 @@ export default function ProgramDetails() {
 
         <div className="mt-[34px] grid grid-cols-1 gap-[12px] md:mt-[44px] md:grid-cols-2 md:gap-[16px]">
           <article className="rounded-lg p-[24px] md:p-[30px]" style={{ background: '#F7F6F2', border: '1px solid #E5DDCC' }}>
-            <Check size={22} color="#8C661A" strokeWidth={1.7} />
+            <Check size={22} color="#A68D00" strokeWidth={1.7} />
             <h3 className="mt-[18px] text-[22px] font-bold" style={{ color: '#090F3B' }}>Sudah dikonfirmasi</h3>
             <ul className="mt-[18px] space-y-[13px]">
-              {confirmed.map((item) => <li key={item} className="flex gap-[10px] text-[14px] leading-[1.6]" style={{ color: '#4B4F68' }}><Check className="mt-[3px] flex-none" size={15} color="#8C661A" />{item}</li>)}
+              {confirmed.map((item) => <li key={item} className="flex gap-[10px] text-[14px] leading-[1.6]" style={{ color: '#4B4F68' }}><Check className="mt-[3px] flex-none" size={15} color="#A68D00" />{item}</li>)}
             </ul>
           </article>
           <article className="rounded-lg p-[24px] md:p-[30px]" style={{ background: '#090F3B' }}>
-            <CircleAlert size={22} color="#E2BC6C" strokeWidth={1.7} />
+            <CircleAlert size={22} color="#FFD400" strokeWidth={1.7} />
             <h3 className="mt-[18px] text-[22px] font-bold" style={{ color: '#fff' }}>Perlu dikonfirmasi</h3>
             <ul className="mt-[18px] space-y-[13px]">
-              {toConfirm.map((item) => <li key={item} className="flex gap-[10px] text-[14px] leading-[1.6]" style={{ color: '#C5CBE5' }}><span className="mt-[9px] h-[5px] w-[5px] flex-none rounded-full" style={{ background: '#E2BC6C' }} />{item}</li>)}
+              {toConfirm.map((item) => <li key={item} className="flex gap-[10px] text-[14px] leading-[1.6]" style={{ color: '#C5CBE5' }}><span className="mt-[9px] h-[5px] w-[5px] flex-none rounded-full" style={{ background: '#FFD400' }} />{item}</li>)}
             </ul>
-            <a href={createWALink(message)} target="_blank" rel="noopener noreferrer" className="mt-[24px] inline-flex min-h-11 items-center justify-center rounded-none px-[18px] py-[11px] text-[14px] font-bold no-underline" style={{ background: '#E2BC6C', color: '#090F3B' }}>
+            <a href={createWALink(message)} target="_blank" rel="noopener noreferrer" className="mt-[24px] inline-flex min-h-11 items-center justify-center rounded-[6px] px-[18px] py-[11px] text-[14px] font-bold no-underline" style={{ background: '#FFD400', color: '#090F3B' }}>
               Tanya Rincian Program
             </a>
           </article>

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowRight, CalendarDays, Check, Clock3, Plane, TrainFront } from 'lucide-react';
+import { ArrowRight, CalendarDays, Clock3, Hotel, Plane, TrainFront } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { createWALink } from '@/lib/whatsapp';
 import { fadeUp, staggerContainer } from '@/lib/animations';
@@ -183,7 +183,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
       className="relative flex h-full flex-col overflow-hidden rounded-lg"
       style={{
         background: pkg.featured ? '#FFFCF5' : '#fff',
-        border: pkg.featured ? '1px solid #CFA568' : '1px solid rgba(27,27,54,0.12)',
+        border: pkg.featured ? '1px solid #FFD400' : '1px solid rgba(27,27,54,0.12)',
         boxShadow: pkg.featured ? '0 18px 44px rgba(9,15,59,0.12)' : 'none',
       }}
     >
@@ -191,7 +191,7 @@ function PackageCard({ pkg }: { pkg: Package }) {
         <img src={visual.image} alt="" className="h-full w-full object-cover" style={{ objectPosition: visual.position }} loading="lazy" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.04), rgba(9,15,59,0.42))' }} />
         <div className="absolute inset-x-[12px] top-[12px] flex items-start justify-between gap-[8px] md:inset-x-[16px] md:top-[16px]">
-          <span className="rounded-md px-[8px] py-[4px] text-[9px] font-bold md:text-[11px]" style={pkg.tier === 'Eksklusif' ? { background: '#F6EEDC', color: '#8C661A' } : { background: '#fff', color: '#090F3B' }}>
+          <span className="rounded-md px-[8px] py-[4px] text-[9px] font-bold md:text-[11px]" style={pkg.tier === 'Eksklusif' ? { background: '#F6EEDC', color: '#FFD400' } : { background: '#fff', color: '#090F3B' }}>
             {pkg.tier}
           </span>
           {pkg.featured && <span className="rounded-md px-[8px] py-[4px] text-[9px] font-bold md:text-[11px]" style={{ background: '#090F3B', color: '#fff' }}>Paling Untung</span>}
@@ -200,29 +200,29 @@ function PackageCard({ pkg }: { pkg: Package }) {
 
       <div className="flex flex-1 flex-col p-[14px] md:p-[22px]">
         <p className="flex items-center gap-[6px] text-[10px] leading-[1.35] md:gap-[8px] md:text-[13px]" style={{ color: '#5D5D76' }}>
-          <CalendarDays size={13} color="#CFA568" />
+          <CalendarDays size={13} color="#FFD400" />
           {pkg.dateLabel}
         </p>
-        <h3 className="mt-[8px] text-[17px] leading-[1.2] md:mt-[10px] md:text-[24px] md:leading-[1.18]" style={{ color: '#090F3B' }}>
+        <h3 className="mt-[8px] text-[17px] leading-[1.2] md:mt-[10px] md:text-[24px] md:leading-[1.18]" style={{ color: '#090F3B', fontWeight: 700 }}>
           {pkg.title}
         </h3>
         <div className="mt-[14px] space-y-[7px] text-[10px] leading-[1.4] md:mt-[18px] md:space-y-[10px] md:text-[13px] md:leading-[1.45]" style={{ color: '#444761' }}>
-          <div className="flex gap-[7px] md:gap-[10px]"><Clock3 size={14} className="mt-[1px] flex-none md:size-4" color="#CFA568" /><span>{pkg.duration}</span></div>
-          <div className="flex gap-[7px] md:gap-[10px]"><Plane size={14} className="mt-[1px] flex-none md:size-4" color="#CFA568" /><span>{pkg.airline}</span></div>
-          <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Check size={16} className="mt-[1px] flex-none" color="#CFA568" /><span>{pkg.makkah}</span></div>
-          <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Check size={16} className="mt-[1px] flex-none" color="#CFA568" /><span>{pkg.madinah}</span></div>
-          <div className="hidden gap-[7px] md:flex md:gap-[10px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#CFA568" /><span>Kereta Cepat Haramain</span></div>
+          <div className="flex gap-[7px] md:gap-[10px]"><Clock3 size={14} className="mt-[1px] flex-none md:size-4" color="#FFD400" /><span>{pkg.duration}</span></div>
+          <div className="flex gap-[7px] md:gap-[10px]"><Plane size={14} className="mt-[1px] flex-none md:size-4" color="#FFD400" /><span>{pkg.airline}</span></div>
+          <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Hotel size={16} className="mt-[1px] flex-none" color="#FFD400" /><span>{pkg.makkah}</span></div>
+          <div className="hidden gap-[7px] md:flex md:gap-[10px]"><Hotel size={16} className="mt-[1px] flex-none" color="#FFD400" /><span>{pkg.madinah}</span></div>
+          <div className="hidden gap-[7px] md:flex md:gap-[10px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#FFD400" /><span>Kereta Cepat Haramain</span></div>
         </div>
         <div className="mt-auto flex items-end justify-between gap-[10px] pt-[18px] md:pt-[24px]">
           <div>
             {pkg.normalPrice && <span className="text-[13px] line-through" style={{ color: '#8B8EA0' }}>Rp{pkg.normalPrice} juta</span>}
-            <p className="leading-none" style={{ color: '#090F3B' }}><span className="text-[10px] md:text-[13px]">Rp</span> <span className="text-[25px] md:text-[34px]">{pkg.price}</span> <span className="text-[10px] md:text-[14px]">JT</span></p>
+            <p className="leading-none" style={{ color: '#090F3B', fontWeight: 700 }}><span className="text-[10px] md:text-[13px]">Rp</span> <span className="text-[25px] md:text-[34px]">{pkg.price}</span> <span className="text-[10px] md:text-[14px]">JT</span></p>
           </div>
           <a
             href={createWALink(message)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex size-10 flex-none items-center justify-center rounded-none no-underline transition-opacity hover:opacity-80"
+            className="inline-flex size-10 flex-none items-center justify-center rounded-[6px] no-underline transition-opacity hover:opacity-80"
             style={{ background: '#090F3B', color: '#fff' }}
             aria-label={`Tanya ${pkg.title} ${pkg.tier}`}
           >
@@ -238,10 +238,10 @@ function WaitlistCard() {
   const message = "Assalamu'alaikum, saya ingin masuk daftar tunggu program Umroh November 2026.\n\nNama:\nKota:\nJumlah jamaah:";
   return (
     <div className="mt-[40px] max-w-[620px] rounded-xl p-[28px] md:p-[36px]" style={{ background: '#F7F6F2', border: '1px solid #E5DDCC' }}>
-      <span className="text-[13px] font-bold tracking-[0.10em] uppercase" style={{ color: '#8C661A' }}>November 2026</span>
+      <span className="text-[13px] font-bold tracking-[0.10em] uppercase" style={{ color: '#FFD400' }}>November 2026</span>
       <h3 className="mt-[10px] text-[27px] font-bold leading-[1.2]" style={{ color: '#090F3B' }}>Jadwal November 2026 segera diumumkan.</h3>
       <p className="mt-[10px] text-[15px] leading-[1.65]" style={{ color: '#5D5D76' }}>Hubungi admin untuk masuk daftar tunggu dan mendapat informasi jadwal lebih dahulu.</p>
-      <a href={createWALink(message)} target="_blank" rel="noopener noreferrer" className="mt-[20px] inline-flex min-h-11 items-center justify-center rounded-none px-[22px] py-[12px] text-[14px] font-bold no-underline" style={{ background: '#090F3B', color: '#fff' }}>
+      <a href={createWALink(message)} target="_blank" rel="noopener noreferrer" className="mt-[20px] inline-flex min-h-11 items-center justify-center rounded-[6px] px-[22px] py-[12px] text-[14px] font-bold no-underline" style={{ background: '#090F3B', color: '#fff' }}>
         Konsultasi Gratis
       </a>
     </div>
@@ -269,7 +269,7 @@ export default function Packages() {
     <section id="paket" className="px-[7vw] py-[72px] md:py-[132px]" style={{ background: '#F7F6F2' }}>
       <div className="mx-auto max-w-[1180px]">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeUp}>
-          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#8C661A' }}>Jadwal Umroh</span>
+          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#FFD400' }}>Jadwal Umroh</span>
           <h2 className="mt-[12px] max-w-[700px] font-bold leading-[1.12]" style={{ fontSize: 'clamp(34px,4vw,54px)', color: '#090F3B', textWrap: 'balance' }}>
             Pilihan Jadwal Umroh Terdekat
           </h2>

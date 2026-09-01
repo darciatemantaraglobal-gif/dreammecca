@@ -19,7 +19,7 @@ export default function Footer() {
           <p className="mt-[18px] max-w-[350px] text-[14px] leading-[1.65]" style={{ color: 'rgba(255,255,255,0.63)' }}>
             Teman perjalanan umroh dan wisata halal Anda, dari manasik sampai pulang.
           </p>
-          <a href={createWALink(DEFAULT_MESSAGE)} target="_blank" rel="noopener noreferrer" className="mt-[22px] inline-flex min-h-11 items-center rounded-none px-[18px] py-[11px] text-[14px] font-bold no-underline" style={{ background: '#fff', color: '#090F3B' }}>
+          <a href={createWALink(DEFAULT_MESSAGE)} target="_blank" rel="noopener noreferrer" className="mt-[22px] inline-flex min-h-11 items-center rounded-[6px] px-[18px] py-[11px] text-[14px] font-bold no-underline" style={{ background: '#fff', color: '#090F3B' }}>
             Konsultasi Gratis
           </a>
         </div>

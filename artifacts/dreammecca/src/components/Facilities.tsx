@@ -32,7 +32,7 @@ export default function Facilities() {
     <section id="fasilitas" className="px-[7vw] py-[72px] md:py-[132px]" style={{ background: '#090F3B' }}>
       <div className="mx-auto max-w-[1180px]">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeUp}>
-          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#E2BC6C' }}>
+          <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#FFD400' }}>
             Fasilitas &amp; Layanan Unggulan
           </span>
           <h2 className="mt-[12px] max-w-[740px] font-bold leading-[1.12] text-white" style={{ fontSize: 'clamp(34px,4vw,54px)', textWrap: 'balance' }}>
@@ -57,7 +57,7 @@ export default function Facilities() {
               style={{ background: isLead ? '#15205A' : '#11194A', border: '1px solid rgba(207,165,104,0.20)' }}
             >
               <div className={`flex flex-none items-center justify-center rounded-lg ${isLead ? 'h-10 w-10 md:h-12 md:w-12' : 'h-9 w-9 md:h-10 md:w-10'}`} style={{ background: 'rgba(207,165,104,0.12)' }}>
-                <facility.icon size={isLead ? 21 : 18} color="#E2BC6C" strokeWidth={1.65} />
+                <facility.icon size={isLead ? 21 : 18} color="#FFD400" strokeWidth={1.65} />
               </div>
               <div>
                 <h3 className={isLead ? 'text-[17px] font-bold leading-[1.2] md:text-[24px]' : 'text-[14px] font-semibold leading-[1.3] md:text-[16px]'} style={{ color: '#fff' }}>{facility.title}</h3>
