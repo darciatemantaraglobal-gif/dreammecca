@@ -10,11 +10,12 @@ const previewPackages = publicPackages.slice(0, 4);
 
 function PackagePreviewCard({ pkg }: { pkg: PublicPackage }) {
   const visual = packageVisual(pkg.date);
+  const image = pkg.poster ?? visual.image;
 
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-lg" style={{ background: '#fff', border: pkg.featured ? '1px solid #C9ADA7' : '1px solid rgba(9,15,59,0.12)', boxShadow: pkg.featured ? '0 14px 32px rgba(9,15,59,0.10)' : 'none' }}>
-      <figure className="relative aspect-[16/10] overflow-hidden" style={{ background: '#090F3B' }}>
-        <img src={visual.image} alt="" className="h-full w-full object-cover" style={{ objectPosition: visual.position }} loading="lazy" />
+      <figure className={`relative overflow-hidden ${pkg.poster ? 'aspect-[4/5]' : 'aspect-[16/10]'}`} style={{ background: '#090F3B' }}>
+        <img src={image} alt={pkg.poster ? `Poster ${pkg.title} ${pkg.tier}` : ''} className="h-full w-full object-cover" style={pkg.poster ? undefined : { objectPosition: visual.position }} loading="lazy" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.02), rgba(9,15,59,0.50))' }} />
         <div className="absolute inset-x-[14px] top-[14px] flex justify-between gap-2">
           <span className="rounded-[6px] px-[8px] py-[4px] text-[10px] font-bold" style={{ background: '#090F3B', color: '#C9ADA7' }}>{pkg.tier}</span>
