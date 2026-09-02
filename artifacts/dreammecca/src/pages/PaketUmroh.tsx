@@ -87,11 +87,11 @@ export default function PaketUmroh() {
               <div>
                 <span className="inline-flex rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold tracking-[0.12em] uppercase" style={{ background: 'rgba(242,233,228,0.14)', color: '#C9ADA7' }}>Katalog Digital</span>
                 <h1 className="mt-[16px] max-w-[760px] font-bold leading-[1.08]" style={{ color: '#fff', fontSize: 'clamp(38px,5vw,64px)', textWrap: 'balance' }}>Koleksi Program Umroh Dreammecca</h1>
-                <p className="mt-[16px] max-w-[680px] text-[16px] leading-[1.65]" style={{ color: 'rgba(255,255,255,0.76)' }}>Bandingkan jadwal, kelas program, hotel, maskapai, dan harga dari seluruh pilihan Desember 2026.</p>
+                <p className="mt-[16px] max-w-[680px] text-[16px] leading-[1.65]" style={{ color: 'rgba(255,255,255,0.76)' }}>Bandingkan jadwal, kelas program, hotel, maskapai, dan harga dari seluruh pilihan September sampai Desember 2026.</p>
               </div>
               <div className="grid grid-cols-2 gap-[10px] text-[13px]">
                 <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#C9ADA7', fontWeight: 700 }}>{publicPackages.length}</span>Program tersedia</div>
-                <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#C9ADA7', fontWeight: 700 }}>5</span>Tanggal berangkat</div>
+                <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#C9ADA7', fontWeight: 700 }}>{dates.length}</span>Tanggal berangkat</div>
               </div>
             </div>
           </div>
@@ -107,7 +107,7 @@ export default function PaketUmroh() {
               </div>
             </div>
 
-            <div className="mt-[34px] flex items-center justify-between gap-4"><h2 className="text-[28px]" style={{ color: '#090F3B', fontWeight: 700 }}>Koleksi Desember 2026</h2><p className="text-[14px]" style={{ color: '#5D5D76' }}>{filteredPackages.length} program ditemukan</p></div>
+            <div className="mt-[34px] flex items-center justify-between gap-4"><h2 className="text-[28px]" style={{ color: '#090F3B', fontWeight: 700 }}>Koleksi Program 2026</h2><p className="text-[14px]" style={{ color: '#5D5D76' }}>{filteredPackages.length} program ditemukan</p></div>
             {filteredPackages.length ? <div className="mt-[20px] grid gap-[16px] sm:grid-cols-2 xl:grid-cols-3">{filteredPackages.map((pkg) => <CatalogCard key={pkg.id} pkg={pkg} />)}</div> : <div className="mt-[20px] rounded-lg p-[36px] text-center" style={{ background: '#fff', color: '#5D5D76', border: '1px solid rgba(9,15,59,0.10)' }}>Tidak ada program yang sesuai dengan pencarian atau filter Anda.</div>}
           </div>
         </section>
