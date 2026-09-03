@@ -95,7 +95,7 @@ export default function GaleriJamaah() {
   return (
     <section
       id="galeri-jamaah"
-      className="px-[7vw] py-[72px] md:py-[128px]"
+      className="mobile-compact-section px-[7vw] py-[72px] md:py-[128px]"
       style={{
         background: '#fff',
       }}
@@ -106,7 +106,7 @@ export default function GaleriJamaah() {
         </span>
         <div className="md:flex md:items-end md:justify-between md:gap-[40px]">
           <h2
-            className="font-bold leading-[1.12] mt-[12px] max-w-[650px]"
+            className="mobile-section-title font-bold leading-[1.12] mt-[12px] max-w-[650px]"
             style={{ fontSize: 'clamp(38px,5.4vw,72px)', color: '#090F3B', textWrap: 'balance' }}
           >
             Momen Ibadah yang Kami Dampingi
@@ -116,7 +116,7 @@ export default function GaleriJamaah() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-12 auto-rows-[148px] md:auto-rows-[190px] gap-[10px] md:gap-[14px] mt-[32px] md:mt-[48px]">
+        <div className="gallery-grid grid grid-cols-2 md:grid-cols-12 auto-rows-[148px] md:auto-rows-[190px] gap-[10px] md:gap-[14px] mt-[32px] md:mt-[48px]">
           {photos.map(photo => (
             <button
               key={photo.id}

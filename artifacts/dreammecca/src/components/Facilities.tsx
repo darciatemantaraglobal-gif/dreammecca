@@ -50,18 +50,18 @@ export default function Facilities() {
   const active = facilities[activeIndex] ?? facilities[0] ?? fallbackFacilities[0];
 
   return (
-    <section id="fasilitas" className="px-[7vw] py-[72px] md:py-[132px]" style={{ background: '#F7F6F2' }}>
+    <section id="fasilitas" className="mobile-compact-section px-[7vw] py-[72px] md:py-[132px]" style={{ background: '#F7F6F2' }}>
       <div className="mx-auto max-w-[1180px]">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeUp} className="grid gap-[24px] md:grid-cols-[0.8fr_1.2fr] md:items-end">
           <div>
             <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#9A8C98' }}>{content.facilities.eyebrow}</span>
-            <h2 className="mt-[12px] font-bold leading-[1.12]" style={{ fontSize: 'clamp(34px,4vw,54px)', color: '#090F3B', textWrap: 'balance' }}>{content.facilities.title}</h2>
+            <h2 className="mobile-section-title mt-[12px] font-bold leading-[1.12]" style={{ fontSize: 'clamp(34px,4vw,54px)', color: '#090F3B', textWrap: 'balance' }}>{content.facilities.title}</h2>
           </div>
           <p className="max-w-[540px] text-[16px] leading-[1.7] md:justify-self-end" style={{ color: '#5D5D76' }}>{content.facilities.intro}</p>
         </motion.div>
 
         <div className="mt-[34px] grid gap-[24px] md:mt-[48px] md:grid-cols-[0.94fr_1.06fr] md:gap-[72px]">
-          <motion.figure initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={fadeUp} className="relative min-h-[360px] overflow-hidden rounded-lg md:min-h-[620px]" style={{ background: '#090F3B' }}>
+          <motion.figure initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={fadeUp} className="facility-showcase relative min-h-[360px] overflow-hidden rounded-lg md:min-h-[620px]" style={{ background: '#090F3B' }}>
             <img key={active.image} src={active.image} alt={active.title} className="h-full w-full object-cover" style={{ objectPosition: active.position }} />
             <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.04), rgba(9,15,59,0.82))' }} />
             <figcaption className="absolute inset-x-[20px] bottom-[20px] md:inset-x-[30px] md:bottom-[30px]">
@@ -71,7 +71,7 @@ export default function Facilities() {
             </figcaption>
           </motion.figure>
 
-          <div className="border-t" style={{ borderColor: 'rgba(9,15,59,0.16)' }}>
+          <div className="facility-list border-t" style={{ borderColor: 'rgba(9,15,59,0.16)' }}>
             {facilities.map((facility, index) => {
               const isActive = index === activeIndex;
               return (

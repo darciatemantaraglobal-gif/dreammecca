@@ -14,7 +14,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100dvh] overflow-hidden px-[7vw] pb-[48px] pt-[108px] md:min-h-[780px] md:pb-[70px]"
+      className="mobile-hero relative flex min-h-[100dvh] overflow-hidden px-[7vw] pb-[48px] pt-[108px] md:min-h-[780px] md:pb-[70px]"
       style={{ backgroundColor: '#090F3B' }}
     >
       <video
@@ -45,7 +45,7 @@ export default function Hero() {
             {hero.label}
           </p>
           <h1
-            className="mt-[12px] font-extrabold leading-[1.02]"
+            className="hero-heading mt-[12px] font-extrabold leading-[1.02]"
             style={{ fontSize: 'clamp(40px,4.8vw,72px)', color: '#fff', textWrap: 'balance' }}
           >
             {hero.titleFirst}<br />

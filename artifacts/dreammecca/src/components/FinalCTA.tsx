@@ -9,11 +9,11 @@ export default function FinalCTA() {
   const { data: settings } = useSiteSettings();
   const contact = content.contact;
   return (
-    <section id="kontak" className="bg-white px-[7vw] py-[72px] md:py-[112px]">
+    <section id="kontak" className="mobile-compact-section bg-white px-[7vw] py-[72px] md:py-[112px]">
       <div className="mx-auto max-w-[1180px]">
         <div className="max-w-[660px]">
           <span className="text-[13px] font-bold tracking-[0.12em] uppercase" style={{ color: '#6B6B85' }}>{contact.eyebrow}</span>
-          <h2 className="mt-[10px] font-bold leading-[1.15]" style={{ fontSize: 'clamp(30px,3.6vw,46px)', color: '#090F3B' }}>
+          <h2 className="mobile-section-title mt-[10px] font-bold leading-[1.15]" style={{ fontSize: 'clamp(30px,3.6vw,46px)', color: '#090F3B' }}>
             {contact.title}
           </h2>
           <p className="mt-[16px] text-[16px] leading-[1.65] md:text-[17px]" style={{ color: '#5D5D76' }}>
@@ -39,7 +39,7 @@ export default function FinalCTA() {
               Konsultasi Gratis
             </a>
           </div>
-          <div className="min-h-[360px] overflow-hidden rounded-xl" style={{ border: '1px solid rgba(27,27,54,0.12)' }}>
+          <div className="final-map min-h-[360px] overflow-hidden rounded-xl" style={{ border: '1px solid rgba(27,27,54,0.12)' }}>
             <iframe
               title="Lokasi Kantor Dreammecca"
               src={contact.mapEmbedUrl}

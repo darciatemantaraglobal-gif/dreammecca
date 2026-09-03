@@ -15,15 +15,15 @@ function CatalogCard({ pkg, whatsappNumber }: { pkg: PublicPackage; whatsappNumb
   const [day, month, year] = pkg.dateLabel.split(' ');
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-lg transition-transform duration-300 hover:-translate-y-1" style={{ background: '#fff', border: pkg.featured ? '1px solid #C9ADA7' : '1px solid rgba(9,15,59,0.12)', boxShadow: pkg.featured ? '0 18px 42px rgba(9,15,59,0.12)' : '0 3px 12px rgba(9,15,59,0.04)' }}>
-      <figure className={`relative overflow-hidden ${pkg.poster ? 'aspect-[4/5]' : 'aspect-[16/8]'}`} style={{ background: '#090F3B' }}>
+    <article className="catalog-card group flex h-full flex-col overflow-hidden rounded-lg transition-transform duration-300 hover:-translate-y-1" style={{ background: '#fff', border: pkg.featured ? '1px solid #C9ADA7' : '1px solid rgba(9,15,59,0.12)', boxShadow: pkg.featured ? '0 18px 42px rgba(9,15,59,0.12)' : '0 3px 12px rgba(9,15,59,0.04)' }}>
+      <figure className={`catalog-media relative overflow-hidden ${pkg.poster ? 'aspect-[4/5]' : 'aspect-[16/8]'}`} style={{ background: '#090F3B' }}>
         <img src={image} alt={pkg.poster ? `Poster ${pkg.title} ${pkg.tier}` : 'Dokumentasi jamaah Dreammecca'} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" style={pkg.poster ? undefined : { objectPosition: visual.position }} loading="lazy" />
         {!pkg.poster && <><div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.08), rgba(9,15,59,0.62))' }} /><div className="absolute inset-x-[16px] top-[16px] flex items-start justify-between gap-2"><span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#090F3B', color: '#C9ADA7' }}>{pkg.tier}</span>{pkg.featured && <span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#fff', color: '#090F3B' }}>Paling Untung</span>}</div><p className="absolute bottom-[14px] left-[16px] text-[12px]" style={{ color: 'rgba(255,255,255,0.84)' }}>Program Umroh Dreammecca</p></>}
       </figure>
 
-      <div className="relative flex flex-1 flex-col p-[20px] pt-0">
-        <div className="-mt-[26px] grid grid-cols-[64px_1fr] items-center gap-[12px] rounded-[6px] p-[10px] shadow-sm" style={{ background: '#fff', border: '1px solid rgba(9,15,59,0.10)' }}>
-          <div className="flex h-[62px] flex-col items-center justify-center rounded-[6px]" style={{ background: '#090F3B', color: '#fff' }}>
+      <div className="catalog-copy relative flex flex-1 flex-col p-[20px] pt-0">
+        <div className="catalog-date -mt-[26px] grid grid-cols-[64px_1fr] items-center gap-[12px] rounded-[6px] p-[10px] shadow-sm" style={{ background: '#fff', border: '1px solid rgba(9,15,59,0.10)' }}>
+          <div className="catalog-date-number flex h-[62px] flex-col items-center justify-center rounded-[6px]" style={{ background: '#090F3B', color: '#fff' }}>
             <span className="text-[26px] leading-none" style={{ color: '#C9ADA7', fontWeight: 700 }}>{day}</span>
             <span className="mt-[3px] text-[10px] uppercase tracking-[0.08em]">{month.slice(0, 3)}</span>
           </div>
@@ -34,21 +34,21 @@ function CatalogCard({ pkg, whatsappNumber }: { pkg: PublicPackage; whatsappNumb
         </div>
 
         <div className="mt-[18px]">
-          <h2 className="text-[25px] leading-[1.15]" style={{ color: '#090F3B', fontWeight: 700 }}>{pkg.title}</h2>
-          <div className="mt-[12px] grid grid-cols-2 gap-[8px] text-[12px]">
+          <h2 className="catalog-title text-[25px] leading-[1.15]" style={{ color: '#090F3B', fontWeight: 700 }}>{pkg.title}</h2>
+          <div className="catalog-meta mt-[12px] grid grid-cols-2 gap-[8px] text-[12px]">
             <p className="flex items-center gap-[7px] rounded-[6px] px-[10px] py-[9px]" style={{ background: '#F7F6F2', color: '#4B4F68' }}><Clock3 size={15} color="#4A4E69" />{pkg.duration}</p>
             <p className="flex items-center gap-[7px] rounded-[6px] px-[10px] py-[9px]" style={{ background: '#F7F6F2', color: '#4B4F68' }}><Plane size={15} color="#4A4E69" /><span className="truncate">{pkg.airline}</span></p>
           </div>
         </div>
 
-        <div className="mt-[16px] space-y-[10px] border-t pt-[16px] text-[13px] leading-[1.42]" style={{ borderColor: 'rgba(9,15,59,0.10)', color: '#4B4F68' }}>
+        <div className="catalog-details mt-[16px] space-y-[10px] border-t pt-[16px] text-[13px] leading-[1.42]" style={{ borderColor: 'rgba(9,15,59,0.10)', color: '#4B4F68' }}>
           <p className="grid grid-cols-[18px_66px_1fr] gap-[8px]"><Hotel size={16} className="mt-[1px]" color="#4A4E69" /><span style={{ color: '#5D5D76' }}>Makkah</span><span style={{ color: '#090F3B', fontWeight: 600 }}>{pkg.makkah}</span></p>
           <p className="grid grid-cols-[18px_66px_1fr] gap-[8px]"><Hotel size={16} className="mt-[1px]" color="#4A4E69" /><span style={{ color: '#5D5D76' }}>Madinah</span><span style={{ color: '#090F3B', fontWeight: 600 }}>{pkg.madinah}</span></p>
           <p className="flex gap-[9px]"><TrainFront size={16} className="mt-[1px] flex-none" color="#4A4E69" />Kereta Cepat Haramain termasuk</p>
         </div>
 
-        <div className="mt-auto flex items-end justify-between gap-3 pt-[20px]">
-          <div><p className="text-[11px]" style={{ color: '#5D5D76' }}>Harga mulai</p><p className="mt-[3px] leading-none" style={{ color: '#090F3B', fontWeight: 700 }}><span className="text-[12px]">Rp</span> <span className="text-[30px]">{pkg.price}</span> <span className="text-[13px]">JT</span></p></div>
+        <div className="catalog-action mt-auto flex items-end justify-between gap-3 pt-[20px]">
+          <div><p className="text-[11px]" style={{ color: '#5D5D76' }}>Harga mulai</p><p className="mt-[3px] leading-none" style={{ color: '#090F3B', fontWeight: 700 }}><span className="text-[12px]">Rp</span> <span className="catalog-price text-[30px]">{pkg.price}</span> <span className="text-[13px]">JT</span></p></div>
           <a href={createWALink(packageWhatsAppMessage(pkg), whatsappNumber)} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center justify-center gap-[8px] rounded-[6px] px-[16px] py-[11px] text-[13px] font-bold no-underline" style={{ background: '#090F3B', color: '#fff' }}>Tanya <ArrowRight size={16} /></a>
         </div>
       </div>
@@ -77,13 +77,13 @@ export default function PaketUmroh() {
       <Navbar />
 
       <main>
-        <section className="px-[7vw] pb-[54px] pt-[132px] md:pb-[72px] md:pt-[152px]" style={{ background: '#090F3B' }}>
+        <section className="mobile-catalog-hero px-[7vw] pb-[54px] pt-[132px] md:pb-[72px] md:pt-[152px]" style={{ background: '#090F3B' }}>
           <div className="mx-auto max-w-[1180px]">
             <Link href="/" className="inline-flex items-center gap-[7px] text-[14px] no-underline" style={{ color: 'rgba(255,255,255,0.72)' }}><ArrowLeft size={16} />Kembali ke Beranda</Link>
             <div className="mt-[30px] grid gap-[24px] lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
               <div>
                 <span className="inline-flex rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold tracking-[0.12em] uppercase" style={{ background: 'rgba(242,233,228,0.14)', color: '#C9ADA7' }}>Katalog Digital</span>
-                <h1 className="mt-[16px] max-w-[760px] font-bold leading-[1.08]" style={{ color: '#fff', fontSize: 'clamp(38px,5vw,64px)', textWrap: 'balance' }}>Koleksi Program Umroh Dreammecca</h1>
+                <h1 className="mobile-section-title mt-[16px] max-w-[760px] font-bold leading-[1.08]" style={{ color: '#fff', fontSize: 'clamp(38px,5vw,64px)', textWrap: 'balance' }}>Koleksi Program Umroh Dreammecca</h1>
                 <p className="mt-[16px] max-w-[680px] text-[16px] leading-[1.65]" style={{ color: 'rgba(255,255,255,0.76)' }}>Bandingkan jadwal, kelas program, hotel, maskapai, dan harga dari seluruh pilihan September sampai Desember 2026.</p>
               </div>
               <div className="grid grid-cols-2 gap-[10px] text-[13px]">
@@ -105,7 +105,7 @@ export default function PaketUmroh() {
             </div>
 
             <div className="mt-[34px] flex items-center justify-between gap-4"><h2 className="text-[28px]" style={{ color: '#090F3B', fontWeight: 700 }}>Koleksi Program 2026</h2><p className="text-[14px]" style={{ color: '#5D5D76' }}>{filteredPackages.length} program ditemukan</p></div>
-            {filteredPackages.length ? <div className="mt-[20px] grid gap-[16px] sm:grid-cols-2 xl:grid-cols-3">{filteredPackages.map((pkg) => <CatalogCard key={pkg.id} pkg={pkg} whatsappNumber={settings?.whatsapp_number} />)}</div> : <div className="mt-[20px] rounded-lg p-[36px] text-center" style={{ background: '#fff', color: '#5D5D76', border: '1px solid rgba(9,15,59,0.10)' }}>Tidak ada program yang sesuai dengan pencarian atau filter Anda.</div>}
+            {filteredPackages.length ? <div className="catalog-grid mt-[20px] grid gap-[16px] sm:grid-cols-2 xl:grid-cols-3">{filteredPackages.map((pkg) => <CatalogCard key={pkg.id} pkg={pkg} whatsappNumber={settings?.whatsapp_number} />)}</div> : <div className="mt-[20px] rounded-lg p-[36px] text-center" style={{ background: '#fff', color: '#5D5D76', border: '1px solid rgba(9,15,59,0.10)' }}>Tidak ada program yang sesuai dengan pencarian atau filter Anda.</div>}
           </div>
         </section>
       </main>

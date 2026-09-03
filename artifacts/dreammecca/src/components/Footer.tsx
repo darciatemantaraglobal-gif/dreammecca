@@ -13,7 +13,7 @@ export default function Footer() {
 
   return (
     <footer style={{ background: '#090F3B' }}>
-      <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-[40px] px-[7vw] py-[56px] md:grid-cols-[1.15fr_0.85fr_0.85fr]">
+      <div className="mobile-footer mx-auto grid max-w-[1180px] grid-cols-1 gap-[40px] px-[7vw] py-[56px] md:grid-cols-[1.15fr_0.85fr_0.85fr]">
         <div>
           <img src="/images/logo.png" alt="Dreammecca" className="h-[42px] w-auto" style={{ filter: 'brightness(0) invert(1)' }} />
           <p className="mt-[14px] text-[13px]" style={{ color: 'rgba(255,255,255,0.78)' }}>{content.footer.companyName}</p>

@@ -9,11 +9,11 @@ export default function Gallery() {
   const { data: settings } = useSiteSettings();
   const equipment = content.equipment;
   return (
-    <section id="perlengkapan" className="bg-[#F7F6F2] px-[7vw] py-[72px] md:py-[112px]">
+    <section id="perlengkapan" className="mobile-compact-section bg-[#F7F6F2] px-[7vw] py-[72px] md:py-[112px]">
       <div className="mx-auto grid max-w-[1180px] grid-cols-1 items-center gap-[32px] md:grid-cols-[0.95fr_1.05fr] md:gap-[72px]">
         <div>
           <span className="text-[13px] font-bold tracking-[0.12em] uppercase" style={{ color: '#6B6B85' }}>{equipment.eyebrow}</span>
-          <h2 className="mt-[10px] max-w-[530px] font-bold leading-[1.15]" style={{ fontSize: 'clamp(30px,3.6vw,46px)', color: '#090F3B' }}>
+          <h2 className="mobile-section-title mt-[10px] max-w-[530px] font-bold leading-[1.15]" style={{ fontSize: 'clamp(30px,3.6vw,46px)', color: '#090F3B' }}>
             {equipment.title}
           </h2>
           <p className="mt-[18px] max-w-[520px] text-[16px] leading-[1.65] md:text-[17px]" style={{ color: '#5D5D76' }}>

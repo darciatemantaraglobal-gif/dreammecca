@@ -7,7 +7,7 @@ export default function About() {
   const { data: content } = useSiteContent();
   const about = content.about;
   return (
-    <section id="tentang" className="bg-white px-[7vw] py-[72px] md:py-[136px]">
+    <section id="tentang" className="mobile-compact-section bg-white px-[7vw] py-[72px] md:py-[136px]">
       <div className="mx-auto grid max-w-[1180px] grid-cols-1 items-center gap-[36px] md:grid-cols-[0.9fr_1.1fr] md:gap-[96px]">
         <motion.div
           initial="hidden"
@@ -19,7 +19,7 @@ export default function About() {
             {about.eyebrow}
           </span>
           <h2
-            className="mt-[12px] font-bold leading-[1.12]"
+            className="mobile-section-title mt-[12px] font-bold leading-[1.12]"
             style={{ fontSize: 'clamp(34px,4vw,54px)', color: '#1B1B36', textWrap: 'balance' }}
           >
             {about.title}

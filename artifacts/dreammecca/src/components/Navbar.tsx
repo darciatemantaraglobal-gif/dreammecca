@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[7vw] py-[16px] transition-colors duration-300"
+      className="mobile-site-nav fixed inset-x-0 top-0 z-50 flex items-center justify-between px-[7vw] py-[16px] transition-colors duration-300"
       style={{
         background: overHero ? 'linear-gradient(180deg, rgba(9,15,59,0.48), rgba(9,15,59,0))' : '#090F3B',
         borderBottom: 'none',
@@ -47,7 +47,7 @@ export default function Navbar() {
         <img
           src="/images/logo.png"
           alt="Dreammecca"
-          className="h-[40px] w-auto"
+          className="nav-logo h-[40px] w-auto"
           style={{ filter: 'brightness(0) invert(1)' }}
         />
       </a>
