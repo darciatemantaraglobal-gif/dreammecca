@@ -6,9 +6,10 @@ import Footer from '@/components/Footer';
 import StickyMobileCTA from '@/components/StickyMobileCTA';
 import { createWALink } from '@/lib/whatsapp';
 import { packageVisual, packageWhatsAppMessage, type PackageTier, type PublicPackage, usePublishedPackages } from '@/lib/publicPackages';
+import { useSiteSettings } from '@/lib/useSiteSettings';
 
 const tiers: Array<'Semua' | PackageTier> = ['Semua', 'Ekonomis', 'Eksklusif'];
-function CatalogCard({ pkg }: { pkg: PublicPackage }) {
+function CatalogCard({ pkg, whatsappNumber }: { pkg: PublicPackage; whatsappNumber?: string }) {
   const visual = packageVisual(pkg.date);
   const image = pkg.poster ?? visual.image;
   const [day, month, year] = pkg.dateLabel.split(' ');
@@ -48,7 +49,7 @@ function CatalogCard({ pkg }: { pkg: PublicPackage }) {
 
         <div className="mt-auto flex items-end justify-between gap-3 pt-[20px]">
           <div><p className="text-[11px]" style={{ color: '#5D5D76' }}>Harga mulai</p><p className="mt-[3px] leading-none" style={{ color: '#090F3B', fontWeight: 700 }}><span className="text-[12px]">Rp</span> <span className="text-[30px]">{pkg.price}</span> <span className="text-[13px]">JT</span></p></div>
-          <a href={createWALink(packageWhatsAppMessage(pkg))} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center justify-center gap-[8px] rounded-[6px] px-[16px] py-[11px] text-[13px] font-bold no-underline" style={{ background: '#090F3B', color: '#fff' }}>Tanya <ArrowRight size={16} /></a>
+          <a href={createWALink(packageWhatsAppMessage(pkg), whatsappNumber)} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center justify-center gap-[8px] rounded-[6px] px-[16px] py-[11px] text-[13px] font-bold no-underline" style={{ background: '#090F3B', color: '#fff' }}>Tanya <ArrowRight size={16} /></a>
         </div>
       </div>
     </article>
@@ -57,6 +58,7 @@ function CatalogCard({ pkg }: { pkg: PublicPackage }) {
 
 export default function PaketUmroh() {
   const { data: packages = [] } = usePublishedPackages();
+  const { data: settings } = useSiteSettings();
   const dates = [...new Set(packages.map((pkg) => pkg.dateLabel))];
   const [query, setQuery] = useState('');
   const [tier, setTier] = useState<'Semua' | PackageTier>('Semua');
@@ -103,7 +105,7 @@ export default function PaketUmroh() {
             </div>
 
             <div className="mt-[34px] flex items-center justify-between gap-4"><h2 className="text-[28px]" style={{ color: '#090F3B', fontWeight: 700 }}>Koleksi Program 2026</h2><p className="text-[14px]" style={{ color: '#5D5D76' }}>{filteredPackages.length} program ditemukan</p></div>
-            {filteredPackages.length ? <div className="mt-[20px] grid gap-[16px] sm:grid-cols-2 xl:grid-cols-3">{filteredPackages.map((pkg) => <CatalogCard key={pkg.id} pkg={pkg} />)}</div> : <div className="mt-[20px] rounded-lg p-[36px] text-center" style={{ background: '#fff', color: '#5D5D76', border: '1px solid rgba(9,15,59,0.10)' }}>Tidak ada program yang sesuai dengan pencarian atau filter Anda.</div>}
+            {filteredPackages.length ? <div className="mt-[20px] grid gap-[16px] sm:grid-cols-2 xl:grid-cols-3">{filteredPackages.map((pkg) => <CatalogCard key={pkg.id} pkg={pkg} whatsappNumber={settings?.whatsapp_number} />)}</div> : <div className="mt-[20px] rounded-lg p-[36px] text-center" style={{ background: '#fff', color: '#5D5D76', border: '1px solid rgba(9,15,59,0.10)' }}>Tidak ada program yang sesuai dengan pencarian atau filter Anda.</div>}
           </div>
         </section>
       </main>

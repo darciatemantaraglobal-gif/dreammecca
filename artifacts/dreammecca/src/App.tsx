@@ -11,6 +11,7 @@ import AdminDashboard from '@/pages/AdminDashboard';
 import AdminTestimonials from '@/pages/AdminTestimonials';
 import AdminGallery from '@/pages/AdminGallery';
 import AdminSettings from '@/pages/AdminSettings';
+import AdminContent from '@/pages/AdminContent';
 import ScrollToTop from '@/components/ScrollToTop';
 
 const queryClient = new QueryClient();
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/admin/testimoni" component={AdminTestimonials} />
       <Route path="/admin/galeri" component={AdminGallery} />
       <Route path="/admin/settings" component={AdminSettings} />
+      <Route path="/admin/konten" component={AdminContent} />
       <Route path="/admin" component={AdminDashboard} />
       <Route component={NotFound} />
     </Switch>

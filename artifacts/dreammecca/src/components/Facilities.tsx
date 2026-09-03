@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { fadeUp } from '@/lib/animations';
+import { useSiteContent } from '@/lib/siteContent';
 
 type Facility = {
   icon: LucideIcon;
@@ -22,7 +23,7 @@ type Facility = {
   position: string;
 };
 
-const facilities: Facility[] = [
+const fallbackFacilities: Facility[] = [
   { icon: BadgeCheck, title: 'Penyelenggara Resmi', desc: 'Berizin Kemenag dan terdaftar SISKOPATUH untuk perjalanan ibadah yang lebih tenang.', image: '/images/gallery-jamaah/jamaah-masjidil-haram.jpg', position: 'center 58%' },
   { icon: Plane, title: 'Maskapai Internasional', desc: 'Pilihan penerbangan Garuda Indonesia dan Qatar Airways sesuai jadwal program.', image: '/images/gallery-jamaah/jamaah-payung-dreammecca.jpg', position: 'center 50%' },
   { icon: BedDouble, title: 'Hotel Bintang 4 & 5', desc: 'Akomodasi Makkah dan Madinah yang dipilih untuk kenyamanan waktu istirahat jamaah.', image: '/images/gallery-jamaah/jamaah-madinah.jpg', position: 'center center' },
@@ -34,19 +35,29 @@ const facilities: Facility[] = [
   { icon: TrainFront, title: 'Kereta Cepat Haramain', desc: 'Makkah ke Madinah pulang pergi sudah termasuk dalam program yang tersedia.', image: '/images/gallery-jamaah/jamaah-madinah.jpg', position: 'center center' },
 ];
 
+const iconMap: Record<string, LucideIcon> = { BadgeCheck, Plane, BedDouble, BusFront, BookOpenCheck, Luggage, ShieldCheck, UsersRound, TrainFront };
+
 export default function Facilities() {
+  const { data: content } = useSiteContent();
+  const facilities: Facility[] = content.facilities.items.map((item) => ({
+    icon: iconMap[item.icon ?? ''] ?? BadgeCheck,
+    title: item.title,
+    desc: item.detail,
+    image: item.image ?? '/images/hero.jpg',
+    position: item.position ?? 'center center',
+  }));
   const [activeIndex, setActiveIndex] = useState(0);
-  const active = facilities[activeIndex];
+  const active = facilities[activeIndex] ?? facilities[0] ?? fallbackFacilities[0];
 
   return (
     <section id="fasilitas" className="px-[7vw] py-[72px] md:py-[132px]" style={{ background: '#F7F6F2' }}>
       <div className="mx-auto max-w-[1180px]">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeUp} className="grid gap-[24px] md:grid-cols-[0.8fr_1.2fr] md:items-end">
           <div>
-            <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#9A8C98' }}>Fasilitas Lengkap</span>
-            <h2 className="mt-[12px] font-bold leading-[1.12]" style={{ fontSize: 'clamp(34px,4vw,54px)', color: '#090F3B', textWrap: 'balance' }}>Setiap Perjalanan Disiapkan dengan Penuh Perhatian</h2>
+            <span className="text-[12px] font-bold tracking-[0.14em] uppercase" style={{ color: '#9A8C98' }}>{content.facilities.eyebrow}</span>
+            <h2 className="mt-[12px] font-bold leading-[1.12]" style={{ fontSize: 'clamp(34px,4vw,54px)', color: '#090F3B', textWrap: 'balance' }}>{content.facilities.title}</h2>
           </div>
-          <p className="max-w-[540px] text-[16px] leading-[1.7] md:justify-self-end" style={{ color: '#5D5D76' }}>Pilih layanan untuk melihat bagaimana Dreammecca menjaga kenyamanan jamaah sejak persiapan hingga kembali ke Tanah Air.</p>
+          <p className="max-w-[540px] text-[16px] leading-[1.7] md:justify-self-end" style={{ color: '#5D5D76' }}>{content.facilities.intro}</p>
         </motion.div>
 
         <div className="mt-[34px] grid gap-[24px] md:mt-[48px] md:grid-cols-[0.94fr_1.06fr] md:gap-[72px]">

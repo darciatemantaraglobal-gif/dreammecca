@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { MessageCircle } from 'lucide-react';
 import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
+import { useSiteSettings } from '@/lib/useSiteSettings';
 
 export default function StickyMobileCTA() {
   const [visible, setVisible] = useState(false);
+  const { data: settings } = useSiteSettings();
 
   useEffect(() => {
     const hero = document.querySelector('#hero');
@@ -20,7 +22,7 @@ export default function StickyMobileCTA() {
 
   return (
     <a
-      href={createWALink(DEFAULT_MESSAGE)}
+      href={createWALink(DEFAULT_MESSAGE, settings?.whatsapp_number)}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Konsultasi lewat WhatsApp"

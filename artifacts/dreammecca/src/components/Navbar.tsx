@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
-
-const links = [
-  { name: 'Tentang', href: '#tentang' },
-  { name: 'Fasilitas', href: '#fasilitas' },
-  { name: 'Paket Umroh', href: '#paket' },
-  { name: 'Perlengkapan', href: '#perlengkapan' },
-  { name: 'Kontak', href: '#kontak' },
-];
+import { useSiteContent } from '@/lib/siteContent';
+import { useSiteSettings } from '@/lib/useSiteSettings';
 
 export default function Navbar() {
+  const { data: content } = useSiteContent();
+  const { data: settings } = useSiteSettings();
+  const links = content.navigation;
   const [open, setOpen] = useState(false);
   const [overHero, setOverHero] = useState(false);
 
@@ -31,7 +28,7 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, []);
 
-  const waLink = createWALink(DEFAULT_MESSAGE);
+  const waLink = createWALink(DEFAULT_MESSAGE, settings?.whatsapp_number);
 
   return (
     <nav
@@ -58,12 +55,12 @@ export default function Navbar() {
       {/* Desktop links */}
       <ul className="hidden md:flex gap-[28px] list-none m-0 p-0">
         {links.map(l => (
-          <li key={l.name}>
+          <li key={l.label}>
             <a
               href={l.href}
               className="text-white/80 hover:text-white no-underline text-[14px] font-semibold transition-colors duration-150"
             >
-              {l.name}
+              {l.label}
             </a>
           </li>
         ))}
@@ -100,12 +97,12 @@ export default function Navbar() {
         >
           {links.map(l => (
             <a
-              key={l.name}
+              key={l.label}
               href={l.href}
               onClick={() => setOpen(false)}
               className="text-white/70 hover:text-white text-[15px] font-medium no-underline"
             >
-              {l.name}
+              {l.label}
             </a>
           ))}
           <a

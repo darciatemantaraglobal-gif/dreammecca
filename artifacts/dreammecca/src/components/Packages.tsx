@@ -5,8 +5,9 @@ import { motion } from 'framer-motion';
 import { createWALink } from '@/lib/whatsapp';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { packageVisual, packageWhatsAppMessage, type PublicPackage, usePublishedPackages } from '@/lib/publicPackages';
+import { useSiteSettings } from '@/lib/useSiteSettings';
 
-function PackagePreviewCard({ pkg }: { pkg: PublicPackage }) {
+function PackagePreviewCard({ pkg, whatsappNumber }: { pkg: PublicPackage; whatsappNumber?: string }) {
   const visual = packageVisual(pkg.date);
   const image = pkg.poster ?? visual.image;
 
@@ -27,7 +28,7 @@ function PackagePreviewCard({ pkg }: { pkg: PublicPackage }) {
         </div>
         <div className="mt-auto flex items-end justify-between gap-3 pt-[20px]">
           <p className="leading-none" style={{ color: '#090F3B', fontWeight: 700 }}><span className="text-[12px]">Rp</span> <span className="text-[30px]">{pkg.price}</span> <span className="text-[13px]">JT</span></p>
-          <a href={createWALink(packageWhatsAppMessage(pkg))} target="_blank" rel="noopener noreferrer" className="inline-flex size-10 items-center justify-center rounded-[6px] no-underline" style={{ background: '#090F3B', color: '#fff' }} aria-label={`Tanya ${pkg.title} ${pkg.tier}`}><ArrowRight size={18} /></a>
+          <a href={createWALink(packageWhatsAppMessage(pkg), whatsappNumber)} target="_blank" rel="noopener noreferrer" className="inline-flex size-10 items-center justify-center rounded-[6px] no-underline" style={{ background: '#090F3B', color: '#fff' }} aria-label={`Tanya ${pkg.title} ${pkg.tier}`}><ArrowRight size={18} /></a>
         </div>
       </div>
     </article>
@@ -36,6 +37,7 @@ function PackagePreviewCard({ pkg }: { pkg: PublicPackage }) {
 
 export default function Packages() {
   const { data: packages = [] } = usePublishedPackages();
+  const { data: settings } = useSiteSettings();
   const previewPackages = packages.filter((pkg) => pkg.date.startsWith('2026-12') && pkg.poster).slice(0, 4);
 
   return (
@@ -51,7 +53,7 @@ export default function Packages() {
         </motion.div>
 
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={staggerContainer} className="mt-[32px] grid grid-cols-1 gap-[14px] sm:grid-cols-2 lg:grid-cols-4 lg:gap-[16px]">
-          {previewPackages.map((pkg) => <motion.div key={pkg.id} variants={fadeUp}><PackagePreviewCard pkg={pkg} /></motion.div>)}
+          {previewPackages.map((pkg) => <motion.div key={pkg.id} variants={fadeUp}><PackagePreviewCard pkg={pkg} whatsappNumber={settings?.whatsapp_number} /></motion.div>)}
         </motion.div>
       </div>
     </section>

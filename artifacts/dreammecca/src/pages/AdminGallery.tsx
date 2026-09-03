@@ -165,6 +165,7 @@ export default function AdminGallery() {
       <div className="max-w-[1000px] mx-auto">
         <div className="flex gap-[16px] mb-[24px] text-[14px] font-semibold" style={{ color: '#6B6B85' }}>
           <Link href="/admin">Paket</Link>
+          <Link href="/admin/konten">Konten Website</Link>
           <Link href="/admin/testimoni">Testimoni</Link>
           <Link href="/admin/galeri" style={{ color: '#1B1B36', textDecoration: 'underline' }}>Galeri Jamaah</Link>
           <Link href="/admin/settings">Settings</Link>

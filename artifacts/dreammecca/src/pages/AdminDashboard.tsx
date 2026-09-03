@@ -483,6 +483,7 @@ export default function AdminDashboard() {
     <div className="min-h-screen p-8" style={{ background: '#F4F4F7' }}>
       <div className="max-w-[1000px] mx-auto flex gap-[16px] mb-[24px] text-[14px] font-semibold" style={{ color: '#6B6B85' }}>
         <Link href="/admin" style={{ color: '#1B1B36', textDecoration: 'underline' }}>Paket</Link>
+        <Link href="/admin/konten">Konten Website</Link>
         <Link href="/admin/testimoni">Testimoni</Link>
         <Link href="/admin/galeri">Galeri Jamaah</Link>
         <Link href="/admin/settings">Settings</Link>

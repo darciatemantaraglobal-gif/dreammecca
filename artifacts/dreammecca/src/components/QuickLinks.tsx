@@ -1,14 +1,15 @@
 import React from 'react';
 import { CalendarDays, ChevronRight, MessageCircle, ShieldCheck } from 'lucide-react';
 import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
-
-const links = [
-  { icon: CalendarDays, label: 'Program Umroh', detail: 'Jadwal Oktober hingga Desember 2026', href: '#paket' },
-  { icon: ShieldCheck, label: 'Layanan Perjalanan', detail: 'Fasilitas dan pendampingan jamaah', href: '#fasilitas' },
-  { icon: MessageCircle, label: 'Konsultasi Gratis', detail: 'Tanya program sesuai rencana Anda', href: createWALink(DEFAULT_MESSAGE), external: true },
-];
+import { useSiteSettings } from '@/lib/useSiteSettings';
 
 export default function QuickLinks() {
+  const { data: settings } = useSiteSettings();
+  const links = [
+    { icon: CalendarDays, label: 'Program Umroh', detail: 'Jadwal Oktober hingga Desember 2026', href: '#paket' },
+    { icon: ShieldCheck, label: 'Layanan Perjalanan', detail: 'Fasilitas dan pendampingan jamaah', href: '#fasilitas' },
+    { icon: MessageCircle, label: 'Konsultasi Gratis', detail: 'Tanya program sesuai rencana Anda', href: createWALink(DEFAULT_MESSAGE, settings?.whatsapp_number), external: true },
+  ];
   return (
     <section className="bg-white px-[7vw] py-[20px] md:py-[24px]" aria-label="Akses cepat">
       <div className="mx-auto grid max-w-[1280px] grid-cols-1 divide-y md:grid-cols-3 md:divide-x md:divide-y-0" style={{ borderColor: 'rgba(9,15,59,0.12)' }}>

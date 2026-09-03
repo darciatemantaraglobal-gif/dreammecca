@@ -106,6 +106,7 @@ export default function AdminSettings() {
       <div className="max-w-[600px] mx-auto">
         <div className="flex gap-[16px] mb-[24px] text-[14px] font-semibold" style={{ color: '#6B6B85' }}>
           <Link href="/admin">Paket</Link>
+          <Link href="/admin/konten">Konten Website</Link>
           <Link href="/admin/testimoni">Testimoni</Link>
           <Link href="/admin/galeri">Galeri Jamaah</Link>
           <Link href="/admin/settings" style={{ color: '#1B1B36', textDecoration: 'underline' }}>Settings</Link>

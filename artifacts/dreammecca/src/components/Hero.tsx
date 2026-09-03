@@ -2,9 +2,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { createWALink, DEFAULT_MESSAGE } from '@/lib/whatsapp';
+import { useSiteContent } from '@/lib/siteContent';
+import { useSiteSettings } from '@/lib/useSiteSettings';
 
 export default function Hero() {
-  const waLink = createWALink(DEFAULT_MESSAGE);
+  const { data: content } = useSiteContent();
+  const { data: settings } = useSiteSettings();
+  const hero = content.hero;
+  const waLink = createWALink(DEFAULT_MESSAGE, settings?.whatsapp_number);
 
   return (
     <section
@@ -18,11 +23,11 @@ export default function Hero() {
         loop
         playsInline
         preload="auto"
-        poster="/images/hero.jpg"
+        poster={hero.posterUrl}
         className="absolute inset-0 h-full w-full object-cover"
         style={{ objectPosition: 'center', transform: 'translateZ(0)' }}
       >
-        <source src="/videos/hero-1.mp4" type="video/mp4" />
+        <source src={hero.videoUrl} type="video/mp4" />
       </video>
       <div
         className="absolute inset-0"
@@ -37,17 +42,17 @@ export default function Hero() {
           className="max-w-[560px] text-left"
         >
           <p className="text-[12px] font-bold uppercase tracking-[0.14em] md:text-[13px]" style={{ color: '#C9ADA7' }}>
-            Dreammecca Tour &amp; Travel
+            {hero.label}
           </p>
           <h1
             className="mt-[12px] font-extrabold leading-[1.02]"
             style={{ fontSize: 'clamp(40px,4.8vw,72px)', color: '#fff', textWrap: 'balance' }}
           >
-            Perjalanan Ibadah<br />
-            Penuh Berkah
+            {hero.titleFirst}<br />
+            {hero.titleSecond}
           </h1>
           <p className="mt-[18px] max-w-[620px] text-[15px] leading-[1.65] md:text-[17px]" style={{ color: 'rgba(255,255,255,0.84)' }}>
-            “Ikutkanlah umroh kepada haji, karena keduanya menghilangkan kemiskinan dan dosa-dosa sebagaimana pembakaran menghilangkan karat pada besi, emas, dan perak. Sementara tidak ada pahala bagi haji yang mabrur kecuali surga.” (HR. An Nasai, Tirmidzi dan Ahmad)
+            {hero.description}
           </p>
           <div className="mt-[26px] flex flex-wrap items-center gap-[16px]">
             <a
