@@ -4,6 +4,9 @@ const airlines = [
   { name: 'Garuda Indonesia', src: '/images/partners/garuda-indonesia.png' },
   { name: 'Saudia', src: '/images/partners/saudia.png' },
   { name: 'Qatar Airways', src: '/images/partners/qatar-airways.png' },
+  { name: 'Emirates', src: '/images/partners/emirates.png' },
+  { name: 'Etihad Airways', src: '/images/partners/etihad-airways.png' },
+  { name: 'Turkish Airlines', src: '/images/partners/turkish-airlines.png' },
 ];
 
 export default function AirlineMarquee() {
