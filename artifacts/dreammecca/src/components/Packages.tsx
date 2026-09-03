@@ -52,7 +52,7 @@ export default function Packages() {
           <Link href="/paket-umroh" className="inline-flex min-h-11 items-center justify-center gap-[9px] rounded-[6px] px-[20px] py-[12px] text-[14px] font-bold no-underline" style={{ background: '#090F3B', color: '#fff' }}>Buka Katalog Lengkap <ArrowRight size={17} /></Link>
         </motion.div>
 
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={staggerContainer} className="package-preview-grid mt-[32px] grid grid-cols-1 gap-[14px] sm:grid-cols-2 lg:grid-cols-4 lg:gap-[16px]">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={staggerContainer} className="package-preview-grid mt-[32px] grid grid-cols-2 gap-[14px] lg:grid-cols-4 lg:gap-[16px]">
           {previewPackages.map((pkg) => <motion.div key={pkg.id} variants={fadeUp}><PackagePreviewCard pkg={pkg} whatsappNumber={settings?.whatsapp_number} /></motion.div>)}
         </motion.div>
       </div>
