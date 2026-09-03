@@ -50,3 +50,52 @@ export function packageVisual(date: string) {
 export function packageWhatsAppMessage(pkg: PublicPackage) {
   return `Assalamu'alaikum, saya mau tanya program ${pkg.title} ${pkg.tier}, keberangkatan ${pkg.dateLabel} (Rp${pkg.price} juta).\n\nNama:\nKota:\nJumlah jamaah:`;
 }
+
+type DatabasePackageWithDepartures = DatabasePackage & {
+  departures?: DatabaseDeparture[];
+};
+
+function databaseTier(tier: DatabasePackage['tier']): PackageTier {
+  return tier === 'Luxury' ? 'Eksklusif' : 'Ekonomis';
+}
+
+function databasePackagesToPublic(data: DatabasePackageWithDepartures[]): PublicPackage[] {
+  const today = new Date().toISOString().slice(0, 10);
+
+  return data.flatMap((pkg) => (pkg.departures ?? [])
+    .filter((departure) => departure.is_active && (!departure.departure_date || departure.departure_date >= today))
+    .map((departure) => ({
+      id: `${pkg.id}-${departure.id}`,
+      date: departure.departure_date ?? '',
+      dateLabel: departure.date_label,
+      tier: databaseTier(pkg.tier),
+      title: pkg.title,
+      duration: pkg.duration,
+      airline: pkg.flight_type,
+      makkah: pkg.hotel_mecca,
+      madinah: pkg.hotel_madinah,
+      price: new Intl.NumberFormat('id-ID', { maximumFractionDigits: 1 }).format(pkg.price_from / 1000000),
+      featured: pkg.featured,
+      poster: pkg.poster_url ?? undefined,
+    })));
+}
+
+export function usePublishedPackages() {
+  return useQuery({
+    queryKey: ['published-packages'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('packages')
+        .select('*, departures(*)')
+        .eq('is_active', true)
+        .order('sort_order');
+      if (error) throw error;
+      const mapped = databasePackagesToPublic((data ?? []) as DatabasePackageWithDepartures[]);
+      return mapped.length ? mapped : publicPackages;
+    },
+    initialData: publicPackages,
+    staleTime: 60_000,
+  });
+}
+import { useQuery } from '@tanstack/react-query';
+import { supabase, type Package as DatabasePackage, type Departure as DatabaseDeparture } from './supabase';

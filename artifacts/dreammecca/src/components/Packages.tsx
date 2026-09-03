@@ -4,9 +4,7 @@ import { Link } from 'wouter';
 import { motion } from 'framer-motion';
 import { createWALink } from '@/lib/whatsapp';
 import { fadeUp, staggerContainer } from '@/lib/animations';
-import { packageVisual, packageWhatsAppMessage, publicPackages, type PublicPackage } from '@/lib/publicPackages';
-
-const previewPackages = publicPackages.filter((pkg) => pkg.date.startsWith('2026-12') && pkg.poster).slice(0, 4);
+import { packageVisual, packageWhatsAppMessage, type PublicPackage, usePublishedPackages } from '@/lib/publicPackages';
 
 function PackagePreviewCard({ pkg }: { pkg: PublicPackage }) {
   const visual = packageVisual(pkg.date);
@@ -37,6 +35,9 @@ function PackagePreviewCard({ pkg }: { pkg: PublicPackage }) {
 }
 
 export default function Packages() {
+  const { data: packages = [] } = usePublishedPackages();
+  const previewPackages = packages.filter((pkg) => pkg.date.startsWith('2026-12') && pkg.poster).slice(0, 4);
+
   return (
     <section id="paket" className="px-[7vw] py-[72px] md:py-[132px]" style={{ background: '#F7F6F2' }}>
       <div className="mx-auto max-w-[1180px]">

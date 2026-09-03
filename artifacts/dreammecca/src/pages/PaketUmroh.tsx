@@ -5,11 +5,9 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import StickyMobileCTA from '@/components/StickyMobileCTA';
 import { createWALink } from '@/lib/whatsapp';
-import { packageVisual, packageWhatsAppMessage, publicPackages, type PackageTier, type PublicPackage } from '@/lib/publicPackages';
+import { packageVisual, packageWhatsAppMessage, type PackageTier, type PublicPackage, usePublishedPackages } from '@/lib/publicPackages';
 
 const tiers: Array<'Semua' | PackageTier> = ['Semua', 'Ekonomis', 'Eksklusif'];
-const dates = [...new Set(publicPackages.map((pkg) => pkg.dateLabel))];
-
 function CatalogCard({ pkg }: { pkg: PublicPackage }) {
   const visual = packageVisual(pkg.date);
   const image = pkg.poster ?? visual.image;
@@ -58,17 +56,19 @@ function CatalogCard({ pkg }: { pkg: PublicPackage }) {
 }
 
 export default function PaketUmroh() {
+  const { data: packages = [] } = usePublishedPackages();
+  const dates = [...new Set(packages.map((pkg) => pkg.dateLabel))];
   const [query, setQuery] = useState('');
   const [tier, setTier] = useState<'Semua' | PackageTier>('Semua');
   const [date, setDate] = useState('Semua');
 
   const filteredPackages = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
-    return publicPackages.filter((pkg) => {
+    return packages.filter((pkg) => {
       const matchesQuery = !normalizedQuery || [pkg.title, pkg.airline, pkg.makkah, pkg.madinah, pkg.tier, pkg.dateLabel].join(' ').toLowerCase().includes(normalizedQuery);
       return matchesQuery && (tier === 'Semua' || pkg.tier === tier) && (date === 'Semua' || pkg.dateLabel === date);
     });
-  }, [date, query, tier]);
+  }, [date, packages, query, tier]);
 
   return (
     <div className="dreammecca-public min-h-screen bg-white pb-16 font-sans md:pb-0">
@@ -85,7 +85,7 @@ export default function PaketUmroh() {
                 <p className="mt-[16px] max-w-[680px] text-[16px] leading-[1.65]" style={{ color: 'rgba(255,255,255,0.76)' }}>Bandingkan jadwal, kelas program, hotel, maskapai, dan harga dari seluruh pilihan September sampai Desember 2026.</p>
               </div>
               <div className="grid grid-cols-2 gap-[10px] text-[13px]">
-                <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#C9ADA7', fontWeight: 700 }}>{publicPackages.length}</span>Program tersedia</div>
+                <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#C9ADA7', fontWeight: 700 }}>{packages.length}</span>Program tersedia</div>
                 <div className="rounded-[6px] p-[16px]" style={{ background: 'rgba(255,255,255,0.08)', color: '#fff' }}><span className="block text-[28px]" style={{ color: '#C9ADA7', fontWeight: 700 }}>{dates.length}</span>Tanggal berangkat</div>
               </div>
             </div>

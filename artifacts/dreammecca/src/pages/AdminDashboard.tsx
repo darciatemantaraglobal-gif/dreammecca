@@ -352,7 +352,7 @@ function PackageForm({
 }
 
 function DepartureManager({ pkg }: { pkg: Package }) {
-  const [newLabel, setNewLabel] = useState('');
+  const [newDate, setNewDate] = useState('');
   const queryClient = useQueryClient();
 
   function invalidate() {
@@ -360,16 +360,23 @@ function DepartureManager({ pkg }: { pkg: Package }) {
   }
 
   async function addDeparture() {
-    if (!newLabel.trim()) return;
+    if (!newDate) return;
+    const dateLabel = new Intl.DateTimeFormat('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      timeZone: 'Asia/Jakarta',
+    }).format(new Date(`${newDate}T12:00:00+07:00`));
     const { error } = await supabase.from('departures').insert({
       package_id: pkg.id,
-      date_label: newLabel.trim(),
+      date_label: dateLabel,
+      departure_date: newDate,
       quota_label: 'Hubungi untuk sisa seat',
       is_active: true,
       sort_order: (pkg.departures?.length ?? 0) + 1,
     });
     if (!error) {
-      setNewLabel('');
+      setNewDate('');
       invalidate();
     }
   }
@@ -409,9 +416,10 @@ function DepartureManager({ pkg }: { pkg: Package }) {
       </div>
       <div className="flex gap-2 mt-2">
         <input
-          value={newLabel}
-          onChange={e => setNewLabel(e.target.value)}
-          placeholder="Tanggal keberangkatan baru"
+          type="date"
+          value={newDate}
+          onChange={e => setNewDate(e.target.value)}
+          aria-label="Tanggal keberangkatan baru"
           className="flex-1 px-3 py-2 rounded-lg border text-[13px]"
           style={{ borderColor: 'rgba(27,27,54,0.15)' }}
         />

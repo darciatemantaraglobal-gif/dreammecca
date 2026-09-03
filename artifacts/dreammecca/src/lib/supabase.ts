@@ -1,11 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-const url = import.meta.env.VITE_SUPABASE_URL;
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-if (!url || !anonKey) {
-  console.error('Supabase env vars belum diset. Cek VITE_SUPABASE_URL dan VITE_SUPABASE_ANON_KEY.');
-}
+const url = import.meta.env.VITE_SUPABASE_URL || 'https://pdvvaeuluymsdroojzyp.supabase.co';
+const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkdnZhZXVsdXltc2Ryb29qenlwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MTg4NTEsImV4cCI6MjEwMzk5NDg1MX0.oTqVXmrVF7eFh5_h_XR636NPfq8pUbKXprDYnUk45MM';
 
 export const supabase = createClient(url, anonKey);
 
@@ -13,6 +9,7 @@ export interface Departure {
   id: string;
   package_id: string;
   date_label: string;
+  departure_date?: string | null;
   quota_label: string;
   is_active: boolean;
   sort_order: number;
