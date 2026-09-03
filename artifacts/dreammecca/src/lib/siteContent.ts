@@ -23,8 +23,8 @@ export const fallbackSiteContent: SiteContent = {
     titleFirst: 'Perjalanan Ibadah',
     titleSecond: 'Penuh Berkah',
     description: '“Ikutkanlah umroh kepada haji, karena keduanya menghilangkan kemiskinan dan dosa-dosa sebagaimana pembakaran menghilangkan karat pada besi, emas, dan perak. Sementara tidak ada pahala bagi haji yang mabrur kecuali surga.” (HR. An Nasai, Tirmidzi dan Ahmad)',
-    videoUrl: '/videos/hero-1.mp4',
-    posterUrl: '/images/hero.jpg',
+    videoUrl: '/videos/hero-1.mp4?v=2',
+    posterUrl: '/images/hero-video-poster.jpg',
   },
   about: {
     eyebrow: 'Mengapa Memilih Dreammecca',
