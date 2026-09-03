@@ -19,12 +19,7 @@ function CatalogCard({ pkg }: { pkg: PublicPackage }) {
     <article className="group flex h-full flex-col overflow-hidden rounded-lg transition-transform duration-300 hover:-translate-y-1" style={{ background: '#fff', border: pkg.featured ? '1px solid #C9ADA7' : '1px solid rgba(9,15,59,0.12)', boxShadow: pkg.featured ? '0 18px 42px rgba(9,15,59,0.12)' : '0 3px 12px rgba(9,15,59,0.04)' }}>
       <figure className={`relative overflow-hidden ${pkg.poster ? 'aspect-[4/5]' : 'aspect-[16/8]'}`} style={{ background: '#090F3B' }}>
         <img src={image} alt={pkg.poster ? `Poster ${pkg.title} ${pkg.tier}` : 'Dokumentasi jamaah Dreammecca'} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" style={pkg.poster ? undefined : { objectPosition: visual.position }} loading="lazy" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.08), rgba(9,15,59,0.62))' }} />
-        <div className="absolute inset-x-[16px] top-[16px] flex items-start justify-between gap-2">
-          <span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#090F3B', color: '#C9ADA7' }}>{pkg.tier}</span>
-          {pkg.featured && <span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#fff', color: '#090F3B' }}>Paling Untung</span>}
-        </div>
-        <p className="absolute bottom-[14px] left-[16px] text-[12px]" style={{ color: 'rgba(255,255,255,0.84)' }}>Program Umroh Dreammecca</p>
+        {!pkg.poster && <><div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.08), rgba(9,15,59,0.62))' }} /><div className="absolute inset-x-[16px] top-[16px] flex items-start justify-between gap-2"><span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#090F3B', color: '#C9ADA7' }}>{pkg.tier}</span>{pkg.featured && <span className="rounded-[6px] px-[9px] py-[5px] text-[11px] font-bold" style={{ background: '#fff', color: '#090F3B' }}>Paling Untung</span>}</div><p className="absolute bottom-[14px] left-[16px] text-[12px]" style={{ color: 'rgba(255,255,255,0.84)' }}>Program Umroh Dreammecca</p></>}
       </figure>
 
       <div className="relative flex flex-1 flex-col p-[20px] pt-0">

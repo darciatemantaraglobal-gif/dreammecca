@@ -6,7 +6,7 @@ import { createWALink } from '@/lib/whatsapp';
 import { fadeUp, staggerContainer } from '@/lib/animations';
 import { packageVisual, packageWhatsAppMessage, publicPackages, type PublicPackage } from '@/lib/publicPackages';
 
-const previewPackages = publicPackages.slice(0, 4);
+const previewPackages = publicPackages.filter((pkg) => pkg.date.startsWith('2026-12') && pkg.poster).slice(0, 4);
 
 function PackagePreviewCard({ pkg }: { pkg: PublicPackage }) {
   const visual = packageVisual(pkg.date);
@@ -16,11 +16,7 @@ function PackagePreviewCard({ pkg }: { pkg: PublicPackage }) {
     <article className="flex h-full flex-col overflow-hidden rounded-lg" style={{ background: '#fff', border: pkg.featured ? '1px solid #C9ADA7' : '1px solid rgba(9,15,59,0.12)', boxShadow: pkg.featured ? '0 14px 32px rgba(9,15,59,0.10)' : 'none' }}>
       <figure className={`relative overflow-hidden ${pkg.poster ? 'aspect-[4/5]' : 'aspect-[16/10]'}`} style={{ background: '#090F3B' }}>
         <img src={image} alt={pkg.poster ? `Poster ${pkg.title} ${pkg.tier}` : ''} className="h-full w-full object-cover" style={pkg.poster ? undefined : { objectPosition: visual.position }} loading="lazy" />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.02), rgba(9,15,59,0.50))' }} />
-        <div className="absolute inset-x-[14px] top-[14px] flex justify-between gap-2">
-          <span className="rounded-[6px] px-[8px] py-[4px] text-[10px] font-bold" style={{ background: '#090F3B', color: '#C9ADA7' }}>{pkg.tier}</span>
-          {pkg.featured && <span className="rounded-[6px] px-[8px] py-[4px] text-[10px] font-bold" style={{ background: '#fff', color: '#090F3B' }}>Paling Untung</span>}
-        </div>
+        {!pkg.poster && <><div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(9,15,59,0.02), rgba(9,15,59,0.50))' }} /><div className="absolute inset-x-[14px] top-[14px] flex justify-between gap-2"><span className="rounded-[6px] px-[8px] py-[4px] text-[10px] font-bold" style={{ background: '#090F3B', color: '#C9ADA7' }}>{pkg.tier}</span>{pkg.featured && <span className="rounded-[6px] px-[8px] py-[4px] text-[10px] font-bold" style={{ background: '#fff', color: '#090F3B' }}>Paling Untung</span>}</div></>}
       </figure>
 
       <div className="flex flex-1 flex-col p-[16px]">
