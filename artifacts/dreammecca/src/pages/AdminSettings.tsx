@@ -29,6 +29,10 @@ export default function AdminSettings() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [changingPassword, setChangingPassword] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState('');
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -72,6 +76,29 @@ export default function AdminSettings() {
     } finally {
       setSaving(false);
     }
+  }
+
+  async function handlePasswordSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setPasswordMessage('');
+    if (newPassword.length < 12) {
+      setPasswordMessage('Password baru minimal 12 karakter.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordMessage('Konfirmasi password belum sama.');
+      return;
+    }
+    setChangingPassword(true);
+    const { error: passwordError } = await supabase.auth.updateUser({ password: newPassword });
+    setChangingPassword(false);
+    if (passwordError) {
+      setPasswordMessage('Gagal mengubah password. Coba login ulang.');
+      return;
+    }
+    setNewPassword('');
+    setConfirmPassword('');
+    setPasswordMessage('Password berhasil diubah.');
   }
 
   return (
@@ -159,6 +186,23 @@ export default function AdminSettings() {
             </button>
           </form>
         )}
+
+        <form onSubmit={handlePasswordSubmit} className="mt-6 bg-white rounded-xl p-6 flex flex-col gap-4" style={{ boxShadow: '0 1px 3px rgba(27,27,54,0.06)' }}>
+          <div>
+            <h2 className="text-[17px] font-bold" style={{ color: '#1B1B36' }}>Ganti Password</h2>
+            <p className="mt-1 text-[13px]" style={{ color: '#6B6B85' }}>Gunakan password baru minimal 12 karakter.</p>
+          </div>
+          <label className="text-[13px] font-semibold" style={{ color: '#1B1B36' }}>
+            Password Baru
+            <input type="password" autoComplete="new-password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="w-full mt-1 px-3 py-2 rounded-lg border text-[14px] font-normal" style={{ borderColor: 'rgba(27,27,54,0.15)' }} required />
+          </label>
+          <label className="text-[13px] font-semibold" style={{ color: '#1B1B36' }}>
+            Konfirmasi Password Baru
+            <input type="password" autoComplete="new-password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="w-full mt-1 px-3 py-2 rounded-lg border text-[14px] font-normal" style={{ borderColor: 'rgba(27,27,54,0.15)' }} required />
+          </label>
+          {passwordMessage && <p className="text-[13px]" style={{ color: passwordMessage.startsWith('Password berhasil') ? '#2D7A4F' : '#B5442E' }}>{passwordMessage}</p>}
+          <button type="submit" disabled={changingPassword} className="px-[18px] py-[11px] rounded-lg text-white font-semibold text-[14px] disabled:opacity-60 w-fit" style={{ background: '#1B1B36' }}>{changingPassword ? 'Mengubah...' : 'Ubah Password'}</button>
+        </form>
       </div>
     </div>
   );
